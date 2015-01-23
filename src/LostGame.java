@@ -50,8 +50,8 @@ public class LostGame extends StateBasedGame {
 
 		try {
 			appgc = new AppGameContainer(new LostGame(name));
-			appgc.setDisplayMode(640, 360, false);
-			appgc.setTargetFrameRate(50);
+			appgc.setDisplayMode(800, 600, false);
+			appgc.setTargetFrameRate(5000);
 			appgc.start();
 		} catch (SlickException e) {
 			e.printStackTrace();
