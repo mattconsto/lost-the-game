@@ -24,7 +24,7 @@ public class TileSystem {
 	
 	public TileSystem(int width, int height){
 		tiles = new Tile[width][height];
-		camera = new Camera(50, 50);
+		camera = new Camera(0, 0);
 	}
 	
 	public void setTile(int x, int y, Tile tile){
@@ -40,7 +40,7 @@ public class TileSystem {
 	}
 	
 	public Vector2f screenToWorldPos(int scX, int scY){
-		return new Vector2f(camera.getX()+scX, camera.getY()+scY);
+		return new Vector2f(camera.x+scX, camera.y+scY);
 	}
 	
 	public void setZoom(float zoomLevel){
@@ -49,6 +49,10 @@ public class TileSystem {
 	
 	public void renderGroundTiles(){
 		
+	}
+	
+	public Camera getCamera(){
+		return camera;
 	}
 
 }
