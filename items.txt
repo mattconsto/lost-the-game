@@ -1,0 +1,10 @@
+log
+stick
+plank
+leaves
+string
+rope
+cloth
+tent
+tarp
+stone
