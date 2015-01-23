@@ -1,11 +1,16 @@
 package TileSystem;
 
 import org.lwjgl.util.vector.Vector2f;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 public class TileSystem {
 	
 	private Camera camera;
 	private float zoomLevel = 1;
+	private int tileRes = 32;
+	
+	private Image tileMap;
 	
 	public enum TileId{
 		GRASS,
@@ -25,6 +30,8 @@ public class TileSystem {
 	public TileSystem(int width, int height){
 		tiles = new Tile[width][height];
 		camera = new Camera(0, 0);
+		
+		setTileMap("dg_grounds32.gif");
 	}
 	
 	public void setTile(int x, int y, Tile tile){
@@ -48,11 +55,24 @@ public class TileSystem {
 	}
 	
 	public void renderGroundTiles(){
-		
+		tileMap.draw(0, 0, 0.8f);
 	}
 	
 	public Camera getCamera(){
 		return camera;
+	}
+	
+	public void setTileRes(int res){
+		tileRes = res;
+	}
+	
+	public void setTileMap(String fileName){
+		try {
+			tileMap = new Image("tiles/"+fileName);
+		} catch (SlickException e) {
+			System.out.println("Error: Cannot load image " + fileName);
+			e.printStackTrace();
+		}
 	}
 
 }
