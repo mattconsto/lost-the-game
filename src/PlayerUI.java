@@ -6,15 +6,15 @@ public class PlayerUI {
 	public PlayerUI(String name) {
 	}
 	
-	public void Moveto(int x, int y){
+	public void moveto(int x, int y){
 	
 	}
 	
-	public void Render(){
+	public void render(){
 		
 	}
 	
-	public void Update(int deltaTime) {
+	public void update(int deltaTime) {
 		
 	}
 	
