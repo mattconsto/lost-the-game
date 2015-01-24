@@ -1,6 +1,8 @@
-import org.lwjgl.input.Mouse;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.lwjgl.input.Mouse;
+import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -21,7 +23,7 @@ public class Play extends BasicGameState implements GameState {
 
 	TileSystem ts;
 	GameSession gs;
-	PlayerUI player;
+	List<PlayerUI> players;
 	Agent selectedAgent;
 	Image stickFigure;
 
@@ -29,9 +31,13 @@ public class Play extends BasicGameState implements GameState {
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 		ts = new TileSystem(100);
-		player = new PlayerUI(ts);
 		gs = new GameSession();
+		players = new ArrayList<PlayerUI>();
+		for (int i = 0; i < gs.getAgents().size(); i++) {
+			players.add(new PlayerUI(ts));
+		}
 		selectedAgent = gs.getAgents().get(0);
+
 		stickFigure = new Image("icons/stickperson.png");
 	}
 
@@ -42,7 +48,9 @@ public class Play extends BasicGameState implements GameState {
 		Input input = container.getInput();
 		// Test code
 		ts.render(g);
-		player.render(g);
+		for (PlayerUI player : players) {
+			player.render(g);
+		}
 
 		int footer_height = 50;
 		int header_height = 40;
@@ -86,9 +94,9 @@ public class Play extends BasicGameState implements GameState {
 			int mouseY = input.getMouseY();
 
 			if (headerRect.contains(mouseX, mouseY)
-					|| footerRect.contains(mouseX, mouseY)) { // Check the
-																// various UI
-																// elements
+					|| footerRect.contains(mouseX, mouseY)) {
+
+				// Check the UI elements
 				for (int i = 0; i < agentZones.size(); i++) {
 					Rectangle agentZone = agentZones.get(i);
 					if (agentZone
@@ -98,7 +106,11 @@ public class Play extends BasicGameState implements GameState {
 					}
 				}
 			} else {
-				player.moveto(mouseX, mouseY);
+				if (selectedAgent != null) {
+					Vector2f pos = ts.screenToWorldPos(mouseX, mouseY);
+					players.get(agents.indexOf(selectedAgent)).moveto(pos.x,
+							pos.y);
+				}
 			}
 		}
 
@@ -120,7 +132,9 @@ public class Play extends BasicGameState implements GameState {
 		float seconds = (float) (delta / 1000.0);
 
 		updateCamera(container, seconds);
-		player.update(seconds);
+		for (PlayerUI player : players) {
+			player.update(seconds);
+		}
 		gs.update(seconds);
 	}
 
