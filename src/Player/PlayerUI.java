@@ -18,13 +18,13 @@ public class PlayerUI {
 	PathFinder p;
 	public Agent agent;
 	
-	Vector2f location = new Vector2f(50,50);
+	public Vector2f location = new Vector2f(50,50);
 	Vector2f destination = new Vector2f(20,20);
 	Vector<Tile> destinations = new Vector<Tile>();
 	boolean atDestination = true;
 	
 	float playerWalkSpeedMS = 1.4f;		//average walk speed 1.4m per second
-	float tileSizeM = 10.0f;			//Tile is 100m across
+	float tileSizeM = 50.0f;			//Tile is 100m across
 	float gameSpeed = 3600/30;			//Game is 30s is one hour 3600s is 30s => 120s per 1s
 	
 	public PlayerUI(Agent agentIn, TileSystem tsIn){
@@ -45,28 +45,20 @@ public class PlayerUI {
 		g.setColor(new Color(255,0,0));
 		g.fillOval(screenLocation.x-5,screenLocation.y-5, 10, 10);
 		
-		Vector2f screenLocationDest = ts.worldToScreenPos(destination.x, destination.y);
-		g.setColor(new Color(0,255,0));
-		g.drawLine(screenLocation.x, screenLocation.y, screenLocationDest.x, screenLocationDest.y);
+		//Vector2f screenLocationDest = ts.worldToScreenPos(destination.x, destination.y);
+		//g.setColor(new Color(0,255,0));
+		//g.drawLine(screenLocation.x, screenLocation.y, screenLocationDest.x, screenLocationDest.y);
 		
 		g.setColor(new Color(0,0,255));
-		for(int i =0; i < destinations.size(); i++)
+		Vector2f lastPoint = ts.worldToScreenPos(location.x, location.y);
+		for(int i =destinations.size()-1; i>=0 ; i--)
 		{
 			Tile dest = destinations.get(i);
 			Vector2f pos = new Vector2f(dest.x+0.5f, dest.y+0.5f);
             Vector2f worldPos = ts.worldToScreenPos(pos.x, pos.y);
-            g.drawString("" + p.distances[dest.x][dest.y],worldPos.x,worldPos.y);
+            g.drawLine(worldPos.x, worldPos.y, lastPoint.x, lastPoint.y);
+            lastPoint = worldPos;
 		}
-		
-		for(int x = 0; x < ts.size; x++){
-            for(int y = 0; y < ts.size; y++){
-            
-            Vector2f pos = new Vector2f(x+0.5f, y+0.5f);
-            Vector2f worldPos = ts.worldToScreenPos(pos.x, pos.y);
-          //  g.drawString("" + p.distances[x][y],worldPos.x,worldPos.y);
-           }}
-		
-		
 	}
 	
 	public void update(float deltaTime) {
@@ -356,10 +348,10 @@ public class PlayerUI {
     	{
     		//This is how much is added to the distance variable per tile move bigger = slower
     		//negative = er no cannot do it
-    		//if (tileIn.id == TileId.WATER) return 999;
-    		//if (tileIn.id == TileId.GRASS) return 1;
-    		//if (tileIn.id == TileId.DIRT) return 2;
-			return 99;
+    		if (tileIn.id == TileId.WATER) return 9999;
+    		if (tileIn.id == TileId.GRASS) return 99;
+    		if (tileIn.id == TileId.DIRT) return 99;
+			return 9999;
     	}
     	
 	}

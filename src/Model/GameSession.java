@@ -23,6 +23,8 @@ public class GameSession {
 	private Map<ItemType, Integer> itemCounts;
 	private ArrayList<Agent> agents;
 
+	
+	
 	public GameSession() {
 		this.gameTimer = 0;
 		this.timeSurvived = 0;
@@ -93,9 +95,11 @@ public class GameSession {
 	private void generateInventory() {
 		ItemType[] itemTypes = { ItemType.CLOTH, ItemType.LIFEJACKET,
 				ItemType.SNACK };
-		for (ItemType itemType : itemTypes) {
-			if (Math.random() > 0.8) {
-				addItem(ItemFactory.createItem(itemType));
+		for (int i = 0; i < NUMBER_AGENTS; i++) {
+			for (ItemType itemType : itemTypes) {
+				if (Math.random() > 0.8) {
+					addItem(ItemFactory.createItem(itemType));
+				}
 			}
 		}
 	}
