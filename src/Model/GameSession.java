@@ -11,15 +11,17 @@ public class GameSession {
 	// 1 second = 2 minutes
 	private static final int MINS_PER_SEC = 2;
 	private static final int NUMBER_AGENTS = 9;
-	
+
 	private static final float FOOD_PER_SEC_WALK = 0.5f;
 	private static final float FOOD_PER_SEC_STAND = 0.25f;
+	private static final float FOOD_PER_SEC_SLEEP = 0.2f;
 
 	private static final float WATER_PER_SEC_WALK = 0.5f;
 	private static final float WATER_PER_SEC_STAND = 0.25f;
-	
+	private static final float WATER_PER_SEC_SLEEP = 0.2f;
+
 	private static final float HEALTH_PER_SEC = 0.5f;
-	
+
 	private boolean walking = false;
 	// Play time in seconds
 	private double gameTimer;
@@ -32,8 +34,6 @@ public class GameSession {
 	private Map<ItemType, Integer> itemCounts;
 	private ArrayList<Agent> agents;
 
-	
-	
 	public GameSession() {
 		this.gameTimer = 0;
 		this.timeSurvived = 0;
@@ -58,21 +58,26 @@ public class GameSession {
 		this.gameTimer += delta;
 		this.timeSurvived = (int) Math.floor(gameTimer * MINS_PER_SEC);
 		// Update agent stats
-		for(Agent agent: agents) {
-			if(agent.getWalking()) {
+		for (Agent agent : agents) {
+			if (agent.getState() == AgentState.WALKING) {
 				agent.decFood(FOOD_PER_SEC_WALK * delta);
 				agent.decWater(WATER_PER_SEC_WALK * delta);
-			}
-			else {
+			} else if (agent.getState() == AgentState.STANDING) {
 				agent.decFood(FOOD_PER_SEC_STAND * delta);
 				agent.decWater(WATER_PER_SEC_STAND * delta);
+			} else if (agent.getState() == AgentState.SLEEPING) {
+				if (agent.getHealth() < 90) {
+					agent.incHealth(0.1f);
+				}
+				agent.decFood(FOOD_PER_SEC_SLEEP * delta);
+				agent.decWater(WATER_PER_SEC_SLEEP * delta);
 			}
-			
-			if(agent.getFood() == 0 || agent.getWater() == 0) {
+
+			if (agent.getFood() == 0 || agent.getWater() == 0) {
 				agent.decHealth(HEALTH_PER_SEC);
 			}
 		}
-		
+
 	}
 
 	public double getTimeSurvived() {
@@ -99,13 +104,13 @@ public class GameSession {
 			itemCounts.put(itemType, itemCounts.get(itemType) + 1);
 		}
 	}
-	
+
 	public void addItemByType(ItemType itemType, int count) {
-		for(int i=0; i<count; i++) {
+		for (int i = 0; i < count; i++) {
 			addItemByType(itemType);
 		}
 	}
-	
+
 	public void addItem(Item item) {
 		ItemType type = item.getType();
 		if (!itemCounts.containsKey(type)) {
@@ -117,14 +122,14 @@ public class GameSession {
 	}
 
 	public void removeItemByType(ItemType itemType) {
-		if(getItemCount(itemType) == 0) {
+		if (getItemCount(itemType) == 0) {
 			return;
 		}
 		int updatedCount = itemCounts.get(itemType) - 1;
 		itemCounts.put(itemType, updatedCount);
 		if (updatedCount == 0) {
-			for(Item currentItem: items) {
-				if(currentItem.getType() == itemType) {
+			for (Item currentItem : items) {
+				if (currentItem.getType() == itemType) {
 					items.remove(currentItem);
 					break;
 				}
@@ -132,15 +137,15 @@ public class GameSession {
 			itemCounts.remove(itemType);
 		}
 	}
-	
+
 	public void removeItemByType(ItemType itemType, int count) {
-		if(getItemCount(itemType) >= count) {
-			for(int i=0; i<count; i++) {
+		if (getItemCount(itemType) >= count) {
+			for (int i = 0; i < count; i++) {
 				removeItemByType(itemType);
 			}
 		}
 	}
-	
+
 	public void removeItem(Item item) {
 		ItemType type = item.getType();
 		removeItemByType(type);
@@ -159,9 +164,9 @@ public class GameSession {
 				ItemType.SNACK };
 		for (int i = 0; i < NUMBER_AGENTS; i++) {
 			for (ItemType itemType : itemTypes) {
-//				if (Math.random() > 0.8) {
-					addItem(ItemFactory.createItem(itemType));
-//				}
+				// if (Math.random() > 0.8) {
+				addItem(ItemFactory.createItem(itemType));
+				// }
 			}
 		}
 	}

@@ -84,6 +84,10 @@ public class PlayerUI {
 	}
 	
 	public void render(Graphics g){
+		if(agent.getHealth() == 0) {
+			return;
+		}
+		
 		Vector2f screenLocation = ts.worldToScreenPos(location.x, location.y);
 		
 		
@@ -196,7 +200,7 @@ public class PlayerUI {
     {
         if (_listeners == null)
             _listeners = new Vector<PlayerReachedDestinationEvent>();
-             
+              
         _listeners.addElement(listener);
     }
     
