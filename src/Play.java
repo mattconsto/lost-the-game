@@ -172,11 +172,13 @@ public class Play extends BasicGameState implements GameState,
 		List<Agent> agents = gs.getAgents();
 		List<Rectangle> agentZones = new ArrayList<Rectangle>();
 		for (int i = 0; i < agents.size(); i++) {
-			if(agents.get(i).getHealth() > 0 && agents.get(i).getWater() > 0) {
 			
-				int y = ag_y + (i * 50);
-				int pad = 7;
-				Agent agent = agents.get(i);
+			
+			int y = ag_y + (i * 50);
+			int pad = 7;
+			Agent agent = agents.get(i);
+			if (agent.getState() != AgentState.DEAD)
+			{
 				g.setColor(Color.gray);
 				g.drawRect(ag_x, y, agent_bar_width, 48);
 				g.setColor(Color.lightGray);
@@ -277,6 +279,7 @@ public class Play extends BasicGameState implements GameState,
 
 		ArrayList<Rectangle> actionZones = new ArrayList<Rectangle>();
 		ArrayList<Action> validActions = new ArrayList<Action>();
+		if (selectedAgent != null && selectedAgent.getState() == AgentState.DEAD) selectedAgent = null;
 		if (selectedAgent != null) {
 
 			// Draw Action Bar (TM)
@@ -310,6 +313,8 @@ public class Play extends BasicGameState implements GameState,
 			}
 		}
 
+		
+		
 		if (input.isMousePressed(0)) {
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();

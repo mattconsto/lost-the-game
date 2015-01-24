@@ -76,6 +76,10 @@ public class GameSession {
 			if (agent.getFood() == 0 || agent.getWater() == 0) {
 				agent.decHealth(HEALTH_PER_SEC);
 			}
+			
+			if (agent.getHealth() <= 0)			{
+				agent.setState(AgentState.DEAD);
+			}
 		}
 
 	}
