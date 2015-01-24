@@ -3,15 +3,18 @@ package Model;
 import java.util.Random;
 
 public class Agent {
-	private int hunger;
-	private int thirst;
-	private int health;
+	private float food;
+	private float water;
+	private float health;
 	private String name;
+	private boolean walking;
+	private boolean drowning;
 	
-	public Agent(int hunger, int thirst, int health) {
-		this.setHunger(hunger);
-		this.setThirst(thirst);
+	public Agent(float food, float water, float health) {
+		this.setFood(food);
+		this.setWater(water);
 		this.setHealth(health);
+		this.setDrowning(false);
 		this.generateName();
 	}
 	
@@ -21,33 +24,34 @@ public class Agent {
 	}
 
 	public Agent() {
-		this.setHunger(100);
-		this.setThirst(100);
+		this.setFood(100);
+		this.setWater(100);
 		this.setHealth(100);
 		this.generateName();
+		this.setDrowning(false);
+	}
+	
+	public float getFood() {
+		return food;
 	}
 
-	public int getHunger() {
-		return hunger;
+	public void setFood(float food) {
+		this.food = food;
 	}
 
-	public void setHunger(int hunger) {
-		this.hunger = hunger;
+	public float getWater() {
+		return water;
 	}
 
-	public int getThirst() {
-		return thirst;
+	public void setWater(float water) {
+		this.water = water;
 	}
 
-	public void setThirst(int thirst) {
-		this.thirst = thirst;
-	}
-
-	public int getHealth() {
+	public float getHealth() {
 		return health;
 	}
 
-	public void setHealth(int health) {
+	public void setHealth(float health) {
 		this.health = health;
 	}
 
@@ -57,5 +61,50 @@ public class Agent {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public boolean getWalking() {
+		return this.walking;
+	}
+	
+	public void setWalking(boolean walking) {
+		this.walking = walking;
+	}
+
+	public void decWater(float w) {
+		this.water -= w;
+		if(this.water < 0) this.water = 0;
+	}
+	
+	public void incWater(float w) {
+		this.water += w;
+		if(this.water > 100) { this.water = 100; }
+	}
+	
+	public void decFood(float f) {
+		this.food -= f;
+		if(this.food < 0) this.food = 0;
+	}
+	
+	public void incFood(float f) {
+		this.food += f;
+		if(this.food > 100) { this.food = 100; }
+	}
+	public void decHealth(float h) {
+		this.health -= h;
+		if(this.health < 0) this.health = 0;
+	}
+	
+	public void incHealth(float h) {
+		this.health += h;
+		if(this.health > 100) { this.health = 100; }
+	}
+
+	public boolean isDrowning() {
+		return drowning;
+	}
+
+	public void setDrowning(boolean drowning) {
+		this.drowning = drowning;
 	}
 }

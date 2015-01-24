@@ -42,6 +42,7 @@ public class Play extends BasicGameState implements GameState,
 	Image stickFigure;
 	Map<ItemType, Image> itemImages;
 	ActionManager actionManager;
+	private String lastSelectedItem;
 
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
@@ -57,6 +58,7 @@ public class Play extends BasicGameState implements GameState,
 		selectedAgent = gs.getAgents().get(0);
 		selectedItems = new ArrayList<Item>();
 		actionManager = new ActionManager();
+		lastSelectedItem = "";
 
 		stickFigure = new Image("icons/stickperson.png");
 
@@ -202,11 +204,11 @@ public class Play extends BasicGameState implements GameState,
 			// thirst
 			g.setColor(Color.blue);
 			g.fillRect(graphs_x, f_y + detail_pad,
-					(selectedAgent.getThirst() * 80) / 100, 16);
+					(selectedAgent.getWater() * 80) / 100, 16);
 			// hunger
 			g.setColor(Color.red);
 			g.fillRect(graphs_x, f_y + detail_pad + 18,
-					(selectedAgent.getHunger() * 80) / 100, 16);
+					(selectedAgent.getFood() * 80) / 100, 16);
 
 			// Draw outlines
 			g.setColor(Color.black);
@@ -219,6 +221,8 @@ public class Play extends BasicGameState implements GameState,
 			TileId tileId = ts.getTileFromWorld(playerUI.location.x,
 					playerUI.location.y).id;
 			int x = 5;
+//			int t_h_i = g.getFont().getHeight(lastSelectedItem);
+//			g.drawString(lastSelectedItem, action_bar_pad, (a_y+(a_h-t_h_i)/2));
 			validActions = actionManager.getValidActions(tileId, selectedItems,
 					selectedAgent);
 			for (Action action : validActions) {
@@ -241,6 +245,7 @@ public class Play extends BasicGameState implements GameState,
 				Rectangle zone = new Rectangle(x, a_y, b_w, b_h);
 //				System.out.println("Adding zone: "+zone.getX()+","+zone.getY()+","+zone.getWidth()+","+zone.getHeight());
 				actionZones.add(zone);
+				x += (b_w + 2);
 			}
 		}
 
@@ -265,8 +270,10 @@ public class Play extends BasicGameState implements GameState,
 					if (inventoryZone.contains(mouseX, mouseY)) {
 						if (selectedItems.contains(items.get(i))) {
 							selectedItems.remove(items.get(i));
+							lastSelectedItem = "";
 						} else {
 							selectedItems.add(items.get(i));
+							lastSelectedItem = items.get(i).getItemName();
 						}
 					}
 				}
@@ -276,6 +283,7 @@ public class Play extends BasicGameState implements GameState,
 					if (actionZone.contains(mouseX, mouseY)) {
 						Action action = validActions.get(i);
 						action.perform(gs, selectedAgent);
+						selectedItems = new ArrayList<Item>();
 					}
 				}
 
@@ -294,6 +302,18 @@ public class Play extends BasicGameState implements GameState,
 				int x = inventory_zone_x + (i * f_h) + (i * 6);
 				g.setColor(Color.red);
 				g.drawRect(x - 1, f_y - 1, f_h + 2, f_h + 2);
+			}
+		}
+		
+		for(int i=0; i<players.size(); i++) {
+			boolean walking = agents.get(i).getWalking();
+			boolean atDestination = players.get(i).atDestination;
+			
+			if(walking && atDestination) {
+				agents.get(i).setWalking(false);
+			}
+			if(!walking && !atDestination) {
+				agents.get(i).setWalking(true);
 			}
 		}
 
@@ -346,10 +366,10 @@ public class Play extends BasicGameState implements GameState,
 
 	@Override
 	public void reachedDestination(PlayerUI pui, float x, float y) {
-		Tile reachedTile = ts.getTileFromWorld(x, y);
-		if (reachedTile.id == TileId.GRASS) {
-			gs.addItem(new Grass());
-		}
+//		Tile reachedTile = ts.getTileFromWorld(x, y);
+//		if (reachedTile.id == TileId.GRASS) {
+//			gs.addItem(new Grass());
+//		}
 	}
 
 }

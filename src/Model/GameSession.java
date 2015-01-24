@@ -11,7 +11,16 @@ public class GameSession {
 	// 1 second = 2 minutes
 	private static final int MINS_PER_SEC = 2;
 	private static final int NUMBER_AGENTS = 2;
+	
+	private static final float FOOD_PER_SEC_WALK = 1.0f;
+	private static final float FOOD_PER_SEC_STAND = 0.5f;
 
+	private static final float WATER_PER_SEC_WALK = 1.0f;
+	private static final float WATER_PER_SEC_STAND = 0.5f;
+	
+	private static final float HEALTH_PER_SEC = 0.5f;
+	
+	private boolean walking = false;
 	// Play time in seconds
 	private double gameTimer;
 	// Game time in minutes
@@ -48,6 +57,22 @@ public class GameSession {
 	public void update(float delta) {
 		this.gameTimer += delta;
 		this.timeSurvived = (int) Math.floor(gameTimer * MINS_PER_SEC);
+		// Update agent stats
+		for(Agent agent: agents) {
+			if(agent.getWalking()) {
+				agent.decFood(FOOD_PER_SEC_WALK * delta);
+				agent.decWater(WATER_PER_SEC_WALK * delta);
+			}
+			else {
+				agent.decFood(FOOD_PER_SEC_STAND * delta);
+				agent.decWater(WATER_PER_SEC_STAND * delta);
+			}
+			
+			if(agent.getFood() == 0 || agent.getWater() == 0) {
+				agent.decHealth(HEALTH_PER_SEC);
+			}
+		}
+		
 	}
 
 	public double getTimeSurvived() {
@@ -78,9 +103,19 @@ public class GameSession {
 
 	public void removeItem(Item item) {
 		ItemType type = item.getType();
-		itemCounts.put(type, itemCounts.get(type) - 1);
-		if (itemCounts.get(type) == 0) {
-			items.remove(item);
+		if(getItemCount(type) == 0) {
+			return;
+		}
+		int updatedCount = itemCounts.get(type) - 1;
+		itemCounts.put(type, updatedCount);
+		if (updatedCount == 0) {
+			for(Item currentItem: items) {
+				if(currentItem.getType() == type) {
+					items.remove(currentItem);
+					break;
+				}
+			}
+			itemCounts.remove(type);
 		}
 	}
 
@@ -97,9 +132,9 @@ public class GameSession {
 				ItemType.SNACK };
 		for (int i = 0; i < NUMBER_AGENTS; i++) {
 			for (ItemType itemType : itemTypes) {
-				if (Math.random() > 0.8) {
+//				if (Math.random() > 0.8) {
 					addItem(ItemFactory.createItem(itemType));
-				}
+//				}
 			}
 		}
 	}

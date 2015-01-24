@@ -22,7 +22,7 @@ public class PlayerUI {
 	public Vector2f location = new Vector2f(34,29);
 	Vector2f destination = new Vector2f(34,29);
 	Vector<Tile> destinations = new Vector<Tile>();
-	boolean atDestination = true;
+	public boolean atDestination = true;
 	
 	float playerWalkSpeedMS = 1.4f;		//average walk speed 1.4m per second
 	float tileSizeM = 50.0f;			//Tile is 100m across
