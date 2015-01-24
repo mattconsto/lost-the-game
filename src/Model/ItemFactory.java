@@ -3,10 +3,12 @@ package Model;
 import Model.item.Cloth;
 import Model.item.Grass;
 import Model.item.Leaf;
+import Model.item.LifeJacket;
 import Model.item.Mud;
 import Model.item.Phone;
 import Model.item.Plank;
 import Model.item.Rock;
+import Model.item.Snack;
 import Model.item.Stick;
 
 public class ItemFactory {
@@ -28,6 +30,10 @@ public class ItemFactory {
 			return new Grass();
 		case CLOTH:
 			return new Cloth();
+		case LIFEJACKET:
+			return new LifeJacket();
+		case SNACK:
+			return new Snack();
 		default:
 			throw new IllegalArgumentException();
 		}

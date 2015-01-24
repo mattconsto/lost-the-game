@@ -8,5 +8,5 @@ public enum ItemType {
 	LEAF,
 	MUD,
 	GRASS,
-	CLOTH
+	CLOTH, LIFEJACKET, SNACK
 }

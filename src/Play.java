@@ -7,15 +7,17 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import TileSystem.TileSystem;
+import Model.Agent;
 import Model.GameSession;
 import Player.PlayerUI;
+import TileSystem.TileSystem;
 
 public class Play extends BasicGameState implements GameState {
 	
 	TileSystem ts;
 	GameSession gs;
 	PlayerUI player;
+	Agent selectedAgent;
 
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
@@ -23,6 +25,7 @@ public class Play extends BasicGameState implements GameState {
 		ts = new TileSystem(100);
 		player = new PlayerUI(ts);
 		gs = new GameSession();
+		selectedAgent = gs.getAgents().get(0);
 	}
 
 	@Override
@@ -49,7 +52,11 @@ public class Play extends BasicGameState implements GameState {
 		g.setColor(Color.lightGray);
 		g.fillRoundRect(0, footer_y, container.getWidth(), container.getHeight(), 5);
 		g.setColor(Color.black);
-		//g.drawString(""+gs.getDate().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)), 5,footer_y+5);
+		g.drawString(""+gs.getDate().toString("dd/MM/yyyy HH:mm"), 5,footer_y+5);
+	
+		if(selectedAgent != null) {
+			g.drawString(selectedAgent.getName(), 5, 5);
+		}
 	}
 
 	@Override
