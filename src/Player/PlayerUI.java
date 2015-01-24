@@ -68,32 +68,21 @@ public class PlayerUI {
 													getPlayerImageLocation()+imageWidth,imageHeight);
 realPlayer.setCenterOfRotation(30, 30);
 
-	Vector2f lookPoint = destination;
-	if (destinations.size()>0) 
+	if (destinations.size()>1) 
 		{
-			float xdif = location.x - lookPoint.x;
-			float ydif = location.y - lookPoint.y;
-			//lookPoint = new Vector2f(destinations.get(destinations.size()-1).x,destinations.get(destinations.size()-1).y);
-			/*if (ydif == 0)
-			{
-				if (xdif = 0)
-			}
-			else if(xdif ==0)
-			{
-				if (ydif>0)
-					angle = 90;
-				else
-					angle = 270;
-			}
-			else
-			{*/
-				float len = (float)Math.sqrt((xdif*xdif)+(ydif*ydif));
-				xdif /= len;
-				ydif /=len;
-				if (xdif ==0) xdif =0.00000001f;
-				if (ydif == 0) ydif = 0.00000001f;
-				angle = (float)(Math.tan(ydif/xdif) * (180/Math.PI))+90;
-			//}
+			Vector2f lookPointA = new Vector2f(destinations.get(destinations.size()-2).x,destinations.get(destinations.size()-2).y);
+			Vector2f lookPointB = new Vector2f(destinations.get(destinations.size()-1).x,destinations.get(destinations.size()-1).y);
+			float xdif = lookPointB.x - lookPointA.x;
+			float ydif = lookPointB.y - lookPointA.y;
+			if (xdif >0 && ydif==0) angle = 270;
+			if (xdif <0 && ydif==0) angle = 90;
+			if (xdif ==0 && ydif>0) angle = 0;
+			if (xdif ==0 && ydif<0) angle = 180;
+	
+			if (xdif >0 && ydif>0) angle = 90+45+180;
+			if (xdif <0 && ydif>0) angle = 270+45+90;
+			if (xdif >0 && ydif<0) angle = 90+45+90;
+			if (xdif <0 && ydif<0) angle = 270+45-180;
 			
 			
 		}
