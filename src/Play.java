@@ -408,6 +408,10 @@ public class Play extends BasicGameState implements GameState,
 		monsterManager.update(seconds);
 		ts.updateFog(players);
 		gs.update(seconds);
+		
+		if (container.getInput().isKeyDown(Input.KEY_ESCAPE)){
+			container.exit();
+		}
 	}
 
 	private void updateCamera(GameContainer container, float delta) {
