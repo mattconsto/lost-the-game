@@ -10,7 +10,7 @@ public class GameSession {
 	// 30 seconds = 1 hour
 	// 1 second = 2 minutes
 	private static final int MINS_PER_SEC = 2;
-	private static final int NUMBER_AGENTS = 2;
+	private static final int NUMBER_AGENTS = 9;
 	
 	private static final float FOOD_PER_SEC_WALK = 0.5f;
 	private static final float FOOD_PER_SEC_STAND = 0.25f;
