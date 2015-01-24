@@ -3,6 +3,7 @@ package Sprite;
 import TileSystem.TileSystem;
 import org.newdawn.slick.geom.Point;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -10,41 +11,51 @@ import java.util.HashMap;
  */
 public class GroundSprite {
 
-    private class SpriteRef {
-        int xLoc;
-        int yLoc;
-        String image;
-
-        public SpriteRef(int xLoc, int yLoc, String image) {
-            this.xLoc = xLoc;
-            this.yLoc = yLoc;
-            this.image = image;
-        }
-
-    }
-
     //returns the location of the tile in grid
-    public Point getSprite(TileSystem.TileId tileId, int variant) {
-        return new Point(31*32,1*32);
+    public static Point getSprite(TileSystem.TileId tileId, int variant) {
+        if (tileToLocation.containsKey(tileId)) {
+            return tileToLocation.get(tileId).get(variant);
+        }
+        return new Point(1*32,31*32);
     }
 
     /* Variants for Tile Maps:
-        1 - ┌
-        2 - ┬
-        3 - ┐
-        4 - ├      (aka)
-        5 - ┼       123
-        6 - ┤       456
-        7 - └       789
-        8 - ┴
-        9 - ┘
+        To Water:
+        0 - ┌
+        1 - ┬
+        2 - ┐
+        3 - ├      (aka)
+        4 - ┼       012
+        5 - ┤       345
+        6 - └       678
+        7 - ┴
+        8 - ┘
+        To Sand:
+        9 - ┌
+        10- ┬
+        11- ┐
+        12- ├      (aka)
+        13- ┼       09 10 11
+        14- ┤       12 13 14
+        15- └       15 16 17
+        16- ┴
+        17- ┘
     */
 
-public HashMap<TileSystem.TileId,SpriteRef> tiletoLocation = new HashMap<TileSystem.TileId, SpriteRef>(){{
-    put(TileSystem.TileId.DIRT,new SpriteRef(1,1,"dg_edging132.gif"));
-//        put(TileSystem.TileId.DIRT,new SpriteRef(1,1,"dg_armor32.gif"));
-//        put(TileSystem.TileId.DIRT,new SpriteRef(1,1,"dg_armor32.gif"));
-}};
+    public static HashMap<TileSystem.TileId,ArrayList<Point>> tileToLocation = new HashMap<TileSystem.TileId,ArrayList<Point>>(){{
+        put(TileSystem.TileId.GRASS, new ArrayList<Point>() {{
+            add(new Point(0 ,0 ));// ┌
+            add(new Point(1 ,0 ));// ┬
+            add(new Point(3 ,0 ));//┐
+            add(new Point(0 ,1 ));//├
+            add(new Point(15 ,1 ));//┼
+            add(new Point(3 ,1 ));//┤
+            add(new Point(0 ,3 ));//└
+            add(new Point(1 ,1 ));//┴
+            add(new Point(1 ,1 ));//┘
+
+        }});
+    }};
 
 
 }

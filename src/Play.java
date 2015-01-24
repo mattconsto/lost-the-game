@@ -6,6 +6,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import Sprite.GroundSprite;
 import TileSystem.TileSystem;
 import Model.GameSession;
 import Player.PlayerUI;
@@ -19,7 +20,7 @@ public class Play extends BasicGameState implements GameState {
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
-		ts = new TileSystem(100, 100);
+		ts = new TileSystem(100);
 		player = new PlayerUI(ts);
 		gs = new GameSession();
 	}
@@ -27,6 +28,7 @@ public class Play extends BasicGameState implements GameState {
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
+		
 		
 		//Test code
 		ts.render(g);
@@ -51,12 +53,17 @@ public class Play extends BasicGameState implements GameState {
 	}
 
 	@Override
-	public void update(GameContainer container, StateBasedGame game, int deltaTime)
+	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
-
-		player.update(deltaTime);
-		gs.update(deltaTime);
 		
+		updateCameraPosition(container);
+		player.update(delta);
+		gs.update(delta);
+	}
+
+	private void updateCameraPosition(GameContainer container) {
+		int mouseX = container.getInput().getMouseX();
+		int mouseY = container.getInput().getMouseY();
 	}
 
 	@Override
