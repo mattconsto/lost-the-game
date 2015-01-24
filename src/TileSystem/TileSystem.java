@@ -100,12 +100,9 @@ public class TileSystem {
 		resTimesScale = tileRes * camera.zoom;
 	}
 	
-	public void render(Graphics g){
-		renderTiles(g);
-		renderFog(g);
-	}
 	
-	private void renderTiles(Graphics g){
+	
+	public void renderTiles(Graphics g){
 		float finalX, finalY;
 		
 		Vector2f offsets = camera.getOffsets();
@@ -137,7 +134,7 @@ public class TileSystem {
 		return true;
 	}
 	
-	private void renderFog(Graphics g){
+	public void renderFog(Graphics g){
 		float finalX, finalY;
 		
 		Vector2f offsets = camera.getOffsets();

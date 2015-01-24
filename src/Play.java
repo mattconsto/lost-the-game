@@ -89,12 +89,14 @@ public class Play extends BasicGameState implements GameState,
 
 		Input input = container.getInput();
 		// Test code
-		ts.render(g);
+		ts.renderTiles(g);
 		for (PlayerUI player : players) {
 			player.render(g);
 		}
 		
 		monsterManager.render(g);
+		
+		ts.renderFog(g);
 		
 		for(int x = 0; x < ts.size; x++){
             for(int y = 0; y < ts.size; y++){
