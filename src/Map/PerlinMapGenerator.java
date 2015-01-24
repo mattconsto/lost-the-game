@@ -14,10 +14,10 @@ import org.lwjgl.Sys;
  */
 public class PerlinMapGenerator {
     public Tile[][] loadMap() {
-    	int mapWidth  = 200;
-    	int mapHeight = 200;
+    	int mapWidth  = 2150;
+    	int mapHeight = 150;
     	
-        Tile[][] tiles = new Tile[200][200];
+        Tile[][] tiles = new Tile[mapWidth][mapHeight];
         
         boolean[][] land   = new boolean[mapWidth][mapHeight];
         float[][]   height = new float[mapWidth][mapHeight];
@@ -35,16 +35,16 @@ public class PerlinMapGenerator {
         	}
         }
 
-        for(int x = 0; x < 200; x++) {
-        	for(int y = 0; y < 200; y++) {
+        for(int x = 0; x < land.length; x++) {
+        	for(int y = 0; y < land[x].length; y++) {
         		if(land[x][y]) {
-        			if(height[x][y] > -0.7) {
-        				tiles[x][y] = new Tile(TileSystem.TileId.GRASS,x,y,2);
+        			if(height[x][y] > 0.5) {
+        				tiles[x][y] = new Tile(TileSystem.TileId.GRASS,x,y,0);
         			} else {
-        				tiles[x][y] = new Tile(TileSystem.TileId.DIRT,x,y,2);
+        				tiles[x][y] = new Tile(TileSystem.TileId.DIRT,x,y,0);
         			}
         		} else {
-        			tiles[x][y] = new Tile(TileSystem.TileId.WATER,x,y,2);
+        			tiles[x][y] = new Tile(TileSystem.TileId.WATER,x,y,0);
         		}
         	}
         }
