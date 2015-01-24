@@ -8,6 +8,7 @@ public class GameSession {
 	// 30 seconds = 1 hour
 	// 1 second = 2 minutes
 	private static final int MINS_PER_SEC = 2;
+	private static final int NUMBER_AGENTS = 2;
 	
 	// Play time in seconds
 	private double gameTimer;
@@ -30,6 +31,11 @@ public class GameSession {
 		int hour = (int)(Math.random()*24);
 		int minute = (int)(Math.random()*60);
 		this.crashDate = LocalDateTime.of(year, month, day, hour, minute);
+		
+		for(int i=0; i<NUMBER_AGENTS; i++) {
+			agents.add(new Agent());
+		}
+		
 		
 	}
 	
