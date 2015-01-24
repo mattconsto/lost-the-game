@@ -166,9 +166,10 @@ public class TileSystem {
 			int yp = (int)p.location.y;
 			for(int x = xp - 5; x < xp + 5; x++){
 				for(int y = yp - 5; y < yp + 5; y++){
-					if(dist(xp, yp, x, y) <= 4){
-						tiles[x][y].vis = 2;
-					}
+					if(x > 0 && y > 0 && x < size && y < size)
+						if(dist(xp, yp, x, y) <= 4){
+							tiles[x][y].vis = 2;
+						}
 				}
 			}
 		}
