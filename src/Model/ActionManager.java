@@ -43,6 +43,7 @@ public class ActionManager {
 					@Override
 					public void performAction(GameSession gs, Agent agent, TileSystem ts, PlayerUI pui) {
 						gs.addItem(ItemFactory.createItem(ItemType.MUD));
+						ts.getTileFromWorld(pui.location.x, pui.location.y).id = TileId.WATER;
 					}
 				}));
 		this.actions.add(new Action("Make Mud Brick", new TileId[] {},
@@ -52,6 +53,14 @@ public class ActionManager {
 						gs.removeItem(ItemFactory.createItem(ItemType.MUD));
 						gs.removeItem(ItemFactory.createItem(ItemType.GRASS));
 						gs.addItem(ItemFactory.createItem(ItemType.BRICK));
+					}
+				}));
+		this.actions.add(new Action("Build Hut", new TileId[] {TileId.GRASS},
+				new ItemType[] {ItemType.BRICK}, new IActionable() {
+					@Override
+					public void performAction(GameSession gs, Agent agent, TileSystem ts, PlayerUI pui) {
+						gs.removeItem(ItemFactory.createItem(ItemType.BRICK));
+						//ts.getTileFromWorld(pui.location.x, pui.location.y).id = TileId. ;
 					}
 				}));
 	}

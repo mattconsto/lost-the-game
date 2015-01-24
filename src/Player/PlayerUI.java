@@ -54,7 +54,7 @@ public class PlayerUI {
 	
 	private Vector2f randomLocation()
 	{
-		Random randomGenerator = new Random();
+		Random randomGenerator = new Random(42);
 		while(true)
 		{
 			int x = randomGenerator.nextInt(ts.size);
@@ -76,12 +76,6 @@ public class PlayerUI {
 	float animationFrame = 0;
 	float angle = 0;
 	
-	/*public int getPlayerImageLocation()
-	{
-		
-	
-		return (int)animationFrame*imageWidth;
-	}*/
 	
 	public Image getPlayerImage()
 	{
