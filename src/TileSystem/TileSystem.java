@@ -39,7 +39,7 @@ public class TileSystem {
 
 		this.size = 184;
 		tiles = new Tile[size][size];
-		camera = new Camera(0, 0);
+		camera = new Camera(25*32, 20*32);
 		
 		setTileMap("dg_edging132.gif");
 
@@ -100,8 +100,8 @@ public class TileSystem {
 			newZoom = 0.5f;
 		if(newZoom != this.zoomLevel){
 			this.zoomLevel = newZoom;
-			camera.x += ((tileRes*zoomChange)*(windowSize.getX()/(tileRes*newZoom)))/2;
-			camera.y += ((tileRes*zoomChange)*(windowSize.getY()/(tileRes*newZoom)))/2;
+			camera.x += ((tileRes*zoomChange)*(windowSize.getX()/(tileRes*newZoom)));
+			camera.y += ((tileRes*zoomChange)*(windowSize.getY()/(tileRes*newZoom)));
 		}
 	}
 	

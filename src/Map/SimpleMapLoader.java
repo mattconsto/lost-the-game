@@ -55,9 +55,9 @@ public class SimpleMapLoader {
     private Tile createTile(char mapChar, int x, int y) {
         switch(mapChar) {
             case '@':
-                return new Tile(TileSystem.TileId.WATER,x,y,2);
+                return new Tile(TileSystem.TileId.WATER,x,y,0);
             case ' ':
-                return new Tile(TileSystem.TileId.GRASS,x,y,2);
+                return new Tile(TileSystem.TileId.GRASS,x,y,0);
             case ':':
             default:
                 return new Tile(TileSystem.TileId.DIRT,x,y,0);

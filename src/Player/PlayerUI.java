@@ -19,8 +19,8 @@ public class PlayerUI {
 	PathFinder p;
 	public Agent agent;
 	
-	public Vector2f location = new Vector2f(10,10);
-	Vector2f destination = new Vector2f(20,20);
+	public Vector2f location = new Vector2f(34,29);
+	Vector2f destination = new Vector2f(34,29);
 	Vector<Tile> destinations = new Vector<Tile>();
 	boolean atDestination = true;
 	
