@@ -98,12 +98,12 @@ public class TileSystem {
 	
 	public Vector2f screenToWorldPos(int scX, int scY){
 		float resTimesScale = tileRes * zoomLevel;
-		return new Vector2f(camera.x+((float)scX/resTimesScale), camera.y+((float)scY/resTimesScale));
+		return new Vector2f(((camera.x+scX)/resTimesScale), ((camera.y+scY)/resTimesScale));
 	}
 	
 	public Vector2f worldToScreenPos(float worldX, float worldY){
 		float resTimesScale = tileRes * zoomLevel;
-		return new Vector2f((worldX - camera.x)*resTimesScale, (worldY - camera.y)*resTimesScale);
+		return new Vector2f((worldX *resTimesScale)-camera.x, (worldY *resTimesScale)-camera.y);
 	}
 	
 	public void setZoom(float zoomLevel){
