@@ -37,15 +37,13 @@ public class TileSystem {
 	public TileSystem(){
 		SimpleMapLoader loader = new SimpleMapLoader();
 
-		this.size = 184;
-		tiles = new Tile[size][size];
 		camera = new Camera(25*32, 20*32);
 		
 		setTileMap("dg_edging132.gif");
 
 		try {
 			tiles = loader.loadMap();
-
+			this.size = tiles[0].length;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
