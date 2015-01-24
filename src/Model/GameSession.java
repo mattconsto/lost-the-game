@@ -79,6 +79,7 @@ public class GameSession {
 			
 			if (agent.getHealth() <= 0)			{
 				agent.setState(AgentState.DEAD);
+				
 			}
 		}
 
