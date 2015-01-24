@@ -91,7 +91,7 @@ public class TileSystem {
 	}
 	
 	public Tile getTileFromWorld(float x, float y){
-		if(x > size || x < 0 || y > size || y < size)
+		if(x > size || x < 0 || y > size || y < 0)
 			return null;
 		return tiles[(int)x][(int)y];
 	}
@@ -106,11 +106,20 @@ public class TileSystem {
 		return new Vector2f((worldX *resTimesScale)-camera.x, (worldY *resTimesScale)-camera.y);
 	}
 	
-	public void setZoom(float zoomLevel){
+	public void setZoom(float zoomLevel, Point windowSize){
 		float zoomChange = zoomLevel - this.zoomLevel;
-		this.zoomLevel = zoomLevel;
-//		camera.x -= zoomChange * tileRes;
-//		camera.y -= zoomChange * tileRes;
+		float newZoom = zoomLevel;
+		if (newZoom >= 2)
+			newZoom = 2;
+		if (newZoom <= 0.5f)
+			newZoom = 0.5f;
+		if(newZoom != this.zoomLevel){
+			Vector2f focus = screenToWorldPos((int)windowSize.getX()/2, (int)windowSize.getY()/2);
+			this.zoomLevel = newZoom;
+			Vector2f dest = worldToScreenPos(focus.getX(), focus.getY());
+			camera.x = dest.getX() - windowSize.getX()/2;
+			camera.y = dest.getY() - windowSize.getY()/2;
+		}
 	}
 	
 	public void render(Graphics g){

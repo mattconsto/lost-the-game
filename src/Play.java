@@ -9,6 +9,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.GameState;
@@ -180,14 +181,10 @@ public class Play extends BasicGameState implements GameState {
 
 		int dWheel = Mouse.getDWheel();
 		if (dWheel < 0)
-			ts.setZoom(ts.zoomLevel + dWheel * delta * 0.06f);
+			ts.setZoom(ts.zoomLevel + dWheel * delta * 0.06f, new Point(container.getWidth(), container.getHeight()));
 		else if (dWheel > 0) {
-			ts.setZoom(ts.zoomLevel + dWheel * delta * 0.06f);
+			ts.setZoom(ts.zoomLevel + dWheel * delta * 0.06f, new Point(container.getWidth(), container.getHeight()));
 		}
-		if (ts.zoomLevel >= 2)
-			ts.zoomLevel = 2;
-		if (ts.zoomLevel <= 0.5f)
-			ts.zoomLevel = 0.5f;
 		
 		if(/*mouseX < 50 ||*/ input.isKeyDown(Input.KEY_LEFT))
 			ts.getCamera().move(-160*delta, 0);
