@@ -22,10 +22,15 @@ import Model.GameSession;
 import Model.Item;
 import Model.ItemFactory;
 import Model.ItemType;
+import Model.item.Grass;
+import Player.PlayerReachedDestinationEvent;
 import Player.PlayerUI;
 import TileSystem.TileSystem;
+import TileSystem.TileSystem.Tile;
+import TileSystem.TileSystem.TileId;
 
-public class Play extends BasicGameState implements GameState {
+public class Play extends BasicGameState implements GameState,
+		PlayerReachedDestinationEvent {
 
 	TileSystem ts;
 	GameSession gs;
@@ -42,7 +47,9 @@ public class Play extends BasicGameState implements GameState {
 		gs = new GameSession();
 		players = new ArrayList<PlayerUI>();
 		for (int i = 0; i < gs.getAgents().size(); i++) {
-			players.add(new PlayerUI(ts));
+			PlayerUI pui = new PlayerUI(gs.getAgents().get(i), ts);
+			pui.addReachedDestinationEvent(this);
+			players.add(pui);
 		}
 		selectedAgent = gs.getAgents().get(0);
 
@@ -130,8 +137,14 @@ public class Play extends BasicGameState implements GameState {
 
 				Rectangle rect = new Rectangle(x, f_y, f_h, f_h);
 				inventoryZones.add(rect);
-			}
-			else {
+				int count = gs.getItemCount(items.get(i).getType());
+				if (count > 1) {
+					g.setColor(Color.cyan);
+					g.fillRoundRect(x + f_h - 19, f_y + f_h - 16, 16, 16, 10);
+					g.setColor(Color.black);
+					g.drawString("" + count, x + f_h - 16, f_y + f_h - 16);
+				}
+			} else {
 				g.setColor(Color.black);
 				g.fillRect(x, f_y, f_h, f_h);
 			}
@@ -150,19 +163,17 @@ public class Play extends BasicGameState implements GameState {
 				// Player selection
 				for (int i = 0; i < agentZones.size(); i++) {
 					Rectangle agentZone = agentZones.get(i);
-					if (agentZone
-							.contains(mouseX, mouseY)) {
+					if (agentZone.contains(mouseX, mouseY)) {
 						selectedAgent = agents.get(i);
 					}
 				}
-				
-				for(int i=0; i<inventoryZones.size(); i++) {
+
+				for (int i = 0; i < inventoryZones.size(); i++) {
 					Rectangle inventoryZone = inventoryZones.get(i);
-					if(inventoryZone.contains(mouseX, mouseY)) {
-						if(selectedItem == items.get(i)) {
+					if (inventoryZone.contains(mouseX, mouseY)) {
+						if (selectedItem == items.get(i)) {
 							selectedItem = null;
-						}
-						else {
+						} else {
 							selectedItem = items.get(i);
 						}
 					}
@@ -176,8 +187,8 @@ public class Play extends BasicGameState implements GameState {
 				}
 			}
 		}
-		
-		if(selectedItem != null) {
+
+		if (selectedItem != null) {
 			int i = items.indexOf(selectedItem);
 			int x = inventory_zone_x + (i * f_h) + (i * 6);
 			g.setColor(Color.red);
@@ -267,6 +278,15 @@ public class Play extends BasicGameState implements GameState {
 	@Override
 	public int getID() {
 		return LostGame.STATE_PLAY;
+	}
+
+	@Override
+	public void reachedDestination(PlayerUI pui, float x, float y) {
+		System.out.println("Reached!");
+		Tile reachedTile = ts.getTileFromWorld(x, y);
+		if (reachedTile.id == TileId.GRASS) {
+			gs.addItem(new Grass());
+		}
 	}
 
 }
