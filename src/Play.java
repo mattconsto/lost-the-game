@@ -83,6 +83,13 @@ public class Play extends BasicGameState implements GameState,
 		for (PlayerUI player : players) {
 			player.render(g);
 		}
+		
+		for(int x = 0; x < ts.size; x++){
+            for(int y = 0; y < ts.size; y++){
+            	Vector2f loc = ts.worldToScreenPos(x+0.5f, y+0.5f);
+            	g.drawString("H",loc.x,loc.y);//ts.getTile(x, y).variant.toString();
+            }
+        }
 
 		// Header vars
 		int header_height = 50;
