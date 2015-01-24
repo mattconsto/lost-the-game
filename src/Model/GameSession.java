@@ -12,11 +12,11 @@ public class GameSession {
 	private static final int MINS_PER_SEC = 2;
 	private static final int NUMBER_AGENTS = 2;
 	
-	private static final float FOOD_PER_SEC_WALK = 1.0f;
-	private static final float FOOD_PER_SEC_STAND = 0.5f;
+	private static final float FOOD_PER_SEC_WALK = 0.5f;
+	private static final float FOOD_PER_SEC_STAND = 0.25f;
 
-	private static final float WATER_PER_SEC_WALK = 1.0f;
-	private static final float WATER_PER_SEC_STAND = 0.5f;
+	private static final float WATER_PER_SEC_WALK = 0.5f;
+	private static final float WATER_PER_SEC_STAND = 0.25f;
 	
 	private static final float HEALTH_PER_SEC = 0.5f;
 	

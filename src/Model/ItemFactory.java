@@ -1,5 +1,6 @@
 package Model;
 
+import Model.item.Brick;
 import Model.item.Cloth;
 import Model.item.Grass;
 import Model.item.Leaf;
@@ -31,6 +32,8 @@ public class ItemFactory {
 			return new LifeJacket();
 		case SNACK:
 			return new Snack();
+		case BRICK:
+			return new Brick();
 		default:
 			throw new IllegalArgumentException();
 		}

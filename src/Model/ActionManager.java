@@ -3,6 +3,8 @@ package Model;
 import java.util.ArrayList;
 import java.util.List;
 
+import Player.PlayerUI;
+import TileSystem.TileSystem;
 import TileSystem.TileSystem.TileId;
 
 public class ActionManager {
@@ -15,31 +17,41 @@ public class ActionManager {
 		this.actions.add(new Action("Pick Grass", new TileId[] { TileId.GRASS },
 				new ItemType[] {}, new IActionable() {
 					@Override
-					public void performAction(GameSession gs, Agent agent) {
+					public void performAction(GameSession gs, Agent agent, TileSystem ts, PlayerUI pui) {
 						gs.addItem(ItemFactory.createItem(ItemType.GRASS));
+						ts.getTileFromWorld(pui.location.x, pui.location.y).id = TileId.DIRT;
 						agent.decFood(5);
 					}
 				}));
 		this.actions.add(new Action("Eat Snack", new TileId[] {},
 				new ItemType[] { ItemType.SNACK }, new IActionable() {
 					@Override
-					public void performAction(GameSession gs, Agent agent) {
+					public void performAction(GameSession gs, Agent agent, TileSystem ts, PlayerUI pui) {
 						gs.removeItem(ItemFactory.createItem(ItemType.SNACK));
-						agent.incFood(10);
+						agent.incFood(30);
 					}
 				}));
 		this.actions.add(new Action("Drink Water", new TileId[] {TileId.WATER},
 				new ItemType[] {}, new IActionable() {
 					@Override
-					public void performAction(GameSession gs, Agent agent) {
-						agent.incWater(10);
+					public void performAction(GameSession gs, Agent agent, TileSystem ts, PlayerUI pui) {
+						agent.incWater(30);
 					}
 				}));
 		this.actions.add(new Action("Take Dirt", new TileId[] {TileId.DIRT},
 				new ItemType[] {}, new IActionable() {
 					@Override
-					public void performAction(GameSession gs, Agent agent) {
+					public void performAction(GameSession gs, Agent agent, TileSystem ts, PlayerUI pui) {
 						gs.addItem(ItemFactory.createItem(ItemType.MUD));
+					}
+				}));
+		this.actions.add(new Action("Make Mud Brick", new TileId[] {},
+				new ItemType[] {ItemType.MUD, ItemType.GRASS}, new IActionable() {
+					@Override
+					public void performAction(GameSession gs, Agent agent, TileSystem ts, PlayerUI pui) {
+						gs.removeItem(ItemFactory.createItem(ItemType.MUD));
+						gs.removeItem(ItemFactory.createItem(ItemType.GRASS));
+						gs.addItem(ItemFactory.createItem(ItemType.BRICK));
 					}
 				}));
 	}

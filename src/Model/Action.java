@@ -3,6 +3,8 @@ package Model;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import Player.PlayerUI;
+import TileSystem.TileSystem;
 import TileSystem.TileSystem.TileId;
 
 public class Action {
@@ -31,8 +33,8 @@ public class Action {
 		this.name = name;
 	}
 	
-	public void perform(GameSession gs, Agent ag) {
-		this.actionable.performAction(gs, ag);
+	public void perform(GameSession gs, Agent ag, TileSystem ts, PlayerUI pui) {
+		this.actionable.performAction(gs, ag, ts, pui);
 	}
 	
 	public String getName() {
