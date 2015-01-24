@@ -15,5 +15,7 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/lwjgl-2.9.3/jar/lwjgl_util.jar"/>
 	<classpathentry kind="lib" path="lib/joda-time-2.7.jar"/>
+	<classpathentry kind="lib" path="lib/slick/lib/jogg-0.0.7.jar"/>
+	<classpathentry kind="lib" path="lib/slick/lib/jorbis-0.0.15.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
