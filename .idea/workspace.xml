@@ -44,11 +44,9 @@
       <file leaf-file-name="GroundSprite.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Sprite/GroundSprite.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.68246967" vertical-offset="623" max-vertical-offset="1530">
-              <caret line="69" column="27" selection-start-line="69" selection-start-column="27" selection-end-line="69" selection-end-column="27" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="0.1773399" vertical-offset="0" max-vertical-offset="1512">
+              <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -531,6 +529,7 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
+      <changelist id="" name="Default" comment="" />
       <created>1422051523970</created>
       <option name="number" value="Default" />
       <updated>1422051523970</updated>
@@ -539,7 +538,6 @@
       <workItem from="1422057708311" duration="3789000" />
       <workItem from="1422093518106" duration="1954000" />
       <workItem from="1422095477613" duration="895000" />
-      <workItem from="1422096381077" duration="2190000" />
     </task>
     <task id="LOCAL-00001" summary="Added skeleton sprite">
       <created>1422057395011</created>
@@ -559,23 +557,17 @@
       <option name="project" value="LOCAL" />
       <updated>1422095518528</updated>
     </task>
-    <task id="LOCAL-00004" summary="Added Base case for variant">
-      <created>1422096599733</created>
-      <option name="number" value="00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1422096599733</updated>
-    </task>
-    <option name="localTasksCounter" value="5" />
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="10709000" />
+    <option name="totallyTimeSpent" value="8549000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1983" y="-15" width="1857" height="1095" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5344645" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.53128314" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32979852" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -623,9 +615,7 @@
     <MESSAGE value="Added new Skeleton sprite" />
     <MESSAGE value="Updated sprites" />
     <MESSAGE value="Updated Sprites" />
-    <MESSAGE value="Added Base case for variant" />
-    <MESSAGE value="Moving Tile System to be combined tiles" />
-    <option name="LAST_COMMIT_MESSAGE" value="Moving Tile System to be combined tiles" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated Sprites" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -650,9 +640,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1422">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -678,9 +666,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1206">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -706,9 +692,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1008">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -848,11 +832,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Sprite/GroundSprite.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.68246967" vertical-offset="623" max-vertical-offset="1530">
-          <caret line="69" column="27" selection-start-line="69" selection-start-column="27" selection-end-line="69" selection-end-column="27" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.1773399" vertical-offset="0" max-vertical-offset="1512">
+          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>

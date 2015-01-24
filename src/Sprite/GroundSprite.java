@@ -2,7 +2,6 @@ package Sprite;
 
 import TileSystem.TileSystem;
 import org.newdawn.slick.geom.Point;
-import org.newdawn.slick.geom.Transform;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
