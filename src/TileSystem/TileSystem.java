@@ -44,6 +44,8 @@ public class TileSystem {
 		try {
 			tiles = loader.loadMap();
 			this.size = tiles[0].length;
+			VariantChooser variantChooser = new VariantChooser(size,tiles);
+			variantChooser.setVariants();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
