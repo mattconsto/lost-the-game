@@ -282,7 +282,6 @@ public class Play extends BasicGameState implements GameState,
 
 	@Override
 	public void reachedDestination(PlayerUI pui, float x, float y) {
-		System.out.println("Reached!");
 		Tile reachedTile = ts.getTileFromWorld(x, y);
 		if (reachedTile.id == TileId.GRASS) {
 			gs.addItem(new Grass());
