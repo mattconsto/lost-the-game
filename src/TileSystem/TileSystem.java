@@ -91,7 +91,7 @@ public class TileSystem {
 	}
 	
 	public Tile getTileFromWorld(float x, float y){
-		if(x > size || x < 0 || y > size || y < size)
+		if(x > size || x < 0 || y > size || y < 0)
 			return null;
 		return tiles[(int)x][(int)y];
 	}
