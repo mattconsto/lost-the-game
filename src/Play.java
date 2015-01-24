@@ -141,7 +141,6 @@ public class Play extends BasicGameState implements GameState,
 				inventoryZones.add(rect);
 				int count = gs.getItemCount(items.get(i).getType());
 				if (count > 1) {
-					int pad = 3;
 					int w = g.getFont().getWidth("" + count);
 					int h = g.getFont().getHeight("" + count);
 					g.setColor(Color.cyan);
@@ -238,16 +237,17 @@ public class Play extends BasicGameState implements GameState,
 			g.drawRect(graphs_x, f_y + detail_pad + 18, 80, 16);
 		}
 
+		
 	}
 
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
 		float seconds = (float) (delta / 1000.0);
-
 		updateCamera(container, seconds);
 		for (PlayerUI player : players) {
 			player.update(seconds);
+			ts.updateFog(player.location);
 		}
 		gs.update(seconds);
 	}
