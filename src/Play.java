@@ -105,11 +105,24 @@ public class Play extends BasicGameState implements GameState,
 		int a_y = action_bar_y + action_bar_pad;
 		int a_h = action_bar_height - (2 * action_bar_pad);
 
+		// Agent vars
+		int agent_bar_y = header_height;
+		int agent_bar_height = action_bar_y - header_height;
+		int agent_bar_pad = 3;
+		int ag_y = agent_bar_y + agent_bar_pad;
+		int ag_h = agent_bar_height + (2 * agent_bar_pad);
+		int agent_bar_width = 250;
+		int ag_x = container.getWidth() - agent_bar_width - 2;
+
 		Rectangle headerRect = new Rectangle(0, 0, container.getWidth(),
 				header_height);
 		Rectangle footerRect = new Rectangle(0, footer_y, container.getWidth(),
 				footer_height);
-		Rectangle actionRect = new Rectangle(0, action_bar_y, container.getWidth(), action_bar_height);
+		Rectangle actionRect = new Rectangle(0, action_bar_y,
+				container.getWidth(), action_bar_height);
+		Rectangle agentRect = new Rectangle(ag_x, ag_y, agent_bar_width,
+				agent_bar_height);
+
 		// Header
 		g.setColor(Color.lightGray);
 		g.fillRoundRect(0, 0, container.getWidth(), header_height, 5);
@@ -139,11 +152,74 @@ public class Play extends BasicGameState implements GameState,
 		int agent_zone_x = 500;
 		List<Agent> agents = gs.getAgents();
 		List<Rectangle> agentZones = new ArrayList<Rectangle>();
-		int stick_y = (int) ((f_h - stickFigure.getHeight()) / 2) + f_y;
 		for (int i = 0; i < agents.size(); i++) {
-			stickFigure.draw(agent_zone_x + (i * 30), stick_y);
-			Rectangle rect = new Rectangle(agent_zone_x + (i * 30), f_y,
-					stickFigure.getWidth(), f_h);
+			int y = ag_y + (i * 50);
+			int pad = 7;
+			Agent agent = agents.get(i);
+			g.setColor(Color.gray);
+			g.drawRoundRect(ag_x, y, agent_bar_width, 48, 5);
+			g.setColor(Color.lightGray);
+			g.fillRoundRect(ag_x, y, agent_bar_width, 48, 5);
+
+			if (selectedAgent == agent) {
+				g.setColor(Color.red);
+				g.drawRoundRect(ag_x, y, agent_bar_width, 48, 5);
+			} else {
+
+			}
+
+			g.setColor(Color.black);
+			g.drawString(agent.getName(), ag_x + pad, y + pad);
+			// Draw fills first
+			// health
+			g.setColor(Color.green);
+			g.fillRect(ag_x + pad, y + 18 + pad,
+					(agent.getHealth() * 80) / 100, 16);
+			// thirst
+			g.setColor(Color.blue);
+			g.fillRect(ag_x + pad + 100, y + pad,
+					(agent.getWater() * 80) / 100, 16);
+			// hunger
+			g.setColor(Color.red);
+			g.fillRect(ag_x + pad + 100, y + 18 + pad,
+					(agent.getFood() * 80) / 100, 16);
+
+			// Draw outlines
+			g.setColor(Color.black);
+			g.drawRect(ag_x + pad, y + 18 + pad, 80, 16);
+			g.drawRect(ag_x + pad + 100, y + pad, 80, 16);
+			g.drawRect(ag_x + pad + 100, y + 18 + pad, 80, 16);
+
+			if (selectedAgent != agent) {
+				int t_w = g.getFont().getWidth("Play");
+				int t_h = g.getFont().getHeight("Play");
+				int b_w = t_w + 6;
+				int b_h = a_h;
+				int t_y = (a_h - t_h) / 2;
+				int t_x = (b_w - t_w) / 2;
+
+				int button_offset_x = 10;
+				int button_offset_y = (50 - b_h) / 2;
+
+				g.setColor(Color.white);
+				g.fillRoundRect(ag_x + agent_bar_width - t_w - button_offset_x
+						- 1, y + button_offset_y - 1, b_w, b_h, 5);
+
+				g.setColor(Color.darkGray);
+				g.fillRoundRect(ag_x + agent_bar_width - t_w - button_offset_x
+						+ 1, y + button_offset_y + 1, b_w, b_h , 5);
+				g.setColor(Color.lightGray);
+				g.fillRoundRect(ag_x + agent_bar_width - t_w - button_offset_x,
+						y + button_offset_y, b_w, b_h, 5);
+				g.setColor(Color.black);
+				g.drawString("Play", ag_x + agent_bar_width - t_w
+						- button_offset_x + t_x, y + t_y + button_offset_y);
+			}
+			else {
+				stickFigure.draw(ag_x + agent_bar_width - 32, y + 9, 32, 32);
+			}
+			Rectangle rect = new Rectangle(ag_x + pad, y + pad,
+					agent_bar_width, 48);
 			agentZones.add(rect);
 		}
 
@@ -180,49 +256,12 @@ public class Play extends BasicGameState implements GameState,
 		ArrayList<Rectangle> actionZones = new ArrayList<Rectangle>();
 		ArrayList<Action> validActions = new ArrayList<Action>();
 		if (selectedAgent != null) {
-			// Outline that agent
-			int x_pos = agent_zone_x + (agents.indexOf(selectedAgent) * 30);
-			int outline_margin = 2;
-			g.setColor(Color.black);
-			g.drawRect(x_pos - outline_margin, f_y, stickFigure.getWidth()
-					+ (2 * outline_margin), f_h);
-
-			// Show their details
-			int detail_x = 580;
-			int detail_pad = 3;
-			int graphs_x = detail_x + detail_pad + 100;
-			g.drawRoundRect(detail_x, f_y, container.getWidth() - footer_pad
-					- detail_x, f_h, 3);
-			g.drawString(selectedAgent.getName(), detail_x + detail_pad, f_y
-					+ detail_pad);
-
-			// Draw fills first
-			// health
-			g.setColor(Color.green);
-			g.fillRect(detail_x + detail_pad, f_y + detail_pad + 18,
-					(selectedAgent.getHealth() * 80) / 100, 16);
-			// thirst
-			g.setColor(Color.blue);
-			g.fillRect(graphs_x, f_y + detail_pad,
-					(selectedAgent.getWater() * 80) / 100, 16);
-			// hunger
-			g.setColor(Color.red);
-			g.fillRect(graphs_x, f_y + detail_pad + 18,
-					(selectedAgent.getFood() * 80) / 100, 16);
-
-			// Draw outlines
-			g.setColor(Color.black);
-			g.drawRect(detail_x + detail_pad, f_y + detail_pad + 18, 80, 16);
-			g.drawRect(graphs_x, f_y + detail_pad, 80, 16);
-			g.drawRect(graphs_x, f_y + detail_pad + 18, 80, 16);
 
 			// Draw Action Bar (TM)
 			PlayerUI playerUI = players.get(agents.indexOf(selectedAgent));
 			TileId tileId = ts.getTileFromWorld(playerUI.location.x,
 					playerUI.location.y).id;
 			int x = 5;
-//			int t_h_i = g.getFont().getHeight(lastSelectedItem);
-//			g.drawString(lastSelectedItem, action_bar_pad, (a_y+(a_h-t_h_i)/2));
 			validActions = actionManager.getValidActions(tileId, selectedItems,
 					selectedAgent);
 			for (Action action : validActions) {
@@ -243,7 +282,7 @@ public class Play extends BasicGameState implements GameState,
 				g.drawString(name, x + t_x, a_y + t_y);
 
 				Rectangle zone = new Rectangle(x, a_y, b_w, b_h);
-//				System.out.println("Adding zone: "+zone.getX()+","+zone.getY()+","+zone.getWidth()+","+zone.getHeight());
+				// System.out.println("Adding zone: "+zone.getX()+","+zone.getY()+","+zone.getWidth()+","+zone.getHeight());
 				actionZones.add(zone);
 				x += (b_w + 2);
 			}
@@ -254,7 +293,9 @@ public class Play extends BasicGameState implements GameState,
 			int mouseY = input.getMouseY();
 
 			if (headerRect.contains(mouseX, mouseY)
-					|| footerRect.contains(mouseX, mouseY) || actionRect.contains(mouseX, mouseY)) {
+					|| footerRect.contains(mouseX, mouseY)
+					|| actionRect.contains(mouseX, mouseY)
+					|| agentRect.contains(mouseX, mouseY)) {
 
 				// Check the UI elements
 				// Player selection
@@ -282,8 +323,10 @@ public class Play extends BasicGameState implements GameState,
 					Rectangle actionZone = actionZones.get(i);
 					if (actionZone.contains(mouseX, mouseY)) {
 						Action action = validActions.get(i);
-						int player_index = gs.getAgents().indexOf(selectedAgent);
-						action.perform(gs, selectedAgent, ts, players.get(player_index));
+						int player_index = gs.getAgents()
+								.indexOf(selectedAgent);
+						action.perform(gs, selectedAgent, ts,
+								players.get(player_index));
 						selectedItems = new ArrayList<Item>();
 					}
 				}
@@ -305,15 +348,15 @@ public class Play extends BasicGameState implements GameState,
 				g.drawRect(x - 1, f_y - 1, f_h + 2, f_h + 2);
 			}
 		}
-		
-		for(int i=0; i<players.size(); i++) {
+
+		for (int i = 0; i < players.size(); i++) {
 			boolean walking = agents.get(i).getWalking();
 			boolean atDestination = players.get(i).atDestination;
-			
-			if(walking && atDestination) {
+
+			if (walking && atDestination) {
 				agents.get(i).setWalking(false);
 			}
-			if(!walking && !atDestination) {
+			if (!walking && !atDestination) {
 				agents.get(i).setWalking(true);
 			}
 		}
@@ -346,16 +389,20 @@ public class Play extends BasicGameState implements GameState,
 					container.getWidth(), container.getHeight()));
 		}
 
-		if (/* mouseX < 50 || */input.isKeyDown(Input.KEY_LEFT) || input.isKeyDown(Input.KEY_A))
+		if (/* mouseX < 50 || */input.isKeyDown(Input.KEY_LEFT)
+				|| input.isKeyDown(Input.KEY_A))
 			ts.getCamera().move(-160 * delta, 0);
 
-		if (/* mouseY < 50 || */input.isKeyDown(Input.KEY_UP) || input.isKeyDown(Input.KEY_W))
+		if (/* mouseY < 50 || */input.isKeyDown(Input.KEY_UP)
+				|| input.isKeyDown(Input.KEY_W))
 			ts.getCamera().move(0, -160 * delta);
 
-		if (/* mouseX > container.getWidth()-50 || */input.isKeyDown(Input.KEY_RIGHT) || input.isKeyDown(Input.KEY_D))
+		if (/* mouseX > container.getWidth()-50 || */input
+				.isKeyDown(Input.KEY_RIGHT) || input.isKeyDown(Input.KEY_D))
 			ts.getCamera().move(160 * delta, 0);
 
-		if (/* mouseY > container.getHeight()-50 || */input.isKeyDown(Input.KEY_DOWN) || input.isKeyDown(Input.KEY_S))
+		if (/* mouseY > container.getHeight()-50 || */input
+				.isKeyDown(Input.KEY_DOWN) || input.isKeyDown(Input.KEY_S))
 			ts.getCamera().move(0, 160 * delta);
 
 	}
@@ -367,10 +414,10 @@ public class Play extends BasicGameState implements GameState,
 
 	@Override
 	public void reachedDestination(PlayerUI pui, float x, float y) {
-//		Tile reachedTile = ts.getTileFromWorld(x, y);
-//		if (reachedTile.id == TileId.GRASS) {
-//			gs.addItem(new Grass());
-//		}
+		// Tile reachedTile = ts.getTileFromWorld(x, y);
+		// if (reachedTile.id == TileId.GRASS) {
+		// gs.addItem(new Grass());
+		// }
 	}
 
 }

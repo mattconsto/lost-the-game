@@ -1,5 +1,8 @@
 package Model;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 public class Agent {
@@ -10,17 +13,28 @@ public class Agent {
 	private boolean walking;
 	private boolean drowning;
 	
+	
+	private static int namePos = 0;
+	private static boolean shuffled = false;
+	
+	private String[] names = {"Bill", "Joe", "Jane", "Andy", "Ollie", "Mike", "Jonah", "Sam", "Joanne", "Suzy", "Lucy", "Mary", "Betsy"};
+	
+	
 	public Agent(float food, float water, float health) {
+		this();
 		this.setFood(food);
 		this.setWater(water);
 		this.setHealth(health);
-		this.setDrowning(false);
-		this.generateName();
 	}
 	
 	private void generateName() {
-		String[] names = {"Bill", "Joe", "Jane", "Andy", "Ollie", "Mike", "Jonah", "Sam", "Joanne", "Suzy", "Lucy", "Mary", "Betsy"};
-		this.setName(names[new Random().nextInt(names.length)]);
+		if(!shuffled) {
+			List<String> nameList = Arrays.asList(names);
+			Collections.shuffle(nameList);
+			names = nameList.toArray(new String[nameList.size()]);
+			shuffled= true;
+		}
+		this.setName(names[namePos++ % names.length]);
 	}
 
 	public Agent() {
