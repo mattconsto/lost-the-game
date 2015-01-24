@@ -30,7 +30,7 @@ public class TileSystem {
 	
 	public class Tile{
 		TileId id;
-		int variant = 0;
+		int variant = -1;
 		int vis = 0; //0 = unseen, 1 = seen, 2 = visible
 		
 		public Tile(TileId id, int vis){

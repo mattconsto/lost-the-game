@@ -44,6 +44,4 @@ public class Sprite {
 //        put(TileSystem.TileId.DIRT,new SpriteRef(1,1,"dg_armor32.gif"));
     }};
 
-
-    }
 }

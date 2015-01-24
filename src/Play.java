@@ -49,13 +49,12 @@ public class Play extends BasicGameState implements GameState {
 			throws SlickException {
 		
 		updateCameraPosition(container);
-
+		player.update(delta);
 	}
 
 	private void updateCameraPosition(GameContainer container) {
 		int mouseX = container.getInput().getMouseX();
 		int mouseY = container.getInput().getMouseY();
-		player.update(deltaTime);
 	}
 
 	@Override
