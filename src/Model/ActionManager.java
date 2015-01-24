@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Player.PlayerUI;
+import TileSystem.TileAttr;
 import TileSystem.TileSystem;
 import TileSystem.TileSystem.TileId;
 
@@ -34,7 +35,7 @@ public class ActionManager {
 			@Override
 			public void performAction(GameSession gs, Agent agent,
 					TileSystem ts, PlayerUI pui) {
-				gs.removeItem(ItemFactory.createItem(ItemType.SNACK));
+				gs.removeItemByType(ItemType.SNACK);
 				agent.incFood(30);
 			}
 
@@ -68,8 +69,7 @@ public class ActionManager {
 			@Override
 			public void performAction(GameSession gs, Agent agent,
 					TileSystem ts, PlayerUI pui) {
-
-				gs.addItem(ItemFactory.createItem(ItemType.MUD));
+				gs.addItemByType(ItemType.MUD);
 			}
 
 			@Override
@@ -83,16 +83,34 @@ public class ActionManager {
 			@Override
 			public void performAction(GameSession gs, Agent agent,
 					TileSystem ts, PlayerUI pui) {
-				gs.removeItem(ItemFactory.createItem(ItemType.MUD));
-				gs.removeItem(ItemFactory.createItem(ItemType.GRASS));
-				gs.addItem(ItemFactory.createItem(ItemType.BRICK));
+				gs.removeItemByType(ItemType.MUD);
+				gs.removeItemByType(ItemType.GRASS);
+				gs.addItemByType(ItemType.BRICK);
 			}
 
 			@Override
 			public boolean canPerform(GameSession gs, Agent agent,
 					TileSystem ts, TileId tile, List<Item> selectedItems) {
-				return (gs.getItemCount(ItemType.MUD) == 1 && gs
-						.getItemCount(ItemType.GRASS) == 1);
+				return (gs.getItemCount(ItemType.MUD) >= 1 && gs
+						.getItemCount(ItemType.GRASS) >= 1);
+			}
+
+		}));
+		this.actions.add(new Action("Build Hut", new IActionable() {
+			@Override
+			public void performAction(GameSession gs, Agent agent,
+					TileSystem ts, PlayerUI pui) {
+				gs.removeItemByType(ItemType.BRICK, 5);
+				ts.getTileFromWorld(pui.location.x, pui.location.y).attr = TileAttr.HUT;
+			}
+
+			@Override
+			public boolean canPerform(GameSession gs, Agent agent,
+					TileSystem ts, TileId tile, List<Item> selectedItems) {
+				if(gs.getItemCount(ItemType.BRICK) >= 5) {
+					return true;
+				}
+				return false;
 			}
 
 		}));

@@ -1,12 +1,13 @@
 package Sprite;
 
-import TileSystem.TileSystem;
-import org.newdawn.slick.geom.Point;
-
 import java.security.InvalidParameterException;
-import java.security.cert.PolicyNode;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import org.newdawn.slick.geom.Point;
+
+import TileSystem.TileAttr;
+import TileSystem.TileSystem;
 
 /**
  * Created by andy on 24/01/15.
@@ -23,7 +24,7 @@ public class GroundSprite {
     * */
 
     //returns the location of the tile in grid
-    public static Point getSprite(TileSystem.TileId tileId, TileSystem.TileId touching, int variant) {
+    public static Point getSprite(TileSystem.TileId tileId, TileSystem.TileId touching, int variant, TileAttr tileAttr) {
         if (variant == -1) {
             variant = 0;
         }

@@ -118,7 +118,7 @@ public class TileSystem {
             	{
             		finalX = (x*resTimesScale)-camera.x;
             		finalY = (y*resTimesScale)-camera.y;
-            		Point src = GroundSprite.getSprite(tiles[x][y].id, tiles[x][y].touching, tiles[x][y].variant);
+            		Point src = GroundSprite.getSprite(tiles[x][y].id, tiles[x][y].touching, tiles[x][y].variant, TileAttr.NONE);
             		g.drawImage(tileMap, finalX, finalY, finalX+resTimesScale, finalY+resTimesScale, src.getX(), src.getY(), src.getX()+tileRes, src.getY()+tileRes);
             	}
             }

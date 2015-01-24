@@ -24,10 +24,8 @@ import Model.GameSession;
 import Model.Item;
 import Model.ItemFactory;
 import Model.ItemType;
-import Model.item.Grass;
 import Player.PlayerReachedDestinationEvent;
 import Player.PlayerUI;
-import TileSystem.Tile;
 import TileSystem.TileSystem;
 import TileSystem.TileSystem.TileId;
 
@@ -42,7 +40,6 @@ public class Play extends BasicGameState implements GameState,
 	Image stickFigure;
 	Map<ItemType, Image> itemImages;
 	ActionManager actionManager;
-	private String lastSelectedItem;
 
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
@@ -58,7 +55,6 @@ public class Play extends BasicGameState implements GameState,
 		selectedAgent = gs.getAgents().get(0);
 		selectedItems = new ArrayList<Item>();
 		actionManager = new ActionManager();
-		lastSelectedItem = "";
 
 		stickFigure = new Image("icons/stickperson.png");
 
@@ -87,7 +83,7 @@ public class Play extends BasicGameState implements GameState,
 		for(int x = 0; x < ts.size; x++){
             for(int y = 0; y < ts.size; y++){
             	Vector2f loc = ts.worldToScreenPos(x+0.5f, y+0.5f);
-            	g.drawString("H",loc.x,loc.y);//ts.getTile(x, y).variant.toString();
+            	g.drawString(ts.getTile(x, y).attr.toLetter(),loc.x,loc.y);
             }
         }
 
@@ -318,10 +314,8 @@ public class Play extends BasicGameState implements GameState,
 					if (inventoryZone.contains(mouseX, mouseY)) {
 						if (selectedItems.contains(items.get(i))) {
 							selectedItems.remove(items.get(i));
-							lastSelectedItem = "";
 						} else {
 							selectedItems.add(items.get(i));
-							lastSelectedItem = items.get(i).getItemName();
 						}
 					}
 				}
