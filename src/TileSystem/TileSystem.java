@@ -176,6 +176,10 @@ public class TileSystem {
 		}
 	}
 	
+	public void updateFog(Vector2f pos){
+		
+	}
+	
 	public Camera getCamera(){
 		return camera;
 	}
