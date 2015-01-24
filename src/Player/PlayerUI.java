@@ -141,9 +141,9 @@ public class PlayerUI {
     	{
     		int min = 9999;
     		Tile minTile = null;
-    		if (startTile.x >0)
+    		if (currentTile.x >0)
     		{
-    			Tile tile = ts.getTile(startTile.x-1, startTile.y);
+    			Tile tile = ts.getTile(currentTile.x-1, currentTile.y);
     			int dist = distances[tile.x][tile.y];
     			if (dist < min)
     			{
@@ -151,9 +151,9 @@ public class PlayerUI {
     				minTile = tile;
     			}
     		}
-    		if (startTile.y >0)
+    		if (currentTile.y >0)
     		{
-    			Tile tile = ts.getTile(startTile.x, startTile.y-1);
+    			Tile tile = ts.getTile(currentTile.x, currentTile.y-1);
     			int dist = distances[tile.x][tile.y];
     			if (dist < min)
     			{
@@ -161,20 +161,20 @@ public class PlayerUI {
     				minTile = tile;
     			}
     		}
-    		if (startTile.x < size)
+    		if (currentTile.x < size)
     		{
-    			Tile tile = ts.getTile(startTile.x+1, startTile.y);
-    			int dist = distances[tile.x][tile.y]
+    			Tile tile = ts.getTile(currentTile.x+1, currentTile.y);
+    			int dist = distances[tile.x][tile.y];
     			if (dist < min)
     			{
     				dist = min;
     				minTile = tile;
     			}
     		}
-    		if (startTile.y < size)
+    		if (currentTile.y < size)
     		{
-    			Tile tile = ts.getTile(startTile.x, startTile.+1);
-    			int dist = distances[tile.x][tile.y]
+    			Tile tile = ts.getTile(currentTile.x, currentTile.y+1);
+    			int dist = distances[tile.x][tile.y];
     			if (dist < min)
     			{
     				dist = min;
@@ -225,10 +225,10 @@ public class PlayerUI {
     	{
     		//This is how much is added to the distance variable per tile move bigger = slower
     		//negative = er no cannot do it
-    		if (tile.variant == 0) return -999999;
-    		if (tile.variant == 1) return 1;
-    		if (tile.variant == 2) return 2;
-    	}
+    		if (tileIn.variant == 0) return -999999;
+    		if (tileIn.variant == 1) return 1;
+    		if (tileIn.variant == 2) return 2;
+    	
     	}
     	
 	}
