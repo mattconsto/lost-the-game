@@ -4,15 +4,16 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="lib" path="lib/lwjgl-2.9.3/jar/lwjgl.jar">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="game-jam/lib/lwjgl-2.9.3/native/linux"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="game-jam/lib/lwjgl-2.9.3/native/windows"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/slick/lib/jinput.jar"/>
 	<classpathentry kind="lib" path="lib/slick/lib/slick.jar">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="game-jam/lib/lwjgl-2.9.3/native/linux"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="game-jam/lib/lwjgl-2.9.3/native/windows"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/lwjgl-2.9.3/jar/lwjgl_util.jar"/>
+	<classpathentry kind="lib" path="lib/joda-time-2.7.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
