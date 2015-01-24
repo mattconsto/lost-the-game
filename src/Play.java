@@ -54,15 +54,30 @@ public class Play extends BasicGameState implements GameState {
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
+		delta = delta/1000;
 		
-		updateCameraPosition(container);
+		updateCameraPosition(container, delta);
 		player.update(delta);
 		gs.update(delta);
 	}
 
-	private void updateCameraPosition(GameContainer container) {
+	private void updateCameraPosition(GameContainer container, int delta) {
 		int mouseX = container.getInput().getMouseX();
 		int mouseY = container.getInput().getMouseY();
+		
+		if(mouseX < 50)
+			ts.getCamera().move(-100*delta, 0);
+		
+		if(mouseY < 50)
+			ts.getCamera().move(0, -100*delta);
+		
+		if(mouseX > container.getWidth()-50)
+			ts.getCamera().move(100*delta, 0);
+		
+		if(mouseY > container.getHeight()-50)
+			ts.getCamera().move(0, 100*delta);
+		
+		//if(ts.getCamera().x < (ts.getSize()*ts.zoomLevel));
 	}
 
 	@Override

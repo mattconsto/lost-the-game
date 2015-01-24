@@ -12,7 +12,7 @@ import Sprite.GroundSprite;
 public class TileSystem {
 	
 	private Camera camera;
-	private float zoomLevel = 1;
+	public float zoomLevel = 1;
 	private int tileRes = 32;
 	private int size;
 	
@@ -22,8 +22,11 @@ public class TileSystem {
 	
 	public enum TileId{
 		GRASS,
+		GRASSWATER,
+		GRASSDIRT,
 		STONE,
 		SAND,
+		SANDWATER,
 		OCEAN,
 		DIRT,
 	}
@@ -50,7 +53,7 @@ public class TileSystem {
 	public TileSystem(int size){
 		this.size = size;
 		tiles = new Tile[size][size];
-		camera = new Camera(0, 0, size);
+		camera = new Camera(0, 0);
 		
 		setTileMap("dg_edging132.gif");
 		
@@ -61,6 +64,14 @@ public class TileSystem {
 		}
 		tiles[5][5] = new Tile(TileId.GRASS, 0);
 		tiles[6][5] = new Tile(TileId.GRASS, 2);
+		tiles[7][5] = new Tile(TileId.GRASS, 2);
+		tiles[8][5] = new Tile(TileId.GRASS, 2);
+		tiles[9][5] = new Tile(TileId.GRASS, 2);
+		tiles[10][5] = new Tile(TileId.GRASS, 2);
+		tiles[7][6] = new Tile(TileId.GRASS, 2);
+		tiles[8][6] = new Tile(TileId.GRASS, 2);
+		tiles[9][6] = new Tile(TileId.GRASS, 2);
+		tiles[10][6] = new Tile(TileId.GRASS, 2);
 		
 		//Change variants
 		//GroundSprite.setVariants(tiles);
@@ -76,6 +87,10 @@ public class TileSystem {
 	
 	public Tile getTileFromScreen(int x, int y){
 		return null;
+	}
+	
+	public int getSize(){
+		return size;
 	}
 	
 	public Vector2f screenToWorldPos(int scX, int scY){
