@@ -33,8 +33,9 @@ public class GameSession {
 		this.crashDate = LocalDateTime.of(year, month, day, hour, minute);
 		
 		for(int i=0; i<NUMBER_AGENTS; i++) {
-			agents.add(new Agent());
+			getAgents().add(new Agent());
 		}
+		this.generateInventory();
 		
 		
 	}
@@ -50,5 +51,30 @@ public class GameSession {
 	
 	public LocalDateTime getDate() {
 		return this.crashDate.plusMinutes(this.timeSurvived);
+	}
+
+	public ArrayList<Agent> getAgents() {
+		return agents;
+	}
+
+	public ArrayList<Item> getItems() {
+		return items;
+	}
+	
+	public void addItem(Item item) {
+		items.add(item);
+	}
+	
+	public void removeItem(Item item) {
+		items.remove(item);
+	}
+	
+	private void generateInventory() {
+		ItemType[] itemTypes = {ItemType.PHONE, ItemType.CLOTH};
+		for(ItemType itemType: itemTypes) {
+			if(Math.random() > 0.8) {
+				addItem(ItemFactory.createItem(itemType));
+			}
+		}
 	}
 }
