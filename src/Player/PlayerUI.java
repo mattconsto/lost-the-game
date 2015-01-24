@@ -75,9 +75,10 @@ public class PlayerUI {
 		float distanceTravelled = (deltaTimeS * gameSpeed * playerWalkSpeedMS)/ tileSizeM ;
 		
 		Vector2f currentDestination = destination;
+		Tile destTile = null;
 		if (destinations.size() > 1)
 		{
-			Tile destTile = destinations.get(destinations.size()-1);
+		    destTile = destinations.get(destinations.size()-1);
 			currentDestination = new Vector2f(destTile.x+0.5f, destTile.y+0.5f);
 		}
 		
@@ -95,9 +96,9 @@ public class PlayerUI {
 		else
 		{
 			location = currentDestination;
-			if (destinations.size() > 0)
+			if (destTile != null)
 			{
-				destinations.removeElement(destinations.size()-1);
+				destinations.removeElement(destTile);
 			}
 			else
 			{
