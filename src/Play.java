@@ -34,7 +34,7 @@ import TileSystem.TileSystem;
 
 public class Play extends BasicGameState implements GameState,
 		PlayerReachedDestinationEvent {
-	
+
 	public static final int STATE_PLAY = 1;
 
 	TileSystem ts;
@@ -50,9 +50,10 @@ public class Play extends BasicGameState implements GameState,
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
-		ts = new TileSystem(new Point(container.getWidth(), container.getHeight()));
-		
-	    new Music("sounds/heart.ogg").loop();
+		ts = new TileSystem(new Point(container.getWidth(),
+				container.getHeight()));
+
+		new Music("sounds/heart.ogg").loop();
 		gs = new GameSession();
 		players = new ArrayList<PlayerUI>();
 		for (int i = 0; i < gs.getAgents().size(); i++) {
@@ -74,12 +75,12 @@ public class Play extends BasicGameState implements GameState,
 			itemImages.put(type, image);
 
 		}
-		
+
 		monsterManager = new MonsterManager(ts, players);
-		
+
 		ts.getCamera().x = players.get(0).location.x;
 		ts.getCamera().y = players.get(0).location.y;
-		
+
 		container.setShowFPS(false);
 	}
 
@@ -93,17 +94,17 @@ public class Play extends BasicGameState implements GameState,
 		for (PlayerUI player : players) {
 			player.render(g);
 		}
-		
+
 		monsterManager.render(g);
-		
+
 		ts.renderFog(g);
-		
-		for(int x = 0; x < ts.size; x++){
-            for(int y = 0; y < ts.size; y++){
-            	Vector2f loc = ts.worldToScreenPos(x+0.5f, y+0.5f);
-            	g.drawString(ts.getTile(x, y).attr.toLetter(),loc.x,loc.y);
-            }
-        }
+
+		for (int x = 0; x < ts.size; x++) {
+			for (int y = 0; y < ts.size; y++) {
+				Vector2f loc = ts.worldToScreenPos(x + 0.5f, y + 0.5f);
+				g.drawString(ts.getTile(x, y).attr.toLetter(), loc.x, loc.y);
+			}
+		}
 
 		// Header vars
 		int header_height = 50;
@@ -163,38 +164,36 @@ public class Play extends BasicGameState implements GameState,
 
 		// Action bar
 		g.setColor(Color.gray);
-		g.drawRect(0, action_bar_y, container.getWidth(),
-				action_bar_height);
+		g.drawRect(0, action_bar_y, container.getWidth(), action_bar_height);
 		g.setColor(Color.lightGray);
-		g.fillRect(0, action_bar_y, container.getWidth(),
-				action_bar_height);
+		g.fillRect(0, action_bar_y, container.getWidth(), action_bar_height);
 
 		// Draw agents
 		int agent_zone_x = 500;
 		List<Agent> agents = gs.getAgents();
 		List<Rectangle> agentZones = new ArrayList<Rectangle>();
 		for (int i = 0; i < agents.size(); i++) {
-			
-			
+
 			int y = ag_y + (i * 50);
 			int pad = 7;
 			Agent agent = agents.get(i);
-			if (agent.getState() != AgentState.DEAD)
-			{
-				g.setColor(Color.gray);
+
+			g.setColor(Color.gray);
+			g.drawRect(ag_x, y, agent_bar_width, 48);
+			g.setColor(Color.lightGray);
+			g.fillRect(ag_x, y, agent_bar_width, 48);
+
+			if (selectedAgent == agent) {
+				g.setColor(Color.red);
 				g.drawRect(ag_x, y, agent_bar_width, 48);
-				g.setColor(Color.lightGray);
-				g.fillRect(ag_x, y, agent_bar_width, 48);
-		
-				if (selectedAgent == agent) {
-					g.setColor(Color.red);
-					g.drawRect(ag_x, y, agent_bar_width, 48);
-				} else {
-		
-				}
-		
-				g.setColor(Color.black);
-				g.drawString(agent.getName(), ag_x + pad, y + pad);
+			} else {
+
+			}
+
+			g.setColor(Color.black);
+			g.drawString(agent.getName(), ag_x + pad, y + pad);
+
+			if (agent.getState() != AgentState.DEAD) {
 				// Draw fills first
 				// health
 				g.setColor(Color.green);
@@ -208,45 +207,48 @@ public class Play extends BasicGameState implements GameState,
 				g.setColor(Color.red);
 				g.fillRect(ag_x + pad + 100, y + 18 + pad,
 						(agent.getFood() * 80) / 100, 16);
-		
+
 				// Draw outlines
 				g.setColor(Color.black);
 				g.drawRect(ag_x + pad, y + 18 + pad, 80, 16);
 				g.drawRect(ag_x + pad + 100, y + pad, 80, 16);
 				g.drawRect(ag_x + pad + 100, y + 18 + pad, 80, 16);
-		
-				if (selectedAgent != agent) {
-					int t_w = g.getFont().getWidth("Play");
-					int t_h = g.getFont().getHeight("Play");
-					int b_w = t_w + 6;
-					int b_h = a_h;
-					int t_y = (a_h - t_h) / 2;
-					int t_x = (b_w - t_w) / 2;
-		
-					int button_offset_x = 10;
-					int button_offset_y = (50 - b_h) / 2;
-		
-					g.setColor(Color.white);
-					g.fillRect(ag_x + agent_bar_width - t_w - button_offset_x
-							- 1, y + button_offset_y - 1, b_w, b_h);
-		
-					g.setColor(Color.darkGray);
-					g.fillRect(ag_x + agent_bar_width - t_w - button_offset_x
-							+ 1, y + button_offset_y + 1, b_w, b_h);
-					g.setColor(Color.lightGray);
-					g.fillRect(ag_x + agent_bar_width - t_w - button_offset_x,
-							y + button_offset_y, b_w, b_h);
-					g.setColor(Color.black);
-					g.drawString("Play", ag_x + agent_bar_width - t_w
-							- button_offset_x + t_x, y + t_y + button_offset_y);
-				}
-				else {
-					stickFigure.draw(ag_x + agent_bar_width - 32, y + 9, 32, 32);
-				}
-				Rectangle rect = new Rectangle(ag_x + pad, y + pad,
-						agent_bar_width, 48);
-				agentZones.add(rect);
+			} else {
+				g.setColor(Color.red);
+				g.drawString("DEAD", ag_x + pad + 100, y + pad);
 			}
+
+			if (selectedAgent != agent) {
+				int t_w = g.getFont().getWidth("Play");
+				int t_h = g.getFont().getHeight("Play");
+				int b_w = t_w + 6;
+				int b_h = a_h;
+				int t_y = (a_h - t_h) / 2;
+				int t_x = (b_w - t_w) / 2;
+
+				int button_offset_x = 10;
+				int button_offset_y = (50 - b_h) / 2;
+
+				g.setColor(Color.white);
+				g.fillRect(ag_x + agent_bar_width - t_w - button_offset_x - 1,
+						y + button_offset_y - 1, b_w, b_h);
+
+				g.setColor(Color.darkGray);
+				g.fillRect(ag_x + agent_bar_width - t_w - button_offset_x + 1,
+						y + button_offset_y + 1, b_w, b_h);
+				g.setColor(Color.lightGray);
+				g.fillRect(ag_x + agent_bar_width - t_w - button_offset_x, y
+						+ button_offset_y, b_w, b_h);
+				g.setColor(Color.black);
+				g.drawString("Play", ag_x + agent_bar_width - t_w
+						- button_offset_x + t_x, y + t_y + button_offset_y);
+			} else {
+				stickFigure.draw(ag_x + agent_bar_width - 32, y + 9, 32, 32);
+			}
+			Rectangle rect = new Rectangle(ag_x + pad, y + pad,
+					agent_bar_width, 48);
+			agentZones.add(rect);
+
 		}
 
 		// Draw inventory
@@ -281,7 +283,6 @@ public class Play extends BasicGameState implements GameState,
 
 		ArrayList<Rectangle> actionZones = new ArrayList<Rectangle>();
 		ArrayList<Action> validActions = new ArrayList<Action>();
-		if (selectedAgent != null && selectedAgent.getState() == AgentState.DEAD) selectedAgent = null;
 		if (selectedAgent != null) {
 
 			// Draw Action Bar (TM)
@@ -315,8 +316,6 @@ public class Play extends BasicGameState implements GameState,
 			}
 		}
 
-		
-		
 		if (input.isMousePressed(0)) {
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
@@ -335,47 +334,43 @@ public class Play extends BasicGameState implements GameState,
 					}
 				}
 
-				for (int i = 0; i < inventoryZones.size(); i++) {
-					Rectangle inventoryZone = inventoryZones.get(i);
-					if (inventoryZone.contains(mouseX, mouseY)) {
-						if (selectedItems.contains(items.get(i))) {
-							selectedItems.remove(items.get(i));
-						} else {
-							selectedItems.add(items.get(i));
+				// Dead agents can't interact with inventory etc.
+				if (selectedAgent.getState() != AgentState.DEAD) {
+					for (int i = 0; i < inventoryZones.size(); i++) {
+						Rectangle inventoryZone = inventoryZones.get(i);
+						if (inventoryZone.contains(mouseX, mouseY)) {
+							if (selectedItems.contains(items.get(i))) {
+								selectedItems.remove(items.get(i));
+							} else {
+								selectedItems.add(items.get(i));
+							}
+						}
+					}
+
+					for (int i = 0; i < actionZones.size(); i++) {
+						Rectangle actionZone = actionZones.get(i);
+						if (actionZone.contains(mouseX, mouseY)) {
+							Action action = validActions.get(i);
+							int player_index = gs.getAgents().indexOf(
+									selectedAgent);
+							action.perform(gs, selectedAgent, ts,
+									players.get(player_index));
+							selectedItems = new ArrayList<Item>();
 						}
 					}
 				}
 
-				for (int i = 0; i < actionZones.size(); i++) {
-					Rectangle actionZone = actionZones.get(i);
-					if (actionZone.contains(mouseX, mouseY)) {
-						Action action = validActions.get(i);
-						int player_index = gs.getAgents()
-								.indexOf(selectedAgent);
-						action.perform(gs, selectedAgent, ts,
-								players.get(player_index));
-						selectedItems = new ArrayList<Item>();
-					}
-				}
-
 			} else {
-				if (selectedAgent != null) {
+				if (selectedAgent != null && selectedAgent.getState() != AgentState.DEAD) {
 					Vector2f pos = ts.screenToWorldPos(mouseX, mouseY);
 					players.get(agents.indexOf(selectedAgent)).moveto(pos.x,
 							pos.y);
-					ts.getCamera().x = players.get(agents.indexOf(selectedAgent)).location.x;
-					ts.getCamera().y = players.get(agents.indexOf(selectedAgent)).location.y;
+					ts.getCamera().x = players.get(agents
+							.indexOf(selectedAgent)).location.x;
+					ts.getCamera().y = players.get(agents
+							.indexOf(selectedAgent)).location.y;
 					ts.getCamera().isFollowing = true;
 				}
-			}
-		}
-
-		if (selectedItems.size() > 0) {
-			for (Item selectedItem : selectedItems) {
-				int i = items.indexOf(selectedItem);
-				int x = inventory_zone_x + (i * f_h) + (i * 6);
-				g.setColor(Color.red);
-				g.drawRect(x - 1, f_y - 1, f_h + 2, f_h + 2);
 			}
 		}
 
@@ -400,13 +395,14 @@ public class Play extends BasicGameState implements GameState,
 		List<Agent> agents = gs.getAgents();
 		List<Rectangle> agentZones = new ArrayList<Rectangle>();
 		for (int i = 0; i < agents.size(); i++) {
-			if(agents.get(i).getHealth() > 0 && agents.get(i).getWater() > 0) {
+			if (agents.get(i).getState() != AgentState.DEAD) {
 				alive = true;
 			}
 		}
-		
-		if(!alive) game.enterState(GameOver.STATE_OVER);
-		
+
+		if (!alive)
+			game.enterState(GameOver.STATE_OVER);
+
 		float seconds = (float) (delta / 1000.0);
 		updateCamera(container, seconds);
 		for (PlayerUI player : players) {
@@ -415,8 +411,8 @@ public class Play extends BasicGameState implements GameState,
 		monsterManager.update(seconds);
 		ts.updateFog(players);
 		gs.update(seconds);
-		
-		if (container.getInput().isKeyDown(Input.KEY_ESCAPE)){
+
+		if (container.getInput().isKeyDown(Input.KEY_ESCAPE)) {
 			container.exit();
 		}
 	}
@@ -433,41 +429,41 @@ public class Play extends BasicGameState implements GameState,
 			ts.zoom(dWheel * delta * 0.06f);
 		}
 
-		if (input.isKeyDown(Input.KEY_LEFT) || input.isKeyDown(Input.KEY_A)){
+		if (input.isKeyDown(Input.KEY_LEFT) || input.isKeyDown(Input.KEY_A)) {
 			ts.getCamera().move(-6 * delta, 0);
 			ts.getCamera().isFollowing = false;
 		}
 
-		if (input.isKeyDown(Input.KEY_UP) || input.isKeyDown(Input.KEY_W)){
+		if (input.isKeyDown(Input.KEY_UP) || input.isKeyDown(Input.KEY_W)) {
 			ts.getCamera().move(0, -6 * delta);
 			ts.getCamera().isFollowing = false;
 		}
 
-		if (input.isKeyDown(Input.KEY_RIGHT) || input.isKeyDown(Input.KEY_D)){
+		if (input.isKeyDown(Input.KEY_RIGHT) || input.isKeyDown(Input.KEY_D)) {
 			ts.getCamera().move(6 * delta, 0);
 			ts.getCamera().isFollowing = false;
 		}
 
-		if (input.isKeyDown(Input.KEY_DOWN) || input.isKeyDown(Input.KEY_S)){
+		if (input.isKeyDown(Input.KEY_DOWN) || input.isKeyDown(Input.KEY_S)) {
 			ts.getCamera().move(0, 6 * delta);
 			ts.getCamera().isFollowing = false;
 		}
-		
-		if(ts.getCamera().x < 0)
+
+		if (ts.getCamera().x < 0)
 			ts.getCamera().x = 0;
-		
-		if(ts.getCamera().y < 0)
+
+		if (ts.getCamera().y < 0)
 			ts.getCamera().y = 0;
-		
-		if(ts.getCamera().x > ts.size)
+
+		if (ts.getCamera().x > ts.size)
 			ts.getCamera().x = ts.size;
-		
-		if(ts.getCamera().y > ts.size)
+
+		if (ts.getCamera().y > ts.size)
 			ts.getCamera().y = ts.size;
-		
-		if(ts.getCamera().isFollowing){
-			for(PlayerUI p : players){
-				if(p.agent == selectedAgent){
+
+		if (ts.getCamera().isFollowing) {
+			for (PlayerUI p : players) {
+				if (p.agent == selectedAgent) {
 					ts.getCamera().x = p.location.x;
 					ts.getCamera().y = p.location.y;
 					break;
@@ -483,7 +479,7 @@ public class Play extends BasicGameState implements GameState,
 
 	@Override
 	public void reachedDestination(PlayerUI pui, float x, float y) {
-		
+
 		// Tile reachedTile = ts.getTileFromWorld(x, y);
 		// if (reachedTile.id == TileId.GRASS) {
 		// gs.addItem(new Grass());
