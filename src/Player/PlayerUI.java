@@ -48,7 +48,7 @@ public class PlayerUI {
 		for(int x = 0; x < ts.size; x++){
             for(int y = 0; y < ts.size; y++){
             
-            Vector2f pos = new Vector2f(x*100+0.5f, y*100+0.5f);
+            Vector2f pos = new Vector2f(x+0.5f, y+0.5f);
             Vector2f worldPos = ts.worldToScreenPos(pos.x, pos.y);
             g.drawString("" + p.distances[x][y],worldPos.x,worldPos.y);
            }}
