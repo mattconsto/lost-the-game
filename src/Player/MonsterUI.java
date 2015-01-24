@@ -170,11 +170,16 @@ public class MonsterUI {
 	private void randomMove()
 	{
 		Random randomGenerator = new Random();
+		
+		//Step 1 - See if we have a local player
+		
+		
+		
 		while(true)
 		{
 			atDestination = false;
 			p = new PathFinder(ts);
-			Vector2f destinationTemp = new Vector2f(location.x + ((float)randomGenerator.nextInt(10))-5, location.y + ((float)randomGenerator.nextInt(10))-5);
+			Vector2f destinationTemp = new Vector2f(location.x + ((float)randomGenerator.nextInt(50)-25), location.y + ((float)randomGenerator.nextInt(50)-25));
 			
 			if (destinationTemp.x >= 0 && destinationTemp.y >= 0 && destinationTemp.x < ts.getSize() && destinationTemp.y < ts.getSize())
 			{
