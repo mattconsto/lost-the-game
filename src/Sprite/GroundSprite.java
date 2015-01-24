@@ -25,7 +25,7 @@ public class GroundSprite {
 
     //returns the location of the tile in grid
     public Point getSprite(TileSystem.TileId tileId, int variant) {
-        return new Point(31*32,1*32);
+        return new Point(32,15*32);
     }
 
     /* Variants for Tile Maps:
