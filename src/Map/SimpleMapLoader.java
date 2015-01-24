@@ -11,6 +11,7 @@ public class SimpleMapLoader {
     private static final String filePath = "map.txt";
 
     public TileSystem.Tile[][] loadMap() throws FileNotFoundException {
+        TileSystem.Tile[][] tiles = null;
         BufferedReader reader = null;
         try {
             File file = new File(filePath);
@@ -22,7 +23,7 @@ public class SimpleMapLoader {
                 throw new Exception("Map has invalid grid size!");
             }
 
-            TileSystem.Tile[][] tiles = new TileSystem.Tile[size][size];
+            tiles = new TileSystem.Tile[size][size];
 
             // Iterate through the file to set the map up.
             for (int x = 0; x < size; x++) {
@@ -47,6 +48,7 @@ public class SimpleMapLoader {
                 //ohgodwhathashappened?
             }
         }
+        return tiles;
     }
 
     private TileSystem.Tile createTile(char mapChar, int x, int y) {
