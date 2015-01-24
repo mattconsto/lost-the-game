@@ -1,5 +1,7 @@
 package TileSystem;
 
+import java.util.List;
+
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -7,6 +9,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Point;
 
+import Player.PlayerUI;
 import Sprite.GroundSprite;
 
 public class TileSystem {
@@ -37,7 +40,7 @@ public class TileSystem {
 		
 		for(int x = 0; x < size; x++){
             for(int y = 0; y < size; y++){
-            	tiles[x][y] = new Tile(TileId.GRASS, x, y, 1);
+            	tiles[x][y] = new Tile(TileId.GRASS, x, y, 0);
             }
 		}
 		tiles[5][5] = new Tile(TileId.GRASS, 5, 5, 0);
@@ -150,14 +153,29 @@ public class TileSystem {
 		}
 	}
 	
-	public void updateFog(Vector2f pos){
-		int xp = (int)pos.x;
-		int yp = (int)pos.y;
-		for(int x = xp - 4; x < xp + 4; x++){
-			for(int y = yp - 4; y < yp + 4; y++){
-				
+	public void updateFog(List<PlayerUI> players){
+		for(int x = 0; x < size; x++){
+            for(int y = 0; y < size; y++){
+            	if(tiles[x][y].vis == 2)
+            		tiles[x][y].vis = 1;
+            }
+		}
+		
+		for(PlayerUI p : players){
+			int xp = (int)p.location.x;
+			int yp = (int)p.location.y;
+			for(int x = xp - 5; x < xp + 5; x++){
+				for(int y = yp - 5; y < yp + 5; y++){
+					if(dist(xp, yp, x, y) <= 4){
+						tiles[x][y].vis = 2;
+					}
+				}
 			}
 		}
+	}
+	
+	private float dist(int x, int y, int x2, int y2){
+		return (float) Math.sqrt((x2-x)*(x2-x)+(y2-y)*(y2-y));
 	}
 	
 	public Camera getCamera(){

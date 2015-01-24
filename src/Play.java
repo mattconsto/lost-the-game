@@ -245,8 +245,8 @@ public class Play extends BasicGameState implements GameState,
 		updateCamera(container, seconds);
 		for (PlayerUI player : players) {
 			player.update(seconds);
-			ts.updateFog(player.location);
 		}
+		ts.updateFog(players);
 		gs.update(seconds);
 	}
 
