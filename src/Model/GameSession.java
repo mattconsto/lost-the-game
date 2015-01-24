@@ -71,11 +71,11 @@ public class GameSession {
 	}
 	
 	private void generateInventory() {
-		ItemType[] itemTypes = {ItemType.PHONE, ItemType.CLOTH, ItemType.LIFEJACKET, ItemType.SNACK};
+		ItemType[] itemTypes = {ItemType.CLOTH, ItemType.LIFEJACKET, ItemType.SNACK};
 		for(ItemType itemType: itemTypes) {
-			if(Math.random() > 0.8) {
+//			if(Math.random() > 0.8) {
 				addItem(ItemFactory.createItem(itemType));
-			}
+//			}
 		}
 	}
 }

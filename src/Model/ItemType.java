@@ -1,12 +1,5 @@
 package Model;
 
 public enum ItemType {
-	PHONE,
-	STICK,
-	ROCK,
-	PLANK,
-	LEAF,
-	MUD,
-	GRASS,
-	CLOTH, LIFEJACKET, SNACK
+	STICK, ROCK, PLANK, LEAF, MUD, GRASS, CLOTH, LIFEJACKET, SNACK
 }

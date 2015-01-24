@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
@@ -17,6 +19,9 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import Model.Agent;
 import Model.GameSession;
+import Model.Item;
+import Model.ItemFactory;
+import Model.ItemType;
 import Player.PlayerUI;
 import TileSystem.TileSystem;
 
@@ -26,7 +31,9 @@ public class Play extends BasicGameState implements GameState {
 	GameSession gs;
 	List<PlayerUI> players;
 	Agent selectedAgent;
+	Item selectedItem;
 	Image stickFigure;
+	Map<ItemType, Image> itemImages;
 
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
@@ -40,6 +47,15 @@ public class Play extends BasicGameState implements GameState {
 		selectedAgent = gs.getAgents().get(0);
 
 		stickFigure = new Image("icons/stickperson.png");
+
+		itemImages = new HashMap<ItemType, Image>();
+		for (ItemType type : ItemType.values()) {
+			Item item = ItemFactory.createItem(type);
+			System.out.println(item.getImageName());
+			Image image = new Image("icons/" + item.getImageName() + ".png");
+			itemImages.put(type, image);
+
+		}
 		container.setShowFPS(false);
 	}
 
@@ -55,7 +71,7 @@ public class Play extends BasicGameState implements GameState {
 		}
 
 		int header_height = 50;
-		
+
 		int footer_height = 60;
 		int footer_y = container.getHeight() - footer_height;
 
@@ -65,8 +81,8 @@ public class Play extends BasicGameState implements GameState {
 		int f_h = footer_height - (2 * footer_pad);
 		int header_pad = 3;
 		int h_y = header_pad;
-		int h_h = header_height - (2*header_pad);
-		
+		int h_h = header_height - (2 * header_pad);
+
 		Rectangle headerRect = new Rectangle(0, 0, container.getWidth(),
 				header_height);
 		Rectangle footerRect = new Rectangle(0, footer_y, container.getWidth(),
@@ -78,10 +94,10 @@ public class Play extends BasicGameState implements GameState {
 		g.setColor(Color.gray);
 		g.drawRoundRect(0, 0, container.getWidth(), header_height, 5);
 		g.setColor(Color.black);
-		g.drawString("" + gs.getDate().toString("dd/MM/yyyy HH:mm"), 5,
-				h_y + header_pad);
-		g.drawString("" + Math.round(gs.getTimeSurvived()/60)+" hour(s) since incident", 5,
-				h_y + header_pad + 18);
+		g.drawString("" + gs.getDate().toString("dd/MM/yyyy HH:mm"), 5, h_y
+				+ header_pad);
+		g.drawString("" + Math.round(gs.getTimeSurvived() / 60)
+				+ " hour(s) since incident", 5, h_y + header_pad + 18);
 
 		// Footer
 		g.setColor(Color.gray);
@@ -101,6 +117,28 @@ public class Play extends BasicGameState implements GameState {
 			agentZones.add(rect);
 		}
 
+		// Draw inventory
+		int inventory_zone_x = 10;
+		List<Item> items = gs.getItems();
+		List<Rectangle> inventoryZones = new ArrayList<Rectangle>();
+		g.setColor(Color.black);
+		for (int i = 0; i < 10; i++) {
+
+			int x = inventory_zone_x + (i * f_h) + (i * 6);
+			if (i < items.size()) {
+				itemImages.get(items.get(i).getType()).draw(x, f_y, f_h, f_h);
+
+				Rectangle rect = new Rectangle(x, f_y, f_h, f_h);
+				inventoryZones.add(rect);
+			}
+			else {
+				g.setColor(Color.black);
+				g.fillRect(x, f_y, f_h, f_h);
+			}
+			g.setColor(Color.darkGray);
+			g.drawRect(x - 1, f_y - 1, f_h + 2, f_h + 2);
+		}
+
 		if (input.isMousePressed(0)) {
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
@@ -113,8 +151,20 @@ public class Play extends BasicGameState implements GameState {
 				for (int i = 0; i < agentZones.size(); i++) {
 					Rectangle agentZone = agentZones.get(i);
 					if (agentZone
-							.contains(input.getMouseX(), input.getMouseY())) {
+							.contains(mouseX, mouseY)) {
 						selectedAgent = agents.get(i);
+					}
+				}
+				
+				for(int i=0; i<inventoryZones.size(); i++) {
+					Rectangle inventoryZone = inventoryZones.get(i);
+					if(inventoryZone.contains(mouseX, mouseY)) {
+						if(selectedItem == items.get(i)) {
+							selectedItem = null;
+						}
+						else {
+							selectedItem = items.get(i);
+						}
 					}
 				}
 
@@ -125,6 +175,13 @@ public class Play extends BasicGameState implements GameState {
 							pos.y);
 				}
 			}
+		}
+		
+		if(selectedItem != null) {
+			int i = items.indexOf(selectedItem);
+			int x = inventory_zone_x + (i * f_h) + (i * 6);
+			g.setColor(Color.red);
+			g.drawRect(x - 1, f_y - 1, f_h + 2, f_h + 2);
 		}
 
 		if (selectedAgent != null) {
@@ -139,25 +196,30 @@ public class Play extends BasicGameState implements GameState {
 			int detail_x = 580;
 			int detail_pad = 3;
 			int graphs_x = detail_x + detail_pad + 100;
-			g.drawRoundRect(detail_x, f_y, container.getWidth()-footer_pad-detail_x, f_h, 3);
-			g.drawString(selectedAgent.getName(), detail_x+detail_pad, f_y+detail_pad);
-			
+			g.drawRoundRect(detail_x, f_y, container.getWidth() - footer_pad
+					- detail_x, f_h, 3);
+			g.drawString(selectedAgent.getName(), detail_x + detail_pad, f_y
+					+ detail_pad);
+
 			// Draw fills first
 			// health
 			g.setColor(Color.green);
-			g.fillRect(detail_x+detail_pad, f_y+detail_pad+18, (selectedAgent.getHealth()*80)/100, 16);
+			g.fillRect(detail_x + detail_pad, f_y + detail_pad + 18,
+					(selectedAgent.getHealth() * 80) / 100, 16);
 			// thirst
 			g.setColor(Color.blue);
-			g.fillRect(graphs_x, f_y+detail_pad, (selectedAgent.getThirst()*80)/100, 16);
+			g.fillRect(graphs_x, f_y + detail_pad,
+					(selectedAgent.getThirst() * 80) / 100, 16);
 			// hunger
 			g.setColor(Color.red);
-			g.fillRect(graphs_x, f_y+detail_pad+18, (selectedAgent.getHunger()*80)/100, 16);
+			g.fillRect(graphs_x, f_y + detail_pad + 18,
+					(selectedAgent.getHunger() * 80) / 100, 16);
 
 			// Draw outlines
 			g.setColor(Color.black);
-			g.drawRect(detail_x+detail_pad, f_y+detail_pad+18, 80, 16);
-			g.drawRect(graphs_x, f_y+detail_pad, 80, 16);
-			g.drawRect(graphs_x, f_y+detail_pad+18, 80, 16);
+			g.drawRect(detail_x + detail_pad, f_y + detail_pad + 18, 80, 16);
+			g.drawRect(graphs_x, f_y + detail_pad, 80, 16);
+			g.drawRect(graphs_x, f_y + detail_pad + 18, 80, 16);
 		}
 
 	}
@@ -185,22 +247,23 @@ public class Play extends BasicGameState implements GameState {
 		else if (dWheel > 0) {
 			ts.setZoom(ts.zoomLevel + dWheel * delta * 0.06f, new Point(container.getWidth(), container.getHeight()));
 		}
-		
-		if(/*mouseX < 50 ||*/ input.isKeyDown(Input.KEY_LEFT))
-			ts.getCamera().move(-160*delta, 0);
-		
-		if(/*mouseY < 50 ||*/ input.isKeyDown(Input.KEY_UP))
-			ts.getCamera().move(0, -160*delta);
-		
-		if(/*mouseX > container.getWidth()-50 ||*/ input.isKeyDown(Input.KEY_RIGHT))
-			ts.getCamera().move(160*delta, 0);
-		
-		if(/*mouseY > container.getHeight()-50 ||*/ input.isKeyDown(Input.KEY_DOWN))
-			ts.getCamera().move(0, 160*delta);
-		
-		//if(ts.getCamera().x < );
+
+		if (/* mouseX < 50 || */input.isKeyDown(Input.KEY_LEFT))
+			ts.getCamera().move(-160 * delta, 0);
+
+		if (/* mouseY < 50 || */input.isKeyDown(Input.KEY_UP))
+			ts.getCamera().move(0, -160 * delta);
+
+		if (/* mouseX > container.getWidth()-50 || */input
+				.isKeyDown(Input.KEY_RIGHT))
+			ts.getCamera().move(160 * delta, 0);
+
+		if (/* mouseY > container.getHeight()-50 || */input
+				.isKeyDown(Input.KEY_DOWN))
+			ts.getCamera().move(0, 160 * delta);
+
 	}
-	
+
 	@Override
 	public int getID() {
 		return LostGame.STATE_PLAY;

@@ -22,7 +22,7 @@ public class PlayerUI {
 	boolean atDestination = true;
 	
 	float playerWalkSpeedMS = 1.4f;		//average walk speed 1.4m per second
-	float tileSizeM = 10.0f;			//Tile is 100m across
+	float tileSizeM = 100.0f;			//Tile is 100m across
 	float gameSpeed = 3600/30;			//Game is 30s is one hour 3600s is 30s => 120s per 1s
 	
 	public PlayerUI(TileSystem tsIn){
@@ -33,7 +33,8 @@ public class PlayerUI {
 	public void moveto(float destinationX, float destinationY){
 		atDestination = false;
 		p = new PathFinder(ts);
-		p.findPath(location, new Vector2f(destinationX, destinationY));
+		destination = new Vector2f(destinationX, destinationY);
+		destinations = p.findPath(location, destination);
 	}
 	
 	public void render(Graphics g){
@@ -45,26 +46,39 @@ public class PlayerUI {
 		g.setColor(new Color(0,255,0));
 		g.drawLine(screenLocation.x, screenLocation.y, screenLocationDest.x, screenLocationDest.y);
 		
+		g.setColor(new Color(0,0,255));
+		for(int i =0; i < destinations.size(); i++)
+		{
+			Tile dest = destinations.get(i);
+			Vector2f pos = new Vector2f(dest.x+0.5f, dest.y+0.5f);
+            Vector2f worldPos = ts.worldToScreenPos(pos.x, pos.y);
+            g.drawString("" + p.distances[dest.x][dest.y],worldPos.x,worldPos.y);
+		}
+		
 		for(int x = 0; x < ts.size; x++){
             for(int y = 0; y < ts.size; y++){
             
             Vector2f pos = new Vector2f(x+0.5f, y+0.5f);
             Vector2f worldPos = ts.worldToScreenPos(pos.x, pos.y);
-            g.drawString("" + p.distances[x][y],worldPos.x,worldPos.y);
+          //  g.drawString("" + p.distances[x][y],worldPos.x,worldPos.y);
            }}
+		
+		
 	}
 	
 	public void update(float deltaTime) {
 		if (atDestination) return;
+		
 		
 		//Some basic movement code - a bit elaborate tbh
 		float deltaTimeS = (float)deltaTime;
 		float distanceTravelled = (deltaTimeS * gameSpeed * playerWalkSpeedMS)/ tileSizeM ;
 		
 		Vector2f currentDestination = destination;
+		Tile destTile = null;
 		if (destinations.size() > 1)
 		{
-			Tile destTile = destinations.get(destinations.size()-1);
+		    destTile = destinations.get(destinations.size()-1);
 			currentDestination = new Vector2f(destTile.x+0.5f, destTile.y+0.5f);
 		}
 		
@@ -81,9 +95,10 @@ public class PlayerUI {
 		}
 		else
 		{
-			if (destinations.size() > 0)
+			location = currentDestination;
+			if (destTile != null)
 			{
-				destinations.removeElement(destinations.size()-1);
+				destinations.removeElement(destTile);
 			}
 			else
 			{
@@ -94,6 +109,8 @@ public class PlayerUI {
 			}
 		
 		}
+		
+		
 	}
 	
     protected Vector<PlayerReachedDestinationEvent> _listeners;
@@ -144,8 +161,8 @@ public class PlayerUI {
     
     	public Vector<Tile> findPath(Vector2f start, Vector2f end)
     	{
-    		Tile startTile = ts.getTile(10, 10);//s.getTileFromWorld(start.x,start.y);
-    		Tile endTile = ts.getTile(90,90);//ts.getTileFromWorld(end.x, end.y);
+    		Tile startTile = ts.getTileFromWorld(start.x,start.y);
+    		Tile endTile = ts.getTileFromWorld(end.x, end.y);
    
     		if (startTile == null)
     			throw new IllegalArgumentException("Start tile is nothing !!!");
@@ -157,7 +174,7 @@ public class PlayerUI {
     		
     		setDistances(startTile, 0);
     		
-    		Vector<Tile> tiles = new Vector<Tile>();//getPath(startTile, endTile);
+    		Vector<Tile> tiles = getPath(startTile, endTile);
     		
     		return tiles;
     	}
@@ -171,9 +188,9 @@ public class PlayerUI {
     		{
     			tiles.add(currentTile);
     		    currentTile = getNextTile(currentTile);
-    		}while (currentTile != startTile);
-    		
-    		return tiles;
+    		   // System.out.println(currentTile.x + ", " + currentTile.y + " - " + distances[currentTile.x][currentTile.y]);
+    		    if (currentTile == startTile) return tiles;
+    		}while (true);
     	}
 
     	private Tile getNextTile(Tile currentTile)
@@ -186,7 +203,7 @@ public class PlayerUI {
     			int dist = distances[tile.x][tile.y];
     			if (dist < min)
     			{
-    				dist = min;
+    				 min=dist;
     				minTile = tile;
     			}
     		}
@@ -196,7 +213,7 @@ public class PlayerUI {
     			int dist = distances[tile.x][tile.y];
     			if (dist < min)
     			{
-    				dist = min;
+    				 min=dist;
     				minTile = tile;
     			}
     		}
@@ -206,7 +223,7 @@ public class PlayerUI {
     			int dist = distances[tile.x][tile.y];
     			if (dist < min)
     			{
-    				dist = min;
+    				 min=dist;
     				minTile = tile;
     			}
     		}
@@ -216,7 +233,7 @@ public class PlayerUI {
     			int dist = distances[tile.x][tile.y];
     			if (dist < min)
     			{
-    				dist = min;
+    				 min=dist;
     				minTile = tile;
     			}
     		}
