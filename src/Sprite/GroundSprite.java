@@ -117,8 +117,8 @@ public class GroundSprite {
                 add(new Point(2, 4 + 2));// ┘
                 // 1 Side Adjacent Dirt
                 add(new Point(1, 4 + 0));// ┬
-                add(new Point(3, 4 + 1));// ├
-                add(new Point(0, 4 + 1));// ┤
+                add(new Point(0, 4 + 1));// ├
+                add(new Point(3, 4 + 1));// ┤
                 add(new Point(1, 4 + 3));// ┴
                 // 2 Side Adjacent Dirt
                 add(new Point(0, 4 + 0));// ┌
