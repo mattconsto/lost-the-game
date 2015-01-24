@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Color;
+import org.newdawn.slick.Image;
 import org.lwjgl.util.vector.Vector2f;
 
 import Model.Agent;
@@ -30,6 +31,8 @@ public class PlayerUI {
 		agent = agentIn;
 		ts = tsIn;
 		p = new PathFinder(ts);
+		
+		Image image = new Image("player/walking1.png");
 	}
 	
 	public void moveto(float destinationX, float destinationY){
