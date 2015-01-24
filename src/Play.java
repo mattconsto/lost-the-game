@@ -1,6 +1,3 @@
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -52,7 +49,7 @@ public class Play extends BasicGameState implements GameState {
 		g.setColor(Color.lightGray);
 		g.fillRoundRect(0, footer_y, container.getWidth(), container.getHeight(), 5);
 		g.setColor(Color.black);
-		g.drawString(""+gs.getDate().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)), 5,footer_y+5);
+		//g.drawString(""+gs.getDate().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)), 5,footer_y+5);
 	}
 
 	@Override

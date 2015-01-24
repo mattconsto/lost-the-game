@@ -1,5 +1,5 @@
 package Model;
-import java.time.LocalDateTime;
+//import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 
@@ -15,7 +15,7 @@ public class GameSession {
 	// Game time in minutes
 	private long timeSurvived;
 	// When we 'crashed'
-	private LocalDateTime crashDate;
+	//private LocalDateTime crashDate;
 
 	private ArrayList<Item> items;
 	private ArrayList<Agent> agents;
@@ -30,7 +30,7 @@ public class GameSession {
 		int day = (int)Math.ceil(Math.random()*27);
 		int hour = (int)(Math.random()*24);
 		int minute = (int)(Math.random()*60);
-		this.crashDate = LocalDateTime.of(year, month, day, hour, minute);
+		//this.crashDate = LocalDateTime.of(year, month, day, hour, minute);
 		
 		for(int i=0; i<NUMBER_AGENTS; i++) {
 			getAgents().add(new Agent());
@@ -49,9 +49,9 @@ public class GameSession {
 		return this.timeSurvived;
 	}
 	
-	public LocalDateTime getDate() {
-		return this.crashDate.plusMinutes(this.timeSurvived);
-	}
+//	public LocalDateTime getDate() {
+//		return this.crashDate.plusMinutes(this.timeSurvived);
+//	}
 
 	public ArrayList<Agent> getAgents() {
 		return agents;

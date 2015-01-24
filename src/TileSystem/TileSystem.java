@@ -26,7 +26,7 @@ public class TileSystem {
 		GRASSDIRT,
 		STONE,
 		SAND,
-		SANDWATER,
+		DIRTWATER,
 		OCEAN,
 		DIRT,
 	}
@@ -35,13 +35,14 @@ public class TileSystem {
 		TileId id;
 		int variant = -1;
 		int vis = 0; //0 = unseen, 1 = seen, 2 = visible
+		int x, y;
 		
-		public Tile(TileId id, int vis){
+		public Tile(TileId id, int x, int y, int vis){
 			this.id = id;
 			this.vis = vis;
 		}
 		
-		public Tile(TileId id, int vis, int variant){
+		public Tile(TileId id, int x, int y, int vis, int variant){
 			this.id = id;
 			this.vis = vis;
 			this.variant = variant;
@@ -59,19 +60,19 @@ public class TileSystem {
 		
 		for(int x = 0; x < size; x++){
             for(int y = 0; y < size; y++){
-            	tiles[x][y] = new Tile(TileId.GRASS, 1);
+            	tiles[x][y] = new Tile(TileId.GRASS, x, y, 1);
             }
 		}
-		tiles[5][5] = new Tile(TileId.GRASS, 0);
-		tiles[6][5] = new Tile(TileId.GRASS, 2);
-		tiles[7][5] = new Tile(TileId.GRASS, 2);
-		tiles[8][5] = new Tile(TileId.GRASS, 2);
-		tiles[9][5] = new Tile(TileId.GRASS, 2);
-		tiles[10][5] = new Tile(TileId.GRASS, 2);
-		tiles[7][6] = new Tile(TileId.GRASS, 2);
-		tiles[8][6] = new Tile(TileId.GRASS, 2);
-		tiles[9][6] = new Tile(TileId.GRASS, 2);
-		tiles[10][6] = new Tile(TileId.GRASS, 2);
+		tiles[5][5] = new Tile(TileId.GRASS, 5, 5, 0);
+		tiles[6][5] = new Tile(TileId.GRASS, 6, 5, 2);
+		tiles[7][5] = new Tile(TileId.GRASS, 7, 5, 2);
+		tiles[8][5] = new Tile(TileId.GRASS, 8, 5, 2);
+		tiles[9][5] = new Tile(TileId.GRASS, 9, 5, 2);
+		tiles[10][5] = new Tile(TileId.GRASS, 10, 5, 2);
+		tiles[7][6] = new Tile(TileId.GRASS, 7, 5, 2);
+		tiles[8][6] = new Tile(TileId.GRASS, 8, 5, 2);
+		tiles[9][6] = new Tile(TileId.GRASS, 9, 5, 2);
+		tiles[10][6] = new Tile(TileId.GRASS, 10, 5, 2);
 		
 		//Change variants
 		//GroundSprite.setVariants(tiles);

@@ -15,7 +15,7 @@ public class GroundSprite {
     //returns the location of the tile in grid
     public static Point getSprite(TileSystem.TileId tileId, int variant) {
         if (variant == -1) {
-            variant = 4;
+            variant = 0;
         }
         if (tileToLocation.containsKey(tileId)) {
             ArrayList<Point> variants = tileToLocation.get(tileId);
