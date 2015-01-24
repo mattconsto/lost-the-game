@@ -37,7 +37,7 @@ public class TileSystem {
 	public TileSystem(){
 		SimpleMapLoader loader = new SimpleMapLoader();
 
-		this.size = 100;
+		this.size = 184;
 		tiles = new Tile[size][size];
 		camera = new Camera(0, 0);
 		
