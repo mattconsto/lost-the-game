@@ -22,7 +22,7 @@ public class PerlinMapGenerator {
         boolean[][] land   = new boolean[mapWidth][mapHeight];
         float[][]   height = new float[mapWidth][mapHeight];
         
-        PerlinNoiseGenerator gen = new PerlinNoiseGenerator(new Random().nextInt(Integer.MAX_VALUE));
+        PerlinNoiseGenerator gen = new PerlinNoiseGenerator(4);
         
         // Generate a circle and create inlets
         for(int x = 0; x < land.length; x++) {
