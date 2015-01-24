@@ -18,7 +18,6 @@ import TileSystem.TileSystem.TileId;
 public class MonsterUI {
 
 	TileSystem ts;
-	PathFinder p;
 	public Agent agent;
 	
 	public Vector2f location = new Vector2f(34,29);
@@ -36,7 +35,7 @@ public class MonsterUI {
 	{
 		agent = agentIn;
 		ts = tsIn;
-		p = new PathFinder(ts);
+		
 		
 		Image playerImage = new Image("player/walking1.png");
 		
@@ -170,31 +169,49 @@ public class MonsterUI {
 	private void randomMove()
 	{
 		Random randomGenerator = new Random();
+		PathFinder p = new PathFinder(ts, location);
 		
 		//Step 1 - See if we have a local player
-		
-		
-		
-		while(true)
+	/*	for (PlayerUI player : players)
 		{
-			atDestination = false;
-			p = new PathFinder(ts);
-			Vector2f destinationTemp = new Vector2f(location.x + ((float)randomGenerator.nextInt(50)-25), location.y + ((float)randomGenerator.nextInt(50)-25));
-			
-			if (destinationTemp.x >= 0 && destinationTemp.y >= 0 && destinationTemp.x < ts.getSize() && destinationTemp.y < ts.getSize())
+			Vector2f playerLocation;
+			float difX = location.x - playerLocation.x;
+			float difY = location.y - playerLocation.y;
+			float distToPlayer = (float)Math.sqrt((difX*difX)+(difY*difY));
+			if (distToPlayer < 0)
 			{
-				Tile destTile = ts.getTileFromWorld(destinationTemp.x, destinationTemp.y);
+				Tile destTile = ts.getTileFromWorld(playerLocation.x, playerLocation.y);
 				if (destTile.id != TileId.WATER)
 				{
-			
-					Vector<Tile> destinationsTemp = p.findPath(location, destinationTemp);
+					Vector<Tile> destinationsTemp = p.findPath(destinationTemp);
 					if (hasNoWater(destinationsTemp))
 					{
 						destinations = destinationsTemp;	
 						return;
 					}
 				}
+				
 			}
+		}*/
+		
+		
+		
+		while(true)
+		{
+			atDestination = false;
+			
+			Vector2f destinationTemp = new Vector2f(randomGenerator.nextInt(ts.getSize()), ((float)randomGenerator.nextInt(ts.getSize())));
+		
+				Tile destTile = ts.getTileFromWorld(destinationTemp.x, destinationTemp.y);
+				if (destTile.id != TileId.WATER)
+				{
+					Vector<Tile> destinationsTemp = p.findPath(destinationTemp);
+					if (hasNoWater(destinationsTemp))
+					{
+						destinations = destinationsTemp;	
+						return;
+					}
+				}
 		}
 	}
 	
