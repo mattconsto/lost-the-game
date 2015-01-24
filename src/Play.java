@@ -1,3 +1,4 @@
+import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -32,7 +33,6 @@ public class Play extends BasicGameState implements GameState {
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
 		
-		
 		//Test code
 		ts.render(g);
 		player.render(g);
@@ -64,29 +64,35 @@ public class Play extends BasicGameState implements GameState {
 			throws SlickException {
 		float seconds = (float)(delta/1000.0);
 		
-		updateCameraPosition(container, seconds);
+		updateCamera(container, seconds);
 		player.update(seconds);
 		gs.update(seconds);
 	}
 
-	private void updateCameraPosition(GameContainer container, float delta) {
+	private void updateCamera(GameContainer container, float delta) {
 		Input input = container.getInput();
-		int mouseX = container.getInput().getMouseX();
-		int mouseY = container.getInput().getMouseY();
+		int mouseX = input.getMouseX();
+		int mouseY = input.getMouseY();
+		int dWheel = Mouse.getDWheel();
+		if(dWheel < 0)
+			ts.zoomLevel += dWheel * delta * 0.02f;
+		else if(dWheel > 0){
+			ts.zoomLevel += dWheel * delta * 0.02f;
+		}
 		
 		if(mouseX < 50 || input.isKeyDown(Input.KEY_LEFT))
-			ts.getCamera().move(-100*delta, 0);
+			ts.getCamera().move(-160*delta, 0);
 		
 		if(mouseY < 50 || input.isKeyDown(Input.KEY_UP))
-			ts.getCamera().move(0, -100*delta);
+			ts.getCamera().move(0, -160*delta);
 		
 		if(mouseX > container.getWidth()-50 || input.isKeyDown(Input.KEY_RIGHT))
-			ts.getCamera().move(100*delta, 0);
+			ts.getCamera().move(160*delta, 0);
 		
 		if(mouseY > container.getHeight()-50 || input.isKeyDown(Input.KEY_DOWN))
-			ts.getCamera().move(0, 100*delta);
+			ts.getCamera().move(0, 160*delta);
 		
-		//if(ts.getCamera().x < (ts.getSize()*ts.zoomLevel));
+		//if(ts.getCamera().x < );
 	}
 
 	@Override

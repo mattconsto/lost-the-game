@@ -87,11 +87,18 @@ public class TileSystem {
 	}
 	
 	public Tile getTileFromScreen(int x, int y){
+		
 		return null;
 	}
 	
 	public int getSize(){
 		return size;
+	}
+	
+	public Tile getTileFromWorld(float x, float y){
+		if(x > size || x < 0 || y > size || y < size)
+			return null;
+		return tiles[(int)x][(int)y];
 	}
 	
 	public Vector2f screenToWorldPos(int scX, int scY){
@@ -117,8 +124,8 @@ public class TileSystem {
 		
 		for(int x = 0; x < size; x++){
             for(int y = 0; y < size; y++){
-            	finalX = (x*resTimesScale)+camera.x;
-            	finalY = (y*resTimesScale)+camera.y;
+            	finalX = (x*resTimesScale)-camera.x;
+            	finalY = (y*resTimesScale)-camera.y;
             	Point src = GroundSprite.getSprite(tiles[x][y].id, tiles[x][y].variant);
             	g.drawImage(tileMap, finalX, finalY, finalX+resTimesScale, finalY+resTimesScale, src.getX(), src.getY(), src.getX()+tileRes, src.getY()+tileRes);
             }
@@ -131,8 +138,8 @@ public class TileSystem {
 		
 		for(int x = 0; x < size; x++){
             for(int y = 0; y < size; y++){
-            	finalX = (x*resTimesScale)+camera.x;
-            	finalY = (y*resTimesScale)+camera.y;
+            	finalX = (x*resTimesScale)-camera.x;
+            	finalY = (y*resTimesScale)-camera.y;
             	switch(tiles[x][y].vis){
 	            	case 0:
 	            		g.setColor(Color.black);
