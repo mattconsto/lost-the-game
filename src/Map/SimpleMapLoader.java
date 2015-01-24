@@ -56,6 +56,13 @@ public class SimpleMapLoader {
         switch(mapChar) {
             case 'M':
                 return new Tile(TileSystem.TileId.WATER,x,y,2);
+
+            case '7':
+            case 'I':
+            case '?':
+            case '+':
+            case '=':
+                return new Tile(TileSystem.TileId.GRASS,x,y,2);
             default:
                 return new Tile(TileSystem.TileId.DIRT,x,y,2);
         }
