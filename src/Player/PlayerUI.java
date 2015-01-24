@@ -1,16 +1,21 @@
+package Player;
 import java.util.Vector;
+
+import org.newdawn.slick.Graphics;
+
+import TileSystem.TileSystem;
 
 
 public class PlayerUI {
 
-	public PlayerUI(String name) {
+	public PlayerUI(TileSystem ts) {
 	}
 	
 	public void moveto(int x, int y){
 	
 	}
 	
-	public void render(){
+	public void render(Graphics g){
 		
 	}
 	
