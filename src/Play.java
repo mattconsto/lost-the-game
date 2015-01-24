@@ -22,15 +22,17 @@ public class Play extends BasicGameState implements GameState {
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
-		ts.renderGroundTiles();
+		
+		//Test code
+		ts.render(g);
 		
 		// Header
-		g.setColor(Color.gray);
-		g.drawRoundRect(0, 0, container.getWidth(), 25, 5);
 		g.setColor(Color.lightGray);
 		g.fillRoundRect(0, 0, container.getWidth(), 25, 5);
+		g.setColor(Color.gray);
+		g.drawRoundRect(0, 0, container.getWidth(), 25, 5);
+		
 		// Footer
-
 		g.setColor(Color.gray);
 		g.drawRoundRect(0, container.getHeight()-25, container.getWidth(), container.getHeight(), 5);
 		g.setColor(Color.lightGray);
