@@ -28,7 +28,11 @@ public class TileSystem {
 	
 	public class Tile{
 		public TileId id;
+
+		// The Variant and Touching are purely aesthetic
+		public TileId touching = null;
 		public int variant = -1;
+
 		public int vis = 0; //0 = unseen, 1 = seen, 2 = visible
 		public int x, y;
 		
@@ -135,7 +139,7 @@ public class TileSystem {
             for(int y = 0; y < size; y++){
             	finalX = (x*resTimesScale)-camera.x;
             	finalY = (y*resTimesScale)-camera.y;
-            	Point src = GroundSprite.getSprite(tiles[x][y].id, tiles[x][y].variant);
+            	Point src = GroundSprite.getSprite(tiles[x][y].id, tiles[x][y].touching, tiles[x][y].variant);
             	g.drawImage(tileMap, finalX, finalY, finalX+resTimesScale, finalY+resTimesScale, src.getX(), src.getY(), src.getX()+tileRes, src.getY()+tileRes);
             }
         }
