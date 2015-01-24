@@ -5,7 +5,6 @@ import Model.item.Grass;
 import Model.item.Leaf;
 import Model.item.LifeJacket;
 import Model.item.Mud;
-import Model.item.Phone;
 import Model.item.Plank;
 import Model.item.Rock;
 import Model.item.Snack;
@@ -14,8 +13,6 @@ import Model.item.Stick;
 public class ItemFactory {
 	public static Item createItem(ItemType type) {
 		switch(type) {
-		case PHONE:
-			return new Phone();
 		case STICK:
 			return new Stick();
 		case ROCK:
