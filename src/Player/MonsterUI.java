@@ -226,9 +226,11 @@ public class MonsterUI {
 		while(true)
 		{
 			atDestination = false;
-			
-			Vector2f destinationTemp = new Vector2f(randomGenerator.nextInt(ts.getSize()), ((float)randomGenerator.nextInt(ts.getSize())));
-		
+			float randX = location.x+randomGenerator.nextInt(30)-15;
+			float randY = location.y+randomGenerator.nextInt(30)-15;
+			Vector2f destinationTemp = new Vector2f(randX,randY);
+			if (destinationTemp.x >=0 && destinationTemp.y >=0 && destinationTemp.x < ts.getSize() && destinationTemp.y < ts.getSize())
+			{
 				Tile destTile = ts.getTileFromWorld(destinationTemp.x, destinationTemp.y);
 				if (destTile.id != TileId.WATER)
 				{
@@ -239,6 +241,7 @@ public class MonsterUI {
 						return;
 					}
 				}
+			}
 		}
 	}
 	
