@@ -325,18 +325,16 @@ public class Play extends BasicGameState implements GameState,
 					container.getWidth(), container.getHeight()));
 		}
 
-		if (/* mouseX < 50 || */input.isKeyDown(Input.KEY_LEFT))
+		if (/* mouseX < 50 || */input.isKeyDown(Input.KEY_LEFT) || input.isKeyDown(Input.KEY_A))
 			ts.getCamera().move(-160 * delta, 0);
 
-		if (/* mouseY < 50 || */input.isKeyDown(Input.KEY_UP))
+		if (/* mouseY < 50 || */input.isKeyDown(Input.KEY_UP) || input.isKeyDown(Input.KEY_W))
 			ts.getCamera().move(0, -160 * delta);
 
-		if (/* mouseX > container.getWidth()-50 || */input
-				.isKeyDown(Input.KEY_RIGHT))
+		if (/* mouseX > container.getWidth()-50 || */input.isKeyDown(Input.KEY_RIGHT) || input.isKeyDown(Input.KEY_D))
 			ts.getCamera().move(160 * delta, 0);
 
-		if (/* mouseY > container.getHeight()-50 || */input
-				.isKeyDown(Input.KEY_DOWN))
+		if (/* mouseY > container.getHeight()-50 || */input.isKeyDown(Input.KEY_DOWN) || input.isKeyDown(Input.KEY_S))
 			ts.getCamera().move(0, 160 * delta);
 
 	}

@@ -24,7 +24,7 @@ public class TileSystem {
 	
 	private Image tileMap;
 	
-	private final Color semi = new Color(0, 0, 0, 0.5f);
+	private final Color semi = new Color(0, 0, 0, 0.3f);
 
 	public enum TileId{
 		GRASS,
