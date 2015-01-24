@@ -11,6 +11,7 @@ import org.lwjgl.util.vector.Vector2f;
 import Model.Agent;
 import TileSystem.TileSystem;
 import TileSystem.Tile;
+import TileSystem.TileSystem.TileId;
 
 
 public class PlayerUI {
@@ -125,8 +126,7 @@ public class PlayerUI {
 		
 		animationFrame += deltaTime*5;
 		//Some basic movement code - a bit elaborate tbh
-		float deltaTimeS = (float)deltaTime;
-		float distanceTravelled = (deltaTimeS * gameSpeed * playerWalkSpeedMS)/ tileSizeM ;
+		
 		
 		Vector2f currentDestination = destination;
 		Tile destTile = null;
@@ -135,6 +135,18 @@ public class PlayerUI {
 		    destTile = destinations.get(destinations.size()-1);
 			currentDestination = new Vector2f(destTile.x+0.5f, destTile.y+0.5f);
 		}
+		
+		if (ts.getTileFromWorld(location.x, location.y).id == TileId.WATER)
+		{
+			playerWalkSpeedMS = 0.3f;
+		}
+		else
+		{
+			playerWalkSpeedMS = 1.4f;
+		}
+		
+		float deltaTimeS = (float)deltaTime;
+		float distanceTravelled = (deltaTimeS * gameSpeed * playerWalkSpeedMS)/ tileSizeM ;
 		
 		//Move the player
 		Vector2f directionVec = new Vector2f(currentDestination.x - location.x, currentDestination.y-location.y);
