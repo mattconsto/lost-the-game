@@ -114,12 +114,12 @@ public class TileSystem {
 		if (newZoom <= 0.5f)
 			newZoom = 0.5f;
 		if(newZoom != this.zoomLevel){
-			Vector2f focus = screenToWorldPos((int)windowSize.getX()/2, (int)windowSize.getY()/2);
 			this.zoomLevel = newZoom;
-			Vector2f dest = worldToScreenPos(focus.getX(), focus.getY());
-			camera.x = dest.getX() - windowSize.getX()/2;
-			camera.y = dest.getY() - windowSize.getY()/2;
+			camera.x += ((tileRes*zoomChange)*(windowSize.getX()/(tileRes*newZoom)))/2;
+			camera.y += ((tileRes*zoomChange)*(windowSize.getY()/(tileRes*newZoom)))/2;
 		}
+//		camera.x += (windowSize.getX()/tileRes*zoomChange);
+//		camera.y += (windowSize.getY()/tileRes*zoomChange);
 	}
 	
 	public void render(Graphics g){
