@@ -3,6 +3,7 @@ import java.util.Enumeration;
 import java.util.Vector;
 
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Color;
 import org.lwjgl.util.vector.Vector2f;
 
 import TileSystem.TileSystem;
@@ -35,7 +36,12 @@ public class PlayerUI {
 	
 	public void render(Graphics g){
 		Vector2f screenLocation = ts.worldToScreenPos(location.x, location.y);
-		g.fillOval(screenLocation.x,screenLocation.y, 10, 10);
+		g.setColor(new Color(255,0,0));
+		g.fillOval(screenLocation.x-5,screenLocation.y-5, 10, 10);
+		
+		Vector2f screenLocationDest = ts.worldToScreenPos(destination.x, destination.y);
+		g.setColor(new Color(0,255,0));
+		g.drawLine(screenLocation.x, screenLocation.y, screenLocationDest.x, screenLocationDest.y);
 	}
 	
 	public void update(float deltaTime) {
