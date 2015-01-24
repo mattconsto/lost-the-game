@@ -1,16 +1,13 @@
 package TileSystem;
 
-import org.newdawn.slick.tiled.TileSet;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by andy on 24/01/15.
  */
 public class VariantChooser {
     private int size;
-    private TileSystem.Tile[][] tiles;
+    private Tile[][] tiles;
 
     // The Priority is the order that the system will prioritise the spread of a single tile.
     // (i.e. if water is highest priority, and there is a single tile of water in a grid of grass,
@@ -23,7 +20,7 @@ public class VariantChooser {
         add(TileSystem.TileId.GRASS);
     }};
 
-    public VariantChooser(int size, TileSystem.Tile[][] tiles) {
+    public VariantChooser(int size, Tile[][] tiles) {
         this.size = size;
         this.tiles = tiles;
     }
@@ -37,7 +34,7 @@ public class VariantChooser {
     }
 
     private boolean setVariant(int x, int y) {
-        TileSystem.Tile tile = tiles[x][y];
+        Tile tile = tiles[x][y];
         //Up Left
         TileSystem.TileId upLeft = getTileType(x-1,y-1);
         //Up
@@ -122,7 +119,7 @@ public class VariantChooser {
         return blanken(tile);
     }
 
-    private boolean blanken(TileSystem.Tile tile) {
+    private boolean blanken(Tile tile) {
         tile.touching = null;
         tile.variant = 0;
         return true;

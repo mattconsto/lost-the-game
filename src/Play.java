@@ -1,4 +1,3 @@
-import java.awt.Font;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +11,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
@@ -27,8 +25,8 @@ import Model.ItemType;
 import Model.item.Grass;
 import Player.PlayerReachedDestinationEvent;
 import Player.PlayerUI;
+import TileSystem.Tile;
 import TileSystem.TileSystem;
-import TileSystem.TileSystem.Tile;
 import TileSystem.TileSystem.TileId;
 
 public class Play extends BasicGameState implements GameState,

@@ -4,7 +4,7 @@ import java.util.Vector;
 import org.lwjgl.util.vector.Vector2f;
 
 import TileSystem.TileSystem;
-import TileSystem.TileSystem.Tile;
+import TileSystem.Tile;
 import TileSystem.TileSystem.TileId;
 
 public class PathFinder

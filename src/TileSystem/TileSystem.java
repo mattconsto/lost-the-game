@@ -25,33 +25,7 @@ public class TileSystem {
 		DIRT,
 		WATER
 	}
-	
-	public class Tile{
-		public TileId id;
 
-		// The Variant and Touching are purely aesthetic
-		public TileId touching = null;
-		public int variant = -1;
-
-		public int vis = 0; //0 = unseen, 1 = seen, 2 = visible
-		public int x, y;
-		
-		public Tile(TileId id, int x, int y, int vis){
-			this.id = id;
-			this.vis = vis;
-			this.x = x;
-			this.y = y;
-		}
-		
-		public Tile(TileId id, int x, int y, int vis, int variant){
-			this.id = id;
-			this.vis = vis;
-			this.x = x;
-			this.y = y;
-			this.variant = variant;
-		}
-	}
-	
 	private Tile tiles[][];
 	
 	public TileSystem(int size){

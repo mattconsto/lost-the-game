@@ -8,7 +8,7 @@ import org.lwjgl.util.vector.Vector2f;
 
 import Model.Agent;
 import TileSystem.TileSystem;
-import TileSystem.TileSystem.Tile;
+import TileSystem.Tile;
 
 
 public class PlayerUI {

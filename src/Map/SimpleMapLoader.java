@@ -1,6 +1,6 @@
 package Map;
 
-import TileSystem.TileSystem;
+import TileSystem.Tile;
 
 import java.io.*;
 
