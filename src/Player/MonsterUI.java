@@ -22,7 +22,7 @@ public class MonsterUI {
 	public Agent agent;
 	
 	public Vector2f location = new Vector2f(34,29);
-	Vector2f destination = new Vector2f(34,29);
+	//Vector2f destination = new Vector2f(34,29);
 	Vector<Tile> destinations = new Vector<Tile>();
 	public boolean atDestination = true;
 	
@@ -65,12 +65,6 @@ public class MonsterUI {
 		}
 	}
 	
-	public void moveto(float destinationX, float destinationY){
-		atDestination = false;
-		p = new PathFinder(ts);
-		destination = new Vector2f(destinationX, destinationY);
-		destinations = p.findPath(location, destination);
-	}
 	
 	int imageWidth = 80;
 	int imageHeight = 100;
@@ -124,21 +118,14 @@ public class MonsterUI {
 	}
 	
 	public void update(float deltaTime) {
-		if (atDestination) return;
-		
-		
-		
+			if (destinations.size() == 0)
+			{
+			return;
+			}
 		animationFrame += deltaTime*5;
 		//Some basic movement code - a bit elaborate tbh
-		
-		
-		Vector2f currentDestination = destination;
-		Tile destTile = null;
-		if (destinations.size() > 1)
-		{
-		    destTile = destinations.get(destinations.size()-1);
-			currentDestination = new Vector2f(destTile.x+0.5f, destTile.y+0.5f);
-		}
+		 Tile destTile = destinations.get(destinations.size()-1);
+		 Vector2f currentDestination = new Vector2f(destTile.x+0.5f, destTile.y+0.5f);
 		
 		//average walk speed 1.4m per second
 		float playerWalkSpeedMS = 1.4f;
@@ -168,13 +155,9 @@ public class MonsterUI {
 			{
 				destinations.removeElement(destTile);
 			}
-			else
+			
+			if (destinations.size() ==0)
 			{
-				destinations.clear();
-				//If the last step then just set the location and alert listeners
-				location = destination;
-				atDestination = true;
-				
 				//Right we need a new destination
 				randomMove();
 			}
@@ -191,15 +174,28 @@ public class MonsterUI {
 		{
 			atDestination = false;
 			p = new PathFinder(ts);
-			destination = new Vector2f(randomGenerator.nextInt(ts.getSize()), randomGenerator.nextInt(ts.getSize()));
-			destinations = p.findPath(location, destination);
-			if (hasNoWater(destinations)) return;
+			Vector2f destinationTemp = new Vector2f(location.x + ((float)randomGenerator.nextInt(10))-5, location.y + ((float)randomGenerator.nextInt(10))-5);
+			
+			if (destinationTemp.x >= 0 && destinationTemp.y >= 0 && destinationTemp.x < ts.getSize() && destinationTemp.y < ts.getSize())
+			{
+				Tile destTile = ts.getTileFromWorld(destinationTemp.x, destinationTemp.y);
+				if (destTile.id != TileId.WATER)
+				{
+			
+					Vector<Tile> destinationsTemp = p.findPath(location, destinationTemp);
+					if (hasNoWater(destinationsTemp))
+					{
+						destinations = destinationsTemp;	
+						return;
+					}
+				}
+			}
 		}
 	}
 	
 	private boolean hasNoWater(Vector<Tile> tiles)
 	{
-		for (Tile tile : destinations)
+		for (Tile tile : tiles)
 		{
 			if (tile.id== TileId.WATER) return false;
 		}
