@@ -39,6 +39,7 @@ public class Play extends BasicGameState implements GameState {
 		selectedAgent = gs.getAgents().get(0);
 
 		stickFigure = new Image("icons/stickperson.png");
+		container.setShowFPS(false);
 	}
 
 	@Override
@@ -52,10 +53,19 @@ public class Play extends BasicGameState implements GameState {
 			player.render(g);
 		}
 
-		int footer_height = 50;
-		int header_height = 40;
+		int header_height = 50;
+		
+		int footer_height = 60;
 		int footer_y = container.getHeight() - footer_height;
 
+		int footer_pad = 9;
+		// Use f_h, f_y for the actual footer height / y pos
+		int f_y = footer_y + footer_pad;
+		int f_h = footer_height - (2 * footer_pad);
+		int header_pad = 3;
+		int h_y = header_pad;
+		int h_h = header_height - (2*header_pad);
+		
 		Rectangle headerRect = new Rectangle(0, 0, container.getWidth(),
 				header_height);
 		Rectangle footerRect = new Rectangle(0, footer_y, container.getWidth(),
@@ -66,26 +76,27 @@ public class Play extends BasicGameState implements GameState {
 		g.fillRoundRect(0, 0, container.getWidth(), header_height, 5);
 		g.setColor(Color.gray);
 		g.drawRoundRect(0, 0, container.getWidth(), header_height, 5);
+		g.setColor(Color.black);
+		g.drawString("" + gs.getDate().toString("dd/MM/yyyy HH:mm"), 5,
+				h_y + header_pad);
+		g.drawString("" + Math.round(gs.getTimeSurvived()/60)+" hour(s) since incident", 5,
+				h_y + header_pad + 18);
 
-		int footer_pad = 9;
 		// Footer
 		g.setColor(Color.gray);
 		g.drawRoundRect(0, footer_y, container.getWidth(), footer_height, 5);
 		g.setColor(Color.lightGray);
 		g.fillRoundRect(0, footer_y, container.getWidth(), footer_height, 5);
-		g.setColor(Color.black);
-		g.drawString("" + gs.getDate().toString("dd/MM/yyyy HH:mm"), 5,
-				footer_y + footer_pad);
 
 		// Draw agents
 		int agent_zone_x = 500;
 		List<Agent> agents = gs.getAgents();
 		List<Rectangle> agentZones = new ArrayList<Rectangle>();
+		int stick_y = (int) ((f_h - stickFigure.getHeight()) / 2) + f_y;
 		for (int i = 0; i < agents.size(); i++) {
-			stickFigure.draw(agent_zone_x + (i * 30), footer_y + footer_pad);
-			Rectangle rect = new Rectangle(agent_zone_x + (i * 30), footer_y
-					+ footer_pad, stickFigure.getWidth(),
-					stickFigure.getHeight());
+			stickFigure.draw(agent_zone_x + (i * 30), stick_y);
+			Rectangle rect = new Rectangle(agent_zone_x + (i * 30), f_y,
+					stickFigure.getWidth(), f_h);
 			agentZones.add(rect);
 		}
 
@@ -97,14 +108,15 @@ public class Play extends BasicGameState implements GameState {
 					|| footerRect.contains(mouseX, mouseY)) {
 
 				// Check the UI elements
+				// Player selection
 				for (int i = 0; i < agentZones.size(); i++) {
 					Rectangle agentZone = agentZones.get(i);
 					if (agentZone
 							.contains(input.getMouseX(), input.getMouseY())) {
 						selectedAgent = agents.get(i);
-						System.out.println(selectedAgent.getName());
 					}
 				}
+
 			} else {
 				if (selectedAgent != null) {
 					Vector2f pos = ts.screenToWorldPos(mouseX, mouseY);
@@ -118,10 +130,33 @@ public class Play extends BasicGameState implements GameState {
 			// Outline that agent
 			int x_pos = agent_zone_x + (agents.indexOf(selectedAgent) * 30);
 			int outline_margin = 2;
-			g.drawRect(x_pos - outline_margin, footer_y + footer_pad
-					- outline_margin, stickFigure.getWidth()
-					+ (2 * outline_margin), stickFigure.getHeight()
-					+ (2 * outline_margin));
+			g.setColor(Color.black);
+			g.drawRect(x_pos - outline_margin, f_y, stickFigure.getWidth()
+					+ (2 * outline_margin), f_h);
+
+			// Show their details
+			int detail_x = 580;
+			int detail_pad = 3;
+			int graphs_x = detail_x + detail_pad + 100;
+			g.drawRoundRect(detail_x, f_y, container.getWidth()-footer_pad-detail_x, f_h, 3);
+			g.drawString(selectedAgent.getName(), detail_x+detail_pad, f_y+detail_pad);
+			
+			// Draw fills first
+			// health
+			g.setColor(Color.green);
+			g.fillRect(detail_x+detail_pad, f_y+detail_pad+18, (selectedAgent.getHealth()*80)/100, 16);
+			// thirst
+			g.setColor(Color.blue);
+			g.fillRect(graphs_x, f_y+detail_pad, (selectedAgent.getThirst()*80)/100, 16);
+			// hunger
+			g.setColor(Color.red);
+			g.fillRect(graphs_x, f_y+detail_pad+18, (selectedAgent.getHunger()*80)/100, 16);
+
+			// Draw outlines
+			g.setColor(Color.black);
+			g.drawRect(detail_x+detail_pad, f_y+detail_pad+18, 80, 16);
+			g.drawRect(graphs_x, f_y+detail_pad, 80, 16);
+			g.drawRect(graphs_x, f_y+detail_pad+18, 80, 16);
 		}
 
 	}
@@ -153,21 +188,24 @@ public class Play extends BasicGameState implements GameState {
 			ts.zoomLevel = 2;
 		if (ts.zoomLevel <= 0.5f)
 			ts.zoomLevel = 0.5f;
-		
-		if(mouseX < 50 || input.isKeyDown(Input.KEY_LEFT))
-			ts.getCamera().move(-160*delta, 0);
-		
-		if(mouseY < 50 || input.isKeyDown(Input.KEY_UP))
-			ts.getCamera().move(0, -160*delta);
-		
-		if(mouseX > container.getWidth()-50 || input.isKeyDown(Input.KEY_RIGHT))
-			ts.getCamera().move(160*delta, 0);
-		
-		if(mouseY > container.getHeight()-50 || input.isKeyDown(Input.KEY_DOWN))
-			ts.getCamera().move(0, 160*delta);
-		
-		//if(ts.getCamera().x < );
-}
+
+		if (mouseX < 50 || input.isKeyDown(Input.KEY_LEFT))
+			ts.getCamera().move(-160 * delta, 0);
+
+		if (mouseY < 50 || input.isKeyDown(Input.KEY_UP))
+			ts.getCamera().move(0, -160 * delta);
+
+		if (mouseX > container.getWidth() - 50
+				|| input.isKeyDown(Input.KEY_RIGHT))
+			ts.getCamera().move(160 * delta, 0);
+
+		if (mouseY > container.getHeight() - 50
+				|| input.isKeyDown(Input.KEY_DOWN))
+			ts.getCamera().move(0, 160 * delta);
+
+		// if(ts.getCamera().x < );
+	}
+
 	@Override
 	public int getID() {
 		return LostGame.STATE_PLAY;
