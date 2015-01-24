@@ -7,11 +7,13 @@ import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import TileSystem.TileSystem;
+import Model.GameSession;
 import Player.PlayerUI;
 
 public class Play extends BasicGameState implements GameState {
 	
 	TileSystem ts;
+	GameSession gs;
 	PlayerUI player;
 
 	@Override
@@ -19,6 +21,7 @@ public class Play extends BasicGameState implements GameState {
 			throws SlickException {
 		ts = new TileSystem(100);
 		player = new PlayerUI(ts);
+		gs = new GameSession();
 	}
 
 	@Override
@@ -30,17 +33,22 @@ public class Play extends BasicGameState implements GameState {
 		ts.render(g);
 		player.render(g);
 		
+		int footer_height = 40;
+		int header_height = 40;
+		
 		// Header
 		g.setColor(Color.lightGray);
-		g.fillRoundRect(0, 0, container.getWidth(), 25, 5);
+		g.fillRoundRect(0, 0, container.getWidth(), header_height, 5);
 		g.setColor(Color.gray);
-		g.drawRoundRect(0, 0, container.getWidth(), 25, 5);
+		g.drawRoundRect(0, 0, container.getWidth(), header_height, 5);
 		
 		// Footer
 		g.setColor(Color.gray);
-		g.drawRoundRect(0, container.getHeight()-25, container.getWidth(), container.getHeight(), 5);
+		g.drawRoundRect(0, container.getHeight()-footer_height, container.getWidth(), container.getHeight(), 5);
 		g.setColor(Color.lightGray);
-		g.fillRoundRect(0, container.getHeight()-25, container.getWidth(), container.getHeight(), 5);
+		g.fillRoundRect(0, container.getHeight()-footer_height, container.getWidth(), container.getHeight(), 5);
+	
+		g.drawString(""+gs.getTimeSurvived(), 100, 100);
 	}
 
 	@Override
@@ -49,6 +57,7 @@ public class Play extends BasicGameState implements GameState {
 		
 		updateCameraPosition(container);
 		player.update(delta);
+		gs.update(delta);
 	}
 
 	private void updateCameraPosition(GameContainer container) {

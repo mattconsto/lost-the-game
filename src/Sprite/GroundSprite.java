@@ -13,6 +13,9 @@ public class GroundSprite {
 
     //returns the location of the tile in grid
     public static Point getSprite(TileSystem.TileId tileId, int variant) {
+        if (variant == -1) {
+            variant = 4;
+        }
         if (tileToLocation.containsKey(tileId)) {
             return tileToLocation.get(tileId).get(variant);
         }
@@ -30,7 +33,7 @@ public class GroundSprite {
         6 - └       678
         7 - ┴
         8 - ┘
-        To Sand:
+        To Dirt:
         9 - ┌
         10- ┬
         11- ┐
@@ -44,18 +47,28 @@ public class GroundSprite {
 
     public static HashMap<TileSystem.TileId,ArrayList<Point>> tileToLocation = new HashMap<TileSystem.TileId,ArrayList<Point>>(){{
         put(TileSystem.TileId.GRASS, new ArrayList<Point>() {{
+            // To Grass
             add(new Point(0 ,0 ));// ┌
             add(new Point(1 ,0 ));// ┬
-            add(new Point(3 ,0 ));//┐
-            add(new Point(0 ,1 ));//├
-            add(new Point(15 ,1 ));//┼
-            add(new Point(3 ,1 ));//┤
-            add(new Point(0 ,3 ));//└
-            add(new Point(1 ,1 ));//┴
-            add(new Point(1 ,1 ));//┘
+            add(new Point(3 ,0 ));// ┐
+            add(new Point(0 ,1 ));// ├
+            add(new Point(15,1 ));// ┼
+            add(new Point(3 ,1 ));// ┤
+            add(new Point(0 ,3 ));// └
+            add(new Point(1 ,1 ));// ┴
+            add(new Point(1 ,1 ));// ┘
+            // To Dirt
+            add(new Point(0+4 ,0+4 ));// ┌
+            add(new Point(1+4 ,0+4 ));// ┬
+            add(new Point(3+4 ,0+4 ));// ┐
+            add(new Point(0+4 ,1+4 ));// ├
+            add(new Point(15+4,1+4 ));// ┼
+            add(new Point(3+4 ,1+4 ));// ┤
+            add(new Point(0+4 ,3+4 ));// └
+            add(new Point(1+4 ,1+4 ));// ┴
+            add(new Point(1+4 ,1+4 ));// ┘
 
         }});
     }};
-
 
 }
