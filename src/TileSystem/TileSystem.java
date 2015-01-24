@@ -1,6 +1,8 @@
 package TileSystem;
 
+import Map.PerlinMapGenerator;
 import Map.SimpleMapLoader;
+
 import java.util.List;
 
 import org.lwjgl.util.vector.Vector2f;
@@ -35,20 +37,16 @@ public class TileSystem {
 	private Tile tiles[][];
 	
 	public TileSystem(){
-		SimpleMapLoader loader = new SimpleMapLoader();
+		PerlinMapGenerator loader = new PerlinMapGenerator();
 
 		camera = new Camera(25*32, 20*32);
 		
 		setTileMap("dg_edging132.gif");
 
-		try {
-			tiles = loader.loadMap();
-			this.size = tiles[0].length;
-			VariantChooser variantChooser = new VariantChooser(size,tiles);
-			variantChooser.setVariants();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		tiles = loader.loadMap();
+		this.size = tiles[0].length;
+		VariantChooser variantChooser = new VariantChooser(size,tiles);
+		variantChooser.setVariants();
 
 		for(int x = 0; x < size; x++){
 			for(int y = 0; y < size; y++){
