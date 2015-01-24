@@ -92,8 +92,12 @@ public class PlayerUI {
 	
 	public void render(Graphics g){
 		Vector2f screenLocation = ts.worldToScreenPos(location.x, location.y);
+		
+		//HACK REMOVE NEXT LINE WHEN REAL CAMERA STUFF DONE
+		if (!atDestination) ts.getCamera().move(screenLocation.x-300, screenLocation.y-200);
+		
+		
 		g.setColor(new Color(255,0,0));
-
 		Image realPlayer = getPlayerImage();
 		realPlayer.setCenterOfRotation(30, 30);
 
@@ -139,6 +143,8 @@ public class PlayerUI {
 	
 	public void update(float deltaTime) {
 		if (atDestination) return;
+		
+		
 		
 		animationFrame += deltaTime*5;
 		//Some basic movement code - a bit elaborate tbh
