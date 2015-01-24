@@ -9,7 +9,7 @@ public class Camera {
 	public float zoom = 1;
 	public int tileRes;
 	public boolean isFollowing = false;
-	private Point windowSize;
+	public Point windowSize;
 	
 	public Camera(float x, float y, int tileRes, Point windowSize){
 		this.x = x;
