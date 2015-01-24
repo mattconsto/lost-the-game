@@ -9,7 +9,9 @@ import Model.item.Mud;
 import Model.item.Plank;
 import Model.item.Rock;
 import Model.item.Snack;
+import Model.item.Spear;
 import Model.item.Stick;
+import Model.item.Vine;
 
 public class ItemFactory {
 	public static Item createItem(ItemType type) {
@@ -34,6 +36,10 @@ public class ItemFactory {
 			return new Snack();
 		case BRICK:
 			return new Brick();
+		case SPEAR:
+			return new Spear();
+		case VINE:
+			return new Vine();
 		default:
 			throw new IllegalArgumentException();
 		}

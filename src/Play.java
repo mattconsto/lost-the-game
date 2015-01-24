@@ -21,6 +21,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import Model.Action;
 import Model.ActionManager;
 import Model.Agent;
+import Model.AgentState;
 import Model.GameSession;
 import Model.Item;
 import Model.ItemFactory;
@@ -372,14 +373,14 @@ public class Play extends BasicGameState implements GameState,
 		}
 
 		for (int i = 0; i < players.size(); i++) {
-			boolean walking = agents.get(i).getWalking();
+			AgentState state = agents.get(i).getState();
 			boolean atDestination = players.get(i).atDestination;
 
-			if (walking && atDestination) {
-				agents.get(i).setWalking(false);
+			if (state == AgentState.WALKING && atDestination) {
+				agents.get(i).setState(AgentState.STANDING);
 			}
-			if (!walking && !atDestination) {
-				agents.get(i).setWalking(true);
+			if (state != AgentState.WALKING && !atDestination) {
+				agents.get(i).setState(AgentState.WALKING);
 			}
 		}
 
@@ -471,6 +472,7 @@ public class Play extends BasicGameState implements GameState,
 
 	@Override
 	public void reachedDestination(PlayerUI pui, float x, float y) {
+		
 		// Tile reachedTile = ts.getTileFromWorld(x, y);
 		// if (reachedTile.id == TileId.GRASS) {
 		// gs.addItem(new Grass());
