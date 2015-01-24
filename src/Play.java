@@ -74,6 +74,9 @@ public class Play extends BasicGameState implements GameState,
 		
 		monsterManager = new MonsterManager(ts);
 		
+		ts.getCamera().x = players.get(0).location.x;
+		ts.getCamera().y = players.get(0).location.y;
+		
 		container.setShowFPS(false);
 	}
 
@@ -350,6 +353,9 @@ public class Play extends BasicGameState implements GameState,
 					Vector2f pos = ts.screenToWorldPos(mouseX, mouseY);
 					players.get(agents.indexOf(selectedAgent)).moveto(pos.x,
 							pos.y);
+					ts.getCamera().x = players.get(agents.indexOf(selectedAgent)).location.x;
+					ts.getCamera().y = players.get(agents.indexOf(selectedAgent)).location.y;
+					ts.getCamera().isFollowing = true;
 				}
 			}
 		}
@@ -402,19 +408,47 @@ public class Play extends BasicGameState implements GameState,
 			ts.zoom(dWheel * delta * 0.06f);
 		}
 
-		if (input.isKeyDown(Input.KEY_LEFT) || input.isKeyDown(Input.KEY_A))
-			ts.getCamera().move(-4 * delta, 0);
+		if (input.isKeyDown(Input.KEY_LEFT) || input.isKeyDown(Input.KEY_A)){
+			ts.getCamera().move(-6 * delta, 0);
+			ts.getCamera().isFollowing = false;
+		}
 
-		if (input.isKeyDown(Input.KEY_UP) || input.isKeyDown(Input.KEY_W))
-			ts.getCamera().move(0, -4 * delta);
+		if (input.isKeyDown(Input.KEY_UP) || input.isKeyDown(Input.KEY_W)){
+			ts.getCamera().move(0, -6 * delta);
+			ts.getCamera().isFollowing = false;
+		}
 
-		if (input.isKeyDown(Input.KEY_RIGHT) || input.isKeyDown(Input.KEY_D))
-			ts.getCamera().move(4 * delta, 0);
+		if (input.isKeyDown(Input.KEY_RIGHT) || input.isKeyDown(Input.KEY_D)){
+			ts.getCamera().move(6 * delta, 0);
+			ts.getCamera().isFollowing = false;
+		}
 
-		if (input.isKeyDown(Input.KEY_DOWN) || input.isKeyDown(Input.KEY_S))
-			ts.getCamera().move(0, 4 * delta);
+		if (input.isKeyDown(Input.KEY_DOWN) || input.isKeyDown(Input.KEY_S)){
+			ts.getCamera().move(0, 6 * delta);
+			ts.getCamera().isFollowing = false;
+		}
 		
-
+		if(ts.getCamera().x < 0)
+			ts.getCamera().x = 0;
+		
+		if(ts.getCamera().y < 0)
+			ts.getCamera().y = 0;
+		
+		if(ts.getCamera().x > ts.size)
+			ts.getCamera().x = ts.size;
+		
+		if(ts.getCamera().y > ts.size)
+			ts.getCamera().y = ts.size;
+		
+		if(ts.getCamera().isFollowing){
+			for(PlayerUI p : players){
+				if(p.agent == selectedAgent){
+					ts.getCamera().x = p.location.x;
+					ts.getCamera().y = p.location.y;
+					break;
+				}
+			}
+		}
 	}
 
 	@Override

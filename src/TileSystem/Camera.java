@@ -8,6 +8,7 @@ public class Camera {
 	public float x, y; //center position in world space
 	public float zoom = 1;
 	public int tileRes;
+	public boolean isFollowing = false;
 	private Point windowSize;
 	
 	public Camera(float x, float y, int tileRes, Point windowSize){
