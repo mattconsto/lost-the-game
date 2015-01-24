@@ -18,7 +18,6 @@ import java.io.FileNotFoundException;
 public class TileSystem {
 	
 	public Camera camera;
-	public float zoomLevel = 1;
 	public int tileRes = 32;
 	public int size;
 	
@@ -34,10 +33,10 @@ public class TileSystem {
 
 	private Tile tiles[][];
 	
-	public TileSystem(){
+	public TileSystem(Point windowSize){
 		SimpleMapLoader loader = new SimpleMapLoader();
 
-		camera = new Camera(25*32, 20*32);
+		camera = new Camera(34, 29, tileRes, windowSize);
 		
 		setTileMap("dg_edging132.gif");
 
@@ -80,27 +79,15 @@ public class TileSystem {
 	}
 	
 	public Vector2f screenToWorldPos(int scX, int scY){
-		float resTimesScale = tileRes * zoomLevel;
-		return new Vector2f(((camera.x+scX)/resTimesScale), ((camera.y+scY)/resTimesScale));
+		return camera.screenToWorldPos(scX, scY);
 	}
 	
 	public Vector2f worldToScreenPos(float worldX, float worldY){
-		float resTimesScale = tileRes * zoomLevel;
-		return new Vector2f((worldX *resTimesScale)-camera.x, (worldY *resTimesScale)-camera.y);
+		return camera.worldToScreenPos(worldX, worldY);
 	}
 	
-	public void setZoom(float zoomLevel, Point windowSize){
-		float newZoom = zoomLevel;
-		if (newZoom >= 2)
-			newZoom = 2;
-		if (newZoom <= 0.5f)
-			newZoom = 0.5f;
-		float zoomChange = newZoom / this.zoomLevel;
-		if(newZoom != this.zoomLevel){
-			camera.move(((windowSize.getX()*newZoom) - (windowSize.getX()*this.zoomLevel))*zoomChange,
-					((windowSize.getY()*newZoom) - (windowSize.getY()*this.zoomLevel))*zoomChange);
-			this.zoomLevel = newZoom;
-		}
+	public void zoom(float zoomDelta){
+		camera.zoom(zoomDelta);
 	}
 	
 	public void render(Graphics g){
@@ -109,15 +96,16 @@ public class TileSystem {
 	}
 	
 	private void renderTiles(Graphics g){
-		float resTimesScale = tileRes * zoomLevel;
+		float resTimesScale = tileRes * camera.zoom;
 		float finalX, finalY;
 		
+		Vector2f offsets = camera.getOffsets();
 		for(int x = 0; x < size; x++){
             for(int y = 0; y < size; y++){
             	if (tiles[x][y].vis != 0)
             	{
-            		finalX = (x*resTimesScale)-camera.x;
-            		finalY = (y*resTimesScale)-camera.y;
+            		finalX = (x*resTimesScale)-offsets.x;
+            		finalY = (y*resTimesScale)-offsets.y;
             		Point src = GroundSprite.getSprite(tiles[x][y].id, tiles[x][y].touching, tiles[x][y].variant);
             		g.drawImage(tileMap, finalX, finalY, finalX+resTimesScale, finalY+resTimesScale, src.getX(), src.getY(), src.getX()+tileRes, src.getY()+tileRes);
             	}
@@ -126,13 +114,14 @@ public class TileSystem {
 	}
 	
 	private void renderFog(Graphics g){
-		float resTimesScale = tileRes * zoomLevel;
+		float resTimesScale = tileRes * camera.zoom;
 		float finalX, finalY;
 		
+		Vector2f offsets = camera.getOffsets();
 		for(int x = 0; x < size; x++){
             for(int y = 0; y < size; y++){
-            	finalX = (x*resTimesScale)-camera.x;
-            	finalY = (y*resTimesScale)-camera.y;
+            	finalX = (x*resTimesScale)-offsets.x;
+        		finalY = (y*resTimesScale)-offsets.y;
             	switch(tiles[x][y].vis){
 	            	case 0:
 	            		g.setColor(Color.black);

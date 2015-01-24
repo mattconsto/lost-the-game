@@ -47,7 +47,7 @@ public class Play extends BasicGameState implements GameState,
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
-		ts = new TileSystem();
+		ts = new TileSystem(new Point(container.getWidth(), container.getHeight()));
 		gs = new GameSession();
 		players = new ArrayList<PlayerUI>();
 		for (int i = 0; i < gs.getAgents().size(); i++) {
@@ -339,24 +339,23 @@ public class Play extends BasicGameState implements GameState,
 
 		int dWheel = Mouse.getDWheel();
 		if (dWheel < 0)
-			ts.setZoom(ts.zoomLevel + dWheel * delta * 0.06f, new Point(
-					container.getWidth(), container.getHeight()));
+			ts.zoom(dWheel * delta * 0.06f);
 		else if (dWheel > 0) {
-			ts.setZoom(ts.zoomLevel + dWheel * delta * 0.06f, new Point(
-					container.getWidth(), container.getHeight()));
+			ts.zoom(dWheel * delta * 0.06f);
 		}
 
-		if (/* mouseX < 50 || */input.isKeyDown(Input.KEY_LEFT) || input.isKeyDown(Input.KEY_A))
-			ts.getCamera().move(-160 * delta, 0);
+		if (input.isKeyDown(Input.KEY_LEFT) || input.isKeyDown(Input.KEY_A))
+			ts.getCamera().move(-4 * delta, 0);
 
-		if (/* mouseY < 50 || */input.isKeyDown(Input.KEY_UP) || input.isKeyDown(Input.KEY_W))
-			ts.getCamera().move(0, -160 * delta);
+		if (input.isKeyDown(Input.KEY_UP) || input.isKeyDown(Input.KEY_W))
+			ts.getCamera().move(0, -4 * delta);
 
-		if (/* mouseX > container.getWidth()-50 || */input.isKeyDown(Input.KEY_RIGHT) || input.isKeyDown(Input.KEY_D))
-			ts.getCamera().move(160 * delta, 0);
+		if (input.isKeyDown(Input.KEY_RIGHT) || input.isKeyDown(Input.KEY_D))
+			ts.getCamera().move(4 * delta, 0);
 
-		if (/* mouseY > container.getHeight()-50 || */input.isKeyDown(Input.KEY_DOWN) || input.isKeyDown(Input.KEY_S))
-			ts.getCamera().move(0, 160 * delta);
+		if (input.isKeyDown(Input.KEY_DOWN) || input.isKeyDown(Input.KEY_S))
+			ts.getCamera().move(0, 4 * delta);
+		
 
 	}
 
