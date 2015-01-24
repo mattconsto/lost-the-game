@@ -22,12 +22,6 @@ public class TileSystem {
 	
 	public enum TileId{
 		GRASS,
-		GRASSWATER,
-		GRASSDIRT,
-		STONE,
-		SAND,
-		DIRTWATER,
-		OCEAN,
 		DIRT,
 		WATER
 	}
@@ -103,15 +97,20 @@ public class TileSystem {
 	}
 	
 	public Vector2f screenToWorldPos(int scX, int scY){
-		return new Vector2f(camera.x+scX, camera.y+scY);
+		float resTimesScale = tileRes * zoomLevel;
+		return new Vector2f(((camera.x+scX)/resTimesScale), ((camera.y+scY)/resTimesScale));
 	}
 	
 	public Vector2f worldToScreenPos(float worldX, float worldY){
-		return new Vector2f(worldX - camera.x, worldY - camera.y);
+		float resTimesScale = tileRes * zoomLevel;
+		return new Vector2f((worldX *resTimesScale)-camera.x, (worldY *resTimesScale)-camera.y);
 	}
 	
 	public void setZoom(float zoomLevel){
+		float zoomChange = zoomLevel - this.zoomLevel;
 		this.zoomLevel = zoomLevel;
+//		camera.x -= zoomChange * tileRes;
+//		camera.y -= zoomChange * tileRes;
 	}
 	
 	public void render(Graphics g){
