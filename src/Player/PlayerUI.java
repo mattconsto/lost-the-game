@@ -27,7 +27,7 @@ public class PlayerUI {
 	float playerWalkSpeedMS = 1.4f;		//average walk speed 1.4m per second
 	float tileSizeM = 50.0f;			//Tile is 100m across
 	float gameSpeed = 3600/30;			//Game is 30s is one hour 3600s is 30s => 120s per 1s
-	Image playerImage = null;
+	Vector<Image> playerImages = null;
 	
 	
 	public PlayerUI(Agent agentIn, TileSystem tsIn) throws SlickException
@@ -36,7 +36,15 @@ public class PlayerUI {
 		ts = tsIn;
 		p = new PathFinder(ts);
 		
-		playerImage = new Image("player/walking1.png");
+		Image playerImage = new Image("player/walking1.png");
+		
+		playerImages = new Vector<Image>();
+		playerImages.add(playerImage.getSubImage(0*imageWidth,0,(0*imageWidth)+imageWidth,imageHeight));
+		playerImages.add(playerImage.getSubImage(1*imageWidth,0,(1*imageWidth)+imageWidth,imageHeight));
+		playerImages.add(playerImage.getSubImage(2*imageWidth,0,(2*imageWidth)+imageWidth,imageHeight));
+		playerImages.add(playerImage.getSubImage(3*imageWidth,0,(3*imageWidth)+imageWidth,imageHeight));
+		playerImages.add(playerImage.getSubImage(4*imageWidth,0,(4*imageWidth)+imageWidth,imageHeight));
+		playerImages.add(playerImage.getSubImage(5*imageWidth,0,(5*imageWidth)+imageWidth,imageHeight));
 	}
 	
 	public void moveto(float destinationX, float destinationY){
@@ -51,22 +59,26 @@ public class PlayerUI {
 	float animationFrame = 0;
 	float angle = 0;
 	
-	public int getPlayerImageLocation()
+	/*public int getPlayerImageLocation()
+	{
+		
+	
+		return (int)animationFrame*imageWidth;
+	}*/
+	
+	public Image getPlayerImage()
 	{
 		if (animationFrame > 5) animationFrame = 0;
 		if (atDestination) animationFrame = 0;
-		
-		return (int)animationFrame*imageWidth;
+		 return playerImages.get((int)animationFrame);
 	}
 	
 	public void render(Graphics g){
 		Vector2f screenLocation = ts.worldToScreenPos(location.x, location.y);
 		g.setColor(new Color(255,0,0));
-		//g.fillOval(screenLocation.x-5,screenLocation.y-5, 10, 10);
-		
-		Image realPlayer = playerImage.getSubImage(getPlayerImageLocation(),0,
-													getPlayerImageLocation()+imageWidth,imageHeight);
-realPlayer.setCenterOfRotation(30, 30);
+
+		Image realPlayer = getPlayerImage();
+		realPlayer.setCenterOfRotation(30, 30);
 
 	if (destinations.size()>1) 
 		{
@@ -91,6 +103,7 @@ realPlayer.setCenterOfRotation(30, 30);
 		
 		realPlayer.draw(screenLocation.x-30,screenLocation.y-30,
 				screenLocation.x+40,screenLocation.y+40,0,0,imageWidth, imageHeight);
+		realPlayer.rotate(-angle);
 		
 		g.drawOval(screenLocation.x-20,screenLocation.y-20,
 				40,40);
