@@ -87,9 +87,6 @@ public class PlayerUI {
 	public void render(Graphics g){
 		Vector2f screenLocation = ts.worldToScreenPos(location.x, location.y);
 		
-		//HACK REMOVE NEXT LINE WHEN REAL CAMERA STUFF DONE
-		if (!atDestination) ts.getCamera().move(screenLocation.x-300, screenLocation.y-200);
-		
 		
 		g.setColor(new Color(255,0,0));
 		Image realPlayer = getPlayerImage();
