@@ -27,8 +27,8 @@ import Model.ItemFactory;
 import Model.ItemType;
 import Player.PlayerReachedDestinationEvent;
 import Player.PlayerUI;
+import TileSystem.Tile;
 import TileSystem.TileSystem;
-import TileSystem.TileSystem.TileId;
 
 public class Play extends BasicGameState implements GameState,
 		PlayerReachedDestinationEvent {
@@ -269,10 +269,10 @@ public class Play extends BasicGameState implements GameState,
 
 			// Draw Action Bar (TM)
 			PlayerUI playerUI = players.get(agents.indexOf(selectedAgent));
-			TileId tileId = ts.getTileFromWorld(playerUI.location.x,
-					playerUI.location.y).id;
+			Tile tile = ts.getTileFromWorld(playerUI.location.x,
+					playerUI.location.y);
 			int x = 5;
-			validActions = actionManager.getValidActions(gs, ts, tileId, selectedItems,
+			validActions = actionManager.getValidActions(gs, ts, tile,
 					selectedAgent);
 			for (Action action : validActions) {
 				String name = action.getName();

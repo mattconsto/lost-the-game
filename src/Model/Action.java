@@ -13,7 +13,7 @@ public class Action {
 	}
 		
 	public void perform(GameSession gs, Agent ag, TileSystem ts, PlayerUI pui) {
-		this.getActionable().performAction(gs, ag, ts, pui);
+		this.getActionable().performAction(gs, ag, ts, ts.getTileFromWorld(pui.location.x, pui.location.y));
 	}
 
 	public String getName() {
