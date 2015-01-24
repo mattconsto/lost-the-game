@@ -10,6 +10,7 @@ import org.newdawn.slick.SlickException;
 import org.lwjgl.util.vector.Vector2f;
 
 import Model.Agent;
+import Model.AgentState;
 import TileSystem.TileSystem;
 import TileSystem.Tile;
 import TileSystem.TileSystem.TileId;
@@ -84,9 +85,7 @@ public class PlayerUI {
 	}
 	
 	public void render(Graphics g){
-		if(agent.getHealth() == 0) {
-			return;
-		}
+		if(agent.getState() ==  AgentState.DEAD) return;
 		
 		Vector2f screenLocation = ts.worldToScreenPos(location.x, location.y);
 		
