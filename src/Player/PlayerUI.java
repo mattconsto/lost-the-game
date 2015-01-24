@@ -6,6 +6,8 @@ import org.newdawn.slick.Graphics;
 import org.lwjgl.util.vector.Vector2f;
 
 import TileSystem.TileSystem;
+import TileSystem.TileSystem.Tile;
+import TileSystem.TileSystem.TileId;
 
 
 public class PlayerUI {
@@ -13,6 +15,7 @@ public class PlayerUI {
 	TileSystem ts;
 	Vector2f location = new Vector2f(50,50);
 	Vector2f destination = new Vector2f(300,100);
+	Vector2f ultimateDestination = new Vector2f(300,100);
 	boolean atDestination = true;
 	
 	float playerWalkSpeedMS = 1.4f;		//average walk speed 1.4m per second
@@ -27,6 +30,7 @@ public class PlayerUI {
 	public void moveto(float destinationX, float destinationY){
 		destination = new Vector2f(destinationX, destinationY);
 		atDestination = false;
+		int tileType = ts.getTile(0,0).variant;
 	}
 	
 	public void render(Graphics g){
@@ -38,7 +42,7 @@ public class PlayerUI {
 		if (atDestination) return;
 		
 		//Some basic movement code - a bit elaborate tbh
-		float deltaTimeS = (float)deltaTime / 1000;
+		float deltaTimeS = (float)deltaTime;
 		float distanceTravelled = (deltaTimeS * gameSpeed * playerWalkSpeedMS)/ tileSizeM ;
 				
 		//Move the player
@@ -84,4 +88,149 @@ public class PlayerUI {
         }
     }
      
+
+
+
+    public class PathFinder
+	{
+    	private int distances[][];
+    	private int size;
+    	
+    	public PathFinder(TileSystem ts)
+    	{
+    		size = ts.size;
+    		distances = new int[size][size];
+    		
+    		for(int x = 0; x < size; x++){
+                for(int y = 0; y < size; y++){
+                	distances[x][y] = 9999;
+                }
+    		}
+    		
+    	}
+    
+    	public Vector<Tile> FindPath(Vector2f start, Vector2f end)
+    	{
+    		Tile startTile = ts.getTileFromWorld(start.x,start.y);
+    		Tile endTile = ts.getTileFromWorld(end.x, end.y);
+    		
+    		if (startTile.x == endTile.x && startTile.y == endTile.y) return null;
+    		
+    		SetDistances(startTile, 0);
+    		
+    		Vector<Tile> tiles = GetPath(startTile, endTile);
+    		
+    		return tiles;
+    	}
+    	
+    	private Vector<Tile> GetPath(Tile startTile, Tile endTile)
+    	{
+    		Vector<Tile> tiles = new Vector<Tile>();
+    		
+    		Tile currentTile = endTile;
+    		do
+    		{
+    			tiles.add(currentTile);
+    		    currentTile = getNextTile(currentTile);
+    		}while (currentTile != startTile);
+    		
+    		return tiles;
+    	}
+
+    	private Tile getNextTile(Tile currentTile)
+    	{
+    		int min = 9999;
+    		Tile minTile = null;
+    		if (startTile.x >0)
+    		{
+    			Tile tile = ts.getTile(startTile.x-1, startTile.y);
+    			int dist = distances[tile.x][tile.y];
+    			if (dist < min)
+    			{
+    				dist = min;
+    				minTile = tile;
+    			}
+    		}
+    		if (startTile.y >0)
+    		{
+    			Tile tile = ts.getTile(startTile.x, startTile.y-1);
+    			int dist = distances[tile.x][tile.y];
+    			if (dist < min)
+    			{
+    				dist = min;
+    				minTile = tile;
+    			}
+    		}
+    		if (startTile.x < size)
+    		{
+    			Tile tile = ts.getTile(startTile.x+1, startTile.y);
+    			int dist = distances[tile.x][tile.y]
+    			if (dist < min)
+    			{
+    				dist = min;
+    				minTile = tile;
+    			}
+    		}
+    		if (startTile.y < size)
+    		{
+    			Tile tile = ts.getTile(startTile.x, startTile.+1);
+    			int dist = distances[tile.x][tile.y]
+    			if (dist < min)
+    			{
+    				dist = min;
+    				minTile = tile;
+    			}
+    		}
+    		return minTile;
+    	}
+    	
+    	private void SetDistances(Tile startTile, int distance)
+    	{
+    		distances[startTile.x][startTile.y] = distance;
+    		if (startTile.x >0)
+    		{
+    			Tile currentDest = ts.getTile(startTile.x-1, startTile.y);
+    			int moveValue = getTileMoveAbility(currentDest);
+    			int currentValue = distance + moveValue;
+    			if (currentValue < distances[currentDest.x][currentDest.y])
+    				SetDistances(currentDest, currentValue);
+    		}
+    		if (startTile.y >0)
+    		{
+    			Tile currentDest = ts.getTile(startTile.x, startTile.y-1);
+    			int moveValue = getTileMoveAbility(currentDest);
+    			int currentValue = distance + moveValue;
+    			if (currentValue < distances[currentDest.x][currentDest.y])
+    				SetDistances(currentDest, currentValue);
+    		}
+    		if (startTile.x < size)
+    		{
+    			Tile currentDest = ts.getTile(startTile.x+1, startTile.y);
+    			int moveValue = getTileMoveAbility(currentDest);
+    			int currentValue = distance + moveValue;
+    			if (currentValue < distances[currentDest.x][currentDest.y])
+    				SetDistances(currentDest, currentValue);
+    		}
+    		if (startTile.y < size)
+    		{
+    			Tile currentDest = ts.getTile(startTile.x, startTile.y+1);
+    			int moveValue = getTileMoveAbility(currentDest);
+    			int currentValue = distance + moveValue;
+    			if (currentValue < distances[currentDest.x][currentDest.y])
+    				SetDistances(currentDest, currentValue);
+    		}
+    	}
+    	
+    	private int getTileMoveAbility(Tile tileIn)
+    	{
+    		//This is how much is added to the distance variable per tile move bigger = slower
+    		//negative = er no cannot do it
+    		if (tile.variant == 0) return -999999;
+    		if (tile.variant == 1) return 1;
+    		if (tile.variant == 2) return 2;
+    	}
+    	}
+    	
+	}
+
 }
