@@ -25,6 +25,7 @@ import Model.GameSession;
 import Model.Item;
 import Model.ItemFactory;
 import Model.ItemType;
+import Player.MonsterManager;
 import Player.PlayerReachedDestinationEvent;
 import Player.PlayerUI;
 import TileSystem.Tile;
@@ -41,6 +42,7 @@ public class Play extends BasicGameState implements GameState,
 	Image stickFigure;
 	Map<ItemType, Image> itemImages;
 	ActionManager actionManager;
+	MonsterManager monsterManager;
 
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
@@ -70,6 +72,9 @@ public class Play extends BasicGameState implements GameState,
 			itemImages.put(type, image);
 
 		}
+		
+		monsterManager = new MonsterManager(ts);
+		
 		container.setShowFPS(false);
 	}
 
@@ -83,6 +88,8 @@ public class Play extends BasicGameState implements GameState,
 		for (PlayerUI player : players) {
 			player.render(g);
 		}
+		
+		monsterManager.render(g);
 		
 		for(int x = 0; x < ts.size; x++){
             for(int y = 0; y < ts.size; y++){
@@ -379,6 +386,7 @@ public class Play extends BasicGameState implements GameState,
 		for (PlayerUI player : players) {
 			player.update(seconds);
 		}
+		monsterManager.update(seconds);
 		ts.updateFog(players);
 		gs.update(seconds);
 	}

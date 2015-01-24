@@ -50,6 +50,7 @@ public class MonsterUI {
 		
 		//Random Start location
 		location = randomLocation();
+		randomMove();
 	}
 	
 	private Vector2f randomLocation()
@@ -86,10 +87,7 @@ public class MonsterUI {
 	
 	public void render(Graphics g){
 		Vector2f screenLocation = ts.worldToScreenPos(location.x, location.y);
-		
-		//HACK REMOVE NEXT LINE WHEN REAL CAMERA STUFF DONE
-		if (!atDestination) ts.getCamera().move(screenLocation.x-300, screenLocation.y-200);
-		
+
 		
 		g.setColor(new Color(255,0,0));
 		Image realPlayer = getPlayerImage();
@@ -116,23 +114,13 @@ public class MonsterUI {
 		
 		realPlayer.rotate(angle);
 		
-		realPlayer.draw(screenLocation.x-30,screenLocation.y-30,
-				screenLocation.x+40,screenLocation.y+40,0,0,imageWidth, imageHeight);
+		/*realPlayer.draw(screenLocation.x-30,screenLocation.y-30,
+				screenLocation.x+40,screenLocation.y+40,0,0,imageWidth, imageHeight);*/
 		realPlayer.rotate(-angle);
 		
-		g.drawOval(screenLocation.x-20,screenLocation.y-20,
+		g.fillRect(screenLocation.x-20,screenLocation.y-20,
 				40,40);
 		
-		g.setColor(new Color(0,0,255));
-		Vector2f lastPoint = ts.worldToScreenPos(location.x, location.y);
-		for(int i =destinations.size()-1; i>=0 ; i--)
-		{
-			Tile dest = destinations.get(i);
-			Vector2f pos = new Vector2f(dest.x+0.5f, dest.y+0.5f);
-            Vector2f destPos = ts.worldToScreenPos(pos.x, pos.y);
-            g.drawLine(destPos.x, destPos.y, lastPoint.x, lastPoint.y);
-            lastPoint = destPos;
-		}
 	}
 	
 	public void update(float deltaTime) {
@@ -186,12 +174,36 @@ public class MonsterUI {
 				//If the last step then just set the location and alert listeners
 				location = destination;
 				atDestination = true;
-				firePlayerReachedDestinationEvent();
+				
+				//Right we need a new destination
+				randomMove();
 			}
 		
 		}
 		
 		
+	}
+	
+	private void randomMove()
+	{
+		Random randomGenerator = new Random();
+		while(true)
+		{
+			atDestination = false;
+			p = new PathFinder(ts);
+			destination = new Vector2f(randomGenerator.nextInt(ts.getSize()), randomGenerator.nextInt(ts.getSize()));
+			destinations = p.findPath(location, destination);
+			if (hasNoWater(destinations)) return;
+		}
+	}
+	
+	private boolean hasNoWater(Vector<Tile> tiles)
+	{
+		for (Tile tile : destinations)
+		{
+			if (tile.id== TileId.WATER) return false;
+		}
+		return true;
 	}
 	
     protected Vector<PlayerReachedDestinationEvent> _listeners;

@@ -15,9 +15,10 @@ public class MonsterManager {
 	Vector<Agent> monsterAgents;
 	TileSystem ts;
 	
-	public MonsterManager(Vector<Agent> monsterAgentsIn, TileSystem tsIn) throws SlickException
+	public MonsterManager(TileSystem tsIn) throws SlickException
 	{
-		monsterAgents = monsterAgentsIn;
+		monsterAgents = new Vector<Agent>();
+		monsterAgents.add(new Agent());
 		ts = tsIn;
 	}
 	
