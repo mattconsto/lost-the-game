@@ -75,7 +75,14 @@ public class TileSystem {
 		tiles[7][6] = new Tile(TileId.WATER, 7, 5, 2);
 		tiles[8][6] = new Tile(TileId.WATER, 8, 5, 2);
 		tiles[9][6] = new Tile(TileId.WATER, 9, 5, 2);
-		tiles[10][6] = new Tile(TileId.WATER, 10, 5, 2);
+		tiles[10][6] = new Tile(TileId.WATER, 10, 6, 2);
+		
+		for(int x = 0; x < size; x++){
+            for(int y = 0; y < size; y++){
+            	getTile(x, y).x = x;
+             	getTile(x, y).y = y;
+            }
+		}
 		
 		//Change variants
 		//GroundSprite.setVariants(tiles);

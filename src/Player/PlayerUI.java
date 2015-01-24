@@ -356,9 +356,9 @@ public class PlayerUI {
     	{
     		//This is how much is added to the distance variable per tile move bigger = slower
     		//negative = er no cannot do it
-    		if (tileIn.id == TileId.WATER) return 999;
-    		if (tileIn.id == TileId.GRASS) return 1;
-    		if (tileIn.id == TileId.DIRT) return 2;
+    		//if (tileIn.id == TileId.WATER) return 999;
+    		//if (tileIn.id == TileId.GRASS) return 1;
+    		//if (tileIn.id == TileId.DIRT) return 2;
 			return 99;
     	}
     	
