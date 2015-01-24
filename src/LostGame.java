@@ -1,3 +1,7 @@
+import java.awt.Dimension;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.Toolkit;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -48,9 +52,11 @@ public class LostGame extends StateBasedGame {
 		}
 
 		try {
+			GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+			
 			appgc = new AppGameContainer(new LostGame(name));
-			appgc.setDisplayMode(800, 600, false);
-			appgc.setTargetFrameRate(200000);
+			appgc.setDisplayMode((int)gd.getDisplayMode().getWidth(), (int)gd.getDisplayMode().getHeight(), true);
+			appgc.setTargetFrameRate(gd.getDisplayMode().getRefreshRate());
 			appgc.start();
 		} catch (SlickException e) {
 			e.printStackTrace();
