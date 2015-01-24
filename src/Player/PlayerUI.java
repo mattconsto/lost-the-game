@@ -46,13 +46,66 @@ public class PlayerUI {
 		destinations = p.findPath(location, destination);
 	}
 	
+	int imageWidth = 80;
+	int imageHeight = 100;
+	float animationFrame = 0;
+	float angle = 0;
+	
+	public int getPlayerImageLocation()
+	{
+		if (animationFrame > 5) animationFrame = 0;
+		if (atDestination) animationFrame = 0;
+		
+		return (int)animationFrame*imageWidth;
+	}
+	
 	public void render(Graphics g){
 		Vector2f screenLocation = ts.worldToScreenPos(location.x, location.y);
 		g.setColor(new Color(255,0,0));
 		//g.fillOval(screenLocation.x-5,screenLocation.y-5, 10, 10);
-		playerImage.draw(screenLocation.x-10,screenLocation.y-10,screenLocation.x+20,screenLocation.y+20,0,0,80,80);
-		//g.drawImage(playerImage,screenLocation.x-10,screenLocation.y-10,screenLocation.x+20,screenLocation.y+20, 0,0,80,80);
+		
+		Image realPlayer = playerImage.getSubImage(getPlayerImageLocation(),0,
+													getPlayerImageLocation()+imageWidth,imageHeight);
+realPlayer.setCenterOfRotation(30, 30);
 
+	Vector2f lookPoint = destination;
+	if (destinations.size()>0) 
+		{
+			float xdif = location.x - lookPoint.x;
+			float ydif = location.y - lookPoint.y;
+			//lookPoint = new Vector2f(destinations.get(destinations.size()-1).x,destinations.get(destinations.size()-1).y);
+			/*if (ydif == 0)
+			{
+				if (xdif = 0)
+			}
+			else if(xdif ==0)
+			{
+				if (ydif>0)
+					angle = 90;
+				else
+					angle = 270;
+			}
+			else
+			{*/
+				float len = (float)Math.sqrt((xdif*xdif)+(ydif*ydif));
+				xdif /= len;
+				ydif /=len;
+				if (xdif ==0) xdif =0.00000001f;
+				if (ydif == 0) ydif = 0.00000001f;
+				angle = (float)(Math.tan(ydif/xdif) * (180/Math.PI))+90;
+			//}
+			
+			
+		}
+		
+		realPlayer.rotate(angle);
+		
+		realPlayer.draw(screenLocation.x-30,screenLocation.y-30,
+				screenLocation.x+40,screenLocation.y+40,0,0,imageWidth, imageHeight);
+		
+		g.drawOval(screenLocation.x-20,screenLocation.y-20,
+				40,40);
+		
 		g.setColor(new Color(0,0,255));
 		Vector2f lastPoint = ts.worldToScreenPos(location.x, location.y);
 		for(int i =destinations.size()-1; i>=0 ; i--)
@@ -68,7 +121,7 @@ public class PlayerUI {
 	public void update(float deltaTime) {
 		if (atDestination) return;
 		
-		
+		animationFrame += deltaTime*5;
 		//Some basic movement code - a bit elaborate tbh
 		float deltaTimeS = (float)deltaTime;
 		float distanceTravelled = (deltaTimeS * gameSpeed * playerWalkSpeedMS)/ tileSizeM ;
