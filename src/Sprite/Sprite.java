@@ -1,4 +1,4 @@
-package Sprites;
+package Sprite;
 
 import TileSystem.TileSystem;
 import org.newdawn.slick.Image;
