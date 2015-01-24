@@ -1,5 +1,6 @@
 package Player;
 
+import java.util.List;
 import java.util.Random;
 import java.util.Vector;
 
@@ -13,13 +14,15 @@ public class MonsterManager {
 
 	Vector<MonsterUI> monsters = new Vector<MonsterUI>();
 	Vector<Agent> monsterAgents;
+	List<PlayerUI> players;
 	TileSystem ts;
 	
-	public MonsterManager(TileSystem tsIn) throws SlickException
+	public MonsterManager(TileSystem tsIn, List<PlayerUI> playersIn) throws SlickException
 	{
 		monsterAgents = new Vector<Agent>();
 		monsterAgents.add(new Agent());
 		ts = tsIn;
+		players = playersIn;
 	}
 	
 	public void render(Graphics g)
@@ -37,7 +40,7 @@ public class MonsterManager {
 		{
 			Random randomGenerator = new Random();
 			Agent monsterAgent = monsterAgents.get(randomGenerator.nextInt(monsterAgents.size()));
-			monsters.addElement(new MonsterUI(monsterAgent, ts));
+			monsters.addElement(new MonsterUI(monsterAgent, ts, players));
 		}
 		
 		for (MonsterUI monster : monsters)

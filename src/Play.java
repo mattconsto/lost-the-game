@@ -74,7 +74,7 @@ public class Play extends BasicGameState implements GameState,
 
 		}
 		
-		monsterManager = new MonsterManager(ts);
+		monsterManager = new MonsterManager(ts, players);
 		
 		ts.getCamera().x = players.get(0).location.x;
 		ts.getCamera().y = players.get(0).location.y;
