@@ -30,6 +30,7 @@ public class Play extends BasicGameState implements GameState {
 	GameSession gs;
 	List<PlayerUI> players;
 	Agent selectedAgent;
+	Item selectedItem;
 	Image stickFigure;
 	Map<ItemType, Image> itemImages;
 
@@ -118,12 +119,16 @@ public class Play extends BasicGameState implements GameState {
 		// Draw inventory
 		int inventory_zone_x = 10;
 		List<Item> items = gs.getItems();
+		List<Rectangle> inventoryZones = new ArrayList<Rectangle>();
 		g.setColor(Color.black);
 		for (int i = 0; i < 10; i++) {
 
 			int x = inventory_zone_x + (i * f_h) + (i * 6);
 			if (i < items.size()) {
 				itemImages.get(items.get(i).getType()).draw(x, f_y, f_h, f_h);
+
+				Rectangle rect = new Rectangle(x, f_y, f_h, f_h);
+				inventoryZones.add(rect);
 			}
 			else {
 				g.setColor(Color.black);
@@ -145,8 +150,20 @@ public class Play extends BasicGameState implements GameState {
 				for (int i = 0; i < agentZones.size(); i++) {
 					Rectangle agentZone = agentZones.get(i);
 					if (agentZone
-							.contains(input.getMouseX(), input.getMouseY())) {
+							.contains(mouseX, mouseY)) {
 						selectedAgent = agents.get(i);
+					}
+				}
+				
+				for(int i=0; i<inventoryZones.size(); i++) {
+					Rectangle inventoryZone = inventoryZones.get(i);
+					if(inventoryZone.contains(mouseX, mouseY)) {
+						if(selectedItem == items.get(i)) {
+							selectedItem = null;
+						}
+						else {
+							selectedItem = items.get(i);
+						}
 					}
 				}
 
@@ -157,6 +174,13 @@ public class Play extends BasicGameState implements GameState {
 							pos.y);
 				}
 			}
+		}
+		
+		if(selectedItem != null) {
+			int i = items.indexOf(selectedItem);
+			int x = inventory_zone_x + (i * f_h) + (i * 6);
+			g.setColor(Color.red);
+			g.drawRect(x - 1, f_y - 1, f_h + 2, f_h + 2);
 		}
 
 		if (selectedAgent != null) {
