@@ -1,3 +1,4 @@
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +12,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
@@ -139,10 +141,13 @@ public class Play extends BasicGameState implements GameState,
 				inventoryZones.add(rect);
 				int count = gs.getItemCount(items.get(i).getType());
 				if (count > 1) {
+					int pad = 3;
+					int w = g.getFont().getWidth("" + count);
+					int h = g.getFont().getHeight("" + count);
 					g.setColor(Color.cyan);
-					g.fillRoundRect(x + f_h - 19, f_y + f_h - 16, 16, 16, 10);
+					g.fillRect(x + f_h - w, f_y + f_h - h, w, h);
 					g.setColor(Color.black);
-					g.drawString("" + count, x + f_h - 16, f_y + f_h - 16);
+					g.drawString("" + count, x + f_h - w, f_y + f_h - h);
 				}
 			} else {
 				g.setColor(Color.black);
@@ -254,9 +259,11 @@ public class Play extends BasicGameState implements GameState,
 
 		int dWheel = Mouse.getDWheel();
 		if (dWheel < 0)
-			ts.setZoom(ts.zoomLevel + dWheel * delta * 0.06f, new Point(container.getWidth(), container.getHeight()));
+			ts.setZoom(ts.zoomLevel + dWheel * delta * 0.06f, new Point(
+					container.getWidth(), container.getHeight()));
 		else if (dWheel > 0) {
-			ts.setZoom(ts.zoomLevel + dWheel * delta * 0.06f, new Point(container.getWidth(), container.getHeight()));
+			ts.setZoom(ts.zoomLevel + dWheel * delta * 0.06f, new Point(
+					container.getWidth(), container.getHeight()));
 		}
 
 		if (/* mouseX < 50 || */input.isKeyDown(Input.KEY_LEFT))

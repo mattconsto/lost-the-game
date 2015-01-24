@@ -94,9 +94,9 @@ public class GameSession {
 		ItemType[] itemTypes = { ItemType.CLOTH, ItemType.LIFEJACKET,
 				ItemType.SNACK };
 		for (ItemType itemType : itemTypes) {
-			// if(Math.random() > 0.8) {
-			addItem(ItemFactory.createItem(itemType));
-			// }
+			if (Math.random() > 0.8) {
+				addItem(ItemFactory.createItem(itemType));
+			}
 		}
 	}
 }
