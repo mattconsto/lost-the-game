@@ -228,7 +228,7 @@ public class PlayerUI {
     		if (tileIn.variant == 0) return -999999;
     		if (tileIn.variant == 1) return 1;
     		if (tileIn.variant == 2) return 2;
-    	
+			return 0;
     	}
     	
 	}

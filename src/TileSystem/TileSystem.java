@@ -29,13 +29,14 @@ public class TileSystem {
 		DIRTWATER,
 		OCEAN,
 		DIRT,
+		WATER
 	}
 	
 	public class Tile{
-		TileId id;
-		int variant = -1;
-		int vis = 0; //0 = unseen, 1 = seen, 2 = visible
-		int x, y;
+		public TileId id;
+		public int variant = -1;
+		public int vis = 0; //0 = unseen, 1 = seen, 2 = visible
+		public int x, y;
 		
 		public Tile(TileId id, int x, int y, int vis){
 			this.id = id;

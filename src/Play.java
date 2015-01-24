@@ -73,12 +73,17 @@ public class Play extends BasicGameState implements GameState {
 		Input input = container.getInput();
 		int mouseX = input.getMouseX();
 		int mouseY = input.getMouseY();
+		
 		int dWheel = Mouse.getDWheel();
 		if(dWheel < 0)
-			ts.zoomLevel += dWheel * delta * 0.02f;
+			ts.zoomLevel += dWheel * delta * 0.06f;
 		else if(dWheel > 0){
-			ts.zoomLevel += dWheel * delta * 0.02f;
+			ts.zoomLevel += dWheel * delta * 0.06f;
 		}
+		if(ts.zoomLevel >= 2)
+			ts.zoomLevel = 2;
+		if(ts.zoomLevel <= 0.5f)
+			ts.zoomLevel = 0.5f;
 		
 		if(mouseX < 50 || input.isKeyDown(Input.KEY_LEFT))
 			ts.getCamera().move(-160*delta, 0);
