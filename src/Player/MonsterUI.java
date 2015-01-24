@@ -1,5 +1,6 @@
 package Player;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Random;
 import java.util.Vector;
 
@@ -10,6 +11,7 @@ import org.newdawn.slick.SlickException;
 import org.lwjgl.util.vector.Vector2f;
 
 import Model.Agent;
+import Model.AgentState;
 import TileSystem.TileSystem;
 import TileSystem.Tile;
 import TileSystem.TileSystem.TileId;
@@ -24,17 +26,18 @@ public class MonsterUI {
 	//Vector2f destination = new Vector2f(34,29);
 	Vector<Tile> destinations = new Vector<Tile>();
 	public boolean atDestination = true;
-	
+	List<PlayerUI> players;
 	
 	float tileSizeM = 50.0f;			//Tile is 100m across
 	float gameSpeed = 3600/30;			//Game is 30s is one hour 3600s is 30s => 120s per 1s
 	Vector<Image> playerImages = null;
 	
 	
-	public MonsterUI(Agent agentIn, TileSystem tsIn) throws SlickException
+	public MonsterUI(Agent agentIn, TileSystem tsIn, List<PlayerUI> playersIn) throws SlickException
 	{
 		agent = agentIn;
 		ts = tsIn;
+		players = playersIn;
 		
 		
 		Image playerImage = new Image("player/walking1.png");
@@ -117,8 +120,29 @@ public class MonsterUI {
 	}
 	
 	public void update(float deltaTime) {
+		
+		boolean mauledPlayer = false;
+		//See if we are less than 1 square from any player and if so injure them !
+		for (PlayerUI player : players)
+		{
+			if (player.agent.getState()  != AgentState.DEAD)
+			{
+				Vector2f playerLocation = player.location;
+				float difX = location.x - playerLocation.x;
+				float difY = location.y - playerLocation.y;
+				float distToPlayer = (float)Math.sqrt((difX*difX)+(difY*difY));
+				if (distToPlayer < 1)
+				{
+					player.agent.decHealth(10);
+					mauledPlayer = true;
+				}
+			}
+		}
+		
 			if (destinations.size() == 0)
 			{
+				if (!mauledPlayer)
+				{	randomMove();}
 			return;
 			}
 		animationFrame += deltaTime*5;
@@ -164,6 +188,7 @@ public class MonsterUI {
 		}
 		
 		
+
 	}
 	
 	private void randomMove()
@@ -172,27 +197,29 @@ public class MonsterUI {
 		PathFinder p = new PathFinder(ts, location);
 		
 		//Step 1 - See if we have a local player
-	/*	for (PlayerUI player : players)
+		for (PlayerUI player : players)
 		{
-			Vector2f playerLocation;
+			if (player.agent.getState()  != AgentState.DEAD)
+			{
+			Vector2f playerLocation = player.location;
 			float difX = location.x - playerLocation.x;
 			float difY = location.y - playerLocation.y;
 			float distToPlayer = (float)Math.sqrt((difX*difX)+(difY*difY));
-			if (distToPlayer < 0)
+			if (distToPlayer < 10)
 			{
 				Tile destTile = ts.getTileFromWorld(playerLocation.x, playerLocation.y);
 				if (destTile.id != TileId.WATER)
 				{
-					Vector<Tile> destinationsTemp = p.findPath(destinationTemp);
+					Vector<Tile> destinationsTemp = p.findPath(playerLocation);
 					if (hasNoWater(destinationsTemp))
 					{
 						destinations = destinationsTemp;	
 						return;
 					}
 				}
-				
+			}	
 			}
-		}*/
+		}
 		
 		
 		

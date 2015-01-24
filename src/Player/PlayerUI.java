@@ -53,7 +53,7 @@ public class PlayerUI {
 	
 	private Vector2f randomLocation()
 	{
-		Random randomGenerator = new Random(42);
+		Random randomGenerator = new Random();
 		while(true)
 		{
 			int x = randomGenerator.nextInt(ts.size);

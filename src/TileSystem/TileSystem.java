@@ -2,6 +2,7 @@ package TileSystem;
 
 import Map.PerlinMapGenerator;
 import Map.SimpleMapLoader;
+import Model.AgentState;
 
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class TileSystem {
 	public Camera camera;
 	public int tileRes = 32;
 	public int size;
+	float resTimesScale = 32;
 	
 	private Image tileMap;
 	
@@ -40,6 +42,7 @@ public class TileSystem {
 		//PerlinMapGenerator loader = new PerlinMapGenerator();
 
 		camera = new Camera(34, 29, tileRes, windowSize);
+		resTimesScale = tileRes * camera.zoom;
 		
 		setTileMap("dg_edging132.gif");
 
@@ -94,6 +97,7 @@ public class TileSystem {
 	
 	public void zoom(float zoomDelta){
 		camera.zoom(zoomDelta);
+		resTimesScale = tileRes * camera.zoom;
 	}
 	
 	public void render(Graphics g){
@@ -102,7 +106,6 @@ public class TileSystem {
 	}
 	
 	private void renderTiles(Graphics g){
-		float resTimesScale = tileRes * camera.zoom;
 		float finalX, finalY;
 		
 		Vector2f offsets = camera.getOffsets();
@@ -112,15 +115,29 @@ public class TileSystem {
             	{
             		finalX = (x*resTimesScale)-offsets.x;
             		finalY = (y*resTimesScale)-offsets.y;
-            		Point src = GroundSprite.getSprite(tiles[x][y].id, tiles[x][y].touching, tiles[x][y].variant, TileAttr.NONE);
-            		g.drawImage(tileMap, finalX, finalY, finalX+resTimesScale, finalY+resTimesScale, src.getX(), src.getY(), src.getX()+tileRes, src.getY()+tileRes);
+            		if(isOnScreen(x, y)){
+	            		Point src = GroundSprite.getSprite(tiles[x][y].id, tiles[x][y].touching, tiles[x][y].variant, TileAttr.NONE);
+	            		g.drawImage(tileMap, finalX, finalY, finalX+resTimesScale, finalY+resTimesScale, src.getX(), src.getY(), src.getX()+tileRes, src.getY()+tileRes);
+            		}
             	}
             }
         }
 	}
 	
+	private boolean isOnScreen(float x, float y){
+		Vector2f sc = camera.worldToScreenPos(x, y);
+		if(sc.x < -resTimesScale)
+			return false;
+		if(sc.x > (camera.windowSize.getX()+resTimesScale))
+			return false;
+		if(sc.y < -resTimesScale)
+			return false;
+		if(sc.y > (camera.windowSize.getY()+resTimesScale))
+			return false;
+		return true;
+	}
+	
 	private void renderFog(Graphics g){
-		float resTimesScale = tileRes * camera.zoom;
 		float finalX, finalY;
 		
 		Vector2f offsets = camera.getOffsets();
@@ -151,14 +168,17 @@ public class TileSystem {
 		}
 		
 		for(PlayerUI p : players){
-			int xp = (int)p.location.x;
-			int yp = (int)p.location.y;
-			for(int x = xp - 5; x < xp + 5; x++){
-				for(int y = yp - 5; y < yp + 5; y++){
-					if(x > 0 && y > 0 && x < size && y < size)
-						if(dist(xp, yp, x, y) <= 4){
-							tiles[x][y].vis = 2;
-						}
+			if (p.agent.getState() != AgentState.DEAD)
+			{
+				int xp = (int)p.location.x;
+				int yp = (int)p.location.y;
+				for(int x = xp - 5; x < xp + 5; x++){
+					for(int y = yp - 5; y < yp + 5; y++){
+						if(x > 0 && y > 0 && x < size && y < size)
+							if(dist(xp, yp, x, y) <= 4){
+								tiles[x][y].vis = 2;
+							}
+					}
 				}
 			}
 		}

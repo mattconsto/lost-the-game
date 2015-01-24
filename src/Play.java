@@ -21,6 +21,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import Model.Action;
 import Model.ActionManager;
 import Model.Agent;
+import Model.AgentState;
 import Model.GameSession;
 import Model.Item;
 import Model.ItemFactory;
@@ -74,7 +75,7 @@ public class Play extends BasicGameState implements GameState,
 
 		}
 		
-		monsterManager = new MonsterManager(ts);
+		monsterManager = new MonsterManager(ts, players);
 		
 		ts.getCamera().x = players.get(0).location.x;
 		ts.getCamera().y = players.get(0).location.y;
@@ -171,11 +172,13 @@ public class Play extends BasicGameState implements GameState,
 		List<Agent> agents = gs.getAgents();
 		List<Rectangle> agentZones = new ArrayList<Rectangle>();
 		for (int i = 0; i < agents.size(); i++) {
-			if(agents.get(i).getHealth() > 0 && agents.get(i).getWater() > 0) {
 			
-				int y = ag_y + (i * 50);
-				int pad = 7;
-				Agent agent = agents.get(i);
+			
+			int y = ag_y + (i * 50);
+			int pad = 7;
+			Agent agent = agents.get(i);
+			if (agent.getState() != AgentState.DEAD)
+			{
 				g.setColor(Color.gray);
 				g.drawRect(ag_x, y, agent_bar_width, 48);
 				g.setColor(Color.lightGray);
@@ -276,6 +279,7 @@ public class Play extends BasicGameState implements GameState,
 
 		ArrayList<Rectangle> actionZones = new ArrayList<Rectangle>();
 		ArrayList<Action> validActions = new ArrayList<Action>();
+		if (selectedAgent != null && selectedAgent.getState() == AgentState.DEAD) selectedAgent = null;
 		if (selectedAgent != null) {
 
 			// Draw Action Bar (TM)
@@ -309,6 +313,8 @@ public class Play extends BasicGameState implements GameState,
 			}
 		}
 
+		
+		
 		if (input.isMousePressed(0)) {
 			int mouseX = input.getMouseX();
 			int mouseY = input.getMouseY();
@@ -372,14 +378,14 @@ public class Play extends BasicGameState implements GameState,
 		}
 
 		for (int i = 0; i < players.size(); i++) {
-			boolean walking = agents.get(i).getWalking();
+			AgentState state = agents.get(i).getState();
 			boolean atDestination = players.get(i).atDestination;
 
-			if (walking && atDestination) {
-				agents.get(i).setWalking(false);
+			if (state == AgentState.WALKING && atDestination) {
+				agents.get(i).setState(AgentState.STANDING);
 			}
-			if (!walking && !atDestination) {
-				agents.get(i).setWalking(true);
+			if (state != AgentState.WALKING && !atDestination) {
+				agents.get(i).setState(AgentState.WALKING);
 			}
 		}
 
@@ -407,6 +413,10 @@ public class Play extends BasicGameState implements GameState,
 		monsterManager.update(seconds);
 		ts.updateFog(players);
 		gs.update(seconds);
+		
+		if (container.getInput().isKeyDown(Input.KEY_ESCAPE)){
+			container.exit();
+		}
 	}
 
 	private void updateCamera(GameContainer container, float delta) {
@@ -471,6 +481,7 @@ public class Play extends BasicGameState implements GameState,
 
 	@Override
 	public void reachedDestination(PlayerUI pui, float x, float y) {
+		
 		// Tile reachedTile = ts.getTileFromWorld(x, y);
 		// if (reachedTile.id == TileId.GRASS) {
 		// gs.addItem(new Grass());
