@@ -188,7 +188,22 @@ public class Play extends BasicGameState implements GameState {
 			ts.zoomLevel = 2;
 		if (ts.zoomLevel <= 0.5f)
 			ts.zoomLevel = 0.5f;
+		
+		if(/*mouseX < 50 ||*/ input.isKeyDown(Input.KEY_LEFT))
+			ts.getCamera().move(-160*delta, 0);
+		
+		if(/*mouseY < 50 ||*/ input.isKeyDown(Input.KEY_UP))
+			ts.getCamera().move(0, -160*delta);
+		
+		if(/*mouseX > container.getWidth()-50 ||*/ input.isKeyDown(Input.KEY_RIGHT))
+			ts.getCamera().move(160*delta, 0);
+		
+		if(/*mouseY > container.getHeight()-50 ||*/ input.isKeyDown(Input.KEY_DOWN))
+			ts.getCamera().move(0, 160*delta);
+		
+		//if(ts.getCamera().x < );
 	}
+	
 	@Override
 	public int getID() {
 		return LostGame.STATE_PLAY;
