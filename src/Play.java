@@ -119,10 +119,18 @@ public class Play extends BasicGameState implements GameState {
 		int inventory_zone_x = 10;
 		List<Item> items = gs.getItems();
 		g.setColor(Color.black);
-		for (int i = 0; i < items.size(); i++) {
-			int x = inventory_zone_x + (i * f_h);
-			itemImages.get(items.get(i).getType()).draw(x, f_y, f_h, f_h);
-			g.drawRect(x, f_y, f_h, f_h);
+		for (int i = 0; i < 10; i++) {
+
+			int x = inventory_zone_x + (i * f_h) + (i * 6);
+			if (i < items.size()) {
+				itemImages.get(items.get(i).getType()).draw(x, f_y, f_h, f_h);
+			}
+			else {
+				g.setColor(Color.black);
+				g.fillRect(x, f_y, f_h, f_h);
+			}
+			g.setColor(Color.darkGray);
+			g.drawRect(x - 1, f_y - 1, f_h + 2, f_h + 2);
 		}
 
 		if (input.isMousePressed(0)) {
@@ -218,22 +226,24 @@ public class Play extends BasicGameState implements GameState {
 			ts.zoomLevel = 2;
 		if (ts.zoomLevel <= 0.5f)
 			ts.zoomLevel = 0.5f;
-		
-		if(/*mouseX < 50 ||*/ input.isKeyDown(Input.KEY_LEFT))
-			ts.getCamera().move(-160*delta, 0);
-		
-		if(/*mouseY < 50 ||*/ input.isKeyDown(Input.KEY_UP))
-			ts.getCamera().move(0, -160*delta);
-		
-		if(/*mouseX > container.getWidth()-50 ||*/ input.isKeyDown(Input.KEY_RIGHT))
-			ts.getCamera().move(160*delta, 0);
-		
-		if(/*mouseY > container.getHeight()-50 ||*/ input.isKeyDown(Input.KEY_DOWN))
-			ts.getCamera().move(0, 160*delta);
-		
-		//if(ts.getCamera().x < );
+
+		if (/* mouseX < 50 || */input.isKeyDown(Input.KEY_LEFT))
+			ts.getCamera().move(-160 * delta, 0);
+
+		if (/* mouseY < 50 || */input.isKeyDown(Input.KEY_UP))
+			ts.getCamera().move(0, -160 * delta);
+
+		if (/* mouseX > container.getWidth()-50 || */input
+				.isKeyDown(Input.KEY_RIGHT))
+			ts.getCamera().move(160 * delta, 0);
+
+		if (/* mouseY > container.getHeight()-50 || */input
+				.isKeyDown(Input.KEY_DOWN))
+			ts.getCamera().move(0, 160 * delta);
+
+		// if(ts.getCamera().x < );
 	}
-	
+
 	@Override
 	public int getID() {
 		return LostGame.STATE_PLAY;
