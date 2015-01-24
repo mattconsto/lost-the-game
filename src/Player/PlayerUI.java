@@ -27,6 +27,8 @@ public class PlayerUI {
 	float playerWalkSpeedMS = 1.4f;		//average walk speed 1.4m per second
 	float tileSizeM = 50.0f;			//Tile is 100m across
 	float gameSpeed = 3600/30;			//Game is 30s is one hour 3600s is 30s => 120s per 1s
+	Image playerImage = null;
+	
 	
 	public PlayerUI(Agent agentIn, TileSystem tsIn) throws SlickException
 	{
@@ -34,7 +36,7 @@ public class PlayerUI {
 		ts = tsIn;
 		p = new PathFinder(ts);
 		
-		Image image = new Image("player/walking1.png");
+		playerImage = new Image("player/walking1.png");
 	}
 	
 	public void moveto(float destinationX, float destinationY){
@@ -47,8 +49,9 @@ public class PlayerUI {
 	public void render(Graphics g){
 		Vector2f screenLocation = ts.worldToScreenPos(location.x, location.y);
 		g.setColor(new Color(255,0,0));
-		g.fillOval(screenLocation.x-5,screenLocation.y-5, 10, 10);
-		
+		//g.fillOval(screenLocation.x-5,screenLocation.y-5, 10, 10);
+		playerImage.draw(screenLocation.x-10,screenLocation.y-10,screenLocation.x+20,screenLocation.y+20,0,0,80,80);
+		//g.drawImage(playerImage,screenLocation.x-10,screenLocation.y-10,screenLocation.x+20,screenLocation.y+20, 0,0,80,80);
 
 		g.setColor(new Color(0,0,255));
 		Vector2f lastPoint = ts.worldToScreenPos(location.x, location.y);
