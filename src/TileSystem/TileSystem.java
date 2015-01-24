@@ -92,16 +92,18 @@ public class TileSystem {
 	}
 	
 	public void setZoom(float zoomLevel, Point windowSize){
-		float zoomChange = zoomLevel - this.zoomLevel;
 		float newZoom = zoomLevel;
 		if (newZoom >= 2)
 			newZoom = 2;
 		if (newZoom <= 0.5f)
 			newZoom = 0.5f;
+		float zoomChange = newZoom - this.zoomLevel;
 		if(newZoom != this.zoomLevel){
+			float oldTileSize = (float)tileRes * this.zoomLevel;
+			float tileSize = (float)tileRes * newZoom;
+			camera.move(((windowSize.getX()/oldTileSize) - (windowSize.getX()/tileSize)),
+					((windowSize.getY()/oldTileSize) - (windowSize.getY()/tileSize)));
 			this.zoomLevel = newZoom;
-			camera.x += ((tileRes*zoomChange)*(windowSize.getX()/(tileRes*newZoom)));
-			camera.y += ((tileRes*zoomChange)*(windowSize.getY()/(tileRes*newZoom)));
 		}
 	}
 	
