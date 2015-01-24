@@ -10,6 +10,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
@@ -44,6 +45,9 @@ public class Play extends BasicGameState implements GameState,
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
+		
+	    new Music("sounds/heart.ogg").loop();
+	    
 		ts = new TileSystem();
 		gs = new GameSession();
 		players = new ArrayList<PlayerUI>();
@@ -128,9 +132,9 @@ public class Play extends BasicGameState implements GameState,
 
 		// Header
 		g.setColor(Color.lightGray);
-		g.fillRoundRect(0, 0, container.getWidth(), header_height, 5);
+		g.fillRect(0, 0, container.getWidth(), header_height);
 		g.setColor(Color.gray);
-		g.drawRoundRect(0, 0, container.getWidth(), header_height, 5);
+		g.drawRect(0, 0, container.getWidth(), header_height);
 		g.setColor(Color.black);
 		g.drawString("" + gs.getDate().toString("dd/MM/yyyy HH:mm"), 5, h_y
 				+ header_pad);
@@ -139,91 +143,94 @@ public class Play extends BasicGameState implements GameState,
 
 		// Footer
 		g.setColor(Color.gray);
-		g.drawRoundRect(0, footer_y, container.getWidth(), footer_height, 5);
+		g.drawRect(0, footer_y, container.getWidth(), footer_height);
 		g.setColor(Color.lightGray);
-		g.fillRoundRect(0, footer_y, container.getWidth(), footer_height, 5);
+		g.fillRect(0, footer_y, container.getWidth(), footer_height);
 
 		// Action bar
 		g.setColor(Color.gray);
-		g.drawRoundRect(0, action_bar_y, container.getWidth(),
-				action_bar_height, 5);
+		g.drawRect(0, action_bar_y, container.getWidth(),
+				action_bar_height);
 		g.setColor(Color.lightGray);
-		g.fillRoundRect(0, action_bar_y, container.getWidth(),
-				action_bar_height, 5);
+		g.fillRect(0, action_bar_y, container.getWidth(),
+				action_bar_height);
 
 		// Draw agents
 		int agent_zone_x = 500;
 		List<Agent> agents = gs.getAgents();
 		List<Rectangle> agentZones = new ArrayList<Rectangle>();
 		for (int i = 0; i < agents.size(); i++) {
-			int y = ag_y + (i * 50);
-			int pad = 7;
-			Agent agent = agents.get(i);
-			g.setColor(Color.gray);
-			g.drawRoundRect(ag_x, y, agent_bar_width, 48, 5);
-			g.setColor(Color.lightGray);
-			g.fillRoundRect(ag_x, y, agent_bar_width, 48, 5);
-
-			if (selectedAgent == agent) {
-				g.setColor(Color.red);
-				g.drawRoundRect(ag_x, y, agent_bar_width, 48, 5);
-			} else {
-
-			}
-
-			g.setColor(Color.black);
-			g.drawString(agent.getName(), ag_x + pad, y + pad);
-			// Draw fills first
-			// health
-			g.setColor(Color.green);
-			g.fillRect(ag_x + pad, y + 18 + pad,
-					(agent.getHealth() * 80) / 100, 16);
-			// thirst
-			g.setColor(Color.blue);
-			g.fillRect(ag_x + pad + 100, y + pad,
-					(agent.getWater() * 80) / 100, 16);
-			// hunger
-			g.setColor(Color.red);
-			g.fillRect(ag_x + pad + 100, y + 18 + pad,
-					(agent.getFood() * 80) / 100, 16);
-
-			// Draw outlines
-			g.setColor(Color.black);
-			g.drawRect(ag_x + pad, y + 18 + pad, 80, 16);
-			g.drawRect(ag_x + pad + 100, y + pad, 80, 16);
-			g.drawRect(ag_x + pad + 100, y + 18 + pad, 80, 16);
-
-			if (selectedAgent != agent) {
-				int t_w = g.getFont().getWidth("Play");
-				int t_h = g.getFont().getHeight("Play");
-				int b_w = t_w + 6;
-				int b_h = a_h;
-				int t_y = (a_h - t_h) / 2;
-				int t_x = (b_w - t_w) / 2;
-
-				int button_offset_x = 10;
-				int button_offset_y = (50 - b_h) / 2;
-
-				g.setColor(Color.white);
-				g.fillRoundRect(ag_x + agent_bar_width - t_w - button_offset_x
-						- 1, y + button_offset_y - 1, b_w, b_h, 5);
-
-				g.setColor(Color.darkGray);
-				g.fillRoundRect(ag_x + agent_bar_width - t_w - button_offset_x
-						+ 1, y + button_offset_y + 1, b_w, b_h , 5);
+			if(agents.get(i).getHealth() > 0 && agents.get(i).getWater() > 0) {
+			
+				int y = ag_y + (i * 50);
+				int pad = 7;
+				Agent agent = agents.get(i);
+				g.setColor(Color.gray);
+				g.drawRect(ag_x, y, agent_bar_width, 48);
 				g.setColor(Color.lightGray);
-				g.fillRoundRect(ag_x + agent_bar_width - t_w - button_offset_x,
-						y + button_offset_y, b_w, b_h, 5);
+				g.fillRect(ag_x, y, agent_bar_width, 48);
+		
+				if (selectedAgent == agent) {
+					g.setColor(Color.red);
+					g.drawRect(ag_x, y, agent_bar_width, 48);
+				} else {
+		
+				}
+		
 				g.setColor(Color.black);
-				g.drawString("Play", ag_x + agent_bar_width - t_w
-						- button_offset_x + t_x, y + t_y + button_offset_y);
+				g.drawString(agent.getName(), ag_x + pad, y + pad);
+				// Draw fills first
+				// health
+				g.setColor(Color.green);
+				g.fillRect(ag_x + pad, y + 18 + pad,
+						(agent.getHealth() * 80) / 100, 16);
+				// thirst
+				g.setColor(Color.blue);
+				g.fillRect(ag_x + pad + 100, y + pad,
+						(agent.getWater() * 80) / 100, 16);
+				// hunger
+				g.setColor(Color.red);
+				g.fillRect(ag_x + pad + 100, y + 18 + pad,
+						(agent.getFood() * 80) / 100, 16);
+		
+				// Draw outlines
+				g.setColor(Color.black);
+				g.drawRect(ag_x + pad, y + 18 + pad, 80, 16);
+				g.drawRect(ag_x + pad + 100, y + pad, 80, 16);
+				g.drawRect(ag_x + pad + 100, y + 18 + pad, 80, 16);
+		
+				if (selectedAgent != agent) {
+					int t_w = g.getFont().getWidth("Play");
+					int t_h = g.getFont().getHeight("Play");
+					int b_w = t_w + 6;
+					int b_h = a_h;
+					int t_y = (a_h - t_h) / 2;
+					int t_x = (b_w - t_w) / 2;
+		
+					int button_offset_x = 10;
+					int button_offset_y = (50 - b_h) / 2;
+		
+					g.setColor(Color.white);
+					g.fillRect(ag_x + agent_bar_width - t_w - button_offset_x
+							- 1, y + button_offset_y - 1, b_w, b_h);
+		
+					g.setColor(Color.darkGray);
+					g.fillRect(ag_x + agent_bar_width - t_w - button_offset_x
+							+ 1, y + button_offset_y + 1, b_w, b_h);
+					g.setColor(Color.lightGray);
+					g.fillRect(ag_x + agent_bar_width - t_w - button_offset_x,
+							y + button_offset_y, b_w, b_h);
+					g.setColor(Color.black);
+					g.drawString("Play", ag_x + agent_bar_width - t_w
+							- button_offset_x + t_x, y + t_y + button_offset_y);
+				}
+				else {
+					stickFigure.draw(ag_x + agent_bar_width - 32, y + 9, 32, 32);
+				}
+				Rectangle rect = new Rectangle(ag_x + pad, y + pad,
+						agent_bar_width, 48);
+				agentZones.add(rect);
 			}
-			else {
-				stickFigure.draw(ag_x + agent_bar_width - 32, y + 9, 32, 32);
-			}
-			Rectangle rect = new Rectangle(ag_x + pad, y + pad,
-					agent_bar_width, 48);
-			agentZones.add(rect);
 		}
 
 		// Draw inventory
@@ -278,9 +285,9 @@ public class Play extends BasicGameState implements GameState,
 				int t_x = (b_w - t_w) / 2;
 
 				g.setColor(Color.darkGray);
-				g.drawRoundRect(x, a_y, b_w, b_h, 5);
+				g.drawRect(x, a_y, b_w, b_h);
 				g.setColor(Color.lightGray);
-				g.fillRoundRect(x, a_y, b_w, b_h, 5);
+				g.fillRect(x, a_y, b_w, b_h);
 				g.setColor(Color.black);
 				g.drawString(name, x + t_x, a_y + t_y);
 
