@@ -5,6 +5,7 @@ import java.util.Vector;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 import org.lwjgl.util.vector.Vector2f;
 
 import Model.Agent;
@@ -18,7 +19,7 @@ public class PlayerUI {
 	PathFinder p;
 	public Agent agent;
 	
-	public Vector2f location = new Vector2f(50,50);
+	public Vector2f location = new Vector2f(10,10);
 	Vector2f destination = new Vector2f(20,20);
 	Vector<Tile> destinations = new Vector<Tile>();
 	boolean atDestination = true;
@@ -27,7 +28,8 @@ public class PlayerUI {
 	float tileSizeM = 50.0f;			//Tile is 100m across
 	float gameSpeed = 3600/30;			//Game is 30s is one hour 3600s is 30s => 120s per 1s
 	
-	public PlayerUI(Agent agentIn, TileSystem tsIn){
+	public PlayerUI(Agent agentIn, TileSystem tsIn) throws SlickException
+	{
 		agent = agentIn;
 		ts = tsIn;
 		p = new PathFinder(ts);
