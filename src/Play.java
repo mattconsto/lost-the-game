@@ -262,7 +262,7 @@ public class Play extends BasicGameState implements GameState,
 			TileId tileId = ts.getTileFromWorld(playerUI.location.x,
 					playerUI.location.y).id;
 			int x = 5;
-			validActions = actionManager.getValidActions(tileId, selectedItems,
+			validActions = actionManager.getValidActions(gs, ts, tileId, selectedItems,
 					selectedAgent);
 			for (Action action : validActions) {
 				String name = action.getName();
