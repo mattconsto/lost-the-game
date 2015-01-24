@@ -33,6 +33,8 @@ import TileSystem.TileSystem;
 
 public class Play extends BasicGameState implements GameState,
 		PlayerReachedDestinationEvent {
+	
+	public static final int STATE_PLAY = 1;
 
 	TileSystem ts;
 	GameSession gs;
@@ -380,6 +382,17 @@ public class Play extends BasicGameState implements GameState,
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
+		boolean alive = false;
+		List<Agent> agents = gs.getAgents();
+		List<Rectangle> agentZones = new ArrayList<Rectangle>();
+		for (int i = 0; i < agents.size(); i++) {
+			if(agents.get(i).getHealth() > 0 && agents.get(i).getWater() > 0) {
+				alive = true;
+			}
+		}
+		
+		if(!alive) game.enterState(GameOver.STATE_OVER);
+		
 		float seconds = (float) (delta / 1000.0);
 		updateCamera(container, seconds);
 		for (PlayerUI player : players) {
@@ -419,7 +432,7 @@ public class Play extends BasicGameState implements GameState,
 
 	@Override
 	public int getID() {
-		return LostGame.STATE_PLAY;
+		return STATE_PLAY;
 	}
 
 	@Override

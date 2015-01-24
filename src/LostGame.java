@@ -11,8 +11,6 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class LostGame extends StateBasedGame {
 	
-	public static final int STATE_PLAY = 1;
-	
 	protected String name;
 	
 	public LostGame(String name) {
@@ -27,7 +25,8 @@ public class LostGame extends StateBasedGame {
 	@Override
 	public void initStatesList(GameContainer arg0) throws SlickException {
 		this.addState(new Play());
-        this.enterState(STATE_PLAY);
+		this.addState(new GameOver());
+        this.enterState(Play.STATE_PLAY);
 	}
 	
 	public static void main(String[] args) {
