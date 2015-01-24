@@ -1,5 +1,5 @@
 package Player;
 
 public interface PlayerReachedDestinationEvent {
- void reachedDestination(float x, float y);
+ void reachedDestination(PlayerUI player, float x, float y);
 }

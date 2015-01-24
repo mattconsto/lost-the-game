@@ -6,6 +6,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Color;
 import org.lwjgl.util.vector.Vector2f;
 
+import Model.Agent;
 import TileSystem.TileSystem;
 import TileSystem.TileSystem.Tile;
 
@@ -14,6 +15,7 @@ public class PlayerUI {
 
 	TileSystem ts;
 	PathFinder p;
+	public Agent agent;
 	
 	Vector2f location = new Vector2f(50,50);
 	Vector2f destination = new Vector2f(20,20);
@@ -24,7 +26,8 @@ public class PlayerUI {
 	float tileSizeM = 10.0f;			//Tile is 100m across
 	float gameSpeed = 3600/30;			//Game is 30s is one hour 3600s is 30s => 120s per 1s
 	
-	public PlayerUI(TileSystem tsIn){
+	public PlayerUI(Agent agentIn, TileSystem tsIn){
+		agent = agentIn;
 		ts = tsIn;
 		p = new PathFinder(ts);
 	}
@@ -130,7 +133,7 @@ public class PlayerUI {
             while (e.hasMoreElements())
             {
             	PlayerReachedDestinationEvent ev = e.nextElement();
-                ev.reachedDestination(destination.x, destination.y);;
+                ev.reachedDestination(this, destination.x, destination.y);;
             }
         }
     }
@@ -169,7 +172,7 @@ public class PlayerUI {
     		if (endTile == null)
     			throw new IllegalArgumentException("End tile is nothing !!!");
     		
-    		if (startTile.x == endTile.x && startTile.y == endTile.y) return null;
+    		if (startTile.x == endTile.x && startTile.y == endTile.y) return new Vector<Tile>();
     		
     		setDistances(startTile, 0);
     		
