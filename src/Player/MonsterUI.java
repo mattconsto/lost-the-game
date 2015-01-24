@@ -11,6 +11,7 @@ import org.newdawn.slick.SlickException;
 import org.lwjgl.util.vector.Vector2f;
 
 import Model.Agent;
+import Model.AgentState;
 import TileSystem.TileSystem;
 import TileSystem.Tile;
 import TileSystem.TileSystem.TileId;
@@ -119,8 +120,29 @@ public class MonsterUI {
 	}
 	
 	public void update(float deltaTime) {
+		
+		boolean mauledPlayer = false;
+		//See if we are less than 1 square from any player and if so injure them !
+		for (PlayerUI player : players)
+		{
+			if (player.agent.getState()  != AgentState.DEAD)
+			{
+				Vector2f playerLocation = player.location;
+				float difX = location.x - playerLocation.x;
+				float difY = location.y - playerLocation.y;
+				float distToPlayer = (float)Math.sqrt((difX*difX)+(difY*difY));
+				if (distToPlayer < 1)
+				{
+					player.agent.decHealth(10);
+					mauledPlayer = true;
+				}
+			}
+		}
+		
 			if (destinations.size() == 0)
 			{
+				if (!mauledPlayer)
+				{	randomMove();}
 			return;
 			}
 		animationFrame += deltaTime*5;
@@ -166,6 +188,7 @@ public class MonsterUI {
 		}
 		
 		
+
 	}
 	
 	private void randomMove()
@@ -176,6 +199,8 @@ public class MonsterUI {
 		//Step 1 - See if we have a local player
 		for (PlayerUI player : players)
 		{
+			if (player.agent.getState()  != AgentState.DEAD)
+			{
 			Vector2f playerLocation = player.location;
 			float difX = location.x - playerLocation.x;
 			float difY = location.y - playerLocation.y;
@@ -192,7 +217,7 @@ public class MonsterUI {
 						return;
 					}
 				}
-				
+			}	
 			}
 		}
 		

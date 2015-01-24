@@ -1,5 +1,5 @@
 package Model;
 
 public enum AgentState {
-	WALKING, DROWNING, SLEEPING, STANDING
+	WALKING, DROWNING, SLEEPING, STANDING, DEAD
 }
