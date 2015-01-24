@@ -3,6 +3,7 @@ package Sprite;
 import TileSystem.TileSystem;
 import org.newdawn.slick.geom.Point;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -17,37 +18,24 @@ public class GroundSprite {
             variant = 4;
         }
         if (tileToLocation.containsKey(tileId)) {
-            return tileToLocation.get(tileId).get(variant);
+            ArrayList<Point> variants = tileToLocation.get(tileId);
+            if (variants.size() < variant - 1) {
+                throw new InvalidParameterException("No variant for this tile type");
+            }
+            Point loc = variants.get(variant);
+            return new Point(loc.getX()*32,loc.getY()*32);
+        } else {
+            throw new InvalidParameterException("Tile type sprite not implemented yet.");
         }
-        return new Point(1*32,31*32);
     }
 
-    /* Variants for Tile Maps:
-        To Water:
-        0 - ┌
-        1 - ┬
-        2 - ┐
-        3 - ├      (aka)
-        4 - ┼       012
-        5 - ┤       345
-        6 - └       678
-        7 - ┴
-        8 - ┘
-        To Dirt:
-        9 - ┌
-        10- ┬
-        11- ┐
-        12- ├      (aka)
-        13- ┼       09 10 11
-        14- ┤       12 13 14
-        15- └       15 16 17
-        16- ┴
-        17- ┘
-    */
 
-    public static HashMap<TileSystem.TileId,ArrayList<Point>> tileToLocation = new HashMap<TileSystem.TileId,ArrayList<Point>>(){{
+
+    public static HashMap<TileSystem.TileId, ArrayList<Point>> tileToLocation = new HashMap<TileSystem.TileId, ArrayList<Point>>(){{
         put(TileSystem.TileId.GRASS, new ArrayList<Point>() {{
-            // To Grass
+            add(new Point(15,1 ));// ┼
+        }});
+        put(TileSystem.TileId.GRASSWATER, new ArrayList<Point>() {{
             add(new Point(0 ,0 ));// ┌
             add(new Point(1 ,0 ));// ┬
             add(new Point(3 ,0 ));// ┐
@@ -55,18 +43,34 @@ public class GroundSprite {
             add(new Point(15,1 ));// ┼
             add(new Point(3 ,1 ));// ┤
             add(new Point(0 ,3 ));// └
-            add(new Point(1 ,1 ));// ┴
-            add(new Point(1 ,1 ));// ┘
-            // To Dirt
-            add(new Point(0+4 ,0+4 ));// ┌
-            add(new Point(1+4 ,0+4 ));// ┬
-            add(new Point(3+4 ,0+4 ));// ┐
-            add(new Point(0+4 ,1+4 ));// ├
-            add(new Point(15+4,1+4 ));// ┼
-            add(new Point(3+4 ,1+4 ));// ┤
-            add(new Point(0+4 ,3+4 ));// └
-            add(new Point(1+4 ,1+4 ));// ┴
-            add(new Point(1+4 ,1+4 ));// ┘
+            add(new Point(1 ,3 ));// ┴
+            add(new Point(3 ,3 ));// ┘
+        }});
+        put(TileSystem.TileId.GRASSDIRT, new ArrayList<Point>() {{
+            // To Grass
+            add(new Point(1 ,1+4 ));// ┌
+            add(new Point(1 ,0+4 ));// ┬
+            add(new Point(3 ,0+4 ));// ┐
+            add(new Point(0 ,1+4 ));// ├
+            add(new Point(15,1+4 ));// ┼
+            add(new Point(3 ,1+4 ));// ┤
+            add(new Point(0 ,3+4 ));// └
+            add(new Point(1 ,1+4 ));// ┴
+            add(new Point(1 ,1+4 ));// ┘
+
+        }});
+
+        put(TileSystem.TileId.DIRTWATER, new ArrayList<Point>() {{
+            // To Grass
+            add(new Point(1 ,1+4 ));// ┌
+            add(new Point(1 ,0+4 ));// ┬
+            add(new Point(3 ,0+4 ));// ┐
+            add(new Point(0 ,1+4 ));// ├
+            add(new Point(15,1+4 ));// ┼
+            add(new Point(3 ,1+4 ));// ┤
+            add(new Point(0 ,3+4 ));// └
+            add(new Point(1 ,1+4 ));// ┴
+            add(new Point(1 ,1+4 ));// ┘
 
         }});
     }};

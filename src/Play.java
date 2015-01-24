@@ -1,3 +1,6 @@
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -36,7 +39,7 @@ public class Play extends BasicGameState implements GameState {
 		
 		int footer_height = 40;
 		int header_height = 40;
-		
+		int footer_y = container.getHeight()-footer_height;
 		// Header
 		g.setColor(Color.lightGray);
 		g.fillRoundRect(0, 0, container.getWidth(), header_height, 5);
@@ -45,11 +48,11 @@ public class Play extends BasicGameState implements GameState {
 		
 		// Footer
 		g.setColor(Color.gray);
-		g.drawRoundRect(0, container.getHeight()-footer_height, container.getWidth(), container.getHeight(), 5);
+		g.drawRoundRect(0, footer_y, container.getWidth(), container.getHeight(), 5);
 		g.setColor(Color.lightGray);
-		g.fillRoundRect(0, container.getHeight()-footer_height, container.getWidth(), container.getHeight(), 5);
-	
-		g.drawString(""+gs.getTimeSurvived(), 100, 100);
+		g.fillRoundRect(0, footer_y, container.getWidth(), container.getHeight(), 5);
+		g.setColor(Color.black);
+		g.drawString(""+gs.getDate().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)), 5,footer_y+5);
 	}
 
 	@Override
