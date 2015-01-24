@@ -1,6 +1,7 @@
 package Map;
 
 import TileSystem.Tile;
+import TileSystem.TileSystem;
 
 import java.io.*;
 
@@ -10,8 +11,8 @@ import java.io.*;
 public class SimpleMapLoader {
     private static final String filePath = "map.txt";
 
-    public TileSystem.Tile[][] loadMap() throws FileNotFoundException {
-        TileSystem.Tile[][] tiles = null;
+    public Tile[][] loadMap() throws FileNotFoundException {
+        Tile[][] tiles = null;
         BufferedReader reader = null;
         try {
             File file = new File(filePath);
@@ -23,13 +24,13 @@ public class SimpleMapLoader {
                 throw new Exception("Map has invalid grid size!");
             }
 
-            tiles = new TileSystem.Tile[size][size];
+            tiles = new Tile[size][size];
 
             // Iterate through the file to set the map up.
             for (int x = 0; x < size; x++) {
                 String line = reader.readLine();
                 for (int y = 0; y < line.length(); y++) {
-                    createTile(line.charAt(y), x, y);
+                    tiles[x][y] = createTile(line.charAt(y), x, y);
                 }
             }
 
@@ -51,12 +52,12 @@ public class SimpleMapLoader {
         return tiles;
     }
 
-    private TileSystem.Tile createTile(char mapChar, int x, int y) {
+    private Tile createTile(char mapChar, int x, int y) {
         switch(mapChar) {
             case 'M':
-                return null;//new TileSystem.Tile(TileSystem.TileId.WATER,x,y,2);
+                return new Tile(TileSystem.TileId.WATER,x,y,2);
             default:
-                return null;//new TileSystem.Tile(TileSystem.TileId.DIRT,x,y,2);
+                return new Tile(TileSystem.TileId.DIRT,x,y,2);
         }
     }
 

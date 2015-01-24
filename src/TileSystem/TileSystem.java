@@ -1,5 +1,6 @@
 package TileSystem;
 
+import Map.SimpleMapLoader;
 import java.util.List;
 
 import org.lwjgl.util.vector.Vector2f;
@@ -12,6 +13,8 @@ import org.newdawn.slick.geom.Point;
 import Player.PlayerUI;
 import Sprite.GroundSprite;
 
+import java.io.FileNotFoundException;
+
 public class TileSystem {
 	
 	public Camera camera;
@@ -22,7 +25,7 @@ public class TileSystem {
 	private Image tileMap;
 	
 	private final Color semi = new Color(0, 0, 0, 0.5f);
-	
+
 	public enum TileId{
 		GRASS,
 		DIRT,
@@ -31,38 +34,37 @@ public class TileSystem {
 
 	private Tile tiles[][];
 	
-	public TileSystem(int size){
-		this.size = size;
+	public TileSystem(){
+		SimpleMapLoader loader = new SimpleMapLoader();
+
+		this.size = 100;
 		tiles = new Tile[size][size];
 		camera = new Camera(0, 0);
 		
 		setTileMap("dg_edging132.gif");
-		
-		for(int x = 0; x < size; x++){
-            for(int y = 0; y < size; y++){
-            	tiles[x][y] = new Tile(TileId.GRASS, x, y, 0);
-            }
+
+//		for(int x = 0; x < size; x++){
+//            for(int y = 0; y < size; y++){
+//            	tiles[x][y] = new Tile(TileId.GRASS, x, y, 1);
+//            }
+//		}
+
+		try {
+			tiles = loader.loadMap();
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
 		}
-		tiles[5][5] = new Tile(TileId.GRASS, 5, 5, 0);
-		tiles[6][5] = new Tile(TileId.GRASS, 6, 5, 2);
-		tiles[7][5] = new Tile(TileId.GRASS, 7, 5, 2);
-		tiles[8][5] = new Tile(TileId.GRASS, 8, 5, 2);
-		tiles[9][5] = new Tile(TileId.GRASS, 9, 5, 2);
-		tiles[10][5] = new Tile(TileId.GRASS, 10, 5, 2);
-		tiles[7][6] = new Tile(TileId.WATER, 7, 5, 2);
-		tiles[8][6] = new Tile(TileId.WATER, 8, 5, 2);
-		tiles[9][6] = new Tile(TileId.WATER, 9, 5, 2);
-		tiles[10][6] = new Tile(TileId.WATER, 10, 6, 2);
-		
+
 		for(int x = 0; x < size; x++){
-            for(int y = 0; y < size; y++){
-            	getTile(x, y).x = x;
-             	getTile(x, y).y = y;
-            }
+			for(int y = 0; y < size; y++){
+				getTile(x, y).x = x;
+				getTile(x, y).y = y;
+			}
 		}
-		
-		//Change variants
-		//GroundSprite.setVariants(tiles);
+
+//		Change variants
+//		GroundSprite.setVariants(tiles);
 	}
 	
 	public void setTile(int x, int y, Tile tile){

@@ -46,7 +46,7 @@ public class Play extends BasicGameState implements GameState,
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
-		ts = new TileSystem(100);
+		ts = new TileSystem();
 		gs = new GameSession();
 		players = new ArrayList<PlayerUI>();
 		for (int i = 0; i < gs.getAgents().size(); i++) {
