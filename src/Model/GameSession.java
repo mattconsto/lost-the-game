@@ -10,7 +10,7 @@ public class GameSession {
 	// 30 seconds = 1 hour
 	// 1 second = 2 minutes
 	private static final int MINS_PER_SEC = 2;
-	private static final int NUMBER_AGENTS = 2;
+	private static final int NUMBER_AGENTS = 9;
 	
 	private static final float FOOD_PER_SEC_WALK = 0.5f;
 	private static final float FOOD_PER_SEC_STAND = 0.25f;
@@ -91,6 +91,21 @@ public class GameSession {
 		return items;
 	}
 
+	public void addItemByType(ItemType itemType) {
+		if (!itemCounts.containsKey(itemType)) {
+			items.add(ItemFactory.createItem(itemType));
+			itemCounts.put(itemType, 1);
+		} else {
+			itemCounts.put(itemType, itemCounts.get(itemType) + 1);
+		}
+	}
+	
+	public void addItemByType(ItemType itemType, int count) {
+		for(int i=0; i<count; i++) {
+			addItemByType(itemType);
+		}
+	}
+	
 	public void addItem(Item item) {
 		ItemType type = item.getType();
 		if (!itemCounts.containsKey(type)) {
@@ -101,22 +116,34 @@ public class GameSession {
 		}
 	}
 
-	public void removeItem(Item item) {
-		ItemType type = item.getType();
-		if(getItemCount(type) == 0) {
+	public void removeItemByType(ItemType itemType) {
+		if(getItemCount(itemType) == 0) {
 			return;
 		}
-		int updatedCount = itemCounts.get(type) - 1;
-		itemCounts.put(type, updatedCount);
+		int updatedCount = itemCounts.get(itemType) - 1;
+		itemCounts.put(itemType, updatedCount);
 		if (updatedCount == 0) {
 			for(Item currentItem: items) {
-				if(currentItem.getType() == type) {
+				if(currentItem.getType() == itemType) {
 					items.remove(currentItem);
 					break;
 				}
 			}
-			itemCounts.remove(type);
+			itemCounts.remove(itemType);
 		}
+	}
+	
+	public void removeItemByType(ItemType itemType, int count) {
+		if(getItemCount(itemType) >= count) {
+			for(int i=0; i<count; i++) {
+				removeItemByType(itemType);
+			}
+		}
+	}
+	
+	public void removeItem(Item item) {
+		ItemType type = item.getType();
+		removeItemByType(type);
 	}
 
 	public int getItemCount(ItemType itemType) {

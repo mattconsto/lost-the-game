@@ -1,3 +1,5 @@
 *.class
 *.iml
 bin
+.classpath
+.idea

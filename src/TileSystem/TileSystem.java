@@ -1,6 +1,8 @@
 package TileSystem;
 
+import Map.PerlinMapGenerator;
 import Map.SimpleMapLoader;
+
 import java.util.List;
 
 import org.lwjgl.util.vector.Vector2f;
@@ -35,6 +37,7 @@ public class TileSystem {
 	
 	public TileSystem(Point windowSize){
 		SimpleMapLoader loader = new SimpleMapLoader();
+		//PerlinMapGenerator loader = new PerlinMapGenerator();
 
 		camera = new Camera(34, 29, tileRes, windowSize);
 		
@@ -42,10 +45,13 @@ public class TileSystem {
 
 		try {
 			tiles = loader.loadMap();
-			this.size = tiles[0].length;
 		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		this.size = tiles[0].length;
+		VariantChooser variantChooser = new VariantChooser(size,tiles);
+		variantChooser.setVariants();
 
 		for(int x = 0; x < size; x++){
 			for(int y = 0; y < size; y++){
@@ -106,7 +112,7 @@ public class TileSystem {
             	{
             		finalX = (x*resTimesScale)-offsets.x;
             		finalY = (y*resTimesScale)-offsets.y;
-            		Point src = GroundSprite.getSprite(tiles[x][y].id, tiles[x][y].touching, tiles[x][y].variant);
+            		Point src = GroundSprite.getSprite(tiles[x][y].id, tiles[x][y].touching, tiles[x][y].variant, TileAttr.NONE);
             		g.drawImage(tileMap, finalX, finalY, finalX+resTimesScale, finalY+resTimesScale, src.getX(), src.getY(), src.getX()+tileRes, src.getY()+tileRes);
             	}
             }
