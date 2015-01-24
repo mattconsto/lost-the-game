@@ -127,7 +127,7 @@ public class PlayerUI {
     
     protected void firePlayerReachedDestinationEvent()
     {
-        if (_listeners != null && _listeners.isEmpty())
+        if (_listeners != null && !_listeners.isEmpty())
         {
             Enumeration<PlayerReachedDestinationEvent> e = _listeners.elements();
             while (e.hasMoreElements())
