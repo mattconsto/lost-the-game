@@ -37,17 +37,11 @@ public class TileSystem {
 	public TileSystem(){
 		SimpleMapLoader loader = new SimpleMapLoader();
 
-		this.size = 100;
+		this.size = 184;
 		tiles = new Tile[size][size];
 		camera = new Camera(0, 0);
 		
 		setTileMap("dg_edging132.gif");
-
-//		for(int x = 0; x < size; x++){
-//            for(int y = 0; y < size; y++){
-//            	tiles[x][y] = new Tile(TileId.GRASS, x, y, 1);
-//            }
-//		}
 
 		try {
 			tiles = loader.loadMap();
@@ -62,9 +56,6 @@ public class TileSystem {
 				getTile(x, y).y = y;
 			}
 		}
-
-//		Change variants
-//		GroundSprite.setVariants(tiles);
 	}
 	
 	public void setTile(int x, int y, Tile tile){
