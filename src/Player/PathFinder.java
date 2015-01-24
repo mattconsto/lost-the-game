@@ -56,6 +56,8 @@ public class PathFinder
   		{
   			tiles.add(currentTile);
   		    currentTile = getNextTile(currentTile);
+  		    if (currentTile == null) return tiles;
+  		    
   		   // System.out.println(currentTile.x + ", " + currentTile.y + " - " + distances[currentTile.x][currentTile.y]);
   		    if (currentTile == startTile) return tiles;
   		}while (true);
