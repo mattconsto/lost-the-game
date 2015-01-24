@@ -206,7 +206,7 @@ public class MonsterUI {
     
     protected void firePlayerReachedDestinationEvent()
     {
-        if (_listeners != null && !_listeners.isEmpty())
+       /* if (_listeners != null && !_listeners.isEmpty())
         {
             Enumeration<PlayerReachedDestinationEvent> e = _listeners.elements();
             while (e.hasMoreElements())
@@ -214,7 +214,7 @@ public class MonsterUI {
             	PlayerReachedDestinationEvent ev = e.nextElement();
                 ev.reachedDestination(this, destination.x, destination.y);;
             }
-        }
+        }*/
     }
      
 
