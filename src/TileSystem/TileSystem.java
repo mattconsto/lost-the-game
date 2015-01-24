@@ -130,8 +130,8 @@ public class TileSystem {
         		finalY = (y*resTimesScale)-offsets.y;
             	switch(tiles[x][y].vis){
 	            	case 0:
-	            		g.setColor(Color.black);
-	            		g.fillRect(finalX, finalY, resTimesScale, resTimesScale);
+	            		//g.setColor(Color.black);
+	            		//g.fillRect(finalX, finalY, resTimesScale, resTimesScale);
 	            		break;
 	            	case 1:
 	            		g.setColor(semi);

@@ -18,7 +18,6 @@ import TileSystem.TileSystem.TileId;
 public class PlayerUI {
 
 	TileSystem ts;
-	PathFinder p;
 	public Agent agent;
 	
 	public Vector2f location = new Vector2f(34,29);
@@ -36,7 +35,7 @@ public class PlayerUI {
 	{
 		agent = agentIn;
 		ts = tsIn;
-		p = new PathFinder(ts);
+		
 		
 		Image playerImage = new Image("player/walking1.png");
 		
@@ -66,9 +65,9 @@ public class PlayerUI {
 	
 	public void moveto(float destinationX, float destinationY){
 		atDestination = false;
-		p = new PathFinder(ts);
+		PathFinder p = new PathFinder(ts, location);
 		destination = new Vector2f(destinationX, destinationY);
-		destinations = p.findPath(location, destination);
+		destinations = p.findPath( destination);
 	}
 	
 	int imageWidth = 80;
