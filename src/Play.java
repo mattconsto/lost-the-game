@@ -9,7 +9,6 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import Sprite.GroundSprite;
 import TileSystem.TileSystem;
 import Model.GameSession;
 import Player.PlayerUI;
