@@ -14,7 +14,7 @@ import org.lwjgl.Sys;
  */
 public class PerlinMapGenerator {
     public Tile[][] loadMap() {
-    	int mapWidth  = 2150;
+    	int mapWidth  = 150;
     	int mapHeight = 150;
     	
         Tile[][] tiles = new Tile[mapWidth][mapHeight];
