@@ -54,6 +54,10 @@ public class VariantChooser {
 
         // Try tiles in order of priority.
         for (TileSystem.TileId type : tilePriority) {
+            tile.touching = type;
+            if (type == tile.id) {
+                return blanken(tile);
+            }
             // Check the sides for this type
             int sides = ((upMiddle == type)?1:0)+((middleLeft == type)?1:0)+((middleRight == type)?1:0)+((downMiddle == type)?1:0);
 
@@ -63,6 +67,7 @@ public class VariantChooser {
                 int corners = ((upLeft == type) ? 1 : 0) + ((upRight == type) ? 1 : 0) + ((downLeft == type) ? 1 : 0) + ((downRight == type) ? 1 : 0);
 
                 if (corners == 1) {
+                    tile.variant = 0;
                     if(downRight == type) {
                         tile.variant += 0;
                     }else if(downLeft == type) {

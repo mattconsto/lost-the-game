@@ -1,5 +1,6 @@
 package Player;
 import java.util.Enumeration;
+import java.util.Random;
 import java.util.Vector;
 
 import org.newdawn.slick.Graphics;
@@ -11,6 +12,7 @@ import org.lwjgl.util.vector.Vector2f;
 import Model.Agent;
 import TileSystem.TileSystem;
 import TileSystem.Tile;
+import TileSystem.TileSystem.TileId;
 
 
 public class PlayerUI {
@@ -24,7 +26,7 @@ public class PlayerUI {
 	Vector<Tile> destinations = new Vector<Tile>();
 	public boolean atDestination = true;
 	
-	float playerWalkSpeedMS = 1.4f;		//average walk speed 1.4m per second
+	
 	float tileSizeM = 50.0f;			//Tile is 100m across
 	float gameSpeed = 3600/30;			//Game is 30s is one hour 3600s is 30s => 120s per 1s
 	Vector<Image> playerImages = null;
@@ -45,6 +47,21 @@ public class PlayerUI {
 		playerImages.add(playerImage.getSubImage(3*imageWidth,0,(3*imageWidth)+imageWidth,imageHeight));
 		playerImages.add(playerImage.getSubImage(4*imageWidth,0,(4*imageWidth)+imageWidth,imageHeight));
 		playerImages.add(playerImage.getSubImage(5*imageWidth,0,(5*imageWidth)+imageWidth,imageHeight));
+		
+		//Random Start location
+		location = randomLocation();
+	}
+	
+	private Vector2f randomLocation()
+	{
+		Random randomGenerator = new Random();
+		while(true)
+		{
+			int x = randomGenerator.nextInt(ts.size);
+			int y = randomGenerator.nextInt(ts.size);
+			Tile tile = ts.getTile(x, y);
+			if (tile.id == TileId.GRASS) return new Vector2f(x,y);
+		}
 	}
 	
 	public void moveto(float destinationX, float destinationY){
@@ -75,8 +92,12 @@ public class PlayerUI {
 	
 	public void render(Graphics g){
 		Vector2f screenLocation = ts.worldToScreenPos(location.x, location.y);
+		
+		//HACK REMOVE NEXT LINE WHEN REAL CAMERA STUFF DONE
+		if (!atDestination) ts.getCamera().move(screenLocation.x-300, screenLocation.y-200);
+		
+		
 		g.setColor(new Color(255,0,0));
-
 		Image realPlayer = getPlayerImage();
 		realPlayer.setCenterOfRotation(30, 30);
 
@@ -123,10 +144,11 @@ public class PlayerUI {
 	public void update(float deltaTime) {
 		if (atDestination) return;
 		
+		
+		
 		animationFrame += deltaTime*5;
 		//Some basic movement code - a bit elaborate tbh
-		float deltaTimeS = (float)deltaTime;
-		float distanceTravelled = (deltaTimeS * gameSpeed * playerWalkSpeedMS)/ tileSizeM ;
+		
 		
 		Vector2f currentDestination = destination;
 		Tile destTile = null;
@@ -135,6 +157,16 @@ public class PlayerUI {
 		    destTile = destinations.get(destinations.size()-1);
 			currentDestination = new Vector2f(destTile.x+0.5f, destTile.y+0.5f);
 		}
+		
+		//average walk speed 1.4m per second
+		float playerWalkSpeedMS = 1.4f;
+		if (ts.getTileFromWorld(location.x, location.y).id == TileId.WATER)
+		{
+			playerWalkSpeedMS = 0.3f;
+		}
+		
+		float deltaTimeS = (float)deltaTime;
+		float distanceTravelled = (deltaTimeS * gameSpeed * playerWalkSpeedMS)/ tileSizeM ;
 		
 		//Move the player
 		Vector2f directionVec = new Vector2f(currentDestination.x - location.x, currentDestination.y-location.y);

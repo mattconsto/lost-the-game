@@ -37,15 +37,15 @@ public class TileSystem {
 	public TileSystem(){
 		SimpleMapLoader loader = new SimpleMapLoader();
 
-		this.size = 184;
-		tiles = new Tile[size][size];
 		camera = new Camera(25*32, 20*32);
 		
 		setTileMap("dg_edging132.gif");
 
 		try {
 			tiles = loader.loadMap();
-
+			this.size = tiles[0].length;
+			VariantChooser variantChooser = new VariantChooser(size,tiles);
+			variantChooser.setVariants();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -92,16 +92,16 @@ public class TileSystem {
 	}
 	
 	public void setZoom(float zoomLevel, Point windowSize){
-		float zoomChange = zoomLevel - this.zoomLevel;
 		float newZoom = zoomLevel;
 		if (newZoom >= 2)
 			newZoom = 2;
 		if (newZoom <= 0.5f)
 			newZoom = 0.5f;
+		float zoomChange = newZoom / this.zoomLevel;
 		if(newZoom != this.zoomLevel){
+			camera.move(((windowSize.getX()*newZoom) - (windowSize.getX()*this.zoomLevel))*zoomChange,
+					((windowSize.getY()*newZoom) - (windowSize.getY()*this.zoomLevel))*zoomChange);
 			this.zoomLevel = newZoom;
-			camera.x += ((tileRes*zoomChange)*(windowSize.getX()/(tileRes*newZoom)));
-			camera.y += ((tileRes*zoomChange)*(windowSize.getY()/(tileRes*newZoom)));
 		}
 	}
 	
