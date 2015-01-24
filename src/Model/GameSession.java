@@ -41,8 +41,8 @@ public class GameSession {
 		
 	}
 	
-	public void update(int delta) {
-		this.gameTimer += (delta/1000.0);
+	public void update(float delta) {
+		this.gameTimer += delta;
 		this.timeSurvived = (int)Math.floor(gameTimer*MINS_PER_SEC);
 	}
 

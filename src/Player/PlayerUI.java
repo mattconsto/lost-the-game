@@ -34,7 +34,7 @@ public class PlayerUI {
 		g.fillOval(screenLocation.x,screenLocation.y, 10, 10);
 	}
 	
-	public void update(int deltaTime) {
+	public void update(float deltaTime) {
 		if (atDestination) return;
 		
 		//Some basic movement code - a bit elaborate tbh
