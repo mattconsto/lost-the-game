@@ -11,10 +11,10 @@ import Sprite.GroundSprite;
 
 public class TileSystem {
 	
-	private Camera camera;
+	public Camera camera;
 	public float zoomLevel = 1;
-	private int tileRes = 32;
-	private int size;
+	public int tileRes = 32;
+	public int size;
 	
 	private Image tileMap;
 	
@@ -113,12 +113,11 @@ public class TileSystem {
 	private void renderTiles(Graphics g){
 		float resTimesScale = tileRes * zoomLevel;
 		float finalX, finalY;
-		int xOffset = 0, yOffset = 1;
 		
 		for(int x = 0; x < size; x++){
             for(int y = 0; y < size; y++){
-            	finalX = (x*resTimesScale)+xOffset;
-            	finalY = (y*resTimesScale)+yOffset;
+            	finalX = (x*resTimesScale)+camera.x;
+            	finalY = (y*resTimesScale)+camera.y;
             	Point src = GroundSprite.getSprite(tiles[x][y].id, tiles[x][y].variant);
             	g.drawImage(tileMap, finalX, finalY, finalX+resTimesScale, finalY+resTimesScale, src.getX(), src.getY(), src.getX()+tileRes, src.getY()+tileRes);
             }
@@ -128,12 +127,11 @@ public class TileSystem {
 	private void renderFog(Graphics g){
 		float resTimesScale = tileRes * zoomLevel;
 		float finalX, finalY;
-		int xOffset = 0, yOffset = 1;
 		
 		for(int x = 0; x < size; x++){
             for(int y = 0; y < size; y++){
-            	finalX = (x*resTimesScale)+xOffset;
-            	finalY = (y*resTimesScale)+yOffset;
+            	finalX = (x*resTimesScale)+camera.x;
+            	finalY = (y*resTimesScale)+camera.y;
             	switch(tiles[x][y].vis){
 	            	case 0:
 	            		g.setColor(Color.black);

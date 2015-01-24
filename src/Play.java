@@ -1,6 +1,7 @@
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.GameState;
@@ -62,19 +63,20 @@ public class Play extends BasicGameState implements GameState {
 	}
 
 	private void updateCameraPosition(GameContainer container, int delta) {
+		Input input = container.getInput();
 		int mouseX = container.getInput().getMouseX();
 		int mouseY = container.getInput().getMouseY();
 		
-		if(mouseX < 50)
+		if(mouseX < 50 || input.isKeyDown(Input.KEY_LEFT))
 			ts.getCamera().move(-100*delta, 0);
 		
-		if(mouseY < 50)
+		if(mouseY < 50 || input.isKeyDown(Input.KEY_UP))
 			ts.getCamera().move(0, -100*delta);
 		
-		if(mouseX > container.getWidth()-50)
+		if(mouseX > container.getWidth()-50 || input.isKeyDown(Input.KEY_RIGHT))
 			ts.getCamera().move(100*delta, 0);
 		
-		if(mouseY > container.getHeight()-50)
+		if(mouseY > container.getHeight()-50 || input.isKeyDown(Input.KEY_DOWN))
 			ts.getCamera().move(0, 100*delta);
 		
 		//if(ts.getCamera().x < (ts.getSize()*ts.zoomLevel));
