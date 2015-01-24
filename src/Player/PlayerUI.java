@@ -8,7 +8,6 @@ import org.lwjgl.util.vector.Vector2f;
 
 import TileSystem.TileSystem;
 import TileSystem.TileSystem.Tile;
-import TileSystem.TileSystem.TileId;
 
 
 public class PlayerUI {
@@ -22,7 +21,7 @@ public class PlayerUI {
 	boolean atDestination = true;
 	
 	float playerWalkSpeedMS = 1.4f;		//average walk speed 1.4m per second
-	float tileSizeM = 100.0f;			//Tile is 100m across
+	float tileSizeM = 10.0f;			//Tile is 100m across
 	float gameSpeed = 3600/30;			//Game is 30s is one hour 3600s is 30s => 120s per 1s
 	
 	public PlayerUI(TileSystem tsIn){
@@ -217,6 +216,16 @@ public class PlayerUI {
     				minTile = tile;
     			}
     		}
+    		if (currentTile.x >0 && currentTile.y >0)
+    		{
+    			Tile tile = ts.getTile(currentTile.x-1, currentTile.y-1);
+    			int dist = distances[tile.x][tile.y];
+    			if (dist < min)
+    			{
+    				 min=dist;
+    				minTile = tile;
+    			}
+    		}
     		if (currentTile.x < size-2)
     		{
     			Tile tile = ts.getTile(currentTile.x+1, currentTile.y);
@@ -230,6 +239,36 @@ public class PlayerUI {
     		if (currentTile.y < size-2)
     		{
     			Tile tile = ts.getTile(currentTile.x, currentTile.y+1);
+    			int dist = distances[tile.x][tile.y];
+    			if (dist < min)
+    			{
+    				 min=dist;
+    				minTile = tile;
+    			}
+    		}
+    		if (currentTile.x < size-2 && currentTile.y < size-2)
+    		{
+    			Tile tile = ts.getTile(currentTile.x+1, currentTile.y+1);
+    			int dist = distances[tile.x][tile.y];
+    			if (dist < min)
+    			{
+    				 min=dist;
+    				minTile = tile;
+    			}
+    		}
+    		if (currentTile.x >0 && currentTile.y < size-2)
+    		{
+    			Tile tile = ts.getTile(currentTile.x-1, currentTile.y+1);
+    			int dist = distances[tile.x][tile.y];
+    			if (dist < min)
+    			{
+    				 min=dist;
+    				minTile = tile;
+    			}
+    		}
+    		if (currentTile.x < size-2 && currentTile.y >0)
+    		{
+    			Tile tile = ts.getTile(currentTile.x+1, currentTile.y-1);
     			int dist = distances[tile.x][tile.y];
     			if (dist < min)
     			{
@@ -259,6 +298,14 @@ public class PlayerUI {
     			if (currentValue < distances[currentDest.x][currentDest.y])
     				setDistances(currentDest, currentValue);
     		}
+    		if (startTile.x >0 && startTile.y >0)
+    		{
+    			Tile currentDest = ts.getTile(startTile.x-1, startTile.y-1);
+    			int moveValue = getTileMoveAbility(currentDest);
+    			int currentValue = distance + moveValue;
+    			if (currentValue < distances[currentDest.x][currentDest.y])
+    				setDistances(currentDest, currentValue);
+    		}
     		if (startTile.x < size-2)
     		{
     			Tile currentDest = ts.getTile(startTile.x+1, startTile.y);
@@ -270,6 +317,32 @@ public class PlayerUI {
     		if (startTile.y < size-2)
     		{
     			Tile currentDest = ts.getTile(startTile.x, startTile.y+1);
+    			int moveValue = getTileMoveAbility(currentDest);
+    			int currentValue = distance + moveValue;
+    			if (currentValue < distances[currentDest.x][currentDest.y])
+    				setDistances(currentDest, currentValue);
+    		}
+    		if (startTile.x < size-2 && startTile.y < size-2)
+    		{
+    			Tile currentDest = ts.getTile(startTile.x+1, startTile.y+1);
+    			int moveValue = getTileMoveAbility(currentDest);
+    			int currentValue = distance + moveValue;
+    			if (currentValue < distances[currentDest.x][currentDest.y])
+    				setDistances(currentDest, currentValue);
+    		}
+    		
+    		if (startTile.x >0  && startTile.y < size-2)
+    		{
+    			Tile currentDest = ts.getTile(startTile.x-1, startTile.y+1);
+    			int moveValue = getTileMoveAbility(currentDest);
+    			int currentValue = distance + moveValue;
+    			if (currentValue < distances[currentDest.x][currentDest.y])
+    				setDistances(currentDest, currentValue);
+    		}
+    		
+    		if (startTile.x < size-2 && startTile.y >0)
+    		{
+    			Tile currentDest = ts.getTile(startTile.x+1, startTile.y-1);
     			int moveValue = getTileMoveAbility(currentDest);
     			int currentValue = distance + moveValue;
     			if (currentValue < distances[currentDest.x][currentDest.y])
