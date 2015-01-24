@@ -151,7 +151,13 @@ public class TileSystem {
 	}
 	
 	public void updateFog(Vector2f pos){
-		
+		int xp = (int)pos.x;
+		int yp = (int)pos.y;
+		for(int x = xp - 4; x < xp + 4; x++){
+			for(int y = yp - 4; y < yp + 4; y++){
+				
+			}
+		}
 	}
 	
 	public Camera getCamera(){
