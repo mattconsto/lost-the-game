@@ -9,6 +9,7 @@ import org.lwjgl.util.vector.Vector2f;
 import Model.Agent;
 import TileSystem.TileSystem;
 import TileSystem.TileSystem.Tile;
+import TileSystem.TileSystem.TileId;
 
 
 public class PlayerUI {
@@ -154,8 +155,6 @@ public class PlayerUI {
     		for(int x = 0; x < size; x++){
                 for(int y = 0; y < size; y++){
                 	distances[x][y] = 9999;
-                	ts.getTile(x,y).x = x;
-                	ts.getTile(x,y).y = y;
                 }
     		}
     		
@@ -357,9 +356,9 @@ public class PlayerUI {
     	{
     		//This is how much is added to the distance variable per tile move bigger = slower
     		//negative = er no cannot do it
-    		if (tileIn.variant == 0) return 999;
-    		if (tileIn.variant == 1) return 1;
-    		if (tileIn.variant == 2) return 2;
+    		if (tileIn.id == TileId.WATER) return 999;
+    		if (tileIn.id == TileId.GRASS) return 1;
+    		if (tileIn.id == TileId.DIRT) return 2;
 			return 99;
     	}
     	

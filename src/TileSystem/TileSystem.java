@@ -39,11 +39,15 @@ public class TileSystem {
 		public Tile(TileId id, int x, int y, int vis){
 			this.id = id;
 			this.vis = vis;
+			this.x = x;
+			this.y = y;
 		}
 		
 		public Tile(TileId id, int x, int y, int vis, int variant){
 			this.id = id;
 			this.vis = vis;
+			this.x = x;
+			this.y = y;
 			this.variant = variant;
 		}
 	}
@@ -68,10 +72,10 @@ public class TileSystem {
 		tiles[8][5] = new Tile(TileId.GRASS, 8, 5, 2);
 		tiles[9][5] = new Tile(TileId.GRASS, 9, 5, 2);
 		tiles[10][5] = new Tile(TileId.GRASS, 10, 5, 2);
-		tiles[7][6] = new Tile(TileId.GRASS, 7, 5, 2);
-		tiles[8][6] = new Tile(TileId.GRASS, 8, 5, 2);
-		tiles[9][6] = new Tile(TileId.GRASS, 9, 5, 2);
-		tiles[10][6] = new Tile(TileId.GRASS, 10, 5, 2);
+		tiles[7][6] = new Tile(TileId.WATER, 7, 5, 2);
+		tiles[8][6] = new Tile(TileId.WATER, 8, 5, 2);
+		tiles[9][6] = new Tile(TileId.WATER, 9, 5, 2);
+		tiles[10][6] = new Tile(TileId.WATER, 10, 5, 2);
 		
 		//Change variants
 		//GroundSprite.setVariants(tiles);
@@ -86,8 +90,8 @@ public class TileSystem {
 	}
 	
 	public Tile getTileFromScreen(int x, int y){
-		
-		return null;
+		Vector2f world = screenToWorldPos(x, y);
+		return getTileFromWorld(world.getX(), world.getY());
 	}
 	
 	public int getSize(){
@@ -122,8 +126,6 @@ public class TileSystem {
 			camera.x += ((tileRes*zoomChange)*(windowSize.getX()/(tileRes*newZoom)))/2;
 			camera.y += ((tileRes*zoomChange)*(windowSize.getY()/(tileRes*newZoom)))/2;
 		}
-//		camera.x += (windowSize.getX()/tileRes*zoomChange);
-//		camera.y += (windowSize.getY()/tileRes*zoomChange);
 	}
 	
 	public void render(Graphics g){
