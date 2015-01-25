@@ -544,6 +544,14 @@ public class Play extends BasicGameState implements GameState,
 						Rectangle actionZone = actionZones.get(i);
 						if (actionZone.contains(mouseX, mouseY)) {
 							Action action = validActions.get(i);
+							int player_index = gs.getAgents().indexOf(
+									selectedAgent);
+							PlayerUI player = players.get(player_index);
+							selectedAgent.startAction(action);
+							messenger.addMessage(selectedAgent.getName() + " " + action.getDescription(), Color.red, 4);
+
+							Tile tile = ts.getTileFromWorld(player.location.x, player.location.y);
+							action.getActionable().beforeAction(gs, selectedAgent, ts, tile);
 							performAction(action);
 						}
 					}
