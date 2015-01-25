@@ -21,8 +21,6 @@ public class Agent {
 	private Action action;
 	private double actionStartTime;
 	
-	
-	
 	public Agent(float food, float water, float health) {
 		this();
 		this.setFood(food);
