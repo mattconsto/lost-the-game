@@ -41,7 +41,7 @@ public class MonsterUI {
 		players = playersIn;
 		
 		
-		Image playerImage = new Image("monster/monster.png");
+		Image playerImage = new Image("monster/spider.gif");
 		
 		playerImages = new Vector<Image>();
 		playerImages.add(playerImage.getSubImage(0*imageWidth,0,(0*imageWidth)+imageWidth,imageHeight));
