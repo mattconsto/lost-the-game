@@ -15,6 +15,7 @@ import org.newdawn.slick.geom.Point;
 
 import Player.PlayerUI;
 import Sprite.GroundSprite;
+import Sprite.Sprite;
 
 import java.io.FileNotFoundException;
 
@@ -26,6 +27,7 @@ public class TileSystem {
 	float resTimesScale = 32;
 	
 	private Image tileMap;
+	private Image spriteMap;
 	
 	private final Color semi = new Color(0, 0, 0, 0.3f);
 
@@ -44,10 +46,11 @@ public class TileSystem {
 		SimpleMapLoader loader = new SimpleMapLoader();
 		//PerlinMapGenerator loader = new PerlinMapGenerator();
 
-		camera = new Camera(34, 29, tileRes, windowSize);
+		camera = new Camera(20, 20, tileRes, windowSize);
 		resTimesScale = tileRes * camera.zoom;
 		
 		setTileMap("dg_edging132.gif");
+		setSpriteMap("itemsprites.gif");
 
 		try {
 			tiles = loader.loadMap();
@@ -109,21 +112,24 @@ public class TileSystem {
 		resTimesScale = tileRes * camera.zoom;
 	}
 	
-	
-	
 	public void renderTiles(Graphics g){
 		float finalX, finalY;
 		
 		Vector2f offsets = camera.getOffsets();
 		for(int x = 0; x < size; x++){
             for(int y = 0; y < size; y++){
-            	if (tiles[x][y].vis != 0)
-            	{
-            		finalX = (x*resTimesScale)-offsets.x;
-            		finalY = (y*resTimesScale)-offsets.y;
-            		if(isOnScreen(x, y)){
-	            		Point src = GroundSprite.getSprite(tiles[x][y].id, tiles[x][y].touching, tiles[x][y].variant, TileAttr.NONE);
-	            		g.drawImage(tileMap, finalX, finalY, finalX+resTimesScale, finalY+resTimesScale, src.getX(), src.getY(), src.getX()+tileRes, src.getY()+tileRes);
+        		finalX = (x*resTimesScale)-offsets.x;
+        		finalY = (y*resTimesScale)-offsets.y;
+        		if(isOnScreen(x, y)){
+            		Point src = GroundSprite.getSprite(tiles[x][y].id, tiles[x][y].touching, tiles[x][y].variant);
+            		g.drawImage(tileMap, finalX, finalY, finalX+resTimesScale, finalY+resTimesScale, src.getX(), src.getY(), src.getX()+tileRes, src.getY()+tileRes);
+            		
+            		if(tiles[x][y].attr != TileAttr.NONE){
+            			finalX -= 8*camera.zoom;
+                		finalY -= 8*camera.zoom;
+	            		src = Sprite.getSprite(tiles[x][y].attr);
+	            		if(src != null)
+	            			g.drawImage(spriteMap, finalX, finalY, finalX+resTimesScale+8*camera.zoom, finalY+resTimesScale+8*camera.zoom, src.getX(), src.getY(), src.getX()+tileRes, src.getY()+tileRes);
             		}
             	}
             }
@@ -206,6 +212,16 @@ public class TileSystem {
 		try {
 			tileMap = new Image("tiles/"+fileName);
 			tileMap.setFilter(Image.FILTER_NEAREST);
+		} catch (SlickException e) {
+			System.out.println("Error: Cannot load image " + fileName);
+			e.printStackTrace();
+		}
+	}
+	
+	public void setSpriteMap(String fileName){
+		try {
+			spriteMap = new Image("tiles/"+fileName);
+			spriteMap.setFilter(Image.FILTER_NEAREST);
 		} catch (SlickException e) {
 			System.out.println("Error: Cannot load image " + fileName);
 			e.printStackTrace();

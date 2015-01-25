@@ -24,7 +24,7 @@ public class GroundSprite {
     * */
 
     //returns the location of the tile in grid
-    public static Point getSprite(TileSystem.TileId tileId, TileSystem.TileId touching, int variant, TileAttr tileAttr) {
+    public static Point getSprite(TileSystem.TileId tileId, TileSystem.TileId touching, int variant) {
         if (variant == -1) {
             variant = 0;
         }

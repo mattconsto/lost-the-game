@@ -1,8 +1,10 @@
 package Sprite;
 
 import TileSystem.TileSystem;
-import org.newdawn.slick.Image;
+import TileSystem.TileAttr;
+import org.newdawn.slick.geom.Point;
 
+import java.security.InvalidParameterException;
 import java.util.HashMap;
 
 /**
@@ -11,37 +13,23 @@ import java.util.HashMap;
  */
 public class Sprite {
 
-    private class SpriteRef {
-        int xLoc;
-        int yLoc;
-        String image;
-        public SpriteRef(int xLoc, int yLoc, String image) {
-            this.xLoc = xLoc;
-            this.yLoc = yLoc;
-            this.image = image;
+    private static HashMap<TileAttr,Point> hashMap = new HashMap<TileAttr,Point>() {{
+        put(TileAttr.RELIGIOUS_ARTIFACT,new Point(0,0));
+        put(TileAttr.SKELETON,new Point(32,0));
+        put(TileAttr.CORPSE,new Point(32*2,0));
+        put(TileAttr.PINE_TREE,new Point(32*3,0));
+        put(TileAttr.TREE,new Point(32*4,0));
+        put(TileAttr.PALM_TREE,new Point(32*5,0));
+    }};
+
+    //returns the location of the tile in grid
+    public static Point getSprite(TileAttr tileAttr) {
+        if (hashMap.containsKey(tileAttr)) {
+            return hashMap.get(tileAttr);
+        } else {
+        	return null;
+            //throw new InvalidParameterException("Missing Sprite for TileID");
         }
     }
-
-    public Image getSpriteByTileIdAndVariant(TileSystem.TileId tileId, int variant) {
-        return null;
-    }
-
-    /* Variants for Tile Maps:
-        1 - ┌
-        2 - ┬
-        3 - ┐
-        4 - ├      (aka)
-        5 - ┼       123
-        6 - ┤       456
-        7 - └       789
-        8 - ┴
-        9 - ┘
-    */
-
-    public HashMap<TileSystem.TileId,SpriteRef> tiletoLocation = new HashMap<TileSystem.TileId, SpriteRef>(){{
-        put(TileSystem.TileId.DIRT,new SpriteRef(1,1,"dg_edging132.gif"));
-//        put(TileSystem.TileId.DIRT,new SpriteRef(1,1,"dg_armor32.gif"));
-//        put(TileSystem.TileId.DIRT,new SpriteRef(1,1,"dg_armor32.gif"));
-    }};
 
 }
