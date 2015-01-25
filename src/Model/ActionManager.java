@@ -401,7 +401,7 @@ public class ActionManager {
 			public boolean canPerform(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
 	
-				return ((tile.attr == TileAttr.PALM_TREE || tile.attr == TileAttr.PINE_TREE) && gs.getItemCount(ItemType.AXE) >= 1);
+				return ((tile.attr == TileAttr.PALM_TREE || tile.attr == TileAttr.PINE_TREE || tile.attr == TileAttr.TREE) && gs.getItemCount(ItemType.AXE) >= 1);
 			}
 
 		}));
@@ -416,6 +416,7 @@ public class ActionManager {
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
 					Tile tile) {
 				gs.addItemByType(ItemType.ARTIFACT);
+				tile.attr = TileAttr.NONE;
 			}
 
 			@Override
@@ -543,7 +544,7 @@ public class ActionManager {
 			@Override
 			public boolean canPerform(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
-				return tile.attr == TileAttr.TREE;
+				return ((tile.attr == TileAttr.PALM_TREE || tile.attr == TileAttr.PINE_TREE || tile.attr == TileAttr.TREE));
 			}
 
 		}));
