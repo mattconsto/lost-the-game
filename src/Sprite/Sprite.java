@@ -15,7 +15,11 @@ public class Sprite {
 
     private static HashMap<TileAttr,Point> hashMap = new HashMap<TileAttr,Point>() {{
         put(TileAttr.RELIGIOUS_ARTIFACT,new Point(0,0));
-
+        put(TileAttr.SKELETON,new Point(32,0));
+        put(TileAttr.CORPSE,new Point(32*2,0));
+        put(TileAttr.PINE_TREE,new Point(32*3,0));
+        put(TileAttr.TREE,new Point(32*4,0));
+        put(TileAttr.PALM_TREE,new Point(32*5,0));
     }};
 
     //returns the location of the tile in grid
@@ -26,8 +30,5 @@ public class Sprite {
             throw new InvalidParameterException("Missing Sprite for TileID");
         }
     }
-
-
-
 
 }
