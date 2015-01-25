@@ -59,6 +59,11 @@ public class SimpleMapLoader {
             case ' ':
                 return new Tile(TileSystem.TileId.GRASS,x,y,0);
             case ':':
+            	return new Tile(TileSystem.TileId.DIRT,x,y,0);
+            case 'R':
+            	return new Tile(TileSystem.TileId.ROCK,x,y,0);
+            case 'S':
+            	return new Tile(TileSystem.TileId.SNOW,x,y,0);
             default:
                 return new Tile(TileSystem.TileId.DIRT,x,y,0);
         }
