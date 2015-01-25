@@ -41,7 +41,7 @@ import TileSystem.TileSystem.TileId;
 public class Play extends BasicGameState implements GameState,
 		PlayerReachedDestinationEvent {
 
-	public static final int STATE_PLAY = 1;
+	public static final int STATE_PLAY = 0;
 
 	TileSystem ts;
 	GameSession gs;
@@ -311,6 +311,8 @@ public class Play extends BasicGameState implements GameState,
 		g.fillRect(0, action_bar_y, container.getWidth(), action_bar_height);
 
 		// Draw agents
+		g.setColor(Color.lightGray);
+		g.fillRect(ag_x, ag_y, agent_bar_width, agent_bar_height);
 		int agent_zone_x = 500;
 		List<Agent> agents = gs.getAgents();
 		List<Rectangle> agentZones = new ArrayList<Rectangle>();
@@ -333,7 +335,8 @@ public class Play extends BasicGameState implements GameState,
 			}
 
 			g.setColor(Color.black);
-			g.drawString(agent.getName(), ag_x + pad, y + pad);
+			g.drawString((i == 9 ? 0 : (i+1))+"", ag_x + pad, y + pad);
+			g.drawString(agent.getName(), ag_x + pad + 25, y + pad);
 
 			if (agent.getState() != AgentState.DEAD) {
 				// Draw fills first
@@ -621,8 +624,47 @@ public class Play extends BasicGameState implements GameState,
 		monsterManager.update(seconds);
 		ts.updateFog(players, gs);
 		gs.update(seconds);
+		
 
-		if (container.getInput().isKeyDown(Input.KEY_ESCAPE)) {
+		Input input = container.getInput();
+		Agent newAgent = null;
+		if(input.isKeyDown(Input.KEY_0)) {
+			newAgent = agents.get(9);
+		}
+		if(input.isKeyDown(Input.KEY_1)) {
+			newAgent = agents.get(0);
+		}
+		if(input.isKeyDown(Input.KEY_2)) {
+			newAgent = agents.get(1);
+		}
+		if(input.isKeyDown(Input.KEY_3)) {
+			newAgent = agents.get(2);
+		}
+		if(input.isKeyDown(Input.KEY_4)) {
+			newAgent = agents.get(3);
+		}
+		if(input.isKeyDown(Input.KEY_5)) {
+			newAgent = agents.get(4);
+		}
+		if(input.isKeyDown(Input.KEY_6)) {
+			newAgent = agents.get(5);
+		}
+		if(input.isKeyDown(Input.KEY_7)) {
+			newAgent = agents.get(6);
+		}
+		if(input.isKeyDown(Input.KEY_8)) {
+			newAgent = agents.get(7);
+		}
+		if(input.isKeyDown(Input.KEY_9)) {
+			newAgent = agents.get(8);
+		}
+		
+		if(newAgent != null) {
+			selectedAgent = newAgent;
+			ts.getCamera().isFollowing = true;
+		}
+		
+		if (input.isKeyDown(Input.KEY_ESCAPE)) {
 			container.exit();
 		}
 	}

@@ -746,8 +746,8 @@ public class ActionManager {
 			}
 
 		}));
-
-		this.actions.add(new Action("Sacrifice Another", 0, new IActionable() {
+		
+		this.actions.add(new Action("Sacrifice Another", 120, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
@@ -768,7 +768,7 @@ public class ActionManager {
 
 		}));
 		
-		this.actions.add(new Action("Sacrifice Yourself", 0, new IActionable() {
+		this.actions.add(new Action("Sacrifice Yourself", 120, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
