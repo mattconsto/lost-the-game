@@ -32,8 +32,8 @@ public class MonsterUI {
 	float gameSpeed = 3600/30;			//Game is 30s is one hour 3600s is 30s => 120s per 1s
 	Vector<Image> playerImages = null;
 	
-	int imageWidth = 80;
-	int imageHeight = 80;
+	int imageWidth = 32;
+	int imageHeight = 32;
 	public MonsterUI(Agent agentIn, TileSystem tsIn, List<PlayerUI> playersIn) throws SlickException
 	{
 		agent = agentIn;
@@ -46,6 +46,7 @@ public class MonsterUI {
 		playerImages = new Vector<Image>();
 		playerImages.add(playerImage.getSubImage(0*imageWidth,0,(0*imageWidth)+imageWidth,imageHeight));
 		playerImages.add(playerImage.getSubImage(1*imageWidth,0,(1*imageWidth)+imageWidth,imageHeight));
+		playerImages.add(playerImage.getSubImage(2*imageWidth,0,(2*imageWidth)+imageWidth,imageHeight));
 
 		
 		//Random Start location
@@ -73,18 +74,18 @@ public class MonsterUI {
 	
 	public Image getPlayerImage()
 	{
-		if (animationFrame >= playerImages.size()) animationFrame = 0;
+		if (animationFrame > 2) animationFrame = 0;
 		if (atDestination) animationFrame = 0;
 		 return playerImages.get((int)animationFrame);
 	}
 	
-	public void render(Graphics g){
+	public void render(Graphics g, float scale){
 		Vector2f screenLocation = ts.worldToScreenPos(location.x, location.y);
 
 		
 		g.setColor(new Color(255,0,0));
 		Image realPlayer = getPlayerImage();
-		realPlayer.setCenterOfRotation(30, 30);
+		realPlayer.setCenterOfRotation(16*scale, 16*scale);
 
 	if (destinations.size()>1) 
 		{
@@ -107,8 +108,8 @@ public class MonsterUI {
 		
 		realPlayer.rotate(angle);
 		
-		realPlayer.draw(screenLocation.x-30,screenLocation.y-30,
-				screenLocation.x+40,screenLocation.y+40,0,0,imageWidth, imageHeight);
+		realPlayer.draw(screenLocation.x-16*scale,screenLocation.y-16*scale,
+				screenLocation.x+16*scale,screenLocation.y+16*scale,0,0,imageWidth, imageHeight);
 		realPlayer.rotate(-angle);
 		
 		//g.fillRect(screenLocation.x-20,screenLocation.y-20,
