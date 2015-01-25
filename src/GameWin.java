@@ -10,6 +10,7 @@ import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import Model.AgentState;
+import Model.GameSession;
 import Player.PlayerUI;
 
 
@@ -51,9 +52,18 @@ public class GameWin extends BasicGameState implements GameState {
 			}
 			offset-=30;
 		}
+		GameSession gs = GameSession.getInstance();
 		
+		if (gs.getCompletionType() == 1)
+			g.drawString("Game Over You Win (You could do alot better that a raft)", container.getWidth()/2, container.getHeight()/2);
+		else if(gs.getCompletionType() == 2)
+			g.drawString("Game Over You Win (You could do better than a boat)", container.getWidth()/2, container.getHeight()/2);
+		else if(gs.getCompletionType() == 3)
+			g.drawString("Game Over You Win (You could do a bit better than a plane)", container.getWidth()/2, container.getHeight()/2);
+		else if(gs.getCompletionType() == 4)
+			g.drawString("Game Over You Win (You can't do much better than a SPACE CRAFT!)", container.getWidth()/2, container.getHeight()/2);
 		
-		g.drawString("Game Over You Win (You could do better)", container.getWidth()/2, container.getHeight()/2);
+		//g.drawString("Game Over You Win (You could do better)", container.getWidth()/2, container.getHeight()/2);
 		g.drawString("press Escape to exit or Enter to start again", container.getWidth()/2, container.getHeight()/2 + 30);
 	}
 
