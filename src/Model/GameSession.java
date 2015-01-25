@@ -20,7 +20,7 @@ public class GameSession {
 	private static final float WATER_PER_SEC_STAND = 0.25f;
 	private static final float WATER_PER_SEC_SLEEP = 0.2f;
 
-	private static final float HEALTH_PER_SEC = 0.5f;
+	private static final float HEALTH_PER_SEC = 0.25f;
 	private static GameSession instance;
 
 	private boolean walking = false;
@@ -83,7 +83,7 @@ public class GameSession {
 			}
 
 			if (agent.getFood() == 0 || agent.getWater() == 0) {
-				agent.decHealth(HEALTH_PER_SEC);
+				agent.decHealth(HEALTH_PER_SEC * delta);
 			}
 			
 			if (agent.getHealth() <= 0)			{
