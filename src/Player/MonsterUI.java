@@ -23,6 +23,7 @@ public class MonsterUI {
 
 	TileSystem ts;
 	public Agent agent;
+	int monsterId;
 	
 	public Vector2f location = new Vector2f(34,29);
 	//Vector2f destination = new Vector2f(34,29);
@@ -35,7 +36,9 @@ public class MonsterUI {
 	Vector<Image> playerImages = null;
 	//average walk speed 1.4m per second
 	float playerWalkSpeedMS = 1.4f;
-	boolean evil;
+	float playerWalkSpeedMSSlow = 1.4f;
+	float playerWalkSpeedMSFast = 1.4f;
+	float playerDamage;
 	
 	float lastValue = 100.0f;
 	double lastDecrementTime=0.0;
@@ -43,21 +46,41 @@ public class MonsterUI {
 	
 	int imageWidth = 32;
 	int imageHeight = 32;
-	public MonsterUI(Agent agentIn, TileSystem tsIn, List<PlayerUI> playersIn, boolean evilIn) throws SlickException
+	public MonsterUI(Agent agentIn, TileSystem tsIn, List<PlayerUI> playersIn, int monsterIdIn) throws SlickException
 	{
 		agent = agentIn;
 		ts = tsIn;
 		players = playersIn;
-		evil = evilIn;
+		monsterId = monsterIdIn;
 		
 		
-		Image playerImage = new Image("monster/spider.gif");
 		
-		playerImages = new Vector<Image>();
-		playerImages.add(playerImage.getSubImage(0*imageWidth,0,(0*imageWidth)+imageWidth,imageHeight));
-		playerImages.add(playerImage.getSubImage(1*imageWidth,0,(1*imageWidth)+imageWidth,imageHeight));
-		playerImages.add(playerImage.getSubImage(2*imageWidth,0,(2*imageWidth)+imageWidth,imageHeight));
-
+		
+		if (monsterId ==0 || monsterId ==1)
+		{
+			imageWidth = 32;
+			imageHeight = 32;
+			Image playerImage = new Image("monster/spider.gif");
+			playerImages = new Vector<Image>();
+			playerImages.add(playerImage.getSubImage(0*imageWidth,0,(0*imageWidth)+imageWidth,imageHeight));
+			playerImages.add(playerImage.getSubImage(1*imageWidth,0,(1*imageWidth)+imageWidth,imageHeight));
+			playerImages.add(playerImage.getSubImage(2*imageWidth,0,(2*imageWidth)+imageWidth,imageHeight));
+			playerWalkSpeedMSSlow = 0.2f;
+			playerWalkSpeedMSFast = 2.0f;
+			playerDamage = 10.0f;
+		}
+		else
+		{
+			 imageWidth = 80;
+			 imageHeight = 80;
+			Image playerImage = new Image("monster/monster.png");
+			playerImages = new Vector<Image>();
+			playerImages.add(playerImage.getSubImage(0*imageWidth,0,(0*imageWidth)+imageWidth,imageHeight));
+			playerImages.add(playerImage.getSubImage(1*imageWidth,0,(1*imageWidth)+imageWidth,imageHeight));
+			playerWalkSpeedMSSlow = 0.1f;
+			playerWalkSpeedMSFast = 4.0f;
+			playerDamage = 100.0f;
+		}
 		
 		//Random Start location
 		location = randomLocation();
@@ -84,7 +107,7 @@ public class MonsterUI {
 	
 	public Image getPlayerImage()
 	{
-		if (animationFrame > 2) animationFrame = 0;
+		if (animationFrame >= playerImages.size()) animationFrame = 0;
 		if (atDestination) animationFrame = 0;
 		 return playerImages.get((int)animationFrame);
 	}
@@ -120,12 +143,9 @@ public class MonsterUI {
 		
 		realPlayer.draw(screenLocation.x-16*scale,screenLocation.y-16*scale,
 				screenLocation.x+16*scale,screenLocation.y+16*scale,0,0,imageWidth, imageHeight);
-		realPlayer.rotate(-angle);
-		
-		//g.fillRect(screenLocation.x-20,screenLocation.y-20,
-		//		40,40);
-		
+		realPlayer.rotate(-angle);	
 	}
+	
 	
 	public void renderOverlay(Graphics g, float scale){
 		Vector2f screenLocation = ts.worldToScreenPos(location.x, location.y);
@@ -144,7 +164,34 @@ public class MonsterUI {
 		}
 	}
 	
+	private void updateHealthDisplay()
+	{
+		float health = agent.getHealth();
+		if (health < lastValue)
+		{
+			lastValue = health;
+			showHealth = true;
+			GameSession gs = GameSession.getInstance();
+			lastDecrementTime = gs.getTimeSurvived();
+		}
+		if (showHealth)
+		{
+			GameSession gs = GameSession.getInstance();
+			if ((gs.getTimeSurvived()- lastDecrementTime) > 5) 
+				showHealth = false;
+		}
+	}
+	
+	private void updateWebsOnTrees()
+	{
+		Tile current = ts.getTileFromWorld(location.x,  location.y);
+		if (current.attr == TileAttr.TREE) 
+			current.attr = TileAttr.WEBBED_TREE;
+	}
+	
 	public void update(float deltaTime) {
+		updateHealthDisplay();
+		updateWebsOnTrees();
 		
 		boolean mauledPlayer = false;
 		//See if we are less than 1 square from any player and if so injure them !
@@ -158,7 +205,7 @@ public class MonsterUI {
 				float distToPlayer = (float)Math.sqrt((difX*difX)+(difY*difY));
 				if (distToPlayer < 1)
 				{
-					player.agent.decHealth(10* deltaTime);
+					player.agent.decHealth(playerDamage* deltaTime);
 					mauledPlayer = true;
 				}
 			}
@@ -210,29 +257,14 @@ public class MonsterUI {
 		}
 		
 		
-		float health = agent.getHealth();
-		if (health < lastValue)
-		{
-			lastValue = health;
-			showHealth = true;
-			GameSession gs = GameSession.getInstance();
-			lastDecrementTime = gs.getTimeSurvived();
-		}
-		if (showHealth)
-		{
-			GameSession gs = GameSession.getInstance();
-			if ((gs.getTimeSurvived()- lastDecrementTime) > 5) 
-				showHealth = false;
-		}
+
 		
-		Tile current = ts.getTileFromWorld(location.x,  location.y);
-		if (current.attr == TileAttr.TREE) 
-			current.attr = TileAttr.WEBBED_TREE;
+
 	}
 	
 	private void randomMove()
 	{
-		if (evil)
+		if (monsterId==1 || monsterId==3)
 			randomMoveEvil();
 		else
 			randomMoveGood();
@@ -261,7 +293,7 @@ public class MonsterUI {
 					if (hasNoWater(destinationsTemp))
 					{
 						destinations = destinationsTemp;
-						playerWalkSpeedMS = 2.0f;
+						playerWalkSpeedMS = playerWalkSpeedMSFast;
 						return;
 					}
 				}
@@ -285,7 +317,7 @@ public class MonsterUI {
 					if (hasNoWater(destinationsTemp))
 					{
 						destinations = destinationsTemp;	
-						playerWalkSpeedMS = 0.2f;
+						playerWalkSpeedMS = playerWalkSpeedMSSlow;
 						return;
 					}
 				}
@@ -336,11 +368,11 @@ public class MonsterUI {
 							destinations = destinationsTemp;
 							if (run)
 							{
-								playerWalkSpeedMS = 2.0f;
+								playerWalkSpeedMS = playerWalkSpeedMSFast;
 							}
 							else
 							{
-								playerWalkSpeedMS = 0.2f;
+								playerWalkSpeedMS = playerWalkSpeedMSSlow;
 							}
 							
 							return;
