@@ -15,7 +15,7 @@ public class ActionManager {
 		this.actions = new ArrayList<Action>();
 
 		// These are all hard-coded for now!
-		this.actions.add(new Action("Pick Grass", 6, new IActionable() {
+		this.actions.add(new Action("Pick Grass", "picking some grass", 6, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
@@ -37,7 +37,7 @@ public class ActionManager {
 
 		}));
 
-		this.actions.add(new Action("Eat Fish", 10, new IActionable() {
+		this.actions.add(new Action("Eat Fish", "eating a fish", 10, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
@@ -58,7 +58,7 @@ public class ActionManager {
 
 		}));
 
-		this.actions.add(new Action("Eat Cake", 10, new IActionable() {
+		this.actions.add(new Action("Eat Cake", "eating cake", 10, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
@@ -79,7 +79,7 @@ public class ActionManager {
 
 		}));
 
-		this.actions.add(new Action("Eat Berries", 10, new IActionable() {
+		this.actions.add(new Action("Eat Berries", "eating berries", 10, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
@@ -100,7 +100,7 @@ public class ActionManager {
 
 		}));
 
-		this.actions.add(new Action("Drink Water", 3, new IActionable() {
+		this.actions.add(new Action("Drink Water", "drinking water", 3, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
@@ -122,7 +122,7 @@ public class ActionManager {
 
 		}));
 
-		this.actions.add(new Action("Drink Seawater", 3, new IActionable() {
+		this.actions.add(new Action("Drink Seawater", "drinking seawater", 3, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
@@ -142,7 +142,7 @@ public class ActionManager {
 
 		}));
 
-		this.actions.add(new Action("Drink Pondwater", 3, new IActionable() {
+		this.actions.add(new Action("Drink Pondwater", "drinking pondwater", 3, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
@@ -162,7 +162,7 @@ public class ActionManager {
 
 		}));
 
-		this.actions.add(new Action("Take Dirt", 3, new IActionable() {
+		this.actions.add(new Action("Take Dirt", "digging up dirt",  3, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
@@ -181,7 +181,7 @@ public class ActionManager {
 			}
 
 		}));
-		this.actions.add(new Action("Make Mud Brick", 10, new IActionable() {
+		this.actions.add(new Action("Make Mud Brick", "making a mud brick", 10, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
@@ -203,7 +203,7 @@ public class ActionManager {
 			}
 
 		}));
-		this.actions.add(new Action("Build Hut", 60, new IActionable() {
+		this.actions.add(new Action("Build Hut", "building a hut", 60, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
@@ -229,7 +229,7 @@ public class ActionManager {
 
 		}));
 
-		this.actions.add(new Action("Burn Corpse", 15, new IActionable() {
+		this.actions.add(new Action("Burn Corpse", "burning a corpse", 15, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
@@ -249,7 +249,7 @@ public class ActionManager {
 			}
 		}));
 
-		this.actions.add(new Action("Start Fire", 10, new IActionable() {
+		this.actions.add(new Action("Start Fire", "starting a fire", 10, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
@@ -284,7 +284,7 @@ public class ActionManager {
 			}
 		}));
 
-		this.actions.add(new Action("Salvage Parts", 30, new IActionable() {
+		this.actions.add(new Action("Salvage Parts", "salvaging parts", 30, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
@@ -303,7 +303,7 @@ public class ActionManager {
 			}
 		}));
 
-		this.actions.add(new Action("Light Stick", 20, new IActionable() {
+		this.actions.add(new Action("Light Stick", "lighting a stick", 20, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
@@ -329,7 +329,7 @@ public class ActionManager {
 			}
 		}));
 
-		this.actions.add(new Action("Eat Corpsicle", 20, new IActionable() {
+		this.actions.add(new Action("Eat Corpsicle", "eating a corpsicle", 20, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
@@ -350,7 +350,7 @@ public class ActionManager {
 
 		}));
 
-		this.actions.add(new Action("Eat Corpse", 60, new IActionable() {
+		this.actions.add(new Action("Eat Corpse", "eating a corpse", 60, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
@@ -371,7 +371,7 @@ public class ActionManager {
 
 		}));
 
-		this.actions.add(new Action("Take Corpse", 5, new IActionable() {
+		this.actions.add(new Action("Take Corpse", "taking a corpse", 5, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
@@ -392,7 +392,7 @@ public class ActionManager {
 
 		}));
 
-		this.actions.add(new Action("Get Rock", 3, new IActionable() {
+		this.actions.add(new Action("Get Rock", "getting a rock", 3, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
@@ -418,7 +418,7 @@ public class ActionManager {
 
 		}));
 
-		this.actions.add(new Action("Find Berries", 5, new IActionable() {
+		this.actions.add(new Action("Find Berries", "finding berries", 5, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
@@ -444,7 +444,7 @@ public class ActionManager {
 
 		}));
 
-		this.actions.add(new Action("Make Sail", 30, new IActionable() {
+		this.actions.add(new Action("Make Sail", "making a sail", 30, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
@@ -465,7 +465,7 @@ public class ActionManager {
 
 		}));
 
-		this.actions.add(new Action("Make Cloth", 30, new IActionable() {
+		this.actions.add(new Action("Make Cloth", "making some cloth", 30, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
@@ -486,7 +486,7 @@ public class ActionManager {
 
 		}));
 
-		this.actions.add(new Action("Chop Tree", 30, new IActionable() {
+		this.actions.add(new Action("Chop Tree", "chopping a tree", 30, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
@@ -522,7 +522,7 @@ public class ActionManager {
 
 		}));
 
-		this.actions.add(new Action("Find Artifacts", 60, new IActionable() {
+		this.actions.add(new Action("Find Artifacts", "finding artifacts", 60, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
@@ -542,7 +542,7 @@ public class ActionManager {
 			}
 
 		}));
-		this.actions.add(new Action("Get Water", 3, new IActionable() {
+		this.actions.add(new Action("Get Water", "getting water", 3, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
@@ -563,7 +563,7 @@ public class ActionManager {
 
 		}));
 
-		this.actions.add(new Action("Get Oil", 3, new IActionable() {
+		this.actions.add(new Action("Get Oil", "getting oil", 3, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
@@ -585,7 +585,7 @@ public class ActionManager {
 
 		}));
 
-		this.actions.add(new Action("Make Axe", 15, new IActionable() {
+		this.actions.add(new Action("Make Axe", "making an axe", 15, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
@@ -610,7 +610,7 @@ public class ActionManager {
 
 		}));
 
-		this.actions.add(new Action("Make Spear", 15, new IActionable() {
+		this.actions.add(new Action("Make Spear", "making a spear", 15, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
@@ -635,7 +635,7 @@ public class ActionManager {
 
 		}));
 
-		this.actions.add(new Action("Take Stick", 3, new IActionable() {
+		this.actions.add(new Action("Take Stick", "taking a stick", 3, new IActionable() {
 
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
@@ -677,7 +677,7 @@ public class ActionManager {
 
 		}));
 
-		this.actions.add(new Action("Take Web", 5, new IActionable() {
+		this.actions.add(new Action("Take Web", "taking some webs", 5, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
@@ -699,7 +699,7 @@ public class ActionManager {
 
 		}));
 
-		this.actions.add(new Action("Take Vine", 10, new IActionable() {
+		this.actions.add(new Action("Take Vine", "taking a vine", 10, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
@@ -725,7 +725,7 @@ public class ActionManager {
 
 		}));
 
-		this.actions.add(new Action("Catch Fish", 10, new IActionable() {
+		this.actions.add(new Action("Catch Fish", "catching a fish", 10, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
@@ -746,8 +746,8 @@ public class ActionManager {
 			}
 
 		}));
-
-		this.actions.add(new Action("Sacrifice Another", 0, new IActionable() {
+		
+		this.actions.add(new Action("Sacrifice Another", "sacrificing someone", 120, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
@@ -768,7 +768,7 @@ public class ActionManager {
 
 		}));
 		
-		this.actions.add(new Action("Sacrifice Yourself", 0, new IActionable() {
+		this.actions.add(new Action("Sacrifice Yourself", "sacrificing themselves", 120, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
@@ -789,7 +789,7 @@ public class ActionManager {
 
 		}));
 		
-		this.actions.add(new Action("Sleep", 0, new IActionable() {
+		this.actions.add(new Action("Sleep", "sleeping", 0, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
@@ -810,7 +810,35 @@ public class ActionManager {
 
 		}));
 
-		this.actions.add(new Action("Build Raft", 3, new IActionable() {
+		this.actions.add(new Action("Demo", "running a demo", 3, new IActionable() {
+			@Override
+			public void beforeAction(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				gs.addItemByType(ItemType.VINE, 3);
+				gs.addItemByType(ItemType.SAIL, 1);
+				gs.addItemByType(ItemType.STICK, 10);
+				gs.addItemByType(ItemType.METAL, 10);
+				gs.addItemByType(ItemType.MUD, 5);
+				gs.addItemByType(ItemType.PLANK, 25);
+				gs.addItemByType(ItemType.OIL, 5);
+				gs.addItemByType(ItemType.ARTIFACT, 1);
+				gs.addItemByType(ItemType.FLIGHT, 1);
+			}
+
+			@Override
+			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
+					Tile tile) {
+			}
+
+			@Override
+			public boolean canPerform(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				return true;
+			}
+
+		}));
+		
+		this.actions.add(new Action("Build Raft", "building a raft", 180, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
@@ -836,7 +864,7 @@ public class ActionManager {
 
 		}));
 
-		this.actions.add(new Action("Build Boat", 3, new IActionable() {
+		this.actions.add(new Action("Build Boat", "building a boat", 240, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
@@ -870,7 +898,7 @@ public class ActionManager {
 
 		}));
 
-		this.actions.add(new Action("Build Plane", 3, new IActionable() {
+		this.actions.add(new Action("Build Plane", "building a plane", 300, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
@@ -907,7 +935,7 @@ public class ActionManager {
 
 		}));
 
-		this.actions.add(new Action("Build Spacecraft", 3, new IActionable() {
+		this.actions.add(new Action("Build Spacecraft", "building a spacecraft", 360, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
@@ -924,7 +952,7 @@ public class ActionManager {
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
 					Tile tile) {
-				gs.setCompletionType(3);
+				gs.setCompletionType(4);
 				gs.setCompleted(true);
 			}
 

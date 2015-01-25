@@ -14,14 +14,12 @@ import TileSystem.TileSystem;
 public class MonsterManager {
 
 	public Vector<MonsterUI> monsters = new Vector<MonsterUI>();
-	Vector<Agent> monsterAgents;
 	List<PlayerUI> players;
 	TileSystem ts;
 	
 	public MonsterManager(TileSystem tsIn, List<PlayerUI> playersIn) throws SlickException
 	{
-		monsterAgents = new Vector<Agent>();
-		monsterAgents.add(new Agent());
+
 		ts = tsIn;
 		players = playersIn;
 	}
@@ -50,8 +48,7 @@ public class MonsterManager {
 		if (monsters.size() < 20)
 		{
 			Random randomGenerator = new Random();
-			Agent monsterAgent = monsterAgents.get(randomGenerator.nextInt(monsterAgents.size()));
-			monsters.addElement(new MonsterUI(monsterAgent, ts, players, randomGenerator.nextInt(100) > 50));
+			monsters.addElement(new MonsterUI(new Agent(), ts, players, randomGenerator.nextInt(4) ));
 		}
 		
 		for (MonsterUI monster : new Vector<MonsterUI>(monsters))

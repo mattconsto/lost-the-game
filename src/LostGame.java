@@ -33,9 +33,12 @@ public class LostGame extends StateBasedGame {
 		
 		Play play = new Play();
 		GameOver go = new GameOver();
+		GameWin gw = new GameWin();
 		go.setPlayState(play);
+		gw.setPlayState(play);
 		this.addState(play);
 		this.addState(go);
+		this.addState(gw);
         this.enterState(Play.STATE_PLAY);
         
         SoundManager.init();

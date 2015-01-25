@@ -74,6 +74,10 @@ public class PlayerUI {
 	}
 	
 	public void moveto(float destinationX, float destinationY){
+		if(destinationX < 0) destinationX = 0;
+		if(destinationX >= ts.size) destinationX = ts.size-1;
+		if(destinationY < 0) destinationY = 0;
+		if(destinationY >= ts.size) destinationY = ts.size-1;
 		atDestination = false;
 		PathFinder p = new PathFinder(ts, location);
 		destination = new Vector2f(destinationX, destinationY);
@@ -168,8 +172,29 @@ public class PlayerUI {
 		}
 	}
 	
+	private void updateHealthDisplay()
+	{
+		float health = agent.getHealth();
+		if (health < lastValue)
+		{
+			lastValue = health;
+			showHealth = true;
+			GameSession gs = GameSession.getInstance();
+			lastDecrementTime = gs.getTimeSurvived();
+		}
+		if (showHealth)
+		{
+			GameSession gs = GameSession.getInstance();
+			if ((gs.getTimeSurvived()- lastDecrementTime) > 5) 
+				showHealth = false;
+		}
+	}
+	
 	public void update(float deltaTime) {
+		updateHealthDisplay();
+		
 		if (agent.getState() ==  AgentState.DEAD) return;
+			
 		if (atDestination) return;
 		
 		
@@ -233,21 +258,6 @@ public class PlayerUI {
 		
 		}
 		
-		
-		float health = agent.getHealth();
-		if (health < lastValue)
-		{
-			lastValue = health;
-			showHealth = true;
-			GameSession gs = GameSession.getInstance();
-			lastDecrementTime = gs.getTimeSurvived();
-		}
-		if (showHealth)
-		{
-			GameSession gs = GameSession.getInstance();
-			if ((gs.getTimeSurvived()- lastDecrementTime) > 5) 
-				showHealth = false;
-		}
 		
 	}
 	

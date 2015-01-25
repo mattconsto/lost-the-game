@@ -1,9 +1,9 @@
 package Model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 public class Agent {
 	private float food;
@@ -45,6 +45,7 @@ public class Agent {
 		this.generateName();
 		this.setState(AgentState.STANDING);
 	}
+	
 	
 	public float getFood() {
 		return food;
@@ -171,4 +172,5 @@ public class Agent {
 		 if (ratio > 1) ratio = 1;
 		 return ratio;
 	}
+
 }

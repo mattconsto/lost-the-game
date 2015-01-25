@@ -41,7 +41,7 @@ import TileSystem.TileSystem.TileId;
 public class Play extends BasicGameState implements GameState,
 		PlayerReachedDestinationEvent {
 
-	public static final int STATE_PLAY = 1;
+	public static final int STATE_PLAY = 0;
 
 	TileSystem ts;
 	GameSession gs;
@@ -53,6 +53,7 @@ public class Play extends BasicGameState implements GameState,
 	ActionManager actionManager;
 	MonsterManager monsterManager;
 	MiniMap miniMap;
+	Messenger messenger;
 
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
@@ -74,6 +75,7 @@ public class Play extends BasicGameState implements GameState,
 		selectedAgent = gs.getAgents().get(0);
 		selectedItems = new ArrayList<Item>();
 		actionManager = new ActionManager();
+		messenger = new Messenger();
 
 		stickFigure = new Image("icons/stickperson.png");
 
@@ -96,7 +98,7 @@ public class Play extends BasicGameState implements GameState,
 		RandomTileObject(TileId.DIRT, TileAttr.PALM_TREE, 200, true);
 		RandomTileObject(TileId.ROCK, TileAttr.PINE_TREE, 100, true);
 		RandomTileObject(TileId.SNOW, TileAttr.ALIEN_ARTIFACT, 1, false);
-		RandomTileObject(TileId.SNOW, TileAttr.ALTAR, 2, false);
+		RandomTileObject(TileId.DIRT, TileAttr.ALTAR, 3, false);
 		RandomTileObject(TileId.WATER, TileAttr.BOAT, 2, false);
 		RandomTileObject(TileId.ROCK, TileAttr.CAVE, 2, false);
 		RandomTileObject(TileId.DIRT, TileId.POND, 100, false);
@@ -246,6 +248,8 @@ public class Play extends BasicGameState implements GameState,
 		ts.renderFog(g);
 		
 		miniMap.render(g);
+		
+		messenger.render(g, container.getHeight());
 
 		// Header vars
 		int header_height = 50;
@@ -310,29 +314,33 @@ public class Play extends BasicGameState implements GameState,
 		g.fillRect(0, action_bar_y, container.getWidth(), action_bar_height);
 
 		// Draw agents
+		g.setColor(Color.lightGray);
+		g.fillRect(ag_x, ag_y, agent_bar_width, agent_bar_height);
 		int agent_zone_x = 500;
 		List<Agent> agents = gs.getAgents();
 		List<Rectangle> agentZones = new ArrayList<Rectangle>();
+		int agent_height = 70;
 		for (int i = 0; i < agents.size(); i++) {
 
-			int y = ag_y + (i * 50);
+			int y = ag_y + (i * agent_height);
 			int pad = 7;
 			Agent agent = agents.get(i);
 
 			g.setColor(Color.gray);
-			g.drawRect(ag_x, y, agent_bar_width, 48);
+			g.drawRect(ag_x, y, agent_bar_width, agent_height-2);
 			g.setColor(Color.lightGray);
-			g.fillRect(ag_x, y, agent_bar_width, 48);
+			g.fillRect(ag_x, y, agent_bar_width, agent_height-2);
 
 			if (selectedAgent == agent) {
 				g.setColor(Color.red);
-				g.drawRect(ag_x, y, agent_bar_width, 48);
+				g.drawRect(ag_x, y, agent_bar_width, agent_height-2);
 			} else {
 
 			}
 
 			g.setColor(Color.black);
-			g.drawString(agent.getName(), ag_x + pad, y + pad);
+			g.drawString((i == 9 ? 0 : (i+1))+"", ag_x + pad, y + pad);
+			g.drawString(agent.getName(), ag_x + pad + 25, y + pad);
 
 			if (agent.getState() != AgentState.DEAD) {
 				// Draw fills first
@@ -354,6 +362,13 @@ public class Play extends BasicGameState implements GameState,
 				g.drawRect(ag_x + pad, y + 18 + pad, 80, 16);
 				g.drawRect(ag_x + pad + 100, y + pad, 80, 16);
 				g.drawRect(ag_x + pad + 100, y + 18 + pad, 80, 16);
+				
+				// Doing
+				if(agent.hasAction()) {
+					String doing = agent.getAction().getDescription();
+					g.setColor(Color.black);
+					g.drawString(doing.substring(0, 1).toUpperCase()+doing.substring(1)+".", ag_x + pad, y+36+pad);
+				}
 			} else {
 				g.setColor(Color.red);
 				g.drawString("DEAD", ag_x + pad + 100, y + pad);
@@ -387,7 +402,7 @@ public class Play extends BasicGameState implements GameState,
 				stickFigure.draw(ag_x + agent_bar_width - 32, y + 9, 32, 32);
 			}
 			Rectangle rect = new Rectangle(ag_x + pad, y + pad,
-					agent_bar_width, 48);
+					agent_bar_width, agent_height);
 			agentZones.add(rect);
 
 		}
@@ -495,6 +510,7 @@ public class Play extends BasicGameState implements GameState,
 									selectedAgent);
 							PlayerUI player = players.get(player_index);
 							selectedAgent.startAction(action);
+							messenger.addMessage(selectedAgent.getName() + " is doing action..." , Color.red, 4);
 
 							Tile tile = ts.getTileFromWorld(player.location.x, player.location.y);
 							action.getActionable().beforeAction(gs, selectedAgent, ts, tile);
@@ -570,7 +586,16 @@ public class Play extends BasicGameState implements GameState,
 				if(agent.getState() != AgentState.DEAD) {
 					Tile tile = ts.getTileFromWorld(player.location.x, player.location.y);
 					agent.getAction().getActionable().afterAction(gs, selectedAgent, ts, tile);
-					agent.stopAction();
+					
+					if (agent.getAction().getActionable().canPerform(gs, agent, ts, tile))
+					{
+						agent.startAction(agent.getAction());
+						agent.getAction().getActionable().beforeAction(gs, selectedAgent, ts, tile);
+					}
+					else
+					{
+						agent.stopAction();
+					}
 				}
 			}
 			
@@ -587,11 +612,32 @@ public class Play extends BasicGameState implements GameState,
 				Tile tile = ts.getTileFromWorld(player.location.x, player.location.y);
 				if(!agent.hasPlacedCorpse() && tile.attr != TileAttr.CORPSE) {
 					tile.attr = TileAttr.CORPSE;
+					messenger.addMessage(agent.getName() + getDeathMessage(), Color.red, 4);
 					agent.setPlacedCorpse(true);
 				}
 			}
 		}
 
+	}
+	
+	private String getDeathMessage(){
+		Random r = new Random();
+		switch(r.nextInt(6)){
+			case 0:
+				return " has died a slow and painful death...";
+			case 1:
+				return " has been impaled by a spider.";
+			case 2:
+				return "'s organs were strewn across the ground.";
+			case 3:
+				return "'s did something wrong. Then died. ";
+			case 4:
+				return " went for a very, very long nap.";
+			case 5:
+				return " lies still. Oh, so very tasty...";
+			default:
+				return " has died a slow and painful death...";
+		}
 	}
 
 	@Override
@@ -609,6 +655,9 @@ public class Play extends BasicGameState implements GameState,
 		if (!alive)
 			game.enterState(GameOver.STATE_OVER);
 
+		if (gs.isCompleted())
+			game.enterState(GameWin.STATE_WIN);
+		
 		float seconds = (float) (delta / 1000.0);
 		updateCamera(container, seconds);
 		for (PlayerUI player : players) {
@@ -617,8 +666,48 @@ public class Play extends BasicGameState implements GameState,
 		monsterManager.update(seconds);
 		ts.updateFog(players, gs);
 		gs.update(seconds);
+		messenger.update(seconds);
+		
 
-		if (container.getInput().isKeyDown(Input.KEY_ESCAPE)) {
+		Input input = container.getInput();
+		Agent newAgent = null;
+		if(input.isKeyDown(Input.KEY_0)) {
+			newAgent = agents.get(9);
+		}
+		if(input.isKeyDown(Input.KEY_1)) {
+			newAgent = agents.get(0);
+		}
+		if(input.isKeyDown(Input.KEY_2)) {
+			newAgent = agents.get(1);
+		}
+		if(input.isKeyDown(Input.KEY_3)) {
+			newAgent = agents.get(2);
+		}
+		if(input.isKeyDown(Input.KEY_4)) {
+			newAgent = agents.get(3);
+		}
+		if(input.isKeyDown(Input.KEY_5)) {
+			newAgent = agents.get(4);
+		}
+		if(input.isKeyDown(Input.KEY_6)) {
+			newAgent = agents.get(5);
+		}
+		if(input.isKeyDown(Input.KEY_7)) {
+			newAgent = agents.get(6);
+		}
+		if(input.isKeyDown(Input.KEY_8)) {
+			newAgent = agents.get(7);
+		}
+		if(input.isKeyDown(Input.KEY_9)) {
+			newAgent = agents.get(8);
+		}
+		
+		if(newAgent != null) {
+			selectedAgent = newAgent;
+			ts.getCamera().isFollowing = true;
+		}
+		
+		if (input.isKeyDown(Input.KEY_ESCAPE)) {
 			container.exit();
 		}
 	}

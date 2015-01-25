@@ -176,7 +176,7 @@ public class TileSystem {
             	switch(tiles[x][y].vis){
 	            	case 0:
 	            		g.setColor(Color.black);
-	            		//g.fillRect(finalX, finalY, resTimesScale, resTimesScale);
+	            		g.fillRect(finalX, finalY, resTimesScale, resTimesScale);
 	            		break;
 	            	case 1:
 	            		g.setColor(semi);
