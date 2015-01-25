@@ -125,16 +125,27 @@ public class TileSystem {
         		if(isOnScreen(x, y)){
             		Point src = GroundSprite.getSprite(tiles[x][y].id, tiles[x][y].touching, tiles[x][y].variant);
             		g.drawImage(tileMap, finalX, finalY, finalX+resTimesScale, finalY+resTimesScale, src.getX(), src.getY(), src.getX()+tileRes, src.getY()+tileRes);
-            		
-            		if(tiles[x][y].attr != TileAttr.NONE){
-            			finalX -= 8*camera.zoom;
-                		finalY -= 8*camera.zoom;
-	            		src = Sprite.getSprite(tiles[x][y].attr);
-	            		if(src != null)
-	            			g.drawImage(spriteMap, finalX, finalY, finalX+resTimesScale+8*camera.zoom, finalY+resTimesScale+8*camera.zoom, src.getX(), src.getY(), src.getX()+tileRes, src.getY()+tileRes);
-            		}
             	}
             }
+        }
+	}
+	
+	public void renderSprites(Graphics g, int row){
+		float finalX, finalY;
+		
+		Vector2f offsets = camera.getOffsets();
+        for(int x = 0; x < size; x++){
+    		finalX = (x*resTimesScale)-offsets.x;
+    		finalY = (row*resTimesScale)-offsets.y;
+    		if(isOnScreen(x, row)){
+        		if(tiles[x][row].attr != TileAttr.NONE){
+        			finalX -= 16*camera.zoom;
+            		finalY -= 16*camera.zoom;
+            		Point src = Sprite.getSprite(tiles[x][row].attr);
+            		if(src != null)
+            			g.drawImage(spriteMap, finalX, finalY, finalX+resTimesScale+16*camera.zoom, finalY+resTimesScale+16*camera.zoom, src.getX(), src.getY(), src.getX()+tileRes, src.getY()+tileRes);
+        		}
+        	}
         }
 	}
 	

@@ -25,22 +25,23 @@ public class MonsterManager {
 		players = playersIn;
 	}
 	
-	public void render(Graphics g, float scale)
+	public void render(Graphics g, float scale, int row)
 	{
 		for (MonsterUI monster : monsters)
 		{
-			monster.render(g, scale);
+			if((int)monster.location.y == row)
+				monster.render(g, scale);
 		}
 		
 	}
 	
 	public void update(float delta) throws SlickException
 	{
-		if (monsters.size() < 20)
+		if (monsters.size() < 10)
 		{
 			Random randomGenerator = new Random();
 			Agent monsterAgent = monsterAgents.get(randomGenerator.nextInt(monsterAgents.size()));
-			monsters.addElement(new MonsterUI(monsterAgent, ts, players));
+			monsters.addElement(new MonsterUI(monsterAgent, ts, players, randomGenerator.nextInt(100) > 50));
 		}
 		
 		for (MonsterUI monster : monsters)

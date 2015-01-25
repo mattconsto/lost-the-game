@@ -33,14 +33,17 @@ public class MonsterUI {
 	Vector<Image> playerImages = null;
 	//average walk speed 1.4m per second
 	float playerWalkSpeedMS = 1.4f;
+	boolean evil;
+	
 	
 	int imageWidth = 32;
 	int imageHeight = 32;
-	public MonsterUI(Agent agentIn, TileSystem tsIn, List<PlayerUI> playersIn) throws SlickException
+	public MonsterUI(Agent agentIn, TileSystem tsIn, List<PlayerUI> playersIn, boolean evilIn) throws SlickException
 	{
 		agent = agentIn;
 		ts = tsIn;
 		players = playersIn;
+		evil = evilIn;
 		
 		
 		Image playerImage = new Image("monster/spider.gif");
@@ -190,6 +193,14 @@ public class MonsterUI {
 	
 	private void randomMove()
 	{
+		if (evil)
+			randomMoveEvil();
+		else
+			randomMoveGood();
+	}
+	
+	private void randomMoveEvil()
+	{
 		Random randomGenerator = new Random();
 		PathFinder p = new PathFinder(ts, location);
 		
@@ -218,8 +229,7 @@ public class MonsterUI {
 			}	
 			}
 		}
-		
-		
+	
 		
 		while(true)
 		{
@@ -238,6 +248,64 @@ public class MonsterUI {
 						destinations = destinationsTemp;	
 						playerWalkSpeedMS = 0.2f;
 						return;
+					}
+				}
+			}
+		}
+	}
+	
+	private void randomMoveGood()
+	{
+		Random randomGenerator = new Random();
+		PathFinder p = new PathFinder(ts, location);
+		
+		boolean run = false;
+		while(true)
+		{
+			atDestination = false;
+			float randX = location.x+randomGenerator.nextInt(30)-15;
+			float randY = location.y+randomGenerator.nextInt(30)-15;
+			Vector2f destinationTemp = new Vector2f(randX,randY);
+			if (destinationTemp.x >=0 && destinationTemp.y >=0 && destinationTemp.x < ts.getSize() && destinationTemp.y < ts.getSize())
+			{
+				boolean noGood = false;
+				
+				//Step 1 - See if we have a local player
+				for (PlayerUI player : players)
+				{
+					if (player.agent.getState()  != AgentState.DEAD)
+					{
+						Vector2f playerLocation = player.location;
+						float difX = destinationTemp.x - playerLocation.x;
+						float difY = destinationTemp.y - playerLocation.y;
+						float distToPlayer = (float)Math.sqrt((difX*difX)+(difY*difY));
+						if (distToPlayer < 10)
+						{
+							noGood = true;
+							run = true;
+						}	
+					}
+				}
+				if (!noGood)
+				{
+					Tile destTile = ts.getTileFromWorld(destinationTemp.x, destinationTemp.y);
+					if (destTile.id != TileId.WATER)
+					{
+						Vector<Tile> destinationsTemp = p.findPath(destinationTemp);
+						if (hasNoWater(destinationsTemp))
+						{
+							destinations = destinationsTemp;
+							if (run)
+							{
+								playerWalkSpeedMS = 2.0f;
+							}
+							else
+							{
+								playerWalkSpeedMS = 0.2f;
+							}
+							
+							return;
+						}
 					}
 				}
 			}

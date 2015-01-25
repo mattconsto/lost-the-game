@@ -25,12 +25,14 @@ public class VariantChooser {
         this.tiles = tiles;
     }
 
-    public void setVariantAround(int x, int y) {
+    public boolean setVariantAround(int x, int y) {
+        boolean success = true;
         for(int xi = -1; xi <= 1; xi++){
             for(int yi = -1; yi <= 1; yi++){
-                setVariant(x+xi,y+yi);
+                success = success && setVariant(x + xi, y + yi);
             }
         }
+        return success;
     }
 
     public void setVariants() {
@@ -89,7 +91,8 @@ public class VariantChooser {
 
                 // ERROR Case: 2 or more corners with no sides.
                 } else if(corners > 1) {
-                    return blanken(tile);
+                    return convert(tile,type);
+                    //return blanken(tile);
                 }
 
             // 1 Side
@@ -111,7 +114,8 @@ public class VariantChooser {
                 tile.variant = 8;
                 // Error Case: 2 opposite sides
                 if((upMiddle == type && downMiddle == type)||(middleLeft == type && middleRight == type)) {
-                    return blanken(tile);
+                    return convert(tile, type);
+                    //return blanken(tile);
                 }
                 if(upMiddle == type && middleLeft == type) {
                     tile.variant += 0;
@@ -126,10 +130,16 @@ public class VariantChooser {
 
             // ERROR Case: >2 sides
             } else { // if (sides > 2) {
-                return blanken(tile);
+                //return blanken(tile);
+                return convert(tile, type);
             }
         }
         return blanken(tile);
+    }
+
+    private boolean convert(Tile tile, TileSystem.TileId toId) {
+        tile.id = toId;
+        return setVariantAround(tile.x,tile.y);
     }
 
     private boolean blanken(Tile tile) {
