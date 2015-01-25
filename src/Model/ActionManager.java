@@ -98,6 +98,26 @@ public class ActionManager {
 
 		}));
 		
+		this.actions.add(new Action("Drink Pondwater", 3, new IActionable() {
+			@Override
+			public void beforeAction(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+			}
+
+			@Override
+			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
+					Tile tile) {
+				agent.incWater(20);
+			}
+
+			@Override
+			public boolean canPerform(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				return (tile.attr == TileAttr.POND);
+			}
+
+		}));
+		
 		this.actions.add(new Action("Take Dirt", 3, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
@@ -143,7 +163,7 @@ public class ActionManager {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
-				gs.removeItemByType(ItemType.BRICK, 5);
+				gs.removeItemByType(ItemType.BRICK, 10);
 			}
 
 			@Override
@@ -156,7 +176,7 @@ public class ActionManager {
 			@Override
 			public boolean canPerform(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
-				if (gs.getItemCount(ItemType.BRICK) >= 5
+				if (gs.getItemCount(ItemType.BRICK) >= 10
 						&& tile.id != TileId.WATER) {
 					return true;
 				}
@@ -224,6 +244,8 @@ public class ActionManager {
 					TileSystem ts, Tile tile) {
 				gs.removeItemByType(ItemType.STICK);
 				gs.removeItemByType(ItemType.ROCK);
+				gs.removeItemByType(ItemType.OIL);
+				gs.removeItemByType(ItemType.CLOTH);
 			}
 
 			@Override
@@ -236,7 +258,9 @@ public class ActionManager {
 			public boolean canPerform(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
 				return (gs.getItemCount(ItemType.STICK) >= 1 && gs
-						.getItemCount(ItemType.ROCK) >= 1);
+						.getItemCount(ItemType.ROCK) >= 1 && gs
+						.getItemCount(ItemType.CLOTH) >= 1 && gs
+						.getItemCount(ItemType.OIL) >= 1);
 			}
 		}));
 
@@ -292,7 +316,7 @@ public class ActionManager {
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
 					Tile tile) {
 				gs.addItemByType(ItemType.CORPSE);
-				tile.attr = TileAttr.NONE;
+				tile.attr = TileAttr.SKELETON;
 			}
 
 			@Override
@@ -312,6 +336,12 @@ public class ActionManager {
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
 					Tile tile) {
+
+				tile.attrHealth -= 5;
+				if (tile.attrHealth == 0) {
+					tile.id = TileId.DIRT;
+				}
+				
 				gs.addItemByType(ItemType.ROCK);
 			}
 
@@ -333,6 +363,11 @@ public class ActionManager {
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
 					Tile tile) {
 				gs.addItemByType(ItemType.BERRIES);
+
+				tile.attrHealth -= 5;
+				if (tile.attrHealth == 0) {
+					tile.attr = TileAttr.NONE;
+				}
 			}
 
 			@Override
@@ -549,6 +584,28 @@ public class ActionManager {
 
 		}));
 
+		this.actions.add(new Action("Take Web", 5, new IActionable() {
+			@Override
+			public void beforeAction(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+
+			}
+
+			@Override
+			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
+					Tile tile) {
+				gs.addItemByType(ItemType.WEB);
+				tile.attr = TileAttr.TREE;
+			}
+
+			@Override
+			public boolean canPerform(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				return tile.attr == TileAttr.WEBBED_TREE;
+			}
+
+		}));
+		
 		this.actions.add(new Action("Take Vine", 10, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
