@@ -7,11 +7,13 @@ public class Action {
 	private IActionable actionable;
 	private String name;
 	private int duration;
+	private String description;
 	
-	public Action(String name, int duration, IActionable actionable) {
+	public Action(String name, String description, int duration, IActionable actionable) {
 		this.setActionable(actionable);
 		this.name = name;
 		this.duration = duration;
+		this.description = description;
 	}
 		
 //	public void perform(GameSession gs, Agent ag, TileSystem ts, PlayerUI pui) {
@@ -22,6 +24,10 @@ public class Action {
 		return this.name;
 	}
 
+	public String getDescription() {
+		return this.description;
+	}
+	
 	public IActionable getActionable() {
 		return actionable;
 	}

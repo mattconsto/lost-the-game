@@ -174,6 +174,27 @@ public class PlayerUI {
 	
 	public void update(float deltaTime) {
 		if (agent.getState() ==  AgentState.DEAD) return;
+		
+		
+		
+		
+
+		float health = agent.getHealth();
+		if (health < lastValue)
+		{
+			lastValue = health;
+			showHealth = true;
+			GameSession gs = GameSession.getInstance();
+			lastDecrementTime = gs.getTimeSurvived();
+		}
+		if (showHealth)
+		{
+			GameSession gs = GameSession.getInstance();
+			if ((gs.getTimeSurvived()- lastDecrementTime) > 5) 
+				showHealth = false;
+		}
+		
+		
 		if (atDestination) return;
 		
 		
@@ -237,21 +258,6 @@ public class PlayerUI {
 		
 		}
 		
-		
-		float health = agent.getHealth();
-		if (health < lastValue)
-		{
-			lastValue = health;
-			showHealth = true;
-			GameSession gs = GameSession.getInstance();
-			lastDecrementTime = gs.getTimeSurvived();
-		}
-		if (showHealth)
-		{
-			GameSession gs = GameSession.getInstance();
-			if ((gs.getTimeSurvived()- lastDecrementTime) > 5) 
-				showHealth = false;
-		}
 		
 	}
 	
