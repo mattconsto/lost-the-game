@@ -25,7 +25,14 @@ public class ItemFactory {
 		itemMap.put(ItemType.CORPSE, new Item("Corpse", "body"));
 		itemMap.put(ItemType.FIRESTICK, new Item("Stick on fire", "firestick"));
 		itemMap.put(ItemType.MEAT, new Item("Meat", "meat"));
-		
+		itemMap.put(ItemType.ARTIFACT, new Item("Artifact", "artifact"));
+		itemMap.put(ItemType.BERRIES, new Item("Berries", "berries"));
+		itemMap.put(ItemType.AXE, new Item("Axe", "axe"));
+		itemMap.put(ItemType.WEB, new Item("Web", "web"));
+		itemMap.put(ItemType.SAIL, new Item("Sail", "sail"));
+		itemMap.put(ItemType.OIL, new Item("Oil", "oil"));
+		itemMap.put(ItemType.WATER, new Item("Water", "water"));
+		itemMap.put(ItemType.METAL, new Item("Metal", "metal"));
 	}
 	
 	public static Item createItem(ItemType itemType) {

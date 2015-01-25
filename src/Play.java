@@ -73,7 +73,7 @@ public class Play extends BasicGameState implements GameState,
 		itemImages = new HashMap<ItemType, Image>();
 		for (ItemType type : ItemType.values()) {
 			Item item = ItemFactory.createItem(type);
-			System.out.println(item.getImageName());
+			System.out.println(item);
 			Image image = new Image("icons/" + item.getImageName() + ".png");
 			itemImages.put(type, image);
 
@@ -299,7 +299,7 @@ public class Play extends BasicGameState implements GameState,
 		List<ItemType> items = gs.getItems();
 		List<Rectangle> inventoryZones = new ArrayList<Rectangle>();
 		g.setColor(Color.black);
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < ItemType.values().length; i++) {
 
 			int x = inventory_zone_x + (i * f_h) + (i * 6);
 			if (i < items.size()) {
