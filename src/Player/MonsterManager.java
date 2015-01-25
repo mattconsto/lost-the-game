@@ -49,7 +49,7 @@ public class MonsterManager {
 		if (monsters.size() < 20)
 		{
 			Random randomGenerator = new Random();
-			monsters.addElement(new MonsterUI(new Agent(), ts, players, randomGenerator.nextInt(4) ));
+			monsters.addElement(new MonsterUI(new Agent(), ts, players, randomGenerator.nextInt(2) ));
 		}
 		
 		for (MonsterUI monster : new Vector<MonsterUI>(monsters))
