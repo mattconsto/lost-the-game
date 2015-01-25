@@ -23,6 +23,9 @@ public class ItemFactory {
 		itemMap.put(ItemType.SPEAR, new Item("Spear", "spear"));
 		itemMap.put(ItemType.VINE, new Item("Vine", "vine"));
 		itemMap.put(ItemType.CORPSE, new Item("Corpse", "body"));
+		itemMap.put(ItemType.FIRESTICK, new Item("Stick on fire", "firestick"));
+		itemMap.put(ItemType.MEAT, new Item("Meat", "meat"));
+		
 	}
 	
 	public static Item createItem(ItemType itemType) {

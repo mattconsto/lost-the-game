@@ -102,7 +102,8 @@ public class ActionManager {
 			@Override
 			public boolean canPerform(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
-				if (gs.getItemCount(ItemType.BRICK) >= 5 && tile.id != TileId.WATER) {
+				if (gs.getItemCount(ItemType.BRICK) >= 5
+						&& tile.id != TileId.WATER) {
 					return true;
 				}
 				return false;
@@ -125,7 +126,67 @@ public class ActionManager {
 			}
 
 		}));
-		
+
+		this.actions.add(new Action("Burn Corpse", new IActionable() {
+			@Override
+			public void performAction(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				gs.removeItemByType(ItemType.CORPSE);
+				gs.addItemByType(ItemType.MEAT);
+			}
+
+			@Override
+			public boolean canPerform(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				return (gs.getItemCount(ItemType.CORPSE) > 0 && tile.attr == TileAttr.FIRE);
+			}
+		}));
+
+		this.actions.add(new Action("Start Fire", new IActionable() {
+			@Override
+			public void performAction(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+
+				switch (tile.attr) {
+				case CORPSE:
+					gs.addItemByType(ItemType.MEAT);
+					break;
+				case HUT:
+					gs.addItemByType(ItemType.MUD);
+					break;
+				default:
+					// Do nothing
+				}
+				tile.attr = TileAttr.FIRE;
+			}
+
+			@Override
+			public boolean canPerform(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				if (gs.getItemCount(ItemType.FIRESTICK) == 0) {
+					return false;
+				}
+				return (tile.id != TileId.SNOW && tile.id != TileId.WATER && tile.id != TileId.WALL);
+			}
+		}));
+
+		this.actions.add(new Action("Light Stick", new IActionable() {
+			@Override
+			public void performAction(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				gs.addItemByType(ItemType.FIRESTICK);
+				gs.removeItemByType(ItemType.STICK);
+				gs.removeItemByType(ItemType.ROCK);
+			}
+
+			@Override
+			public boolean canPerform(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				return (gs.getItemCount(ItemType.STICK) >= 1 && gs
+						.getItemCount(ItemType.ROCK) >= 1);
+			}
+		}));
+
 		this.actions.add(new Action("Take Corpse", new IActionable() {
 			@Override
 			public void performAction(GameSession gs, Agent agent,
@@ -156,7 +217,7 @@ public class ActionManager {
 			}
 
 		}));
-		
+
 		this.actions.add(new Action("Build Palm Tree", new IActionable() {
 			@Override
 			public void performAction(GameSession gs, Agent agent,
@@ -186,7 +247,9 @@ public class ActionManager {
 			@Override
 			public boolean canPerform(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
-				return (gs.getItemCount(ItemType.STICK) >=1 && gs.getItemCount(ItemType.ROCK) >= 1 && gs.getItemCount(ItemType.VINE) >= 1);
+				return (gs.getItemCount(ItemType.STICK) >= 1
+						&& gs.getItemCount(ItemType.ROCK) >= 1 && gs
+						.getItemCount(ItemType.VINE) >= 1);
 			}
 
 		}));
