@@ -40,7 +40,7 @@ public class GameOver extends BasicGameState implements GameState {
 		float offset=0;
 		for (PlayerUI player : play.players)
 		{
-			g.drawString(player.agent.getName() + " died of exposure after only " + player.agent.getExpiredTime() + " hour(s).", 10, scroller+offset);
+			g.drawString(player.agent.getName() + " died of exposure after only " + Math.floor(player.agent.getExpiredTime()) + " hours.", 10, scroller+offset);
 			offset-=30;
 		}
 		
