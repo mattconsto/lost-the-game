@@ -91,7 +91,7 @@ public class Play extends BasicGameState implements GameState,
 		// Test code
 		ts.renderTiles(g);
 		for (PlayerUI player : players) {
-			player.render(g);
+			player.render(g, ts.camera.zoom);
 		}
 		
 		monsterManager.render(g);

@@ -84,7 +84,7 @@ public class PlayerUI {
 		 return playerImages.get((int)animationFrame);
 	}
 	
-	public void render(Graphics g){
+	public void render(Graphics g, float scale){
 		if(agent.getState() ==  AgentState.DEAD) return;
 		
 		Vector2f screenLocation = ts.worldToScreenPos(location.x, location.y);
@@ -92,7 +92,7 @@ public class PlayerUI {
 		
 		g.setColor(new Color(255,0,0));
 		Image realPlayer = getPlayerImage();
-		realPlayer.setCenterOfRotation(30, 30);
+		realPlayer.setCenterOfRotation(30*scale, 30*scale);
 
 	if (destinations.size()>1) 
 		{
@@ -115,8 +115,8 @@ public class PlayerUI {
 		
 		realPlayer.rotate(angle);
 		
-		realPlayer.draw(screenLocation.x-30,screenLocation.y-30,
-				screenLocation.x+40,screenLocation.y+40,0,0,imageWidth, imageHeight);
+		realPlayer.draw(screenLocation.x-30*scale,screenLocation.y-30*scale,
+				screenLocation.x+30*scale,screenLocation.y+30*scale,0,0,imageWidth, imageHeight);
 		realPlayer.rotate(-angle);
 		
 		g.drawOval(screenLocation.x-20,screenLocation.y-20,
