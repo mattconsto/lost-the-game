@@ -1,3 +1,5 @@
+import java.util.List;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -18,6 +20,12 @@ public class GameOver extends BasicGameState implements GameState {
 		
 	}
 
+	Play play;
+	public void setPlayState(Play playIn)
+	{
+		play = playIn;
+	}
+	
 	@Override
 	public void render(GameContainer container, StateBasedGame state, Graphics g)
 			throws SlickException {
