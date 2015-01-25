@@ -1,9 +1,8 @@
 package Model;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import Player.PlayerUI;
+import TileSystem.Tile;
 import TileSystem.TileAttr;
 import TileSystem.TileSystem;
 import TileSystem.TileSystem.TileId;
@@ -18,71 +17,66 @@ public class ActionManager {
 		this.actions.add(new Action("Pick Grass", new IActionable() {
 			@Override
 			public void performAction(GameSession gs, Agent agent,
-					TileSystem ts, PlayerUI pui) {
-				gs.addItem(ItemFactory.createItem(ItemType.GRASS));
-				ts.getTileFromWorld(pui.location.x, pui.location.y).id = TileId.DIRT;
+					TileSystem ts, Tile tile) {
+				gs.addItemByType(ItemType.GRASS);
+				ts.setTileID(tile.x, tile.y, TileId.DIRT);
 				agent.decFood(5);
 			}
 
 			@Override
 			public boolean canPerform(GameSession gs, Agent agent,
-					TileSystem ts, TileId tile, List<Item> selectedItems) {
-				return (tile == TileId.GRASS);
+					TileSystem ts, Tile tile) {
+				return (tile.id == TileId.GRASS);
 			}
 
 		}));
 		this.actions.add(new Action("Eat Snack", new IActionable() {
 			@Override
 			public void performAction(GameSession gs, Agent agent,
-					TileSystem ts, PlayerUI pui) {
+					TileSystem ts, Tile tile) {
 				gs.removeItemByType(ItemType.SNACK);
 				agent.incFood(30);
 			}
 
 			@Override
 			public boolean canPerform(GameSession gs, Agent agent,
-					TileSystem ts, TileId tile, List<Item> selectedItems) {
-				for (Item item : selectedItems) {
-					if (item.getType() == ItemType.SNACK) {
-						return true;
-					}
-				}
-				return false;
+					TileSystem ts, Tile tile) {
+				return (gs.getItemCount(ItemType.SNACK) >= 1);
 			}
 
 		}));
 		this.actions.add(new Action("Drink Water", new IActionable() {
 			@Override
 			public void performAction(GameSession gs, Agent agent,
-					TileSystem ts, PlayerUI pui) {
+					TileSystem ts, Tile tile) {
 				agent.incWater(30);
 			}
 
 			@Override
 			public boolean canPerform(GameSession gs, Agent agent,
-					TileSystem ts, TileId tile, List<Item> selectedItems) {
-				return (tile == TileId.WATER);
+					TileSystem ts, Tile tile) {
+				return (tile.id == TileId.WATER);
 			}
 
 		}));
 		this.actions.add(new Action("Take Dirt", new IActionable() {
 			@Override
 			public void performAction(GameSession gs, Agent agent,
-					TileSystem ts, PlayerUI pui) {
+					TileSystem ts, Tile tile) {
 				gs.addItemByType(ItemType.MUD);
 			}
 
 			@Override
 			public boolean canPerform(GameSession gs, Agent agent,
-					TileSystem ts, TileId tile, List<Item> selectedItems) {
-				return (tile == TileId.DIRT);
+					TileSystem ts, Tile tile) {
+				return (tile.id == TileId.DIRT);
 			}
 
 		}));
 		this.actions.add(new Action("Make Mud Brick", new IActionable() {
 			@Override
 			public void performAction(GameSession gs, Agent agent,
-					TileSystem ts, PlayerUI pui) {
+					TileSystem ts, Tile tile) {
 				gs.removeItemByType(ItemType.MUD);
 				gs.removeItemByType(ItemType.GRASS);
 				gs.addItemByType(ItemType.BRICK);
@@ -90,7 +84,7 @@ public class ActionManager {
 
 			@Override
 			public boolean canPerform(GameSession gs, Agent agent,
-					TileSystem ts, TileId tile, List<Item> selectedItems) {
+					TileSystem ts, Tile tile) {
 				return (gs.getItemCount(ItemType.MUD) >= 1 && gs
 						.getItemCount(ItemType.GRASS) >= 1);
 			}
@@ -99,29 +93,168 @@ public class ActionManager {
 		this.actions.add(new Action("Build Hut", new IActionable() {
 			@Override
 			public void performAction(GameSession gs, Agent agent,
-					TileSystem ts, PlayerUI pui) {
+					TileSystem ts, Tile tile) {
 				gs.removeItemByType(ItemType.BRICK, 5);
-				ts.getTileFromWorld(pui.location.x, pui.location.y).attr = TileAttr.HUT;
+				tile.attr = TileAttr.HUT;
+				tile.attrHealth = 10;
 			}
 
 			@Override
 			public boolean canPerform(GameSession gs, Agent agent,
-					TileSystem ts, TileId tile, List<Item> selectedItems) {
-				if(gs.getItemCount(ItemType.BRICK) >= 5) {
+					TileSystem ts, Tile tile) {
+				if (gs.getItemCount(ItemType.BRICK) >= 5 && tile.id != TileId.WATER) {
 					return true;
 				}
 				return false;
 			}
 
 		}));
+
+		this.actions.add(new Action("Build Tree", new IActionable() {
+			@Override
+			public void performAction(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				tile.attr = TileAttr.TREE;
+				tile.attrHealth = 10;
+			}
+
+			@Override
+			public boolean canPerform(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				return true;
+			}
+
+		}));
+		
+		this.actions.add(new Action("Take Corpse", new IActionable() {
+			@Override
+			public void performAction(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				gs.addItemByType(ItemType.CORPSE);
+				tile.attr = TileAttr.NONE;
+			}
+
+			@Override
+			public boolean canPerform(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				return (tile.attr == TileAttr.CORPSE);
+			}
+
+		}));
+
+		this.actions.add(new Action("Get Rock", new IActionable() {
+			@Override
+			public void performAction(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				gs.addItemByType(ItemType.ROCK);
+			}
+
+			@Override
+			public boolean canPerform(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				return true;
+			}
+
+		}));
+		
+		this.actions.add(new Action("Build Palm Tree", new IActionable() {
+			@Override
+			public void performAction(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				tile.attr = TileAttr.PALM_TREE;
+				tile.attrHealth = 10;
+			}
+
+			@Override
+			public boolean canPerform(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				return true;
+			}
+
+		}));
+
+		this.actions.add(new Action("Make Spear", new IActionable() {
+			@Override
+			public void performAction(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				gs.addItemByType(ItemType.SPEAR);
+				gs.removeItemByType(ItemType.STICK);
+				gs.removeItemByType(ItemType.ROCK);
+				gs.removeItemByType(ItemType.VINE);
+			}
+
+			@Override
+			public boolean canPerform(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				return (gs.getItemCount(ItemType.STICK) >=1 && gs.getItemCount(ItemType.ROCK) >= 1 && gs.getItemCount(ItemType.VINE) >= 1);
+			}
+
+		}));
+
+		this.actions.add(new Action("Take Stick", new IActionable() {
+			@Override
+			public void performAction(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				if (Math.random() < 0.9) {
+					gs.addItemByType(ItemType.STICK);
+				} else {
+					gs.addItemByType(ItemType.LEAF);
+				}
+				tile.attrHealth--;
+				if (tile.attrHealth == 0) {
+					tile.attr = TileAttr.NONE;
+				}
+			}
+
+			@Override
+			public boolean canPerform(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				return tile.attr == TileAttr.TREE;
+			}
+
+		}));
+
+		this.actions.add(new Action("Take Vine", new IActionable() {
+			@Override
+			public void performAction(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				gs.addItemByType(ItemType.VINE);
+				tile.attrHealth -= 5;
+				if (tile.attrHealth == 0) {
+					tile.attr = TileAttr.NONE;
+				}
+			}
+
+			@Override
+			public boolean canPerform(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				return tile.attr == TileAttr.PALM_TREE;
+			}
+
+		}));
+
+		this.actions.add(new Action("Sleep", new IActionable() {
+			@Override
+			public void performAction(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				agent.setState(AgentState.SLEEPING);
+			}
+
+			@Override
+			public boolean canPerform(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				return tile.attr == TileAttr.HUT;
+			}
+
+		}));
 	}
 
-	public ArrayList<Action> getValidActions(GameSession gs, TileSystem ts, TileId tile,
-			List<Item> selectedItems, Agent agent) {
+	public ArrayList<Action> getValidActions(GameSession gs, TileSystem ts,
+			Tile tile, Agent agent) {
 		ArrayList<Action> validActions = new ArrayList<Action>();
 		for (Action action : actions) {
-			if (action.getActionable().canPerform(gs, agent, ts, tile, selectedItems)) {
-					validActions.add(action);
+			if (action.getActionable().canPerform(gs, agent, ts, tile)) {
+				validActions.add(action);
 			}
 		}
 		return validActions;

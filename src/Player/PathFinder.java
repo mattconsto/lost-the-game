@@ -12,8 +12,9 @@ public class PathFinder
   	public int distances[][];
   	private int size;
   	private TileSystem ts;
+  	private Tile startTile;
   	
-  	public PathFinder(TileSystem tsIn)
+  	public PathFinder(TileSystem tsIn, Vector2f start)
   	{
   		ts = tsIn;
   		size = ts.size;
@@ -25,8 +26,26 @@ public class PathFinder
               }
   		}
   		
+  	    startTile = ts.getTileFromWorld(start.x,start.y);
+  		
+  		if (startTile != null)
+  			setDistances(startTile, 0);
   	}
   
+  	public Vector<Tile> findPath(Vector2f end)
+  	{
+  		Tile endTile = ts.getTileFromWorld(end.x, end.y);
+ 
+  		if (startTile == null || endTile == null)
+  			return new Vector<Tile>();
+  		
+  		if (startTile.x == endTile.x && startTile.y == endTile.y) return new Vector<Tile>();
+  		
+  		Vector<Tile> tiles = getPath(startTile, endTile);
+  		
+  		return tiles;
+  	}
+  	
   	public Vector<Tile> findPath(Vector2f start, Vector2f end)
   	{
   		Tile startTile = ts.getTileFromWorld(start.x,start.y);

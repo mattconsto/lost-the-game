@@ -1,13 +1,27 @@
 package Model;
 
-public abstract class Item {
-	public String name;
+public  class Item {
+	private String name;
+	private String imageName;
 	
-	public void update(int delta) {
-		// Override this to handle items that need time info.
+	public Item(String name, String imageName) {
+		this.setName(name);
+		this.setImageName(imageName);
 	}
-	
-	public abstract String getImageName();
-	public abstract String getItemName();
-	public abstract ItemType getType();
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getImageName() {
+		return imageName;
+	}
+
+	public void setImageName(String imageName) {
+		this.imageName = imageName;
+	}
 }

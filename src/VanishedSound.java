@@ -11,7 +11,7 @@ public class VanishedSound {
 	/**<NEWLINE>
 	 * Loads the various sound effect libraries
 	 */
-//	private Audio oggSoundEffect;
+	private Audio oggSoundEffect;
 //	private Audio wavJumpSoundEffect;
 	private Audio wavPickUpSoundEffect;
 	private Audio wavWalkSoundEffect;

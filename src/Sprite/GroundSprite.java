@@ -24,28 +24,34 @@ public class GroundSprite {
     * */
 
     //returns the location of the tile in grid
-    public static Point getSprite(TileSystem.TileId tileId, TileSystem.TileId touching, int variant, TileAttr tileAttr) {
+    public static Point getSprite(TileSystem.TileId tileId, TileSystem.TileId touching, int variant) {
         if (variant == -1) {
             variant = 0;
         }
         if (tileToLocation.containsKey(tileId)) {
             HashMap<TileSystem.TileId,ArrayList<Point>> allVariants = tileToLocation.get(tileId);
+            ArrayList<Point> variants;
+
             if (allVariants.containsKey(touching)) {
-                ArrayList<Point> variants = allVariants.get(touching);
-                if (variants.size() < variant - 1) {
-                    throw new InvalidParameterException("No variant for this tile type");
-                }
-                Point loc = variants.get(variant);
-                return new Point(loc.getX()*32,loc.getY()*32);
+                variants = allVariants.get(touching);
             } else {
-                throw new InvalidParameterException("Tile can't be touching given touching tile.");
+                variants = allVariants.get(null);
             }
+
+            Point loc;
+            if (variants.size() < variant+1) {
+                loc = variants.get(0);
+            } else {
+                loc = variants.get(variant);
+            }
+            return new Point(loc.getX()*32,loc.getY()*32);
         } else {
             throw new InvalidParameterException("Tile type sprite not implemented yet.");
         }
     }
 
     public static HashMap<TileSystem.TileId, HashMap<TileSystem.TileId, ArrayList<Point>>> tileToLocation = new HashMap<TileSystem.TileId,HashMap<TileSystem.TileId,  ArrayList<Point>>>(){{
+
         // Water is the highest priority, so it only has 1 variation.
         put(TileSystem.TileId.WATER, new HashMap<TileSystem.TileId,ArrayList<Point>>() {{
             put(null, new ArrayList<Point>()
@@ -81,6 +87,7 @@ public class GroundSprite {
                     add(new Point(4 + 3, 4 + 3));// ┘
                 }});
         }});
+        // Grass
         put(TileSystem.TileId.GRASS, new HashMap<TileSystem.TileId,ArrayList<Point>>() {{
             // Grass only
             put(null, new ArrayList<Point>()
@@ -130,7 +137,53 @@ public class GroundSprite {
                 // 3 Side Adjacent Dirt is Illegal
             }});
 
+            // Grass touching Dirt
+            put(TileSystem.TileId.DIRT, new ArrayList<Point>()
+            {{
+                    // Corner Adjacent Dirt
+                    add(new Point(1, 4 + 1));// ┌
+                    add(new Point(2, 4 + 1));// ┐
+                    add(new Point(1, 4 + 2));// └
+                    add(new Point(2, 4 + 2));// ┘
+                    // 1 Side Adjacent Dirt
+                    add(new Point(1, 4 + 0));// ┬
+                    add(new Point(0, 4 + 1));// ├
+                    add(new Point(3, 4 + 1));// ┤
+                    add(new Point(1, 4 + 3));// ┴
+                    // 2 Side Adjacent Dirt
+                    add(new Point(0, 4 + 0));// ┌
+                    add(new Point(3, 4 + 0));// ┐
+                    add(new Point(0, 4 + 3));// └
+                    add(new Point(3, 4 + 3));// ┘
+                    // Dirt on either side is Illegal
+                    // 3 Side Adjacent Dirt is Illegal
+                }});
         }});
+
+        // Snow
+        put(TileSystem.TileId.SNOW, new HashMap<TileSystem.TileId,ArrayList<Point>>() {{
+            put(null, new ArrayList<Point>()
+            {{
+                add(new Point(8,0));// ┼
+            }});
+        }});
+
+        // Rock
+        put(TileSystem.TileId.ROCK, new HashMap<TileSystem.TileId,ArrayList<Point>>() {{
+            put(null, new ArrayList<Point>()
+            {{
+                add(new Point(8,1));// ┼
+            }});
+        }});
+
+        // Wall
+        put(TileSystem.TileId.WALL, new HashMap<TileSystem.TileId,ArrayList<Point>>() {{
+            put(null, new ArrayList<Point>()
+            {{
+                    add(new Point(8,4));// ┼
+                }});
+        }});
+
     }};
 
 }

@@ -2,6 +2,7 @@ package TileSystem;
 
 import Map.PerlinMapGenerator;
 import Map.SimpleMapLoader;
+import Model.AgentState;
 
 import java.util.List;
 
@@ -14,36 +15,49 @@ import org.newdawn.slick.geom.Point;
 
 import Player.PlayerUI;
 import Sprite.GroundSprite;
+import Sprite.Sprite;
 
 import java.io.FileNotFoundException;
 
 public class TileSystem {
 	
 	public Camera camera;
-	public float zoomLevel = 1;
 	public int tileRes = 32;
 	public int size;
+	float resTimesScale = 32;
 	
 	private Image tileMap;
+	private Image spriteMap;
 	
 	private final Color semi = new Color(0, 0, 0, 0.3f);
 
 	public enum TileId{
 		GRASS,
 		DIRT,
-		WATER
+		WATER,
+		SNOW,
+		ROCK,
+		WALL
 	}
 
 	private Tile tiles[][];
 	
-	public TileSystem(){
-		PerlinMapGenerator loader = new PerlinMapGenerator();
+	public TileSystem(Point windowSize){
+		SimpleMapLoader loader = new SimpleMapLoader();
+		//PerlinMapGenerator loader = new PerlinMapGenerator();
 
-		camera = new Camera(25*32, 20*32);
+		camera = new Camera(20, 20, tileRes, windowSize);
+		resTimesScale = tileRes * camera.zoom;
 		
 		setTileMap("dg_edging132.gif");
+		//setSpriteMap("spritemap.gif");
 
-		tiles = loader.loadMap();
+		try {
+			tiles = loader.loadMap();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		this.size = tiles[0].length;
 		VariantChooser variantChooser = new VariantChooser(size,tiles);
 		variantChooser.setVariants();
@@ -58,6 +72,12 @@ public class TileSystem {
 	
 	public void setTile(int x, int y, Tile tile){
 		tiles[x][y] = tile;
+	}
+
+	public void setTileID(int x, int y, TileSystem.TileId id) {
+		tiles[x][y].id = id;
+		VariantChooser variantChooser = new VariantChooser(size, tiles);
+		variantChooser.setVariantAround(x,y);
 	}
 	
 	public Tile getTile(int x, int y){
@@ -80,59 +100,62 @@ public class TileSystem {
 	}
 	
 	public Vector2f screenToWorldPos(int scX, int scY){
-		float resTimesScale = tileRes * zoomLevel;
-		return new Vector2f(((camera.x+scX)/resTimesScale), ((camera.y+scY)/resTimesScale));
+		return camera.screenToWorldPos(scX, scY);
 	}
 	
 	public Vector2f worldToScreenPos(float worldX, float worldY){
-		float resTimesScale = tileRes * zoomLevel;
-		return new Vector2f((worldX *resTimesScale)-camera.x, (worldY *resTimesScale)-camera.y);
+		return camera.worldToScreenPos(worldX, worldY);
 	}
 	
-	public void setZoom(float zoomLevel, Point windowSize){
-		float newZoom = zoomLevel;
-		if (newZoom >= 2)
-			newZoom = 2;
-		if (newZoom <= 0.5f)
-			newZoom = 0.5f;
-		float zoomChange = newZoom / this.zoomLevel;
-		if(newZoom != this.zoomLevel){
-			camera.move(((windowSize.getX()*newZoom) - (windowSize.getX()*this.zoomLevel))*zoomChange,
-					((windowSize.getY()*newZoom) - (windowSize.getY()*this.zoomLevel))*zoomChange);
-			this.zoomLevel = newZoom;
-		}
+	public void zoom(float zoomDelta){
+		camera.zoom(zoomDelta);
+		resTimesScale = tileRes * camera.zoom;
 	}
 	
-	public void render(Graphics g){
-		renderTiles(g);
-		renderFog(g);
-	}
-	
-	private void renderTiles(Graphics g){
-		float resTimesScale = tileRes * zoomLevel;
+	public void renderTiles(Graphics g){
 		float finalX, finalY;
 		
+		Vector2f offsets = camera.getOffsets();
 		for(int x = 0; x < size; x++){
             for(int y = 0; y < size; y++){
-            	if (tiles[x][y].vis != 0)
-            	{
-            		finalX = (x*resTimesScale)-camera.x;
-            		finalY = (y*resTimesScale)-camera.y;
-            		Point src = GroundSprite.getSprite(tiles[x][y].id, tiles[x][y].touching, tiles[x][y].variant, TileAttr.NONE);
+        		finalX = (x*resTimesScale)-offsets.x;
+        		finalY = (y*resTimesScale)-offsets.y;
+        		if(isOnScreen(x, y)){
+            		Point src = GroundSprite.getSprite(tiles[x][y].id, tiles[x][y].touching, tiles[x][y].variant);
             		g.drawImage(tileMap, finalX, finalY, finalX+resTimesScale, finalY+resTimesScale, src.getX(), src.getY(), src.getX()+tileRes, src.getY()+tileRes);
+            		
+            		if(tiles[x][y].attr != TileAttr.NONE){
+            			finalX -= 8*camera.zoom;
+                		finalY -= 8*camera.zoom;
+	            		src = Sprite.getSprite(tiles[x][y].attr);
+	            		//g.drawImage(spriteMap, finalX, finalY, finalX+resTimesScale+8*camera.zoom, finalY+resTimesScale+8*camera.zoom, src.getX(), src.getY(), src.getX()+tileRes, src.getY()+tileRes);
+            		}
             	}
             }
         }
 	}
 	
-	private void renderFog(Graphics g){
-		float resTimesScale = tileRes * zoomLevel;
+	private boolean isOnScreen(float x, float y){
+		Vector2f sc = camera.worldToScreenPos(x, y);
+		if(sc.x < -resTimesScale)
+			return false;
+		if(sc.x > (camera.windowSize.getX()+resTimesScale))
+			return false;
+		if(sc.y < -resTimesScale)
+			return false;
+		if(sc.y > (camera.windowSize.getY()+resTimesScale))
+			return false;
+		return true;
+	}
+	
+	public void renderFog(Graphics g){
 		float finalX, finalY;
 		
+		Vector2f offsets = camera.getOffsets();
 		for(int x = 0; x < size; x++){
             for(int y = 0; y < size; y++){
-            	finalX = (x*resTimesScale)-camera.x;
-            	finalY = (y*resTimesScale)-camera.y;
+            	finalX = (x*resTimesScale)-offsets.x;
+        		finalY = (y*resTimesScale)-offsets.y;
             	switch(tiles[x][y].vis){
 	            	case 0:
 	            		g.setColor(Color.black);
@@ -156,14 +179,17 @@ public class TileSystem {
 		}
 		
 		for(PlayerUI p : players){
-			int xp = (int)p.location.x;
-			int yp = (int)p.location.y;
-			for(int x = xp - 5; x < xp + 5; x++){
-				for(int y = yp - 5; y < yp + 5; y++){
-					if(x > 0 && y > 0 && x < size && y < size)
-						if(dist(xp, yp, x, y) <= 4){
-							tiles[x][y].vis = 2;
-						}
+			if (p.agent.getState() != AgentState.DEAD)
+			{
+				int xp = (int)p.location.x;
+				int yp = (int)p.location.y;
+				for(int x = xp - 5; x < xp + 5; x++){
+					for(int y = yp - 5; y < yp + 5; y++){
+						if(x > 0 && y > 0 && x < size && y < size)
+							if(dist(xp, yp, x, y) <= 4){
+								tiles[x][y].vis = 2;
+							}
+					}
 				}
 			}
 		}
@@ -185,6 +211,16 @@ public class TileSystem {
 		try {
 			tileMap = new Image("tiles/"+fileName);
 			tileMap.setFilter(Image.FILTER_NEAREST);
+		} catch (SlickException e) {
+			System.out.println("Error: Cannot load image " + fileName);
+			e.printStackTrace();
+		}
+	}
+	
+	public void setSpriteMap(String fileName){
+		try {
+			spriteMap = new Image("tiles/"+fileName);
+			spriteMap.setFilter(Image.FILTER_NEAREST);
 		} catch (SlickException e) {
 			System.out.println("Error: Cannot load image " + fileName);
 			e.printStackTrace();

@@ -1,3 +1,7 @@
+import java.awt.Dimension;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.Toolkit;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -10,8 +14,6 @@ import org.newdawn.slick.state.StateBasedGame;
 
 
 public class LostGame extends StateBasedGame {
-	
-	public static final int STATE_PLAY = 1;
 	
 	protected String name;
 	
@@ -26,8 +28,13 @@ public class LostGame extends StateBasedGame {
 
 	@Override
 	public void initStatesList(GameContainer arg0) throws SlickException {
-		this.addState(new Play());
-        this.enterState(STATE_PLAY);
+		
+		Play play = new Play();
+		GameOver go = new GameOver();
+		go.setPlayState(play);
+		this.addState(play);
+		this.addState(go);
+        this.enterState(Play.STATE_PLAY);
 	}
 	
 	public static void main(String[] args) {
@@ -49,9 +56,11 @@ public class LostGame extends StateBasedGame {
 		}
 
 		try {
+			GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+			
 			appgc = new AppGameContainer(new LostGame(name));
-			appgc.setDisplayMode(800, 600, false);
-			appgc.setTargetFrameRate(200000);
+			appgc.setDisplayMode((int)gd.getDisplayMode().getWidth(), (int)gd.getDisplayMode().getHeight(), true);
+			appgc.setTargetFrameRate(gd.getDisplayMode().getRefreshRate());
 			appgc.start();
 		} catch (SlickException e) {
 			e.printStackTrace();

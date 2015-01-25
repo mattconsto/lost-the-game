@@ -1,5 +1,6 @@
 package Player;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Random;
 import java.util.Vector;
 
@@ -10,6 +11,7 @@ import org.newdawn.slick.SlickException;
 import org.lwjgl.util.vector.Vector2f;
 
 import Model.Agent;
+import Model.AgentState;
 import TileSystem.TileSystem;
 import TileSystem.Tile;
 import TileSystem.TileSystem.TileId;
@@ -18,38 +20,40 @@ import TileSystem.TileSystem.TileId;
 public class MonsterUI {
 
 	TileSystem ts;
-	PathFinder p;
 	public Agent agent;
 	
 	public Vector2f location = new Vector2f(34,29);
-	Vector2f destination = new Vector2f(34,29);
+	//Vector2f destination = new Vector2f(34,29);
 	Vector<Tile> destinations = new Vector<Tile>();
 	public boolean atDestination = true;
-	
+	List<PlayerUI> players;
 	
 	float tileSizeM = 50.0f;			//Tile is 100m across
 	float gameSpeed = 3600/30;			//Game is 30s is one hour 3600s is 30s => 120s per 1s
 	Vector<Image> playerImages = null;
+	//average walk speed 1.4m per second
+	float playerWalkSpeedMS = 1.4f;
 	
-	
-	public MonsterUI(Agent agentIn, TileSystem tsIn) throws SlickException
+	int imageWidth = 32;
+	int imageHeight = 32;
+	public MonsterUI(Agent agentIn, TileSystem tsIn, List<PlayerUI> playersIn) throws SlickException
 	{
 		agent = agentIn;
 		ts = tsIn;
-		p = new PathFinder(ts);
+		players = playersIn;
 		
-		Image playerImage = new Image("player/walking1.png");
+		
+		Image playerImage = new Image("monster/spider.gif");
 		
 		playerImages = new Vector<Image>();
 		playerImages.add(playerImage.getSubImage(0*imageWidth,0,(0*imageWidth)+imageWidth,imageHeight));
 		playerImages.add(playerImage.getSubImage(1*imageWidth,0,(1*imageWidth)+imageWidth,imageHeight));
 		playerImages.add(playerImage.getSubImage(2*imageWidth,0,(2*imageWidth)+imageWidth,imageHeight));
-		playerImages.add(playerImage.getSubImage(3*imageWidth,0,(3*imageWidth)+imageWidth,imageHeight));
-		playerImages.add(playerImage.getSubImage(4*imageWidth,0,(4*imageWidth)+imageWidth,imageHeight));
-		playerImages.add(playerImage.getSubImage(5*imageWidth,0,(5*imageWidth)+imageWidth,imageHeight));
+
 		
 		//Random Start location
 		location = randomLocation();
+		randomMove();
 	}
 	
 	private Vector2f randomLocation()
@@ -64,36 +68,26 @@ public class MonsterUI {
 		}
 	}
 	
-	public void moveto(float destinationX, float destinationY){
-		atDestination = false;
-		p = new PathFinder(ts);
-		destination = new Vector2f(destinationX, destinationY);
-		destinations = p.findPath(location, destination);
-	}
 	
-	int imageWidth = 80;
-	int imageHeight = 100;
+
 	float animationFrame = 0;
 	float angle = 0;
 	
 	
 	public Image getPlayerImage()
 	{
-		if (animationFrame > 5) animationFrame = 0;
+		if (animationFrame > 2) animationFrame = 0;
 		if (atDestination) animationFrame = 0;
 		 return playerImages.get((int)animationFrame);
 	}
 	
-	public void render(Graphics g){
+	public void render(Graphics g, float scale){
 		Vector2f screenLocation = ts.worldToScreenPos(location.x, location.y);
-		
-		//HACK REMOVE NEXT LINE WHEN REAL CAMERA STUFF DONE
-		if (!atDestination) ts.getCamera().move(screenLocation.x-300, screenLocation.y-200);
-		
+
 		
 		g.setColor(new Color(255,0,0));
 		Image realPlayer = getPlayerImage();
-		realPlayer.setCenterOfRotation(30, 30);
+		realPlayer.setCenterOfRotation(16*scale, 16*scale);
 
 	if (destinations.size()>1) 
 		{
@@ -116,48 +110,49 @@ public class MonsterUI {
 		
 		realPlayer.rotate(angle);
 		
-		realPlayer.draw(screenLocation.x-30,screenLocation.y-30,
-				screenLocation.x+40,screenLocation.y+40,0,0,imageWidth, imageHeight);
+		realPlayer.draw(screenLocation.x-16*scale,screenLocation.y-16*scale,
+				screenLocation.x+16*scale,screenLocation.y+16*scale,0,0,imageWidth, imageHeight);
 		realPlayer.rotate(-angle);
 		
-		g.drawOval(screenLocation.x-20,screenLocation.y-20,
-				40,40);
+		//g.fillRect(screenLocation.x-20,screenLocation.y-20,
+		//		40,40);
 		
-		g.setColor(new Color(0,0,255));
-		Vector2f lastPoint = ts.worldToScreenPos(location.x, location.y);
-		for(int i =destinations.size()-1; i>=0 ; i--)
-		{
-			Tile dest = destinations.get(i);
-			Vector2f pos = new Vector2f(dest.x+0.5f, dest.y+0.5f);
-            Vector2f destPos = ts.worldToScreenPos(pos.x, pos.y);
-            g.drawLine(destPos.x, destPos.y, lastPoint.x, lastPoint.y);
-            lastPoint = destPos;
-		}
 	}
 	
 	public void update(float deltaTime) {
-		if (atDestination) return;
 		
+		boolean mauledPlayer = false;
+		//See if we are less than 1 square from any player and if so injure them !
+		for (PlayerUI player : players)
+		{
+			if (player.agent.getState()  != AgentState.DEAD)
+			{
+				Vector2f playerLocation = player.location;
+				float difX = location.x - playerLocation.x;
+				float difY = location.y - playerLocation.y;
+				float distToPlayer = (float)Math.sqrt((difX*difX)+(difY*difY));
+				if (distToPlayer < 1)
+				{
+					player.agent.decHealth(2);
+					mauledPlayer = true;
+				}
+			}
+		}
 		
-		
+			if (destinations.size() == 0)
+			{
+				if (!mauledPlayer)
+				{	randomMove();}
+			return;
+			}
 		animationFrame += deltaTime*5;
 		//Some basic movement code - a bit elaborate tbh
+		 Tile destTile = destinations.get(destinations.size()-1);
+		 Vector2f currentDestination = new Vector2f(destTile.x+0.5f, destTile.y+0.5f);
 		
-		
-		Vector2f currentDestination = destination;
-		Tile destTile = null;
-		if (destinations.size() > 1)
-		{
-		    destTile = destinations.get(destinations.size()-1);
-			currentDestination = new Vector2f(destTile.x+0.5f, destTile.y+0.5f);
-		}
-		
-		//average walk speed 1.4m per second
-		float playerWalkSpeedMS = 1.4f;
-		if (ts.getTileFromWorld(location.x, location.y).id == TileId.WATER)
-		{
-			playerWalkSpeedMS = 0.3f;
-		}
+
+	
+			
 		
 		float deltaTimeS = (float)deltaTime;
 		float distanceTravelled = (deltaTimeS * gameSpeed * playerWalkSpeedMS)/ tileSizeM ;
@@ -180,18 +175,82 @@ public class MonsterUI {
 			{
 				destinations.removeElement(destTile);
 			}
-			else
+			
+			if (destinations.size() ==0)
 			{
-				destinations.clear();
-				//If the last step then just set the location and alert listeners
-				location = destination;
-				atDestination = true;
-				firePlayerReachedDestinationEvent();
+				//Right we need a new destination
+				randomMove();
 			}
 		
 		}
 		
 		
+
+	}
+	
+	private void randomMove()
+	{
+		Random randomGenerator = new Random();
+		PathFinder p = new PathFinder(ts, location);
+		
+		//Step 1 - See if we have a local player
+		for (PlayerUI player : players)
+		{
+			if (player.agent.getState()  != AgentState.DEAD)
+			{
+			Vector2f playerLocation = player.location;
+			float difX = location.x - playerLocation.x;
+			float difY = location.y - playerLocation.y;
+			float distToPlayer = (float)Math.sqrt((difX*difX)+(difY*difY));
+			if (distToPlayer < 10)
+			{
+				Tile destTile = ts.getTileFromWorld(playerLocation.x, playerLocation.y);
+				if (destTile.id != TileId.WATER)
+				{
+					Vector<Tile> destinationsTemp = p.findPath(playerLocation);
+					if (hasNoWater(destinationsTemp))
+					{
+						destinations = destinationsTemp;
+						playerWalkSpeedMS = 2.0f;
+						return;
+					}
+				}
+			}	
+			}
+		}
+		
+		
+		
+		while(true)
+		{
+			atDestination = false;
+			float randX = location.x+randomGenerator.nextInt(30)-15;
+			float randY = location.y+randomGenerator.nextInt(30)-15;
+			Vector2f destinationTemp = new Vector2f(randX,randY);
+			if (destinationTemp.x >=0 && destinationTemp.y >=0 && destinationTemp.x < ts.getSize() && destinationTemp.y < ts.getSize())
+			{
+				Tile destTile = ts.getTileFromWorld(destinationTemp.x, destinationTemp.y);
+				if (destTile.id != TileId.WATER)
+				{
+					Vector<Tile> destinationsTemp = p.findPath(destinationTemp);
+					if (hasNoWater(destinationsTemp))
+					{
+						destinations = destinationsTemp;	
+						playerWalkSpeedMS = 0.2f;
+						return;
+					}
+				}
+			}
+		}
+	}
+	
+	private boolean hasNoWater(Vector<Tile> tiles)
+	{
+		for (Tile tile : tiles)
+		{
+			if (tile.id== TileId.WATER) return false;
+		}
+		return true;
 	}
 	
     protected Vector<PlayerReachedDestinationEvent> _listeners;

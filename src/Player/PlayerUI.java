@@ -10,6 +10,7 @@ import org.newdawn.slick.SlickException;
 import org.lwjgl.util.vector.Vector2f;
 
 import Model.Agent;
+import Model.AgentState;
 import TileSystem.TileSystem;
 import TileSystem.Tile;
 import TileSystem.TileSystem.TileId;
@@ -18,7 +19,6 @@ import TileSystem.TileSystem.TileId;
 public class PlayerUI {
 
 	TileSystem ts;
-	PathFinder p;
 	public Agent agent;
 	
 	public Vector2f location = new Vector2f(34,29);
@@ -36,7 +36,7 @@ public class PlayerUI {
 	{
 		agent = agentIn;
 		ts = tsIn;
-		p = new PathFinder(ts);
+		
 		
 		Image playerImage = new Image("player/walking1.png");
 		
@@ -54,7 +54,7 @@ public class PlayerUI {
 	
 	private Vector2f randomLocation()
 	{
-		Random randomGenerator = new Random(42);
+		Random randomGenerator = new Random();
 		while(true)
 		{
 			int x = randomGenerator.nextInt(ts.size);
@@ -66,9 +66,9 @@ public class PlayerUI {
 	
 	public void moveto(float destinationX, float destinationY){
 		atDestination = false;
-		p = new PathFinder(ts);
+		PathFinder p = new PathFinder(ts, location);
 		destination = new Vector2f(destinationX, destinationY);
-		destinations = p.findPath(location, destination);
+		destinations = p.findPath( destination);
 	}
 	
 	int imageWidth = 80;
@@ -84,16 +84,15 @@ public class PlayerUI {
 		 return playerImages.get((int)animationFrame);
 	}
 	
-	public void render(Graphics g){
-		Vector2f screenLocation = ts.worldToScreenPos(location.x, location.y);
+	public void render(Graphics g, float scale){
+		if(agent.getState() ==  AgentState.DEAD) return;
 		
-		//HACK REMOVE NEXT LINE WHEN REAL CAMERA STUFF DONE
-		if (!atDestination) ts.getCamera().move(screenLocation.x-300, screenLocation.y-200);
+		Vector2f screenLocation = ts.worldToScreenPos(location.x, location.y);
 		
 		
 		g.setColor(new Color(255,0,0));
 		Image realPlayer = getPlayerImage();
-		realPlayer.setCenterOfRotation(30, 30);
+		realPlayer.setCenterOfRotation(30*scale, 30*scale);
 
 	if (destinations.size()>1) 
 		{
@@ -116,8 +115,8 @@ public class PlayerUI {
 		
 		realPlayer.rotate(angle);
 		
-		realPlayer.draw(screenLocation.x-30,screenLocation.y-30,
-				screenLocation.x+40,screenLocation.y+40,0,0,imageWidth, imageHeight);
+		realPlayer.draw(screenLocation.x-30*scale,screenLocation.y-30*scale,
+				screenLocation.x+30*scale,screenLocation.y+30*scale,0,0,imageWidth, imageHeight);
 		realPlayer.rotate(-angle);
 		
 		g.drawOval(screenLocation.x-20,screenLocation.y-20,
@@ -200,7 +199,7 @@ public class PlayerUI {
     {
         if (_listeners == null)
             _listeners = new Vector<PlayerReachedDestinationEvent>();
-             
+              
         _listeners.addElement(listener);
     }
     

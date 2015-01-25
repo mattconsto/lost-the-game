@@ -10,14 +10,14 @@ public class Agent {
 	private float water;
 	private float health;
 	private String name;
-	private boolean walking;
-	private boolean drowning;
-	
+	private AgentState state;
+	private int expiredTime;
 	
 	private static int namePos = 0;
 	private static boolean shuffled = false;
 	
 	private String[] names = {"Bill", "Joe", "Jane", "Andy", "Ollie", "Mike", "Jonah", "Sam", "Joanne", "Suzy", "Lucy", "Mary", "Betsy"};
+	
 	
 	
 	public Agent(float food, float water, float health) {
@@ -42,7 +42,7 @@ public class Agent {
 		this.setWater(100);
 		this.setHealth(100);
 		this.generateName();
-		this.setDrowning(false);
+		this.setState(AgentState.STANDING);
 	}
 	
 	public float getFood() {
@@ -77,14 +77,6 @@ public class Agent {
 		this.name = name;
 	}
 
-	public boolean getWalking() {
-		return this.walking;
-	}
-	
-	public void setWalking(boolean walking) {
-		this.walking = walking;
-	}
-
 	public void decWater(float w) {
 		this.water -= w;
 		if(this.water < 0) this.water = 0;
@@ -114,11 +106,19 @@ public class Agent {
 		if(this.health > 100) { this.health = 100; }
 	}
 
-	public boolean isDrowning() {
-		return drowning;
+	public AgentState getState() {
+		return state;
 	}
 
-	public void setDrowning(boolean drowning) {
-		this.drowning = drowning;
+	public void setState(AgentState state) {
+		this.state = state;
+	}
+	
+	public void setExpiredTime(int expiredTime){
+		this.expiredTime = expiredTime;
+	}
+	
+	public int getExpiredTime() {
+		return expiredTime;
 	}
 }
