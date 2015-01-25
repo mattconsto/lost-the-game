@@ -1,15 +1,12 @@
 package Sprite;
 
-import TileSystem.TileSystem;
 import TileSystem.TileAttr;
 import org.newdawn.slick.geom.Point;
 
-import java.security.InvalidParameterException;
 import java.util.HashMap;
 
 /**
  * Assuming 32x32 tiles,
- * Sprites are
  * Created by andy on 23/01/15.
  */
 public class Sprite {
