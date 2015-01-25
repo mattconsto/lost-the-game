@@ -95,7 +95,8 @@ public class Play extends BasicGameState implements GameState,
 		RandomTileObject(TileId.SNOW, TileAttr.ALIEN_ARTIFACT, 1, false);
 		RandomTileObject(TileId.WATER, TileAttr.BOAT, 2, false);
 		RandomTileObject(TileId.ROCK, TileAttr.CAVE, 2, false);
-		RandomTileObject(TileId.DIRT, TileAttr.POND, 20, false);
+		RandomTileObject(TileId.DIRT, TileId.POND, 20, false);
+		RandomTileObject(TileId.DIRT, TileId.TARPIT, 20, false);
 		//RandomTileObject(TileId.DIRT, TileAttr.TARPIT, 20, false);
 		RandomTileObject(TileId.GRASS, TileAttr.SHRUB, 30, false);
 		
@@ -129,6 +130,40 @@ public class Play extends BasicGameState implements GameState,
 				{
 					treeCount-=1;
 					tile.attr= tileAtt;
+				}
+			}
+			
+			if (treeCount ==0) return;
+		}
+		
+	}
+	
+	private void RandomTileObject(TileId tileType, TileId tileDestType, int treeCount, boolean preferGroupings)
+	{
+		Random randomGenerator = new Random();
+		while(true)
+		{
+			int x = randomGenerator.nextInt(ts.getSize()-2)+1;
+			int y = randomGenerator.nextInt(ts.getSize()-2)+1;
+			Tile tile = ts.getTile(x, y);
+			if (tile.id== tileType && tile.attr == TileAttr.NONE)
+			{
+				float surroundTree = 1;
+				if (ts.getTile(x+1, y).id==tileDestType) surroundTree++;
+				if (ts.getTile(x-1, y).id==tileDestType) surroundTree++;
+				if (ts.getTile(x, y+1).id==tileDestType) surroundTree++;
+				if (ts.getTile(x, y-1).id==tileDestType) surroundTree++;
+				float num = (float)randomGenerator.nextInt(100) ;
+				if (preferGroupings)
+					num /= surroundTree; 
+				else
+					num /=1.25;
+					num *= surroundTree; 
+				
+				if (num > 50)
+				{
+					treeCount-=1;
+					ts.setTileID(x, y, tileDestType);
 				}
 			}
 			
