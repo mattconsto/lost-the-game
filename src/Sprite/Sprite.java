@@ -20,6 +20,8 @@ public class Sprite {
         put(TileAttr.PINE_TREE,new Point(32*3,0));
         put(TileAttr.TREE,new Point(32*4,0));
         put(TileAttr.PALM_TREE,new Point(32*5,0));
+        put(TileAttr.ALIEN_ARTIFACT,new Point(32*6,0));
+        put(TileAttr.ALIEN_ARTIFACT,new Point(32*6,0));
     }};
 
     //returns the location of the tile in grid
