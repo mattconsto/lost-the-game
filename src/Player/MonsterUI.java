@@ -13,6 +13,7 @@ import org.lwjgl.util.vector.Vector2f;
 import Model.Agent;
 import Model.AgentState;
 import Model.GameSession;
+import TileSystem.TileAttr;
 import TileSystem.TileSystem;
 import TileSystem.Tile;
 import TileSystem.TileSystem.TileId;
@@ -223,6 +224,10 @@ public class MonsterUI {
 			if ((gs.getTimeSurvived()- lastDecrementTime) > 5) 
 				showHealth = false;
 		}
+		
+		Tile current = ts.getTileFromWorld(location.x,  location.y);
+		if (current.attr == TileAttr.TREE) 
+			current.attr = TileAttr.WEBBED_TREE;
 	}
 	
 	private void randomMove()
