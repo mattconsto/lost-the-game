@@ -595,14 +595,6 @@ public class Play extends BasicGameState implements GameState,
 				alive = true;
 			}
 		}
-
-		Random rand = new Random();
-		if (rand.nextInt(100) <1)
-		{
-			RandomTileObject(TileId.GRASS, TileAttr.TREE, 2, true);
-			RandomTileObject(TileId.DIRT, TileAttr.PALM_TREE, 1, true);
-			RandomTileObject(TileId.ROCK, TileAttr.PINE_TREE, 1, true);
-		}
 		
 		if (!alive)
 			game.enterState(GameOver.STATE_OVER);
