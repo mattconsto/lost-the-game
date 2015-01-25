@@ -2,6 +2,7 @@ package Model;
 
 import Model.item.Brick;
 import Model.item.Cloth;
+import Model.item.Corpse;
 import Model.item.Grass;
 import Model.item.Leaf;
 import Model.item.LifeJacket;
@@ -40,6 +41,8 @@ public class ItemFactory {
 			return new Spear();
 		case VINE:
 			return new Vine();
+		case CORPSE:
+			return new Corpse();
 		default:
 			throw new IllegalArgumentException();
 		}

@@ -30,6 +30,7 @@ import Player.MonsterManager;
 import Player.PlayerReachedDestinationEvent;
 import Player.PlayerUI;
 import TileSystem.Tile;
+import TileSystem.TileAttr;
 import TileSystem.TileSystem;
 
 public class Play extends BasicGameState implements GameState,
@@ -310,7 +311,6 @@ public class Play extends BasicGameState implements GameState,
 				g.drawString(name, x + t_x, a_y + t_y);
 
 				Rectangle zone = new Rectangle(x, a_y, b_w, b_h);
-				// System.out.println("Adding zone: "+zone.getX()+","+zone.getY()+","+zone.getWidth()+","+zone.getHeight());
 				actionZones.add(zone);
 				x += (b_w + 2);
 			}
@@ -375,6 +375,7 @@ public class Play extends BasicGameState implements GameState,
 		}
 
 		for (int i = 0; i < players.size(); i++) {
+			PlayerUI player = players.get(i);
 			AgentState state = agents.get(i).getState();
 			boolean atDestination = players.get(i).atDestination;
 
@@ -383,6 +384,12 @@ public class Play extends BasicGameState implements GameState,
 			}
 			if (state != AgentState.WALKING && !atDestination) {
 				agents.get(i).setState(AgentState.WALKING);
+			}
+			if(state == AgentState.DEAD) {
+				Tile tile = ts.getTileFromWorld(player.location.x, player.location.y);
+				if(tile.attr != TileAttr.CORPSE) {
+					tile.attr = TileAttr.CORPSE;
+				}
 			}
 		}
 
