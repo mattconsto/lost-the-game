@@ -9,7 +9,7 @@ import java.io.*;
  * Created by andy on 24/01/15.
  */
 public class SimpleMapLoader {
-    private static final String filePath = "map.txt";
+    private static final String filePath = "map2.txt";
 
     public Tile[][] loadMap() throws FileNotFoundException {
         Tile[][] tiles = null;
@@ -56,13 +56,13 @@ public class SimpleMapLoader {
         switch(mapChar) {
             case '@':
                 return new Tile(TileSystem.TileId.WATER,x,y,0);
-            case ' ':
+            case '+':
+            return new Tile(TileSystem.TileId.DIRT,x,y,0);
+            case '\'':
                 return new Tile(TileSystem.TileId.GRASS,x,y,0);
             case ':':
-            	return new Tile(TileSystem.TileId.DIRT,x,y,0);
-            case 'R':
             	return new Tile(TileSystem.TileId.ROCK,x,y,0);
-            case 'S':
+            case ' ':
             	return new Tile(TileSystem.TileId.SNOW,x,y,0);
             default:
                 return new Tile(TileSystem.TileId.DIRT,x,y,0);
