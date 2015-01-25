@@ -69,40 +69,18 @@ public class MonsterUI {
 			playerWalkSpeedMSFast = 2.0f;
 			playerDamage = 10.0f;
 		}
-		if(monsterId == 2)
+		if(monsterId == 2 || monsterId == 3)
 		{
-			imageWidth = 32;
-			imageHeight = 32;
-			Image playerImage = new Image("monster/penguin.png");
+			imageWidth = 56;
+			imageHeight = 71;
+			Image playerImage = new Image("monster/Grue.png");
 			playerImages = new Vector<Image>();
-			playerImages.add(playerImage.getSubImage(0*imageWidth,0,(0*imageWidth)+imageWidth,imageHeight));
-			playerImages.add(playerImage.getSubImage(1*imageWidth,0,(1*imageWidth)+imageWidth,imageHeight));
-			playerImages.add(playerImage.getSubImage(2*imageWidth,0,(2*imageWidth)+imageWidth,imageHeight));
-			playerImages.add(playerImage.getSubImage(3*imageWidth,0,(3*imageWidth)+imageWidth,imageHeight));
-			playerImages.add(playerImage.getSubImage(4*imageWidth,0,(4*imageWidth)+imageWidth,imageHeight));
-			playerImages.add(playerImage.getSubImage(5*imageWidth,0,(5*imageWidth)+imageWidth,imageHeight));
-			playerImages.add(playerImage.getSubImage(6*imageWidth,0,(6*imageWidth)+imageWidth,imageHeight));
-			playerImages.add(playerImage.getSubImage(7*imageWidth,0,(7*imageWidth)+imageWidth,imageHeight));
+			playerImages.add(playerImage.getSubImage(0*imageWidth,0*imageHeight,1*imageWidth, 1*imageHeight));
+			playerImages.add(playerImage.getSubImage(1*imageWidth,0*imageHeight,2*imageWidth, 1*imageHeight));
+			playerImages.add(playerImage.getSubImage(0*imageWidth,1*imageHeight,1*imageWidth, 2*imageHeight));
+			playerImages.add(playerImage.getSubImage(1*imageWidth,1*imageHeight,2*imageWidth, 2*imageHeight));
 			playerWalkSpeedMSSlow = 0.2f;
 			playerWalkSpeedMSFast = 10.0f;
-			playerDamage = 2.0f;
-		}
-		else
-		{
-			 imageWidth = 32;
-			 imageHeight = 32;
-			Image playerImage = new Image("monster/red.gif");
-			playerImages = new Vector<Image>();
-			playerImages.add(playerImage.getSubImage(0*imageWidth,0,(0*imageWidth)+imageWidth,imageHeight));
-			playerImages.add(playerImage.getSubImage(1*imageWidth,0,(1*imageWidth)+imageWidth,imageHeight));
-			playerImages.add(playerImage.getSubImage(2*imageWidth,0,(2*imageWidth)+imageWidth,imageHeight));
-			playerImages.add(playerImage.getSubImage(3*imageWidth,0,(3*imageWidth)+imageWidth,imageHeight));
-			playerImages.add(playerImage.getSubImage(4*imageWidth,0,(4*imageWidth)+imageWidth,imageHeight));
-			playerImages.add(playerImage.getSubImage(5*imageWidth,0,(5*imageWidth)+imageWidth,imageHeight));
-			playerImages.add(playerImage.getSubImage(6*imageWidth,0,(6*imageWidth)+imageWidth,imageHeight));
-			playerWalkSpeedMSSlow = 0.1f;
-			playerWalkSpeedMSFast = 4.0f;
-			playerDamage = 100.0f;
 		}
 		
 		//Random Start location
@@ -134,11 +112,13 @@ public class MonsterUI {
 		if (atDestination) animationFrame = 0;
 		 return playerImages.get((int)animationFrame);
 	}
+	int direction=0;
 	
 	public void render(Graphics g, float scale){
 		Vector2f screenLocation = ts.worldToScreenPos(location.x, location.y);
 
-		
+		if (monsterId == 0 || monsterId ==1)
+		{
 		g.setColor(new Color(255,0,0));
 		Image realPlayer = getPlayerImage();
 		realPlayer.setCenterOfRotation(16*scale, 16*scale);
@@ -167,6 +147,36 @@ public class MonsterUI {
 		realPlayer.draw(screenLocation.x-16*scale,screenLocation.y-16*scale,
 				screenLocation.x+16*scale,screenLocation.y+16*scale,0,0,imageWidth, imageHeight);
 		realPlayer.rotate(-angle);	
+		}
+		else
+		{
+			g.setColor(new Color(255,0,0));
+
+			if (destinations.size()>1) 
+				{
+					Vector2f lookPointA = new Vector2f(destinations.get(destinations.size()-2).x,destinations.get(destinations.size()-2).y);
+					Vector2f lookPointB = new Vector2f(destinations.get(destinations.size()-1).x,destinations.get(destinations.size()-1).y);
+					float xdif = lookPointB.x - lookPointA.x;
+					float ydif = lookPointB.y - lookPointA.y;
+					if (xdif >0 && ydif==0) direction = 2;
+					if (xdif <0 && ydif==0) direction = 0;
+					if (xdif ==0 && ydif>0) direction = 1;
+					if (xdif ==0 && ydif<0) direction = 3;
+			
+					if (xdif >0 && ydif>0) direction = 1;
+					if (xdif <0 && ydif>0) direction = 1;
+					if (xdif >0 && ydif<0) direction = 2;
+					if (xdif <0 && ydif<0) direction = 0;
+					
+					
+				}
+				Image realPlayer = playerImages.get(direction);
+
+				realPlayer.draw(screenLocation.x-15*scale,screenLocation.y-15*scale,
+						screenLocation.x+15*scale,screenLocation.y+15*scale,0,0,imageWidth, imageHeight);
+
+			
+		}
 	}
 	
 	

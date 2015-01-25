@@ -142,11 +142,17 @@ public class TileSystem {
     		finalY = (row*resTimesScale)-offsets.y;
     		if(isOnScreen(x, row)){
         		if(tiles[x][row].attr != TileAttr.NONE){
-        			finalX -= 16*camera.zoom;
-            		finalY -= 16*camera.zoom;
-            		Point src = Sprite.getSprite(tiles[x][row].attr);
-            		if(src != null)
-            			g.drawImage(spriteMap, finalX, finalY, finalX+resTimesScale+16*camera.zoom, finalY+resTimesScale+16*camera.zoom, src.getX(), src.getY(), src.getX()+tileRes, src.getY()+tileRes);
+        			if(tiles[x][row].attr == TileAttr.CORPSE || tiles[x][row].attr == TileAttr.SKELETON){
+                		Point src = Sprite.getSprite(tiles[x][row].attr);
+                		if(src != null)
+                			g.drawImage(spriteMap, finalX, finalY, finalX+resTimesScale, finalY+resTimesScale, src.getX(), src.getY(), src.getX()+tileRes, src.getY()+tileRes);
+        			}else{
+	        			finalX -= 16*camera.zoom;
+	            		finalY -= 16*camera.zoom;
+	            		Point src = Sprite.getSprite(tiles[x][row].attr);
+	            		if(src != null)
+	            			g.drawImage(spriteMap, finalX, finalY, finalX+resTimesScale+16*camera.zoom, finalY+resTimesScale+16*camera.zoom, src.getX(), src.getY(), src.getX()+tileRes, src.getY()+tileRes);
+        			}
         		}
         	}
         }

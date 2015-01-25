@@ -32,6 +32,7 @@ public class PlayerUI {
 	float tileSizeM = 50.0f;			//Tile is 100m across
 	float gameSpeed = 3600/30;			//Game is 30s is one hour 3600s is 30s => 120s per 1s
 	Vector<Vector<Image>> playerImages = null;
+	Vector<Image> playerImages2 = null;
 	
 	float lastValue = 100.0f;
 	double lastDecrementTime=0.0;
@@ -62,13 +63,7 @@ public class PlayerUI {
 				playerImages.get(y).add(playerImage.getSubImage(imageX, imageY, imageX+64, imageY+64));
 			}
 		}
-		/*playerImages.add(playerImage.getSubImage(0*imageWidth,0,(0*imageWidth)+imageWidth,imageHeight));
-		playerImages.add(playerImage.getSubImage(1*imageWidth,0,(1*imageWidth)+imageWidth,imageHeight));
-		playerImages.add(playerImage.getSubImage(2*imageWidth,0,(2*imageWidth)+imageWidth,imageHeight));
-		playerImages.add(playerImage.getSubImage(3*imageWidth,0,(3*imageWidth)+imageWidth,imageHeight));
-		playerImages.add(playerImage.getSubImage(4*imageWidth,0,(4*imageWidth)+imageWidth,imageHeight));
-		playerImages.add(playerImage.getSubImage(5*imageWidth,0,(5*imageWidth)+imageWidth,imageHeight));
-		*/
+		
 		//Random Start location
 		location = randomLocation(nearbyLocation);
 	}
@@ -120,9 +115,7 @@ public class PlayerUI {
 		
 		
 		g.setColor(new Color(255,0,0));
-		//Image realPlayer = getPlayerImage();
-		//realPlayer.setCenterOfRotation(15*scale, 15*scale);
-		
+
 	if (destinations.size()>1) 
 		{
 			Vector2f lookPointA = new Vector2f(destinations.get(destinations.size()-2).x,destinations.get(destinations.size()-2).y);
@@ -140,14 +133,15 @@ public class PlayerUI {
 			if (xdif <0 && ydif<0) direction = 3;
 			
 			
+
+			
+			
 		}
 		Image realPlayer = getPlayerImage(direction);
-	
-		//realPlayer.rotate(angle);
-		
+
 		realPlayer.draw(screenLocation.x-15*scale,screenLocation.y-15*scale,
 				screenLocation.x+15*scale,screenLocation.y+15*scale,0,0,imageWidth, imageHeight);
-		//realPlayer.rotate(-angle);
+
 		
 
 	

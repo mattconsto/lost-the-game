@@ -46,10 +46,10 @@ public class MonsterManager {
 	
 	public void update(float delta) throws SlickException
 	{
-		if (monsters.size() < 20)
+		if (monsters.size() < 5)
 		{
 			Random randomGenerator = new Random();
-			monsters.addElement(new MonsterUI(new Agent(), ts, players, randomGenerator.nextInt(4) ));
+			monsters.addElement(new MonsterUI(new Agent(), ts, players, randomGenerator.nextInt(2) ));
 		}
 		
 		for (MonsterUI monster : new Vector<MonsterUI>(monsters))

@@ -115,6 +115,11 @@ public class Play extends BasicGameState implements GameState,
 		WreckageSpreader(wreckageCenter,40, false);
 		
 		container.setShowFPS(false);
+		
+		messenger.addMessage("Collect items using action buttons below.", Color.green, 20);
+		messenger.addMessage("Use WASD or ARROW keys to move the camera.", Color.green, 20);
+		messenger.addMessage("Click to move the selected player.", Color.green, 20);
+		messenger.addMessage("WELCOME TO THE ISLAND OF THE LOST", Color.green, 20);
 	}
 
 	private void RandomTileObject(TileId tileType, TileAttr tileAtt, int treeCount, boolean preferGroupings)
@@ -559,7 +564,7 @@ public class Play extends BasicGameState implements GameState,
 									selectedAgent);
 							PlayerUI player = players.get(player_index);
 							selectedAgent.startAction(action);
-							messenger.addMessage(selectedAgent.getName() + " " + action.getDescription(), Color.red, 4);
+							messenger.addMessage(selectedAgent.getName() + " " + action.getDescription(), Color.green, 6);
 
 							Tile tile = ts.getTileFromWorld(player.location.x, player.location.y);
 							action.getActionable().beforeAction(gs, selectedAgent, ts, tile);
@@ -662,7 +667,7 @@ public class Play extends BasicGameState implements GameState,
 				Tile tile = ts.getTileFromWorld(player.location.x, player.location.y);
 				if(!agent.hasPlacedCorpse() && tile.attr != TileAttr.CORPSE) {
 					tile.attr = TileAttr.CORPSE;
-					messenger.addMessage(agent.getName() + getDeathMessage(), Color.red, 4);
+					messenger.addMessage(agent.getName() + getDeathMessage(), Color.red, 8);
 					agent.setPlacedCorpse(true);
 				}
 			}
@@ -675,7 +680,7 @@ public class Play extends BasicGameState implements GameState,
                 selectedAgent);
 		PlayerUI player = players.get(player_index);
 		selectedAgent.startAction(action);
-		messenger.addMessage(selectedAgent.getName() + " is doing action..." , Color.red, 4);
+		messenger.addMessage(selectedAgent.getName() + " is doing action..." , Color.red, 7);
 
 		Tile tile = ts.getTileFromWorld(player.location.x, player.location.y);
 		action.getActionable().beforeAction(gs, selectedAgent, ts, tile);
