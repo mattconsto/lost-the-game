@@ -35,9 +35,8 @@ public class GameWin extends BasicGameState implements GameState {
 	@Override
 	public void render(GameContainer container, StateBasedGame state, Graphics g)
 			throws SlickException {
-		g.setColor(Color.gray);
-		g.fillRect(0, 0, container.getWidth(), container.getHeight());
-		g.setColor(Color.black);
+		
+		play.renderWorld(g);
 		
 		float offset=0;
 		for (PlayerUI player : play.players)
