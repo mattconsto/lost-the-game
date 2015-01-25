@@ -27,7 +27,7 @@ public class GameSession {
 	// Play time in seconds
 	private double gameTimer;
 	// Game time in minutes
-	private int timeSurvived;
+	private double timeSurvived;
 	// When we 'crashed'
 	private LocalDateTime crashDate;
 
@@ -64,7 +64,8 @@ public class GameSession {
 
 	public void update(float delta) {
 		this.gameTimer += delta;
-		this.timeSurvived = (int) Math.floor(gameTimer * MINS_PER_SEC);
+		this.timeSurvived = gameTimer * MINS_PER_SEC;
+		//(int) Math.floor(
 		// Update agent stats
 		for (Agent agent : agents) {
 			if (agent.getState() == AgentState.WALKING) {
@@ -100,7 +101,7 @@ public class GameSession {
 	}
 
 	public LocalDateTime getDate() {
-		return this.crashDate.plusMinutes(this.timeSurvived);
+		return this.crashDate.plusMinutes((int)Math.floor(this.timeSurvived));
 	}
 
 	public ArrayList<Agent> getAgents() {

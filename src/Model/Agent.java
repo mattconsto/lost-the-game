@@ -11,7 +11,7 @@ public class Agent {
 	private float health;
 	private String name;
 	private AgentState state;
-	private int expiredTime;
+	private double expiredTime;
 	
 	private static int namePos = 0;
 	private static boolean shuffled = false;
@@ -117,11 +117,11 @@ public class Agent {
 		this.state = state;
 	}
 	
-	public void setExpiredTime(int expiredTime){
+	public void setExpiredTime(double expiredTime){
 		this.expiredTime = expiredTime;
 	}
 	
-	public int getExpiredTime() {
+	public double getExpiredTime() {
 		return expiredTime;
 	}
 
@@ -162,5 +162,15 @@ public class Agent {
 
 	public void setAction(Action action) {
 		this.action = action;
+	}
+	
+	public float getRatioOfActionRemaining()
+	{
+		GameSession gs = GameSession.getInstance();
+		 float duration = this.getAction().getDuration();
+		 float elapsed = (float)gs.getTimeSurvived() - (float)this.actionStartTime;
+		 float ratio = elapsed / duration;
+		 if (ratio > 1) ratio = 1;
+		 return ratio;
 	}
 }

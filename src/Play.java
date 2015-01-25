@@ -146,6 +146,11 @@ public class Play extends BasicGameState implements GameState,
 
 			monsterManager.render(g, ts.camera.zoom, y);
 		}
+		
+		for (PlayerUI player : players) {
+			player.renderOverlay(g, ts.camera.zoom);
+		}
+		
 
 		ts.renderFog(g);
 
@@ -409,14 +414,18 @@ public class Play extends BasicGameState implements GameState,
 				boolean playerSelectionHappens = false;
 				Vector2f pos = ts.screenToWorldPos(mouseX, mouseY);
 				for (int i = 0; i < players.size(); i++) {
+					
 					PlayerUI player = players.get(i);
-					float difX = player.location.x - pos.x;
-					float difY = player.location.y - pos.y;
-					float len = (float)Math.sqrt((difX*difX)+(difY*difY));
-					if (len < 0.5)
+					if (player.agent.getState() != AgentState.DEAD)
 					{
-						selectedAgent = player.agent;
-						playerSelectionHappens = true;
+						float difX = player.location.x - pos.x;
+						float difY = player.location.y - pos.y;
+						float len = (float)Math.sqrt((difX*difX)+(difY*difY));
+						if (len < 0.5)
+						{
+							selectedAgent = player.agent;
+							playerSelectionHappens = true;
+						}
 					}
 				}
 				if (!playerSelectionHappens)
