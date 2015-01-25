@@ -3,6 +3,7 @@ import java.util.List;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
@@ -16,11 +17,13 @@ import Player.PlayerUI;
 
 public class GameWin extends BasicGameState implements GameState {
 	public static final int STATE_WIN = 3;
+	Image image;
 	
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
 		// TODO Auto-generated method stub
+		image = new Image("win-nograd.png");
 		
 	}
 
@@ -39,6 +42,8 @@ public class GameWin extends BasicGameState implements GameState {
 		g.fillRect(0, 0, container.getWidth(), container.getHeight());
 		g.setColor(Color.white);
 		play.renderWorld(g);
+
+		image.draw(0, 0, container.getWidth(), container.getHeight());
 		
 		float offset=0;
 		for (PlayerUI player : play.players)

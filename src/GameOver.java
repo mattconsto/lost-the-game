@@ -26,7 +26,7 @@ public class GameOver extends BasicGameState implements GameState {
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
 		// TODO Auto-generated method stub
-		image = new Image("title-nograd.png");
+		image = new Image("lose-nograd.png");
 	}
 
 	Play play;
