@@ -192,6 +192,14 @@ public class PlayerUI {
 		{
 			playerWalkSpeedMS = 0.3f;
 		}
+		if (ts.getTileFromWorld(location.x, location.y).id == TileId.ROCK)
+		{
+			playerWalkSpeedMS = 1f;
+		}
+		if (ts.getTileFromWorld(location.x, location.y).id == TileId.SNOW)
+		{
+			playerWalkSpeedMS = 0.6f;
+		}
 		
 		float deltaTimeS = (float)deltaTime;
 		float distanceTravelled = (deltaTimeS * gameSpeed * playerWalkSpeedMS)/ tileSizeM ;

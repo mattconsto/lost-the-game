@@ -97,6 +97,7 @@ public class Play extends BasicGameState implements GameState,
 		RandomTileObject(TileId.DIRT, TileAttr.PALM_TREE, 200, true);
 		RandomTileObject(TileId.ROCK, TileAttr.PINE_TREE, 100, true);
 		RandomTileObject(TileId.SNOW, TileAttr.ALIEN_ARTIFACT, 1, false);
+		RandomTileObject(TileId.SNOW, TileAttr.ALTAR, 2, false);
 		RandomTileObject(TileId.WATER, TileAttr.BOAT, 2, false);
 		RandomTileObject(TileId.ROCK, TileAttr.CAVE, 2, false);
 		RandomTileObject(TileId.DIRT, TileId.POND, 100, false);
