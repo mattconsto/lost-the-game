@@ -38,6 +38,7 @@ public class GameWin extends BasicGameState implements GameState {
 		g.setColor(Color.gray);
 		g.fillRect(0, 0, container.getWidth(), container.getHeight());
 		g.setColor(Color.black);
+		g.setColor(Color.white);
 		
 		float offset=0;
 		for (PlayerUI player : play.players)

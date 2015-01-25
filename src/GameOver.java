@@ -1,3 +1,4 @@
+import java.awt.Font;
 import java.util.List;
 
 import org.newdawn.slick.Color;
@@ -5,6 +6,8 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
+import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -42,6 +45,7 @@ public class GameOver extends BasicGameState implements GameState {
 		g.setColor(Color.black);*/
 		
 		play.renderWorld(g);
+		g.setColor(Color.white);
 		
 		float offset=0;
 		for (PlayerUI player : play.players)
@@ -49,7 +53,6 @@ public class GameOver extends BasicGameState implements GameState {
 			g.drawString(player.agent.getName() + " died of exposure after only " + Math.floor(player.agent.getExpiredTime()) + " hours.", 10, scroller+offset);
 			offset-=30;
 		}
-		
 		
 		g.drawString("Game Over", container.getWidth()/2, container.getHeight()/2);
 		g.drawString("press Escape to exit or Enter to start again", container.getWidth()/2, container.getHeight()/2 + 30);
