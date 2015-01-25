@@ -25,11 +25,12 @@ public class MonsterManager {
 		players = playersIn;
 	}
 	
-	public void render(Graphics g, float scale)
+	public void render(Graphics g, float scale, int row)
 	{
 		for (MonsterUI monster : monsters)
 		{
-			monster.render(g, scale);
+			if((int)monster.location.y == row)
+				monster.render(g, scale);
 		}
 		
 	}

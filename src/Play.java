@@ -132,13 +132,18 @@ public class Play extends BasicGameState implements GameState,
 			throws SlickException {
 
 		Input input = container.getInput();
-		// Test code
+		
 		ts.renderTiles(g);
-		for (PlayerUI player : players) {
-			player.render(g, ts.camera.zoom);
-		}
+		for(int y = 0; y < ts.size; y++){
+			ts.renderSprites(g, y);
+			
+			for (PlayerUI player : players) {
+				if((int)player.location.y == y)
+					player.render(g, ts.camera.zoom);
+			}
 
-		monsterManager.render(g, ts.camera.zoom);
+			monsterManager.render(g, ts.camera.zoom, y);
+		}
 
 		ts.renderFog(g);
 
