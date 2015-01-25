@@ -462,16 +462,16 @@ public class Play extends BasicGameState implements GameState,
 				Action action = validActions.get(i);
 				String name = action.getName();
 
-				if((i == 0 && input.isKeyDown(Input.KEY_F1)) ||
-						(i == 1 && input.isKeyDown(Input.KEY_F2)) ||
-						(i == 2 && input.isKeyDown(Input.KEY_F3)) ||
-						(i == 3 && input.isKeyDown(Input.KEY_F4)) ||
-						(i == 4 && input.isKeyDown(Input.KEY_F5)) ||
-						(i == 5 && input.isKeyDown(Input.KEY_F6)) ||
-						(i == 6 && input.isKeyDown(Input.KEY_F7)) ||
-						(i == 7 && input.isKeyDown(Input.KEY_F8)) ||
-						(i == 8 && input.isKeyDown(Input.KEY_F9)) ||
-						(i == 9 && input.isKeyDown(Input.KEY_F10)) ||
+				if((i == 0 && (input.isKeyDown(Input.KEY_F1) || input.isKeyDown(Input.KEY_Z))) ||
+						(i == 1 && (input.isKeyDown(Input.KEY_F2) || input.isKeyDown(Input.KEY_X))) ||
+						(i == 2 && (input.isKeyDown(Input.KEY_F3) || input.isKeyDown(Input.KEY_C))) ||
+						(i == 3 && (input.isKeyDown(Input.KEY_F4) || input.isKeyDown(Input.KEY_V))) ||
+						(i == 4 && (input.isKeyDown(Input.KEY_F5) || input.isKeyDown(Input.KEY_B))) ||
+						(i == 5 && (input.isKeyDown(Input.KEY_F6) || input.isKeyDown(Input.KEY_N))) ||
+						(i == 6 && (input.isKeyDown(Input.KEY_F7) || input.isKeyDown(Input.KEY_M))) ||
+						(i == 7 && (input.isKeyDown(Input.KEY_F8) || input.isKeyDown(Input.KEY_COMMA))) ||
+						(i == 8 && (input.isKeyDown(Input.KEY_F9) || input.isKeyDown(Input.KEY_STOP))) ||
+						(i == 9 && (input.isKeyDown(Input.KEY_F10) || input.isKeyDown(Input.KEY_SLASH))) ||
 						(i == 10 && input.isKeyDown(Input.KEY_F11)) ||
 						(i == 11 && input.isKeyDown(Input.KEY_F12))) {
 						if (actionKeyPressed != i) {
