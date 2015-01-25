@@ -14,7 +14,7 @@ import Player.PlayerUI;
 
 
 public class GameWin extends BasicGameState implements GameState {
-	public static final int STATE_OVER = 3;
+	public static final int STATE_WIN = 3;
 	
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
@@ -73,6 +73,6 @@ public class GameWin extends BasicGameState implements GameState {
 
 	@Override
 	public int getID() {
-		return STATE_OVER;
+		return STATE_WIN;
 	}
 }

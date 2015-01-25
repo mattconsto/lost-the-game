@@ -608,10 +608,10 @@ public class Play extends BasicGameState implements GameState,
 		}
 		
 		if (!alive)
-			game.enterState(GameOver.STATE_WIN);
+			game.enterState(GameOver.STATE_OVER);
 
 		if (gs.isCompleted())
-			game.enterState(GameWin.STATE_OVER);
+			game.enterState(GameWin.STATE_WIN);
 		
 		float seconds = (float) (delta / 1000.0);
 		updateCamera(container, seconds);
