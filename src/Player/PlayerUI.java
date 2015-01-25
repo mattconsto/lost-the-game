@@ -32,7 +32,7 @@ public class PlayerUI {
 	
 	float tileSizeM = 50.0f;			//Tile is 100m across
 	float gameSpeed = 3600/30;			//Game is 30s is one hour 3600s is 30s => 120s per 1s
-	Vector<Image> playerImages = null;
+	Vector<Vector<Image>> playerImages = null;
 	
 	float lastValue = 100.0f;
 	double lastDecrementTime=0.0;
@@ -43,17 +43,33 @@ public class PlayerUI {
 		agent = agentIn;
 		ts = tsIn;
 		
+		imageWidth = 64;
+		imageHeight = 64;
+		Image playerImage = null;
+		Random r = new Random();
+		double d = r.nextDouble();
+		if (d < 0.3) playerImage = new Image("player/before.png");
+		else if (d < 0.6) playerImage = new Image("player/FBI_walk_cycle.png");
+		else playerImage = new Image("player/professor_walk_cycle_no_hat.png");
 		
-		Image playerImage = new Image("player/walking1.png");
-		
-		playerImages = new Vector<Image>();
-		playerImages.add(playerImage.getSubImage(0*imageWidth,0,(0*imageWidth)+imageWidth,imageHeight));
+		playerImages = new Vector<Vector<Image>>();
+		for(int y=0;y<4; y++)
+		{
+			playerImages.add(new Vector<Image>());
+			for(int x=0; x<9; x++)
+			{
+				int imageX = x*64;
+				int imageY = y*64;
+				playerImages.get(y).add(playerImage.getSubImage(imageX, imageY, imageX+64, imageY+64));
+			}
+		}
+		/*playerImages.add(playerImage.getSubImage(0*imageWidth,0,(0*imageWidth)+imageWidth,imageHeight));
 		playerImages.add(playerImage.getSubImage(1*imageWidth,0,(1*imageWidth)+imageWidth,imageHeight));
 		playerImages.add(playerImage.getSubImage(2*imageWidth,0,(2*imageWidth)+imageWidth,imageHeight));
 		playerImages.add(playerImage.getSubImage(3*imageWidth,0,(3*imageWidth)+imageWidth,imageHeight));
 		playerImages.add(playerImage.getSubImage(4*imageWidth,0,(4*imageWidth)+imageWidth,imageHeight));
 		playerImages.add(playerImage.getSubImage(5*imageWidth,0,(5*imageWidth)+imageWidth,imageHeight));
-		
+		*/
 		//Random Start location
 		location = randomLocation(nearbyLocation);
 	}
@@ -89,12 +105,13 @@ public class PlayerUI {
 	float animationFrame = 0;
 	float angle = 0;
 	
+	int direction = 0;
 	
-	public Image getPlayerImage()
+	public Image getPlayerImage(int direction)
 	{
-		if (animationFrame > 5) animationFrame = 0;
+		if (animationFrame >= 9) animationFrame = 0;
 		if (atDestination) animationFrame = 0;
-		 return playerImages.get((int)animationFrame);
+		 return playerImages.get(direction).get((int)animationFrame);
 	}
 	
 	public void render(Graphics g, float scale){
@@ -104,33 +121,34 @@ public class PlayerUI {
 		
 		
 		g.setColor(new Color(255,0,0));
-		Image realPlayer = getPlayerImage();
-		realPlayer.setCenterOfRotation(15*scale, 15*scale);
-
+		//Image realPlayer = getPlayerImage();
+		//realPlayer.setCenterOfRotation(15*scale, 15*scale);
+		
 	if (destinations.size()>1) 
 		{
 			Vector2f lookPointA = new Vector2f(destinations.get(destinations.size()-2).x,destinations.get(destinations.size()-2).y);
 			Vector2f lookPointB = new Vector2f(destinations.get(destinations.size()-1).x,destinations.get(destinations.size()-1).y);
 			float xdif = lookPointB.x - lookPointA.x;
 			float ydif = lookPointB.y - lookPointA.y;
-			if (xdif >0 && ydif==0) angle = 270;
-			if (xdif <0 && ydif==0) angle = 90;
-			if (xdif ==0 && ydif>0) angle = 0;
-			if (xdif ==0 && ydif<0) angle = 180;
+			if (xdif >0 && ydif==0) direction = 1;
+			if (xdif <0 && ydif==0) direction = 3;
+			if (xdif ==0 && ydif>0) direction = 0;
+			if (xdif ==0 && ydif<0) direction = 2;
 	
-			if (xdif >0 && ydif>0) angle = 90+45+180;
-			if (xdif <0 && ydif>0) angle = 270+45+90;
-			if (xdif >0 && ydif<0) angle = 90+45+90;
-			if (xdif <0 && ydif<0) angle = 270+45-180;
+			if (xdif >0 && ydif>0) direction = 1;
+			if (xdif <0 && ydif>0) direction = 3;
+			if (xdif >0 && ydif<0) direction = 1;
+			if (xdif <0 && ydif<0) direction = 3;
 			
 			
 		}
-		
-		realPlayer.rotate(angle);
+		Image realPlayer = getPlayerImage(direction);
+	
+		//realPlayer.rotate(angle);
 		
 		realPlayer.draw(screenLocation.x-15*scale,screenLocation.y-15*scale,
 				screenLocation.x+15*scale,screenLocation.y+15*scale,0,0,imageWidth, imageHeight);
-		realPlayer.rotate(-angle);
+		//realPlayer.rotate(-angle);
 		
 
 	
