@@ -35,6 +35,28 @@ public class ActionManager {
 			}
 
 		}));
+		
+		this.actions.add(new Action("Eat Fish", 10, new IActionable() {
+			@Override
+			public void beforeAction(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				gs.removeItemByType(ItemType.FISH);
+			}
+
+			@Override
+			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
+					Tile tile) {
+				agent.incFood(30);
+			}
+
+			@Override
+			public boolean canPerform(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				return (gs.getItemCount(ItemType.FISH) >= 1);
+			}
+
+		}));
+		
 		this.actions.add(new Action("Eat Cake", 10, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
@@ -627,6 +649,27 @@ public class ActionManager {
 			public boolean canPerform(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
 				return tile.attr == TileAttr.PALM_TREE;
+			}
+
+		}));
+		
+		this.actions.add(new Action("Catch Fish", 10, new IActionable() {
+			@Override
+			public void beforeAction(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+
+			}
+
+			@Override
+			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
+					Tile tile) {
+				gs.addItemByType(ItemType.FISH);
+			}
+
+			@Override
+			public boolean canPerform(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				return tile.id == TileId.WATER && gs.getItemCount(ItemType.SPEAR) >= 1;
 			}
 
 		}));

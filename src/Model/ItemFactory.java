@@ -33,6 +33,7 @@ public class ItemFactory {
 		itemMap.put(ItemType.OIL, new Item("Oil", "oil"));
 		itemMap.put(ItemType.WATER, new Item("Water", "water"));
 		itemMap.put(ItemType.METAL, new Item("Metal", "metal"));
+		itemMap.put(ItemType.FISH, new Item("Fish", "fish"));
 	}
 	
 	public static Item createItem(ItemType itemType) {
