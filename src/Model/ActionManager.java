@@ -125,6 +125,22 @@ public class ActionManager {
 			}
 
 		}));
+		
+		this.actions.add(new Action("Take Corpse", new IActionable() {
+			@Override
+			public void performAction(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				gs.addItemByType(ItemType.CORPSE);
+				tile.attr = TileAttr.NONE;
+			}
+
+			@Override
+			public boolean canPerform(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				return (tile.attr == TileAttr.CORPSE);
+			}
+
+		}));
 
 		this.actions.add(new Action("Get Rock", new IActionable() {
 			@Override
