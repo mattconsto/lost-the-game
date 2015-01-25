@@ -35,6 +35,8 @@ public class LostGame extends StateBasedGame {
 		this.addState(play);
 		this.addState(go);
         this.enterState(Play.STATE_PLAY);
+        
+        SoundManager.init();
 	}
 	
 	public static void main(String[] args) {
