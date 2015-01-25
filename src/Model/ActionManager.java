@@ -460,7 +460,7 @@ public class ActionManager {
 			@Override
 			public boolean canPerform(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
-				return (gs.getItemCount(ItemType.CLOTH) >= 5);
+				return (gs.getItemCount(ItemType.CLOTH) >= 2);
 			}
 
 		}));
