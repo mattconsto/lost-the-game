@@ -4,6 +4,7 @@ import java.util.List;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
@@ -19,11 +20,13 @@ import Player.PlayerUI;
 public class GameOver extends BasicGameState implements GameState {
 	public static final int STATE_OVER = 2;
 	
+	Image image;
+	
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
 		// TODO Auto-generated method stub
-		
+		image = new Image("title-nograd.png");
 	}
 
 	Play play;
@@ -47,6 +50,8 @@ public class GameOver extends BasicGameState implements GameState {
 		play.renderWorld(g);
 		g.setColor(Color.white);
 		
+		image.draw(0, 0, container.getWidth(), container.getHeight());
+		
 		float offset=0;
 		for (PlayerUI player : play.players)
 		{
@@ -54,8 +59,7 @@ public class GameOver extends BasicGameState implements GameState {
 			offset-=30;
 		}
 		
-		g.drawString("Game Over", container.getWidth()/2, container.getHeight()/2);
-		g.drawString("press Escape to exit or Enter to start again", container.getWidth()/2, container.getHeight()/2 + 30);
+		g.drawString("press Escape to exit or Enter to start again", container.getWidth()/2-250, container.getHeight()/2 + 300);
 	}
 
 	@Override
