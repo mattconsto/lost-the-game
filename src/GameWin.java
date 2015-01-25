@@ -14,7 +14,7 @@ import Player.PlayerUI;
 
 
 public class GameWin extends BasicGameState implements GameState {
-	public static final int STATE_OVER = 2;
+	public static final int STATE_OVER = 3;
 	
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
