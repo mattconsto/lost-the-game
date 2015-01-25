@@ -338,7 +338,7 @@ public class ActionManager {
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
 					Tile tile) {
 				gs.addItemByType(ItemType.CORPSE);
-				tile.attr = TileAttr.NONE;
+				tile.attr = TileAttr.SKELETON;
 			}
 
 			@Override

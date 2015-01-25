@@ -177,7 +177,7 @@ public class TileSystem {
 	            		break;
 	            	case 1:
 	            		g.setColor(semi);
-	            		//g.fillRect(finalX, finalY, resTimesScale, resTimesScale);
+	            		g.fillRect(finalX, finalY, resTimesScale, resTimesScale);
 	            		break;
             	}
             }
