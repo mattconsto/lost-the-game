@@ -398,6 +398,7 @@ public class Play extends BasicGameState implements GameState,
 				}
 
 			} else {
+				//This code handles mouse selection of other players
 				boolean playerSelectionHappens = false;
 				Vector2f pos = ts.screenToWorldPos(mouseX, mouseY);
 				for (int i = 0; i < players.size(); i++) {
