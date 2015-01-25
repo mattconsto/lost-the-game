@@ -92,7 +92,7 @@ public class Play extends BasicGameState implements GameState,
 		RandomTileObject(TileId.GRASS, TileAttr.TREE, 700, true);
 		RandomTileObject(TileId.DIRT, TileAttr.PALM_TREE, 200, true);
 		RandomTileObject(TileId.ROCK, TileAttr.PINE_TREE, 100, true);
-		RandomTileObject(TileId.SNOW, TileAttr.ALIEN_ARTIFACT, 5, false);
+		RandomTileObject(TileId.SNOW, TileAttr.ALIEN_ARTIFACT, 1, false);
 		RandomTileObject(TileId.WATER, TileAttr.BOAT, 2, false);
 		RandomTileObject(TileId.ROCK, TileAttr.CAVE, 2, false);
 		RandomTileObject(TileId.DIRT, TileAttr.POND, 20, false);
@@ -522,6 +522,14 @@ public class Play extends BasicGameState implements GameState,
 			}
 		}
 
+		Random rand = new Random();
+		if (rand.nextInt(100) <5)
+		{
+			RandomTileObject(TileId.GRASS, TileAttr.TREE, 2, true);
+			RandomTileObject(TileId.DIRT, TileAttr.PALM_TREE, 1, true);
+			RandomTileObject(TileId.ROCK, TileAttr.PINE_TREE, 1, true);
+		}
+		
 		if (!alive)
 			game.enterState(GameOver.STATE_OVER);
 
