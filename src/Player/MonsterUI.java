@@ -12,6 +12,7 @@ import org.lwjgl.util.vector.Vector2f;
 
 import Model.Agent;
 import Model.AgentState;
+import Model.GameSession;
 import TileSystem.TileSystem;
 import TileSystem.Tile;
 import TileSystem.TileSystem.TileId;
@@ -35,6 +36,9 @@ public class MonsterUI {
 	float playerWalkSpeedMS = 1.4f;
 	boolean evil;
 	
+	float lastValue = 100.0f;
+	double lastDecrementTime=0.0;
+	boolean showHealth = false;
 	
 	int imageWidth = 32;
 	int imageHeight = 32;
@@ -122,6 +126,23 @@ public class MonsterUI {
 		
 	}
 	
+	public void renderOverlay(Graphics g, float scale){
+		Vector2f screenLocation = ts.worldToScreenPos(location.x, location.y);
+
+		if (showHealth)
+		{
+			float health = agent.getHealth();
+			if (health < 20)
+				g.setColor(new Color(255,0,0.0f,0.5f));
+			else
+				g.setColor(new Color(0,255,0.0f,0.5f));
+			
+			float progress = health/100.0f;
+			g.fillRect(screenLocation.x-20*scale,  screenLocation.y+20*scale, 40*scale * progress, 10*scale);
+			g.drawRect(screenLocation.x-20*scale,  screenLocation.y+20*scale, 40*scale, 10*scale);
+		}
+	}
+	
 	public void update(float deltaTime) {
 		
 		boolean mauledPlayer = false;
@@ -136,7 +157,7 @@ public class MonsterUI {
 				float distToPlayer = (float)Math.sqrt((difX*difX)+(difY*difY));
 				if (distToPlayer < 1)
 				{
-					player.agent.decHealth(2);
+					player.agent.decHealth(2* deltaTime);
 					mauledPlayer = true;
 				}
 			}
@@ -188,7 +209,20 @@ public class MonsterUI {
 		}
 		
 		
-
+		float health = agent.getHealth();
+		if (health < lastValue)
+		{
+			lastValue = health;
+			showHealth = true;
+			GameSession gs = GameSession.getInstance();
+			lastDecrementTime = gs.getTimeSurvived();
+		}
+		if (showHealth)
+		{
+			GameSession gs = GameSession.getInstance();
+			if ((gs.getTimeSurvived()- lastDecrementTime) > 5) 
+				showHealth = false;
+		}
 	}
 	
 	private void randomMove()

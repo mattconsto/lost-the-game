@@ -36,6 +36,15 @@ public class MonsterManager {
 		
 	}
 	
+	public void renderOverlay(Graphics g, float scale)
+	{
+		for (MonsterUI monster : monsters)
+		{
+				monster.renderOverlay(g, scale);
+		}
+		
+	}
+	
 	public void update(float delta) throws SlickException
 	{
 		if (monsters.size() < 5)
