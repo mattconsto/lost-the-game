@@ -196,7 +196,7 @@ public class GroundSprite {
         put(TileSystem.TileId.TARPIT, new HashMap<TileSystem.TileId,ArrayList<Point>>() {{
             put(null, new ArrayList<Point>()
             {{
-                    add(new Point(8,15));// ┼
+                    add(new Point(8,15));// ┼ 
                 }});
         }});
 
