@@ -18,7 +18,7 @@ public class ActionManager {
 			@Override
 			public void performAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
-				gs.addItem(ItemFactory.createItem(ItemType.GRASS));
+				gs.addItemByType(ItemType.GRASS);
 				ts.setTileID(tile.x, tile.y, TileId.DIRT);
 				agent.decFood(5);
 			}

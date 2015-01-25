@@ -10,7 +10,7 @@ public class GameSession {
 	// 30 seconds = 1 hour
 	// 1 second = 2 minutes
 	private static final int MINS_PER_SEC = 2;
-	private static final int NUMBER_AGENTS = 9;
+	private static final int NUMBER_AGENTS = 10;
 
 	private static final float FOOD_PER_SEC_WALK = 0.5f;
 	private static final float FOOD_PER_SEC_STAND = 0.25f;
@@ -30,14 +30,14 @@ public class GameSession {
 	// When we 'crashed'
 	private LocalDateTime crashDate;
 
-	private ArrayList<Item> items;
+	private ArrayList<ItemType> items;
 	private Map<ItemType, Integer> itemCounts;
 	private ArrayList<Agent> agents;
 
 	public GameSession() {
 		this.gameTimer = 0;
 		this.timeSurvived = 0;
-		this.items = new ArrayList<Item>();
+		this.items = new ArrayList<ItemType>();
 		this.itemCounts = new HashMap<ItemType, Integer>();
 		this.agents = new ArrayList<Agent>();
 		int year = (int) (2010 + (Math.round(Math.random() * 5) - 10));
@@ -97,13 +97,13 @@ public class GameSession {
 		return agents;
 	}
 
-	public ArrayList<Item> getItems() {
+	public ArrayList<ItemType> getItems() {
 		return items;
 	}
 
 	public void addItemByType(ItemType itemType) {
 		if (!itemCounts.containsKey(itemType)) {
-			items.add(ItemFactory.createItem(itemType));
+			items.add(itemType);
 			itemCounts.put(itemType, 1);
 		} else {
 			itemCounts.put(itemType, itemCounts.get(itemType) + 1);
@@ -116,13 +116,12 @@ public class GameSession {
 		}
 	}
 
-	public void addItem(Item item) {
-		ItemType type = item.getType();
-		if (!itemCounts.containsKey(type)) {
-			items.add(item);
-			itemCounts.put(type, 1);
+	public void addItem(ItemType itemType) {
+		if (!itemCounts.containsKey(itemType)) {
+			items.add(itemType);
+			itemCounts.put(itemType, 1);
 		} else {
-			itemCounts.put(type, itemCounts.get(type) + 1);
+			itemCounts.put(itemType, itemCounts.get(itemType) + 1);
 		}
 	}
 
@@ -133,9 +132,9 @@ public class GameSession {
 		int updatedCount = itemCounts.get(itemType) - 1;
 		itemCounts.put(itemType, updatedCount);
 		if (updatedCount == 0) {
-			for (Item currentItem : items) {
-				if (currentItem.getType() == itemType) {
-					items.remove(currentItem);
+			for (ItemType currentType : items) {
+				if (currentType == itemType) {
+					items.remove(currentType);
 					break;
 				}
 			}
@@ -151,9 +150,8 @@ public class GameSession {
 		}
 	}
 
-	public void removeItem(Item item) {
-		ItemType type = item.getType();
-		removeItemByType(type);
+	public void removeItem(ItemType itemType) {
+		removeItemByType(itemType);
 	}
 
 	public int getItemCount(ItemType itemType) {
@@ -170,7 +168,7 @@ public class GameSession {
 		for (int i = 0; i < NUMBER_AGENTS; i++) {
 			for (ItemType itemType : itemTypes) {
 				// if (Math.random() > 0.8) {
-				addItem(ItemFactory.createItem(itemType));
+				addItem(itemType);
 				// }
 			}
 		}

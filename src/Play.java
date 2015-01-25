@@ -53,7 +53,7 @@ public class Play extends BasicGameState implements GameState,
 			throws SlickException {
 		ts = new TileSystem(new Point(container.getWidth(),
 				container.getHeight()));
-
+		ItemFactory.init();
 		new Music("sounds/heart.ogg").loop();
 		gs = new GameSession();
 		players = new ArrayList<PlayerUI>();
@@ -254,18 +254,18 @@ public class Play extends BasicGameState implements GameState,
 
 		// Draw inventory
 		int inventory_zone_x = 10;
-		List<Item> items = gs.getItems();
+		List<ItemType> items = gs.getItems();
 		List<Rectangle> inventoryZones = new ArrayList<Rectangle>();
 		g.setColor(Color.black);
 		for (int i = 0; i < 10; i++) {
 
 			int x = inventory_zone_x + (i * f_h) + (i * 6);
 			if (i < items.size()) {
-				itemImages.get(items.get(i).getType()).draw(x, f_y, f_h, f_h);
+				itemImages.get(items.get(i)).draw(x, f_y, f_h, f_h);
 
 				Rectangle rect = new Rectangle(x, f_y, f_h, f_h);
 				inventoryZones.add(rect);
-				int count = gs.getItemCount(items.get(i).getType());
+				int count = gs.getItemCount(items.get(i));
 				if (count > 1) {
 					int w = g.getFont().getWidth("" + count);
 					int h = g.getFont().getHeight("" + count);
@@ -336,16 +336,16 @@ public class Play extends BasicGameState implements GameState,
 
 				// Dead agents can't interact with inventory etc.
 				if (selectedAgent.getState() != AgentState.DEAD) {
-					for (int i = 0; i < inventoryZones.size(); i++) {
-						Rectangle inventoryZone = inventoryZones.get(i);
-						if (inventoryZone.contains(mouseX, mouseY)) {
-							if (selectedItems.contains(items.get(i))) {
-								selectedItems.remove(items.get(i));
-							} else {
-								selectedItems.add(items.get(i));
-							}
-						}
-					}
+//					for (int i = 0; i < inventoryZones.size(); i++) {
+//						Rectangle inventoryZone = inventoryZones.get(i);
+//						if (inventoryZone.contains(mouseX, mouseY)) {
+//							if (selectedItems.contains(items.get(i))) {
+//								selectedItems.remove(items.get(i));
+//							} else {
+//								selectedItems.add(items.get(i));
+//							}
+//						}
+//					}
 
 					for (int i = 0; i < actionZones.size(); i++) {
 						Rectangle actionZone = actionZones.get(i);
