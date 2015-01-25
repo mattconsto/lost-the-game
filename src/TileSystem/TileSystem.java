@@ -3,6 +3,8 @@ package TileSystem;
 import Map.PerlinMapGenerator;
 import Map.SimpleMapLoader;
 import Model.AgentState;
+import Model.GameSession;
+import Model.ItemType;
 
 import java.util.List;
 
@@ -171,7 +173,7 @@ public class TileSystem {
 		}
 	}
 	
-	public void updateFog(List<PlayerUI> players){
+	public void updateFog(List<PlayerUI> players, GameSession gs){
 		for(int x = 0; x < size; x++){
             for(int y = 0; y < size; y++){
             	if(tiles[x][y].vis == 2)
@@ -184,12 +186,23 @@ public class TileSystem {
 			{
 				int xp = (int)p.location.x;
 				int yp = (int)p.location.y;
-				for(int x = xp - 5; x < xp + 5; x++){
-					for(int y = yp - 5; y < yp + 5; y++){
-						if(x > 0 && y > 0 && x < size && y < size)
-							if(dist(xp, yp, x, y) <= 4){
-								tiles[x][y].vis = 2;
-							}
+				if(gs.getItemCount(ItemType.FIRESTICK) > 0){
+					for(int x = xp - 10; x < xp + 10; x++){
+						for(int y = yp - 10; y < yp + 10; y++){
+							if(x > 0 && y > 0 && x < size && y < size)
+								if(dist(xp, yp, x, y) <= 9){
+									tiles[x][y].vis = 2;
+								}
+						}
+					}
+				}else{
+					for(int x = xp - 5; x < xp + 5; x++){
+						for(int y = yp - 5; y < yp + 5; y++){
+							if(x > 0 && y > 0 && x < size && y < size)
+								if(dist(xp, yp, x, y) <= 4){
+									tiles[x][y].vis = 2;
+								}
+						}
 					}
 				}
 			}
