@@ -624,7 +624,7 @@ public class Play extends BasicGameState implements GameState,
 			if(agent.hasAction() && agent.haveFinishedAction()) {
 				if(agent.getState() != AgentState.DEAD) {
 					Tile tile = ts.getTileFromWorld(player.location.x, player.location.y);
-					agent.getAction().getActionable().afterAction(gs, selectedAgent, ts, tile);
+					agent.getAction().getActionable().afterAction(gs, selectedAgent, ts, tile, monsterManager);
 					
 					if (agent.getAction().getActionable().canPerform(gs, agent, ts, tile))
 					{
