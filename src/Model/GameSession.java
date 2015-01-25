@@ -78,6 +78,8 @@ public class GameSession {
 			}
 			
 			if (agent.getHealth() <= 0)			{
+				
+				if (agent.getState() != AgentState.DEAD) agent.setExpiredTime(this.timeSurvived);
 				agent.setState(AgentState.DEAD);
 				
 			}
