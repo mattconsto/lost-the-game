@@ -23,7 +23,8 @@ public class GameWin extends BasicGameState implements GameState {
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
 		// TODO Auto-generated method stub
-		image = new Image("win-nograd.png");
+		image = new Image("win-transparent.png");
+		scroller = 0;
 		
 	}
 
@@ -45,6 +46,8 @@ public class GameWin extends BasicGameState implements GameState {
 
 		image.draw(0, 0, container.getWidth(), container.getHeight());
 		
+		g.setColor(Color.white);
+		
 		float offset=0;
 		for (PlayerUI player : play.players)
 		{
@@ -61,16 +64,16 @@ public class GameWin extends BasicGameState implements GameState {
 		GameSession gs = GameSession.getInstance();
 		
 		if (gs.getCompletionType() == 1)
-			g.drawString("Game Over You Win (You could do alot better that a raft)", container.getWidth()/2, container.getHeight()/2);
+			g.drawString("Game Over You Win (You could do alot better that a raft)", container.getWidth()/2-250, container.getHeight()/2 + 350);
 		else if(gs.getCompletionType() == 2)
-			g.drawString("Game Over You Win (You could do better than a boat)", container.getWidth()/2, container.getHeight()/2);
+			g.drawString("Game Over You Win (You could do better than a boat)", container.getWidth()/2-250, container.getHeight()/2 + 350);
 		else if(gs.getCompletionType() == 3)
-			g.drawString("Game Over You Win (You could do a bit better than a plane)", container.getWidth()/2, container.getHeight()/2);
+			g.drawString("Game Over You Win (You could do a bit better than a plane)", container.getWidth()/2-250, container.getHeight()/2 + 350);
 		else if(gs.getCompletionType() == 4)
-			g.drawString("Game Over You Win (You can't do much better than a SPACE CRAFT!)", container.getWidth()/2, container.getHeight()/2);
+			g.drawString("Game Over You Win (You can't do much better than a SPACE CRAFT!)", container.getWidth()/2-250, container.getHeight()/2 + 350);
 		
 		//g.drawString("Game Over You Win (You could do better)", container.getWidth()/2, container.getHeight()/2);
-		g.drawString("press Escape to exit or Enter to start again", container.getWidth()/2, container.getHeight()/2 + 30);
+		g.drawString("press Escape to exit or Enter to start again", container.getWidth()/2-250, container.getHeight()/2 + 400);
 	}
 
 	@Override

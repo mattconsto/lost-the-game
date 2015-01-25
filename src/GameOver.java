@@ -27,6 +27,7 @@ public class GameOver extends BasicGameState implements GameState {
 			throws SlickException {
 		// TODO Auto-generated method stub
 		image = new Image("lose-nograd.png");
+		scroller = 0;
 	}
 
 	Play play;
