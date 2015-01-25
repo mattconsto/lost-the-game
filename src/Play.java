@@ -84,9 +84,9 @@ public class Play extends BasicGameState implements GameState,
 		ts.getCamera().x = players.get(0).location.x;
 		ts.getCamera().y = players.get(0).location.y;
 
-		RandomTileObject(TileId.GRASS, TileAttr.TREE, 100, true);
-		RandomTileObject(TileId.DIRT, TileAttr.PALM_TREE, 40, true);
-		RandomTileObject(TileId.ROCK, TileAttr.SHRUB, 20, true);
+		RandomTileObject(TileId.GRASS, TileAttr.TREE, 700, true);
+		RandomTileObject(TileId.DIRT, TileAttr.PALM_TREE, 200, true);
+		RandomTileObject(TileId.ROCK, TileAttr.PINE_TREE, 100, true);
 		RandomTileObject(TileId.SNOW, TileAttr.ALIEN_ARTIFACT, 5, false);
 		RandomTileObject(TileId.WATER, TileAttr.BOAT, 2, false);
 		
@@ -103,18 +103,19 @@ public class Play extends BasicGameState implements GameState,
 			Tile tile = ts.getTile(x, y);
 			if (tile.id== tileType && tile.attr == TileAttr.NONE)
 			{
-				int surroundTree = 1;
+				float surroundTree = 1;
 				if (ts.getTile(x+1, y).attr==tileAtt) surroundTree++;
 				if (ts.getTile(x-1, y).attr==tileAtt) surroundTree++;
 				if (ts.getTile(x, y+1).attr==tileAtt) surroundTree++;
 				if (ts.getTile(x, y-1).attr==tileAtt) surroundTree++;
-				int num = randomGenerator.nextInt(100) ;
+				float num = (float)randomGenerator.nextInt(100) ;
 				if (preferGroupings)
 					num /= surroundTree; 
 				else
+					num /=1.25;
 					num *= surroundTree; 
 				
-				if (num > 75)
+				if (num > 50)
 				{
 					treeCount-=1;
 					tile.attr= tileAtt;
@@ -450,7 +451,7 @@ public class Play extends BasicGameState implements GameState,
 			player.update(seconds);
 		}
 		monsterManager.update(seconds);
-		ts.updateFog(players);
+		ts.updateFog(players, gs);
 		gs.update(seconds);
 
 		if (container.getInput().isKeyDown(Input.KEY_ESCAPE)) {
