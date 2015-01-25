@@ -200,13 +200,6 @@ public class GroundSprite {
                 }});
         }});
         
-        //TODO - THIS IS A PLACEHOLDER
-        put(TileSystem.TileId.WRECKAGE, new HashMap<TileSystem.TileId,ArrayList<Point>>() {{
-            put(null, new ArrayList<Point>()
-            {{
-                    add(new Point(8,15));// â”¼
-                }});
-        }});
 
     }};
 
