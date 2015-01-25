@@ -15,7 +15,7 @@ public class ActionManager {
 		this.actions = new ArrayList<Action>();
 
 		// These are all hard-coded for now!
-		this.actions.add(new Action("Pick Grass", "picking some grass.", 6, new IActionable() {
+		this.actions.add(new Action("Pick Grass", "picking some grass", 6, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
