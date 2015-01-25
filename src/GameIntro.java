@@ -9,10 +9,13 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class GameIntro extends BasicGameState implements GameState {
 	public static final int STATE_INTRO = 0;
-	
+	Image logo;
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
+
+		 logo = new Image("title.png");
+		 logo.setFilter(Image.FILTER_NEAREST);
 	}
 	
 	@Override
@@ -20,9 +23,9 @@ public class GameIntro extends BasicGameState implements GameState {
 			throws SlickException {
 		g.fillRect(0, 0, container.getWidth(), container.getHeight());
 		g.setColor(Color.white);
-		Image logo = new Image("title.png");
 
-		g.drawImage(logo,0,0);
+
+		logo.draw(0, 0, container.getWidth(), container.getHeight(),0,0,logo.getWidth(), logo.getHeight());
 
 		g.drawString("Press Enter to continue", container.getWidth() / 2 - 130, container.getHeight() - 150);
 	}
