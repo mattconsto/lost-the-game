@@ -269,6 +269,8 @@ public class ActionManager {
 					// Do nothing
 				}
 				tile.attr = TileAttr.FIRE;
+				gs.removeItemByType(ItemType.FIRESTICK);
+				gs.addItemByType(ItemType.STICK);
 			}
 
 			@Override
