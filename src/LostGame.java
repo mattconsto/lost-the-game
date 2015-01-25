@@ -28,8 +28,12 @@ public class LostGame extends StateBasedGame {
 
 	@Override
 	public void initStatesList(GameContainer arg0) throws SlickException {
-		this.addState(new Play());
-		this.addState(new GameOver());
+		
+		Play play = new Play();
+		GameOver go = new GameOver();
+		go.setPlayState(play);
+		this.addState(play);
+		this.addState(go);
         this.enterState(Play.STATE_PLAY);
 	}
 	

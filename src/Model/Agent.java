@@ -11,11 +11,13 @@ public class Agent {
 	private float health;
 	private String name;
 	private AgentState state;
+	private int expiredTime;
 	
 	private static int namePos = 0;
 	private static boolean shuffled = false;
 	
 	private String[] names = {"Bill", "Joe", "Jane", "Andy", "Ollie", "Mike", "Jonah", "Sam", "Joanne", "Suzy", "Lucy", "Mary", "Betsy"};
+	
 	
 	
 	public Agent(float food, float water, float health) {
@@ -110,5 +112,13 @@ public class Agent {
 
 	public void setState(AgentState state) {
 		this.state = state;
+	}
+	
+	public void setExpiredTime(int expiredTime){
+		this.expiredTime = expiredTime;
+	}
+	
+	public int getExpiredTime() {
+		return expiredTime;
 	}
 }

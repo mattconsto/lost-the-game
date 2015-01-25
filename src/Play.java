@@ -96,7 +96,7 @@ public class Play extends BasicGameState implements GameState,
 			player.render(g, ts.camera.zoom);
 		}
 
-		monsterManager.render(g);
+		monsterManager.render(g, ts.camera.zoom);
 
 		ts.renderFog(g);
 
