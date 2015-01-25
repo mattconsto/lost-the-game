@@ -35,6 +35,7 @@ public class LostGame extends StateBasedGame {
 		GameOver go = new GameOver();
 		GameWin gw = new GameWin();
 		go.setPlayState(play);
+		gw.setPlayState(play);
 		this.addState(play);
 		this.addState(go);
 		this.addState(gw);
