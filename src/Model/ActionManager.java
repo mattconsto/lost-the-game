@@ -460,7 +460,7 @@ public class ActionManager {
 			@Override
 			public boolean canPerform(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
-				return (gs.getItemCount(ItemType.CLOTH) >= 2);
+				return (gs.getItemCount(ItemType.CLOTH) >= 5);
 			}
 
 		}));
@@ -646,7 +646,7 @@ public class ActionManager {
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
 					Tile tile) {
-				if (Math.random() < 0.6) {
+				if (Math.random() < 0.9) {
 					gs.addItemByType(ItemType.STICK);
 				} else {
 					gs.addItemByType(ItemType.LEAF);

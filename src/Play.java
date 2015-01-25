@@ -53,6 +53,7 @@ public class Play extends BasicGameState implements GameState,
 	ActionManager actionManager;
 	MonsterManager monsterManager;
 	MiniMap miniMap;
+	Messenger messenger;
 
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
@@ -74,6 +75,7 @@ public class Play extends BasicGameState implements GameState,
 		selectedAgent = gs.getAgents().get(0);
 		selectedItems = new ArrayList<Item>();
 		actionManager = new ActionManager();
+		messenger = new Messenger();
 
 		stickFigure = new Image("icons/stickperson.png");
 
@@ -247,6 +249,8 @@ public class Play extends BasicGameState implements GameState,
 		ts.renderFog(g);
 		
 		miniMap.render(g);
+		
+		messenger.render(g, container.getHeight());
 
 		// Header vars
 		int header_height = 50;
@@ -499,6 +503,7 @@ public class Play extends BasicGameState implements GameState,
 									selectedAgent);
 							PlayerUI player = players.get(player_index);
 							selectedAgent.startAction(action);
+							messenger.addMessage(selectedAgent.getName() + " is doing action..." , Color.red, 4);
 
 							Tile tile = ts.getTileFromWorld(player.location.x, player.location.y);
 							action.getActionable().beforeAction(gs, selectedAgent, ts, tile);
@@ -591,11 +596,32 @@ public class Play extends BasicGameState implements GameState,
 				Tile tile = ts.getTileFromWorld(player.location.x, player.location.y);
 				if(!agent.hasPlacedCorpse() && tile.attr != TileAttr.CORPSE) {
 					tile.attr = TileAttr.CORPSE;
+					messenger.addMessage(agent.getName() + getDeathMessage(), Color.red, 4);
 					agent.setPlacedCorpse(true);
 				}
 			}
 		}
 
+	}
+	
+	private String getDeathMessage(){
+		Random r = new Random();
+		switch(r.nextInt(6)){
+			case 0:
+				return " has died a slow and painful death...";
+			case 1:
+				return " has been impaled by a spider.";
+			case 2:
+				return "'s organs were strewn across the ground.";
+			case 3:
+				return "'s did something wrong. Then died. ";
+			case 4:
+				return " went for a very, very long nap.";
+			case 5:
+				return " lies still. Oh, so very tasty...";
+			default:
+				return " has died a slow and painful death...";
+		}
 	}
 
 	@Override
@@ -624,6 +650,7 @@ public class Play extends BasicGameState implements GameState,
 		monsterManager.update(seconds);
 		ts.updateFog(players, gs);
 		gs.update(seconds);
+		messenger.update(seconds);
 		
 
 		Input input = container.getInput();

@@ -155,7 +155,7 @@ public class PlayerUI {
 		{
 			g.setColor(new Color(0,0,255,100));
 			float value =agent.getRatioOfActionRemaining() * 360;
-			g.fillArc(screenLocation.x-30*scale,screenLocation.y-30*scale,60.0f*scale,60.0f*scale,270.0f, value+270.0f);
+			g.fillArc(screenLocation.x-30*scale,screenLocation.y-30*scale,60.0f,60.0f,270.0f, value+270.0f);
 		}
 		
 		if (showHealth)
