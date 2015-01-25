@@ -16,7 +16,7 @@ public class VanishedSound {
 	private Audio wavPickUpSoundEffect;
 	private Audio wavWalkSoundEffect;
 //	private Audio aifSoundEffect;
-//	private Audio oggStream;
+	private Audio oggStream;
 //	private Audio modStream;
 
 
@@ -42,7 +42,7 @@ public void start(){
 }
 
 /**
-*Initialize the GL Display**parameters width and height of the display
+*Initialise the GL Display**parameters width and height of the display
 **/
 private void initGL(int width, int height){
 	try{
@@ -71,19 +71,19 @@ GL11.glViewport(0,0,width,height);
 	GL11.glMatrixMode(GL11.GL_MODELVIEW);
 }
 
-/**Initialize Resources **
+/**Initialise Resources **
  
  */
 public void init(){
 	try{
-		//play oggs by loading into sound
-		wavWalkSoundEffect= AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("/home/j/gamejam2/assets//home/j/Music/Walk.wav"));
+		//play WAVS by loading into sound
+		wavWalkSoundEffect= AudioLoader.getAudio("WAV", ResourceLoader.getResourceAsStream("assets/Walk.wav"));
 		
 		//setting up OGG stream
-		oggStream= AudioLoader.getStreamingAudio("OGG", ResourceLoader.getResource("/home/j/gamejam2/assets//home/j/Music/J  Cole - Revenge Of The Dreamers Lyrics HD-ihG_PPhOvl0.ogg") );
+		oggStream= AudioLoader.getStreamingAudio("OGG", ResourceLoader.getResource("assets/Revenge.ogg"));
 		
-		//play wav sound effect
-		wavPickUpSoundEffect = AudioLoader.getAudio("WAV", ResourceLoader.getResourceAsStream("/home/j/gamejam2/assets//home/j/Music/PickUp.wav"));
+		//play WAV sound effect
+		wavPickUpSoundEffect = AudioLoader.getAudio("WAV", ResourceLoader.getResourceAsStream("assets/PickUp.wav"));
 		
 	}catch(IOException e){
 		e.printStackTrace();
@@ -114,6 +114,12 @@ public void init(){
 			}
 		}
 	}
+	
+	while(Mouse.next()){
+		if(Mouse.getEventButtonState()){
+			
+		}
+	}
 
 	// polling is required to allow streaming to get a chance to
 	// queue buffers.
@@ -128,6 +134,13 @@ public void init(){
 		
 	}
 
+	/**Main
+	 * method
+	 */
+	public static void main(String[] argv){
+		VanishedSound soundDemo = new VanishedSound();
+		soundDemo.start();
+	}
 }
 
 
