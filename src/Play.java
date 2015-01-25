@@ -28,6 +28,7 @@ import Model.Item;
 import Model.ItemFactory;
 import Model.ItemType;
 import Player.MonsterManager;
+import Player.MonsterUI;
 import Player.PlayerReachedDestinationEvent;
 import Player.PlayerUI;
 import TileSystem.Tile;
@@ -137,15 +138,19 @@ public class Play extends BasicGameState implements GameState,
 		
 		ts.renderTiles(g);
 		for(int y = 0; y < ts.size; y++){
-			ts.renderSprites(g, y);
-			
 			for (PlayerUI player : players) {
-				if((int)player.location.y == y)
+				if(player.location.y >= y-0.2f && player.location.y < y+0.8f)
 					player.render(g, ts.camera.zoom);
 			}
+			ts.renderSprites(g, y);
 
 			monsterManager.render(g, ts.camera.zoom, y);
 		}
+		
+		for (PlayerUI player : players) {
+			player.renderOverlay(g, ts.camera.zoom);
+		}
+		
 
 		ts.renderFog(g);
 
@@ -410,26 +415,53 @@ public class Play extends BasicGameState implements GameState,
 				Vector2f pos = ts.screenToWorldPos(mouseX, mouseY);
 				for (int i = 0; i < players.size(); i++) {
 					PlayerUI player = players.get(i);
-					float difX = player.location.x - pos.x;
-					float difY = player.location.y - pos.y;
-					float len = (float)Math.sqrt((difX*difX)+(difY*difY));
-					if (len < 0.5)
+					if (player.agent.getState() != AgentState.DEAD)
 					{
-						selectedAgent = player.agent;
-						playerSelectionHappens = true;
+						float difX = player.location.x - pos.x;
+						float difY = player.location.y - pos.y;
+						float len = (float)Math.sqrt((difX*difX)+(difY*difY));
+						if (len < 0.5)
+						{
+							selectedAgent = player.agent;
+							playerSelectionHappens = true;
+						}
 					}
 				}
 				if (!playerSelectionHappens)
 				{
-					if (selectedAgent != null && selectedAgent.getState() != AgentState.DEAD) {
-						if(selectedAgent.hasAction()) { selectedAgent.stopAction(); }
-						players.get(agents.indexOf(selectedAgent)).moveto(pos.x, 
-								pos.y);
-						ts.getCamera().x = players.get(agents
-								.indexOf(selectedAgent)).location.x;
-						ts.getCamera().y = players.get(agents
-								.indexOf(selectedAgent)).location.y;
-						ts.getCamera().isFollowing = true;
+					//See if we are attacking a monster
+					boolean monsterSelectionHappens = false;
+					for (int i = 0; i < monsterManager.monsters.size(); i++) {
+						MonsterUI monster = monsterManager.monsters.get(i);
+						float difX = monster.location.x - pos.x;
+						float difY = monster.location.y - pos.y;
+						float len = (float)Math.sqrt((difX*difX)+(difY*difY));
+						if (len < 0.5)
+						{
+							if (selectedAgent != null && selectedAgent.getState() != AgentState.DEAD) {
+								monster.agent.decHealth(20);
+								if (monster.agent.getHealth() <=0)
+								{
+									monster.agent.setState(AgentState.DEAD);
+									gs.addItemByType(ItemType.MEAT);
+								}								
+								
+								monsterSelectionHappens = true;
+							}
+						}
+					}
+					
+					if (!monsterSelectionHappens) {
+						if (selectedAgent != null && selectedAgent.getState() != AgentState.DEAD) {
+							if(selectedAgent.hasAction()) { selectedAgent.stopAction(); }
+							players.get(agents.indexOf(selectedAgent)).moveto(pos.x, 
+									pos.y);
+							ts.getCamera().x = players.get(agents
+									.indexOf(selectedAgent)).location.x;
+							ts.getCamera().y = players.get(agents
+									.indexOf(selectedAgent)).location.y;
+							ts.getCamera().isFollowing = true;
+						}
 					}
 				}
 			}
@@ -509,22 +541,22 @@ public class Play extends BasicGameState implements GameState,
 		}
 
 		if (input.isKeyDown(Input.KEY_LEFT) || input.isKeyDown(Input.KEY_A)) {
-			ts.getCamera().move(-6 * delta, 0);
+			ts.getCamera().move(-20/ts.camera.zoom * delta, 0);
 			ts.getCamera().isFollowing = false;
 		}
 
 		if (input.isKeyDown(Input.KEY_UP) || input.isKeyDown(Input.KEY_W)) {
-			ts.getCamera().move(0, -6 * delta);
+			ts.getCamera().move(0, -20/ts.camera.zoom * delta);
 			ts.getCamera().isFollowing = false;
 		}
 
 		if (input.isKeyDown(Input.KEY_RIGHT) || input.isKeyDown(Input.KEY_D)) {
-			ts.getCamera().move(6 * delta, 0);
+			ts.getCamera().move(20/ts.camera.zoom * delta, 0);
 			ts.getCamera().isFollowing = false;
 		}
 
 		if (input.isKeyDown(Input.KEY_DOWN) || input.isKeyDown(Input.KEY_S)) {
-			ts.getCamera().move(0, 6 * delta);
+			ts.getCamera().move(0, 20/ts.camera.zoom * delta);
 			ts.getCamera().isFollowing = false;
 		}
 

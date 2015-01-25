@@ -8,11 +8,12 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Graphics;
 
 import Model.Agent;
+import Model.AgentState;
 import TileSystem.TileSystem;
 
 public class MonsterManager {
 
-	Vector<MonsterUI> monsters = new Vector<MonsterUI>();
+	public Vector<MonsterUI> monsters = new Vector<MonsterUI>();
 	Vector<Agent> monsterAgents;
 	List<PlayerUI> players;
 	TileSystem ts;
@@ -29,7 +30,7 @@ public class MonsterManager {
 	{
 		for (MonsterUI monster : monsters)
 		{
-			if((int)monster.location.y == row)
+			if(monster.location.y >= row-0.2f && monster.location.y < row+0.8f)
 				monster.render(g, scale);
 		}
 		
@@ -37,16 +38,18 @@ public class MonsterManager {
 	
 	public void update(float delta) throws SlickException
 	{
-		if (monsters.size() < 10)
+		if (monsters.size() < 5)
 		{
 			Random randomGenerator = new Random();
 			Agent monsterAgent = monsterAgents.get(randomGenerator.nextInt(monsterAgents.size()));
 			monsters.addElement(new MonsterUI(monsterAgent, ts, players, randomGenerator.nextInt(100) > 50));
 		}
 		
-		for (MonsterUI monster : monsters)
+		for (MonsterUI monster : new Vector<MonsterUI>(monsters))
 		{
 			monster.update(delta);
+			if (monster.agent.getState() == AgentState.DEAD)
+				monsters.remove(monster);
 		}
 	}
 	

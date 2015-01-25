@@ -92,7 +92,7 @@ public class PlayerUI {
 		
 		g.setColor(new Color(255,0,0));
 		Image realPlayer = getPlayerImage();
-		realPlayer.setCenterOfRotation(30*scale, 30*scale);
+		realPlayer.setCenterOfRotation(15*scale, 15*scale);
 
 	if (destinations.size()>1) 
 		{
@@ -115,12 +115,12 @@ public class PlayerUI {
 		
 		realPlayer.rotate(angle);
 		
-		realPlayer.draw(screenLocation.x-30*scale,screenLocation.y-30*scale,
-				screenLocation.x+30*scale,screenLocation.y+30*scale,0,0,imageWidth, imageHeight);
+		realPlayer.draw(screenLocation.x-15*scale,screenLocation.y-15*scale,
+				screenLocation.x+15*scale,screenLocation.y+15*scale,0,0,imageWidth, imageHeight);
 		realPlayer.rotate(-angle);
 		
-		g.drawOval(screenLocation.x-20,screenLocation.y-20,
-				40,40);
+
+	
 		
 		g.setColor(new Color(0,0,255));
 		Vector2f lastPoint = ts.worldToScreenPos(location.x, location.y);
@@ -131,6 +131,17 @@ public class PlayerUI {
             Vector2f destPos = ts.worldToScreenPos(pos.x, pos.y);
             g.drawLine(destPos.x, destPos.y, lastPoint.x, lastPoint.y);
             lastPoint = destPos;
+		}
+	}
+	
+	public void renderOverlay(Graphics g, float scale)
+	{
+		if (agent.hasAction())
+		{
+			g.setColor(new Color(0,0,255,100));
+			Vector2f screenLocation = ts.worldToScreenPos(location.x, location.y);
+			float value =agent.getRatioOfActionRemaining() * 360;
+			g.fillArc(screenLocation.x-30*scale,screenLocation.y-30*scale,60.0f,60.0f,270.0f, value+270.0f);
 		}
 	}
 	

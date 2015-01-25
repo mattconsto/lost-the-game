@@ -92,7 +92,7 @@ public class VariantChooser {
                 // ERROR Case: 2 or more corners with no sides.
                 } else if(corners > 1) {
                     return convert(tile,type);
-                    //return blanken(tile);
+//                    return blanken(tile);
                 }
 
             // 1 Side
@@ -115,7 +115,7 @@ public class VariantChooser {
                 // Error Case: 2 opposite sides
                 if((upMiddle == type && downMiddle == type)||(middleLeft == type && middleRight == type)) {
                     return convert(tile, type);
-                    //return blanken(tile);
+//                    return blanken(tile);
                 }
                 if(upMiddle == type && middleLeft == type) {
                     tile.variant += 0;
@@ -130,7 +130,7 @@ public class VariantChooser {
 
             // ERROR Case: >2 sides
             } else { // if (sides > 2) {
-                //return blanken(tile);
+//                return blanken(tile);
                 return convert(tile, type);
             }
         }
