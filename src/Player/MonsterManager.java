@@ -41,7 +41,7 @@ public class MonsterManager {
 		{
 			Random randomGenerator = new Random();
 			Agent monsterAgent = monsterAgents.get(randomGenerator.nextInt(monsterAgents.size()));
-			monsters.addElement(new MonsterUI(monsterAgent, ts, players));
+			monsters.addElement(new MonsterUI(monsterAgent, ts, players, randomGenerator.nextInt(100) > 50));
 		}
 		
 		for (MonsterUI monster : monsters)

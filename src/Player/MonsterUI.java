@@ -33,14 +33,17 @@ public class MonsterUI {
 	Vector<Image> playerImages = null;
 	//average walk speed 1.4m per second
 	float playerWalkSpeedMS = 1.4f;
+	boolean evil;
+	
 	
 	int imageWidth = 32;
 	int imageHeight = 32;
-	public MonsterUI(Agent agentIn, TileSystem tsIn, List<PlayerUI> playersIn) throws SlickException
+	public MonsterUI(Agent agentIn, TileSystem tsIn, List<PlayerUI> playersIn, boolean evilIn) throws SlickException
 	{
 		agent = agentIn;
 		ts = tsIn;
 		players = playersIn;
+		evil = evilIn;
 		
 		
 		Image playerImage = new Image("monster/spider.gif");
@@ -202,7 +205,7 @@ public class MonsterUI {
 			float difX = location.x - playerLocation.x;
 			float difY = location.y - playerLocation.y;
 			float distToPlayer = (float)Math.sqrt((difX*difX)+(difY*difY));
-			if (distToPlayer < 10)
+			if (distToPlayer > 10)
 			{
 				Tile destTile = ts.getTileFromWorld(playerLocation.x, playerLocation.y);
 				if (destTile.id != TileId.WATER)
