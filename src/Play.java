@@ -41,7 +41,7 @@ import TileSystem.TileSystem.TileId;
 public class Play extends BasicGameState implements GameState,
 		PlayerReachedDestinationEvent {
 
-	public static final int STATE_PLAY = 0;
+	public static final int STATE_PLAY = 1;
 
 	TileSystem ts;
 	GameSession gs;

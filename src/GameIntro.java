@@ -18,14 +18,13 @@ public class GameIntro extends BasicGameState implements GameState {
 	@Override
 	public void render(GameContainer container, StateBasedGame state, Graphics g)
 			throws SlickException {
-		g.setColor(Color.gray);
 		g.fillRect(0, 0, container.getWidth(), container.getHeight());
 		g.setColor(Color.white);
+		Image logo = new Image("title.png");
 
-		Image logo = new Image("assets/logo.png");
 		g.drawImage(logo,0,0);
 
-		g.drawString("Press Enter to continue", container.getWidth() / 2 - 130, container.getHeight() / 2 + 20);
+		g.drawString("Press Enter to continue", container.getWidth() / 2 - 130, container.getHeight() - 150);
 	}
 
 	@Override
