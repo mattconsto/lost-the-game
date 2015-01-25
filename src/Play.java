@@ -101,8 +101,8 @@ public class Play extends BasicGameState implements GameState,
 		//RandomTileObject(TileId.DIRT, TileAttr.TARPIT, 20, false);
 		RandomTileObject(TileId.GRASS, TileAttr.SHRUB, 30, false);
 		
-		RandomTileObject(TileId.DIRT, TileId.WRECKAGE, 30, false);
-		//WreckageSpreader(40, false);
+		RandomTileObject(TileId.DIRT, TileAttr.WRECKAGE, 20, false);
+		WreckageSpreader(40, false);
 		
 		container.setShowFPS(false);
 	}
@@ -143,26 +143,35 @@ public class Play extends BasicGameState implements GameState,
 	
 	private void WreckageSpreader( int treeCount, boolean preferGroupings)
 	{
-		
-		Random randomGenerator = new Random();
-		int centerX = randomGenerator.nextInt(ts.getSize()-20)+1;
-		int centerY = randomGenerator.nextInt(ts.getSize()-20)+1;
-		
+		int centerX = 0;
+		int centerY = 0;
 		while(true)
 		{
-			float rad = randomGenerator.nextInt(20)*randomGenerator.nextInt(20);
-			float angle = randomGenerator.nextInt(360)+1;
-			float x = (float)Math.asin(angle/180*Math.PI)*rad;
-			float y = (float)Math.asin(angle/180*Math.PI)*rad;
+		Random randomGenerator = new Random();
+		 	centerX = randomGenerator.nextInt(ts.getSize()-40)+1;
+		 	centerY = randomGenerator.nextInt(ts.getSize()-40)+1;
+		 	Tile tile = ts.getTileFromWorld(centerX, centerY);
+		 	if (tile.id == TileId.GRASS) 
+		 	{
+		while(true)
+		{
+			float rad = (randomGenerator.nextInt(20));//*randomGenerator.nextInt(20))/10;
+			float angle = (float)(randomGenerator.nextDouble()*(Math.PI *2));
+			float x = centerX + (float)Math.asin(angle-Math.PI)*rad;
+			float y = centerY + (float)Math.acos(angle-Math.PI)*rad;
 			
-			Tile tile = ts.getTileFromWorld(x, y);
-			//if (tile.id== tileType && tile.attr == TileAttr.NONE)
-			//{
+			tile = ts.getTileFromWorld(x, y);
+			if (tile != null)
+			{
+			if (tile.attr == TileAttr.NONE)
+			{
 					treeCount-=1;
-					ts.setTileID((int)x, (int)y,  TileId.WRECKAGE);
-			//}
-			
+					tile.attr = TileAttr.WRECKAGE;
+			}
+			}
 			if (treeCount ==0) return;
+		}
+		 	}
 		}
 		
 	}
@@ -588,7 +597,7 @@ public class Play extends BasicGameState implements GameState,
 		}
 
 		Random rand = new Random();
-		if (rand.nextInt(100) <5)
+		if (rand.nextInt(100) <1)
 		{
 			RandomTileObject(TileId.GRASS, TileAttr.TREE, 2, true);
 			RandomTileObject(TileId.DIRT, TileAttr.PALM_TREE, 1, true);

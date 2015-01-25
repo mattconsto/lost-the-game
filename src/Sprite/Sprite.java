@@ -25,6 +25,7 @@ public class Sprite {
         put(TileAttr.HUTONFIRE, new Point(32*10,0));
         put(TileAttr.WEB, new Point(32*11,0));
         put(TileAttr.WEBBED_TREE, new Point(32*12,0));
+        put(TileAttr.WRECKAGE, new Point(32*10,0));
         put(TileAttr.ALTAR, new Point(32*13,0));
     }};
 
