@@ -57,7 +57,7 @@ public class Play extends BasicGameState implements GameState,
 				container.getHeight()));
 		ItemFactory.init();
 		new Music("sounds/heart.ogg").loop();
-		gs = new GameSession();
+		gs = GameSession.getInstance();
 		players = new ArrayList<PlayerUI>();
 		for (int i = 0; i < gs.getAgents().size(); i++) {
 			PlayerUI pui = new PlayerUI(gs.getAgents().get(i), ts);
@@ -395,9 +395,11 @@ public class Play extends BasicGameState implements GameState,
 							Action action = validActions.get(i);
 							int player_index = gs.getAgents().indexOf(
 									selectedAgent);
-							action.perform(gs, selectedAgent, ts,
-									players.get(player_index));
-							selectedItems = new ArrayList<Item>();
+							PlayerUI player = players.get(player_index);
+							selectedAgent.startAction(action);
+
+							Tile tile = ts.getTileFromWorld(player.location.x, player.location.y);
+							action.getActionable().beforeAction(gs, selectedAgent, ts, tile);
 						}
 					}
 				}
@@ -434,7 +436,17 @@ public class Play extends BasicGameState implements GameState,
 
 		for (int i = 0; i < players.size(); i++) {
 			PlayerUI player = players.get(i);
-			AgentState state = agents.get(i).getState();
+			Agent agent = agents.get(i);
+			
+			if(agent.hasAction() && agent.haveFinishedAction()) {
+				if(agent.getState() != AgentState.DEAD) {
+					Tile tile = ts.getTileFromWorld(player.location.x, player.location.y);
+					agent.getAction().getActionable().afterAction(gs, selectedAgent, ts, tile);
+					agent.stopAction();
+				}
+			}
+			
+			AgentState state = agent.getState();
 			boolean atDestination = players.get(i).atDestination;
 
 			if (state == AgentState.WALKING && atDestination) {
@@ -445,8 +457,9 @@ public class Play extends BasicGameState implements GameState,
 			}
 			if(state == AgentState.DEAD) {
 				Tile tile = ts.getTileFromWorld(player.location.x, player.location.y);
-				if(tile.attr != TileAttr.CORPSE) {
+				if(!agent.hasPlacedCorpse() && tile.attr != TileAttr.CORPSE) {
 					tile.attr = TileAttr.CORPSE;
+					agent.setPlacedCorpse(true);
 				}
 			}
 		}

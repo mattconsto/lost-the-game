@@ -17,6 +17,9 @@ public class Agent {
 	private static boolean shuffled = false;
 	
 	private String[] names = {"Bill", "Joe", "Jane", "Andy", "Ollie", "Mike", "Jonah", "Sam", "Joanne", "Suzy", "Lucy", "Mary", "Betsy"};
+	private boolean placedCorpse;
+	private Action action;
+	private double actionStartTime;
 	
 	
 	
@@ -120,5 +123,44 @@ public class Agent {
 	
 	public int getExpiredTime() {
 		return expiredTime;
+	}
+
+	public boolean hasPlacedCorpse() {
+		return this.placedCorpse;
+	}
+
+	public void setPlacedCorpse(boolean placedCorpse) {
+		this.placedCorpse = placedCorpse;
+	}
+
+	public boolean hasAction() {
+		return (this.getAction() != null);
+	}
+	
+	public void stopAction() {
+		this.setAction(null);
+	}
+	
+	public void startAction(Action action) {
+		this.setAction(action);
+		this.actionStartTime = GameSession.getInstance().getTimeSurvived();
+	}
+	
+	public boolean haveFinishedAction() {
+		GameSession gs = GameSession.getInstance();
+		double currTime = gs.getTimeSurvived();
+		System.out.println("curr: "+currTime+","+this.actionStartTime+","+this.getAction().getDuration());
+		if((gs.getTimeSurvived() - this.actionStartTime) >= this.getAction().getDuration()) {
+			return true;
+		}
+		return false;
+	}
+
+	public Action getAction() {
+		return action;
+	}
+
+	public void setAction(Action action) {
+		this.action = action;
 	}
 }

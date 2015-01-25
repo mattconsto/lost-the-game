@@ -21,6 +21,7 @@ public class GameSession {
 	private static final float WATER_PER_SEC_SLEEP = 0.2f;
 
 	private static final float HEALTH_PER_SEC = 0.5f;
+	private static GameSession instance;
 
 	private boolean walking = false;
 	// Play time in seconds
@@ -34,7 +35,7 @@ public class GameSession {
 	private Map<ItemType, Integer> itemCounts;
 	private ArrayList<Agent> agents;
 
-	public GameSession() {
+	private GameSession() {
 		this.gameTimer = 0;
 		this.timeSurvived = 0;
 		this.items = new ArrayList<ItemType>();
@@ -52,6 +53,13 @@ public class GameSession {
 		}
 		this.generateInventory();
 
+	}
+	
+	public static GameSession getInstance() {
+		if(instance == null) {
+			instance = new GameSession();
+		}
+		return instance;
 	}
 
 	public void update(float delta) {
