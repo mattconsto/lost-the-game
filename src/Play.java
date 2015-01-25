@@ -346,6 +346,18 @@ public class Play extends BasicGameState implements GameState,
 				// Draw fills first
 				// health
 				g.setColor(Color.green);
+				if(agent.healthDelta < -0.01f){
+					agent.currentFlashAlpha += agent.flashDelta;
+					if(agent.currentFlashAlpha > 1){
+						agent.currentFlashAlpha = 1;
+						agent.flashDelta *= -1;
+					}
+					if(agent.currentFlashAlpha < 0.2f){
+						agent.currentFlashAlpha = 0.2f;
+						agent.flashDelta *= -1;
+					}
+					g.setColor(new Color(255, 0, 0, agent.currentFlashAlpha));
+				}
 				g.fillRect(ag_x + pad, y + 18 + pad,
 						(agent.getHealth() * 80) / 100, 16);
 				// thirst
@@ -510,7 +522,7 @@ public class Play extends BasicGameState implements GameState,
 									selectedAgent);
 							PlayerUI player = players.get(player_index);
 							selectedAgent.startAction(action);
-							messenger.addMessage(selectedAgent.getName() + " is doing action..." , Color.red, 4);
+							messenger.addMessage(selectedAgent.getName() + " " + action.getDescription(), Color.red, 4);
 
 							Tile tile = ts.getTileFromWorld(player.location.x, player.location.y);
 							action.getActionable().beforeAction(gs, selectedAgent, ts, tile);

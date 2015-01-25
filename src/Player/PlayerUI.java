@@ -175,6 +175,7 @@ public class PlayerUI {
 	private void updateHealthDisplay()
 	{
 		float health = agent.getHealth();
+		agent.healthDelta = health - lastValue;
 		if (health < lastValue)
 		{
 			lastValue = health;
