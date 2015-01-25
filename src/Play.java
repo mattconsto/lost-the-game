@@ -422,7 +422,8 @@ public class Play extends BasicGameState implements GameState,
 				if (!playerSelectionHappens)
 				{
 					if (selectedAgent != null && selectedAgent.getState() != AgentState.DEAD) {
-						players.get(agents.indexOf(selectedAgent)).moveto(pos.x,
+						if(selectedAgent.hasAction()) { selectedAgent.stopAction(); }
+						players.get(agents.indexOf(selectedAgent)).moveto(pos.x, 
 								pos.y);
 						ts.getCamera().x = players.get(agents
 								.indexOf(selectedAgent)).location.x;
