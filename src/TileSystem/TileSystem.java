@@ -221,6 +221,21 @@ public class TileSystem {
 				}
 			}
 		}
+		
+		for(int x = 0; x < size; x++){
+            for(int y = 0; y < size; y++){
+            	if(tiles[x][y].attr == TileAttr.FIRE){
+            		for(int xp = x - 10; xp < x + 10; xp++){
+						for(int yp = y - 10; yp < y + 10; yp++){
+							if(xp > 0 && yp > 0 && xp < size && yp < size)
+								if(dist(xp, yp, x, y) <= 9){
+									tiles[x][y].vis = 2;
+								}
+						}
+					}
+            	}
+            }
+		}
 	}
 	
 	private float dist(int x, int y, int x2, int y2){
