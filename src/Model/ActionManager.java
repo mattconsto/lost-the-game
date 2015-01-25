@@ -3,6 +3,9 @@ package Model;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.newdawn.slick.SlickException;
+
+import Player.MonsterManager;
 import TileSystem.Tile;
 import TileSystem.TileAttr;
 import TileSystem.TileSystem;
@@ -23,7 +26,7 @@ public class ActionManager {
 
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
-					Tile tile) {
+					Tile tile, MonsterManager monsterManager) {
 				gs.addItemByType(ItemType.GRASS);
 				ts.setTileID(tile.x, tile.y, TileId.DIRT);
 				agent.decFood(5);
@@ -46,7 +49,7 @@ public class ActionManager {
 
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
-					Tile tile) {
+					Tile tile, MonsterManager monsterManager) {
 				agent.incFood(30);
 			}
 
@@ -67,7 +70,7 @@ public class ActionManager {
 
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
-					Tile tile) {
+					Tile tile, MonsterManager monsterManager) {
 				agent.incFood(30);
 			}
 
@@ -88,7 +91,7 @@ public class ActionManager {
 
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
-					Tile tile) {
+					Tile tile, MonsterManager monsterManager) {
 				agent.incFood(15);
 			}
 
@@ -110,7 +113,7 @@ public class ActionManager {
 
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
-					Tile tile) {
+					Tile tile, MonsterManager monsterManager) {
 				agent.incWater(20);
 			}
 
@@ -130,7 +133,7 @@ public class ActionManager {
 
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
-					Tile tile) {
+					Tile tile, MonsterManager monsterManager) {
 				agent.decWater(10);
 			}
 
@@ -150,7 +153,7 @@ public class ActionManager {
 
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
-					Tile tile) {
+					Tile tile, MonsterManager monsterManager) {
 				agent.incWater(20);
 			}
 
@@ -170,7 +173,7 @@ public class ActionManager {
 
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
-					Tile tile) {
+					Tile tile, MonsterManager monsterManager) {
 				gs.addItemByType(ItemType.MUD);
 			}
 
@@ -191,7 +194,7 @@ public class ActionManager {
 
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
-					Tile tile) {
+					Tile tile, MonsterManager monsterManager) {
 				gs.addItemByType(ItemType.BRICK);
 			}
 
@@ -212,7 +215,7 @@ public class ActionManager {
 
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
-					Tile tile) {
+					Tile tile, MonsterManager monsterManager) {
 				tile.attr = TileAttr.HUT;
 				tile.attrHealth = 10;
 			}
@@ -238,7 +241,7 @@ public class ActionManager {
 
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
-					Tile tile) {
+					Tile tile, MonsterManager monsterManager) {
 				gs.addItemByType(ItemType.MEAT);
 			}
 
@@ -257,7 +260,7 @@ public class ActionManager {
 
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
-					Tile tile) {
+					Tile tile, MonsterManager monsterManager) {
 
 				switch (tile.attr) {
 				case CORPSE:
@@ -292,7 +295,7 @@ public class ActionManager {
 
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
-					Tile tile) {
+					Tile tile, MonsterManager monsterManager) {
 				gs.addItemByType(ItemType.METAL);
 			}
 
@@ -315,7 +318,7 @@ public class ActionManager {
 
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
-					Tile tile) {
+					Tile tile, MonsterManager monsterManager) {
 				gs.addItemByType(ItemType.FIRESTICK);
 			}
 
@@ -338,7 +341,7 @@ public class ActionManager {
 
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
-					Tile tile) {
+					Tile tile, MonsterManager monsterManager) {
 				agent.incFood(40);
 			}
 
@@ -359,7 +362,7 @@ public class ActionManager {
 
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
-					Tile tile) {
+					Tile tile, MonsterManager monsterManager) {
 				agent.incFood(20);
 			}
 
@@ -379,7 +382,7 @@ public class ActionManager {
 
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
-					Tile tile) {
+					Tile tile, MonsterManager monsterManager) {
 				gs.addItemByType(ItemType.CORPSE);
 				tile.attr = TileAttr.SKELETON;
 			}
@@ -400,7 +403,7 @@ public class ActionManager {
 
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
-					Tile tile) {
+					Tile tile, MonsterManager monsterManager) {
 
 				tile.attrHealth -= 5;
 				if (tile.attrHealth == 0) {
@@ -426,7 +429,7 @@ public class ActionManager {
 
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
-					Tile tile) {
+					Tile tile, MonsterManager monsterManager) {
 				gs.addItemByType(ItemType.BERRIES);
 
 				tile.attrHealth -= 5;
@@ -453,7 +456,7 @@ public class ActionManager {
 
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
-					Tile tile) {
+					Tile tile, MonsterManager monsterManager) {
 				gs.addItemByType(ItemType.SAIL);
 			}
 
@@ -474,7 +477,7 @@ public class ActionManager {
 
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
-					Tile tile) {
+					Tile tile, MonsterManager monsterManager) {
 				gs.addItemByType(ItemType.CLOTH);
 			}
 
@@ -494,7 +497,7 @@ public class ActionManager {
 
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
-					Tile tile) {
+					Tile tile, MonsterManager monsterManager) {
 				gs.addItemByType(ItemType.PLANK, 5);
 				
 				switch(tile.attr){
@@ -530,7 +533,7 @@ public class ActionManager {
 
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
-					Tile tile) {
+					Tile tile, MonsterManager monsterManager) {
 				gs.addItemByType(ItemType.ARTIFACT);
 				tile.attr = TileAttr.NONE;
 			}
@@ -551,7 +554,7 @@ public class ActionManager {
 
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
-					Tile tile) {
+					Tile tile, MonsterManager monsterManager) {
 				gs.addItemByType(ItemType.WATER);
 			}
 
@@ -572,7 +575,7 @@ public class ActionManager {
 
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
-					Tile tile) {
+					Tile tile, MonsterManager monsterManager) {
 				gs.addItemByType(ItemType.OIL);
 			}
 
@@ -596,7 +599,7 @@ public class ActionManager {
 
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
-					Tile tile) {
+					Tile tile, MonsterManager monsterManager) {
 				gs.addItemByType(ItemType.AXE);
 			}
 
@@ -621,7 +624,7 @@ public class ActionManager {
 
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
-					Tile tile) {
+					Tile tile, MonsterManager monsterManager) {
 				gs.addItemByType(ItemType.SPEAR);
 			}
 
@@ -645,7 +648,7 @@ public class ActionManager {
 
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
-					Tile tile) {
+					Tile tile, MonsterManager monsterManager) {
 				if (Math.random() < 0.9) {
 					gs.addItemByType(ItemType.STICK);
 				} else {
@@ -686,7 +689,7 @@ public class ActionManager {
 
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
-					Tile tile) {
+					Tile tile, MonsterManager monsterManager) {
 				gs.addItemByType(ItemType.WEB);
 				tile.attr = TileAttr.TREE;
 			}
@@ -708,7 +711,7 @@ public class ActionManager {
 
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
-					Tile tile) {
+					Tile tile, MonsterManager monsterManager) {
 				gs.addItemByType(ItemType.VINE);
 				tile.attrHealth -= 5;
 				if (tile.attrHealth == 0) {
@@ -734,7 +737,7 @@ public class ActionManager {
 
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
-					Tile tile) {
+					Tile tile, MonsterManager monsterManager) {
 				gs.addItemByType(ItemType.FISH);
 			}
 
@@ -756,7 +759,7 @@ public class ActionManager {
 
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
-					Tile tile) {
+					Tile tile, MonsterManager monsterManager) {
 				gs.addItemByType(ItemType.FLIGHT);
 			}
 
@@ -776,7 +779,7 @@ public class ActionManager {
 
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
-					Tile tile) {
+					Tile tile, MonsterManager monsterManager) {
 				gs.addItemByType(ItemType.FLIGHT);
 				agent.setState(AgentState.DEAD);
 			}
@@ -799,13 +802,57 @@ public class ActionManager {
 
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
-					Tile tile) {
+					Tile tile, MonsterManager monsterManager) {
 			}
 
 			@Override
 			public boolean canPerform(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
 				return tile.attr == TileAttr.HUT;
+			}
+
+		}));
+		
+		this.actions.add(new Action("Explore Cave", "Exploring Cave", 50, new IActionable() {
+			@Override
+			public void beforeAction(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+
+			}
+
+			@Override
+			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
+					Tile tile, MonsterManager monsterManager) {
+				Random r = new Random();
+				if (r.nextDouble() < 0.7)
+				{
+					gs.addItemByType(ItemType.SAIL);
+					gs.addItemByType(ItemType.OIL);
+					gs.addItemByType(ItemType.WEB);
+					gs.addItemByType(ItemType.AXE);
+				}
+				else
+				{
+					try
+					{
+						monsterManager.spawnMassiveMonster(tile.x, tile.y);
+					}catch(SlickException e)
+					{}
+					
+				}
+				tile.attr = TileAttr.NONE;
+				gs.addItemByType(ItemType.VINE);
+				tile.attrHealth -= 5;
+				if (tile.attrHealth == 0) {
+					RandomTileObject(TileId.DIRT, TileAttr.PALM_TREE, 1, true, ts);
+					
+				}
+			}
+
+			@Override
+			public boolean canPerform(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				return tile.attr == TileAttr.CAVE;
 			}
 
 		}));
@@ -827,7 +874,7 @@ public class ActionManager {
 
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
-					Tile tile) {
+					Tile tile, MonsterManager monsterManager) {
 			}
 
 			@Override
@@ -849,7 +896,7 @@ public class ActionManager {
 
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
-					Tile tile) {
+					Tile tile, MonsterManager monsterManager) {
 				gs.setCompletionType(1);
 				gs.setCompleted(true);
 			}
@@ -878,7 +925,7 @@ public class ActionManager {
 
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
-					Tile tile) {
+					Tile tile, MonsterManager monsterManager) {
 				gs.setCompletionType(2);
 				gs.setCompleted(true);
 			}
@@ -913,7 +960,7 @@ public class ActionManager {
 
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
-					Tile tile) {
+					Tile tile, MonsterManager monsterManager) {
 				gs.setCompletionType(3);
 				gs.setCompleted(true);
 			}
@@ -951,7 +998,7 @@ public class ActionManager {
 
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
-					Tile tile) {
+					Tile tile, MonsterManager monsterManager) {
 				gs.setCompletionType(4);
 				gs.setCompleted(true);
 			}

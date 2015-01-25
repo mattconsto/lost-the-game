@@ -13,6 +13,10 @@ public class Agent {
 	private AgentState state;
 	private double expiredTime;
 	
+	public float healthDelta = 0;
+	public float currentFlashAlpha = 0.2f;
+	public float flashDelta = 0.02f;
+	
 	private static int namePos = 0;
 	private static boolean shuffled = false;
 	

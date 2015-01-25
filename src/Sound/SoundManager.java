@@ -12,7 +12,7 @@ public class SoundManager {
 	
 	public static void init(){
 		try {
-			walk = AudioLoader.getAudio("WAV", ResourceLoader.getResourceAsStream("assets/walk.wav"));
+			walk = AudioLoader.getAudio("WAV", ResourceLoader.getResourceAsStream("assets/Walk.wav"));
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("ERROR: Cannot load Audio file - " + e.getMessage());

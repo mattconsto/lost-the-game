@@ -51,6 +51,7 @@ public class Play extends BasicGameState implements GameState,
 	Image stickFigure;
 	Map<ItemType, Image> itemImages;
 	ActionManager actionManager;
+	int actionKeyPressed = -1;
 	MonsterManager monsterManager;
 	MiniMap miniMap;
 	Messenger messenger;
@@ -454,8 +455,33 @@ public class Play extends BasicGameState implements GameState,
 			int x = 5;
 			validActions = actionManager.getValidActions(gs, ts, tile,
 					selectedAgent);
-			for (Action action : validActions) {
+
+			// Detect F-Key presses
+			Action actionHotKeyPressed = null;
+			for (int i = 0; i < validActions.size() - 1; i++) {
+				Action action = validActions.get(i);
 				String name = action.getName();
+
+				if((i == 0 && (input.isKeyDown(Input.KEY_F1) || input.isKeyDown(Input.KEY_Z))) ||
+						(i == 1 && (input.isKeyDown(Input.KEY_F2) || input.isKeyDown(Input.KEY_X))) ||
+						(i == 2 && (input.isKeyDown(Input.KEY_F3) || input.isKeyDown(Input.KEY_C))) ||
+						(i == 3 && (input.isKeyDown(Input.KEY_F4) || input.isKeyDown(Input.KEY_V))) ||
+						(i == 4 && (input.isKeyDown(Input.KEY_F5) || input.isKeyDown(Input.KEY_B))) ||
+						(i == 5 && (input.isKeyDown(Input.KEY_F6) || input.isKeyDown(Input.KEY_N))) ||
+						(i == 6 && (input.isKeyDown(Input.KEY_F7) || input.isKeyDown(Input.KEY_M))) ||
+						(i == 7 && (input.isKeyDown(Input.KEY_F8) || input.isKeyDown(Input.KEY_COMMA))) ||
+						(i == 8 && (input.isKeyDown(Input.KEY_F9) || input.isKeyDown(Input.KEY_STOP))) ||
+						(i == 9 && (input.isKeyDown(Input.KEY_F10) || input.isKeyDown(Input.KEY_SLASH))) ||
+						(i == 10 && input.isKeyDown(Input.KEY_F11)) ||
+						(i == 11 && input.isKeyDown(Input.KEY_F12))) {
+						if (actionKeyPressed != i) {
+							actionKeyPressed = i;
+							actionHotKeyPressed = action;
+						}
+				} else {
+					actionKeyPressed = -1;
+					actionHotKeyPressed = null;
+				}
 
 				int t_w = g.getFont().getWidth(name);
 				int t_h = g.getFont().getHeight(name);
@@ -475,7 +501,13 @@ public class Play extends BasicGameState implements GameState,
 				actionZones.add(zone);
 				x += (b_w + 2);
 			}
+
+			// If a key is pressed, run its action here
+			if (actionHotKeyPressed != null) {
+				performAction(actionHotKeyPressed);
+			}
 		}
+
 
 		if (input.isMousePressed(0)) {
 			int mouseX = input.getMouseX();
@@ -516,10 +548,11 @@ public class Play extends BasicGameState implements GameState,
 									selectedAgent);
 							PlayerUI player = players.get(player_index);
 							selectedAgent.startAction(action);
-							messenger.addMessage(selectedAgent.getName() + " is doing action..." , Color.red, 4);
+							messenger.addMessage(selectedAgent.getName() + " " + action.getDescription(), Color.red, 4);
 
 							Tile tile = ts.getTileFromWorld(player.location.x, player.location.y);
 							action.getActionable().beforeAction(gs, selectedAgent, ts, tile);
+							performAction(action);
 						}
 					}
 				}
@@ -591,7 +624,7 @@ public class Play extends BasicGameState implements GameState,
 			if(agent.hasAction() && agent.haveFinishedAction()) {
 				if(agent.getState() != AgentState.DEAD) {
 					Tile tile = ts.getTileFromWorld(player.location.x, player.location.y);
-					agent.getAction().getActionable().afterAction(gs, selectedAgent, ts, tile);
+					agent.getAction().getActionable().afterAction(gs, selectedAgent, ts, tile, monsterManager);
 					
 					if (agent.getAction().getActionable().canPerform(gs, agent, ts, tile))
 					{
@@ -625,7 +658,18 @@ public class Play extends BasicGameState implements GameState,
 		}
 
 	}
-	
+
+	private void performAction(Action action) {
+		int player_index = gs.getAgents().indexOf(
+                selectedAgent);
+		PlayerUI player = players.get(player_index);
+		selectedAgent.startAction(action);
+		messenger.addMessage(selectedAgent.getName() + " is doing action..." , Color.red, 4);
+
+		Tile tile = ts.getTileFromWorld(player.location.x, player.location.y);
+		action.getActionable().beforeAction(gs, selectedAgent, ts, tile);
+	}
+
 	private String getDeathMessage(){
 		Random r = new Random();
 		switch(r.nextInt(6)){
@@ -707,7 +751,7 @@ public class Play extends BasicGameState implements GameState,
 		if(input.isKeyDown(Input.KEY_9)) {
 			newAgent = agents.get(8);
 		}
-		
+
 		if(newAgent != null) {
 			selectedAgent = newAgent;
 			ts.getCamera().isFollowing = true;
