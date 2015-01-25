@@ -37,7 +37,7 @@ public class MiniMap {
 							g.setColor(Color.lightGray);
 							break;
 						default:
-							g.setColor(Color.gray);
+							g.setColor(Color.orange);
 							break;
 					}
 					g.fillRect(x+5, y+55, 2, 2);
@@ -48,6 +48,9 @@ public class MiniMap {
 		for(PlayerUI p : players){
 			g.fillRect(p.location.x+4, p.location.y+54, 3, 3);
 		}
+		int x = (int)(ts.camera.x - (ts.camera.windowSize.getX()/ts.resTimesScale)/2);
+		int y = (int)(ts.camera.y - (ts.camera.windowSize.getY()/ts.resTimesScale)/2);
+		g.drawRect(x+5, y+55, ts.camera.windowSize.getX()/ts.resTimesScale, ts.camera.windowSize.getY()/ts.resTimesScale);
 	}
 	
 	public void goTo(int mouseX, int mouseY){
