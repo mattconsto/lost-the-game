@@ -19,7 +19,7 @@ public class ActionManager {
 			public void performAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
 				gs.addItem(ItemFactory.createItem(ItemType.GRASS));
-				tile.id = TileId.DIRT;
+				ts.setTileID(tile.x, tile.y, TileId.DIRT);
 				agent.decFood(5);
 			}
 

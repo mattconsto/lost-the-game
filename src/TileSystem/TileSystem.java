@@ -32,7 +32,10 @@ public class TileSystem {
 	public enum TileId{
 		GRASS,
 		DIRT,
-		WATER
+		WATER,
+		SNOW,
+		ROCK,
+		WALL
 	}
 
 	private Tile tiles[][];
@@ -66,6 +69,12 @@ public class TileSystem {
 	
 	public void setTile(int x, int y, Tile tile){
 		tiles[x][y] = tile;
+	}
+
+	public void setTileID(int x, int y, TileSystem.TileId id) {
+		tiles[x][y].id = id;
+		VariantChooser variantChooser = new VariantChooser(size, tiles);
+		variantChooser.setVariantAround(x,y);
 	}
 	
 	public Tile getTile(int x, int y){

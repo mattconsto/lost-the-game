@@ -25,6 +25,14 @@ public class VariantChooser {
         this.tiles = tiles;
     }
 
+    public void setVariantAround(int x, int y) {
+        for(int xi = -1; xi <= 1; xi++){
+            for(int yi = -1; yi <= 1; yi++){
+                setVariant(x+xi,y+yi);
+            }
+        }
+    }
+
     public void setVariants() {
         for(int x = 0; x < size; x++){
             for(int y = 0; y < size; y++){
