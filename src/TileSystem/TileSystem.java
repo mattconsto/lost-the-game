@@ -41,8 +41,7 @@ public class TileSystem {
 		ROCK,
 		WALL,
 		POND,
-		TARPIT,
-		WRECKAGE
+		TARPIT
 	}
 
 	private Tile tiles[][];
