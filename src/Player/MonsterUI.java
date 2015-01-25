@@ -69,14 +69,37 @@ public class MonsterUI {
 			playerWalkSpeedMSFast = 2.0f;
 			playerDamage = 10.0f;
 		}
-		else
+		if(monsterId == 2)
 		{
-			 imageWidth = 80;
-			 imageHeight = 80;
-			Image playerImage = new Image("monster/monster.png");
+			imageWidth = 32;
+			imageHeight = 32;
+			Image playerImage = new Image("monster/penguin.png");
 			playerImages = new Vector<Image>();
 			playerImages.add(playerImage.getSubImage(0*imageWidth,0,(0*imageWidth)+imageWidth,imageHeight));
 			playerImages.add(playerImage.getSubImage(1*imageWidth,0,(1*imageWidth)+imageWidth,imageHeight));
+			playerImages.add(playerImage.getSubImage(2*imageWidth,0,(2*imageWidth)+imageWidth,imageHeight));
+			playerImages.add(playerImage.getSubImage(3*imageWidth,0,(3*imageWidth)+imageWidth,imageHeight));
+			playerImages.add(playerImage.getSubImage(4*imageWidth,0,(4*imageWidth)+imageWidth,imageHeight));
+			playerImages.add(playerImage.getSubImage(5*imageWidth,0,(5*imageWidth)+imageWidth,imageHeight));
+			playerImages.add(playerImage.getSubImage(6*imageWidth,0,(6*imageWidth)+imageWidth,imageHeight));
+			playerImages.add(playerImage.getSubImage(7*imageWidth,0,(7*imageWidth)+imageWidth,imageHeight));
+			playerWalkSpeedMSSlow = 0.2f;
+			playerWalkSpeedMSFast = 10.0f;
+			playerDamage = 2.0f;
+		}
+		else
+		{
+			 imageWidth = 32;
+			 imageHeight = 32;
+			Image playerImage = new Image("monster/red.gif");
+			playerImages = new Vector<Image>();
+			playerImages.add(playerImage.getSubImage(0*imageWidth,0,(0*imageWidth)+imageWidth,imageHeight));
+			playerImages.add(playerImage.getSubImage(1*imageWidth,0,(1*imageWidth)+imageWidth,imageHeight));
+			playerImages.add(playerImage.getSubImage(2*imageWidth,0,(2*imageWidth)+imageWidth,imageHeight));
+			playerImages.add(playerImage.getSubImage(3*imageWidth,0,(3*imageWidth)+imageWidth,imageHeight));
+			playerImages.add(playerImage.getSubImage(4*imageWidth,0,(4*imageWidth)+imageWidth,imageHeight));
+			playerImages.add(playerImage.getSubImage(5*imageWidth,0,(5*imageWidth)+imageWidth,imageHeight));
+			playerImages.add(playerImage.getSubImage(6*imageWidth,0,(6*imageWidth)+imageWidth,imageHeight));
 			playerWalkSpeedMSSlow = 0.1f;
 			playerWalkSpeedMSFast = 4.0f;
 			playerDamage = 100.0f;

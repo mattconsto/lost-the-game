@@ -105,6 +105,7 @@ public class Play extends BasicGameState implements GameState,
 		RandomTileObject(TileId.DIRT, TileId.TARPIT, 30, false);
 		//RandomTileObject(TileId.DIRT, TileAttr.TARPIT, 20, false);
 		RandomTileObject(TileId.GRASS, TileAttr.SHRUB, 30, false);
+		RandomTileObject(TileId.ROCK, TileAttr.CAVE, 10, false);
 		
 		RandomTileObject(TileId.DIRT, TileAttr.WRECKAGE, 20, false);
 		
@@ -222,12 +223,8 @@ public class Play extends BasicGameState implements GameState,
 		
 	}
 	
-	@Override
-	public void render(GameContainer container, StateBasedGame game, Graphics g)
-			throws SlickException {
-
-		Input input = container.getInput();
-		
+	public void renderWorld(Graphics g)
+	{
 		ts.renderTiles(g);
 		for(int y = 0; y < ts.size; y++){
 			for (PlayerUI player : players) {
@@ -246,6 +243,15 @@ public class Play extends BasicGameState implements GameState,
 		monsterManager.renderOverlay(g, ts.camera.zoom);
 
 		ts.renderFog(g);
+	}
+	
+	@Override
+	public void render(GameContainer container, StateBasedGame game, Graphics g)
+			throws SlickException {
+
+		Input input = container.getInput();
+		
+		renderWorld(g);
 		
 		miniMap.render(g);
 		
