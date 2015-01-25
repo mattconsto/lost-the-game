@@ -844,7 +844,7 @@ public class ActionManager {
 				{
 					try
 					{
-						monsterManager.spawnMassiveMonster(tile.x, tile.y);
+						monsterManager.spawnMassiveMonster(tile.x, tile.y-1);
 					}catch(SlickException e)
 					{}
 					

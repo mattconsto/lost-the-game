@@ -63,10 +63,10 @@ public class MonsterManager {
 	public void spawnMassiveMonster(int x, int y) throws SlickException
 	{
 		//Random randomGenerator = new Random();
-		MonsterUI monster = new MonsterUI(new Agent(), ts, players, 2);
+		MonsterUI monster = new MonsterUI(new Agent(), ts, players, 3);
 		monster.location = new Vector2f((float)x,(float)y);
 		monsters.addElement(monster);
-		
+		monster.ResetDestination();
 	}
 	
 }

@@ -80,11 +80,17 @@ public class MonsterUI {
 			playerImages.add(playerImage.getSubImage(0*imageWidth,1*imageHeight,1*imageWidth, 2*imageHeight));
 			playerImages.add(playerImage.getSubImage(1*imageWidth,1*imageHeight,2*imageWidth, 2*imageHeight));
 			playerWalkSpeedMSSlow = 0.2f;
-			playerWalkSpeedMSFast = 10.0f;
+			playerWalkSpeedMSFast = 2.0f;
+			playerDamage = 100.0f;
 		}
 		
 		//Random Start location
 		location = randomLocation();
+		randomMove();
+	}
+	
+	public void ResetDestination()
+	{
 		randomMove();
 	}
 	
