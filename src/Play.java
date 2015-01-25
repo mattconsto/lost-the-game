@@ -564,7 +564,7 @@ public class Play extends BasicGameState implements GameState,
 									selectedAgent);
 							PlayerUI player = players.get(player_index);
 							selectedAgent.startAction(action);
-							messenger.addMessage(selectedAgent.getName() + " " + action.getDescription(), Color.green, 6);
+							messenger.addMessage(selectedAgent.getName() + " is " + action.getDescription(), Color.green, 6);
 
 							Tile tile = ts.getTileFromWorld(player.location.x, player.location.y);
 							action.getActionable().beforeAction(gs, selectedAgent, ts, tile);
@@ -680,7 +680,7 @@ public class Play extends BasicGameState implements GameState,
                 selectedAgent);
 		PlayerUI player = players.get(player_index);
 		selectedAgent.startAction(action);
-		messenger.addMessage(selectedAgent.getName() + " is doing action..." , Color.red, 7);
+//		messenger.addMessage(selectedAgent.getName() + " is doing action..." , Color.red, 7);
 
 		Tile tile = ts.getTileFromWorld(player.location.x, player.location.y);
 		action.getActionable().beforeAction(gs, selectedAgent, ts, tile);
