@@ -14,9 +14,14 @@ public class ActionManager {
 		this.actions = new ArrayList<Action>();
 
 		// These are all hard-coded for now!
-		this.actions.add(new Action("Pick Grass", new IActionable() {
+		this.actions.add(new Action("Pick Grass", 6, new IActionable() {
 			@Override
-			public void performAction(GameSession gs, Agent agent,
+			public void beforeAction(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+			}
+			
+			@Override
+			public void afterAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
 				gs.addItemByType(ItemType.GRASS);
 				ts.setTileID(tile.x, tile.y, TileId.DIRT);
@@ -30,11 +35,16 @@ public class ActionManager {
 			}
 
 		}));
-		this.actions.add(new Action("Eat Snack", new IActionable() {
+		this.actions.add(new Action("Eat Cake", 10, new IActionable() {
 			@Override
-			public void performAction(GameSession gs, Agent agent,
+			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
 				gs.removeItemByType(ItemType.SNACK);
+			}
+			
+			@Override
+			public void afterAction(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
 				agent.incFood(30);
 			}
 
@@ -45,11 +55,16 @@ public class ActionManager {
 			}
 
 		}));
-		this.actions.add(new Action("Drink Water", new IActionable() {
+		this.actions.add(new Action("Drink Water", 3, new IActionable() {
 			@Override
-			public void performAction(GameSession gs, Agent agent,
+			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
-				agent.incWater(30);
+			}
+			
+			@Override
+			public void afterAction(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				agent.incWater(10);
 			}
 
 			@Override
@@ -59,9 +74,14 @@ public class ActionManager {
 			}
 
 		}));
-		this.actions.add(new Action("Take Dirt", new IActionable() {
+		this.actions.add(new Action("Take Dirt", 3, new IActionable() {
 			@Override
-			public void performAction(GameSession gs, Agent agent,
+			public void beforeAction(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+			}
+			
+			@Override
+			public void afterAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
 				gs.addItemByType(ItemType.MUD);
 			}
@@ -73,12 +93,16 @@ public class ActionManager {
 			}
 
 		}));
-		this.actions.add(new Action("Make Mud Brick", new IActionable() {
+		this.actions.add(new Action("Make Mud Brick", 10, new IActionable() {
 			@Override
-			public void performAction(GameSession gs, Agent agent,
+			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
 				gs.removeItemByType(ItemType.MUD);
 				gs.removeItemByType(ItemType.GRASS);
+			}
+			@Override
+			public void afterAction(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
 				gs.addItemByType(ItemType.BRICK);
 			}
 
@@ -90,11 +114,16 @@ public class ActionManager {
 			}
 
 		}));
-		this.actions.add(new Action("Build Hut", new IActionable() {
+		this.actions.add(new Action("Build Hut", 60, new IActionable() {
 			@Override
-			public void performAction(GameSession gs, Agent agent,
+			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
 				gs.removeItemByType(ItemType.BRICK, 5);
+			}
+			
+			@Override
+			public void afterAction(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
 				tile.attr = TileAttr.HUT;
 				tile.attrHealth = 10;
 			}
@@ -111,27 +140,17 @@ public class ActionManager {
 
 		}));
 
-		this.actions.add(new Action("Build Tree", new IActionable() {
-			@Override
-			public void performAction(GameSession gs, Agent agent,
-					TileSystem ts, Tile tile) {
-				tile.attr = TileAttr.TREE;
-				tile.attrHealth = 10;
-			}
 
+		this.actions.add(new Action("Burn Corpse", 15, new IActionable() {
 			@Override
-			public boolean canPerform(GameSession gs, Agent agent,
-					TileSystem ts, Tile tile) {
-				return true;
-			}
-
-		}));
-
-		this.actions.add(new Action("Burn Corpse", new IActionable() {
-			@Override
-			public void performAction(GameSession gs, Agent agent,
+			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
 				gs.removeItemByType(ItemType.CORPSE);
+			}
+			
+			@Override
+			public void afterAction(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
 				gs.addItemByType(ItemType.MEAT);
 			}
 
@@ -142,9 +161,14 @@ public class ActionManager {
 			}
 		}));
 
-		this.actions.add(new Action("Start Fire", new IActionable() {
+		this.actions.add(new Action("Start Fire", 10, new IActionable() {
 			@Override
-			public void performAction(GameSession gs, Agent agent,
+			public void beforeAction(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+			}
+			
+			@Override
+			public void afterAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
 
 				switch (tile.attr) {
@@ -170,13 +194,18 @@ public class ActionManager {
 			}
 		}));
 
-		this.actions.add(new Action("Light Stick", new IActionable() {
+		this.actions.add(new Action("Light Stick", 20, new IActionable() {
 			@Override
-			public void performAction(GameSession gs, Agent agent,
+			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
-				gs.addItemByType(ItemType.FIRESTICK);
 				gs.removeItemByType(ItemType.STICK);
 				gs.removeItemByType(ItemType.ROCK);
+			}
+			
+			@Override
+			public void afterAction(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				gs.addItemByType(ItemType.FIRESTICK);
 			}
 
 			@Override
@@ -187,9 +216,14 @@ public class ActionManager {
 			}
 		}));
 
-		this.actions.add(new Action("Take Corpse", new IActionable() {
+		this.actions.add(new Action("Take Corpse", 5, new IActionable() {
 			@Override
-			public void performAction(GameSession gs, Agent agent,
+			public void beforeAction(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+			}
+			
+			@Override
+			public void afterAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
 				gs.addItemByType(ItemType.CORPSE);
 				tile.attr = TileAttr.NONE;
@@ -203,9 +237,14 @@ public class ActionManager {
 
 		}));
 
-		this.actions.add(new Action("Get Rock", new IActionable() {
+		this.actions.add(new Action("Get Rock", 3, new IActionable() {
 			@Override
-			public void performAction(GameSession gs, Agent agent,
+			public void beforeAction(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+			}
+			
+			@Override
+			public void afterAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
 				gs.addItemByType(ItemType.ROCK);
 			}
@@ -218,30 +257,18 @@ public class ActionManager {
 
 		}));
 
-		this.actions.add(new Action("Build Palm Tree", new IActionable() {
+		this.actions.add(new Action("Make Spear", 15, new IActionable() {
 			@Override
-			public void performAction(GameSession gs, Agent agent,
+			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
-				tile.attr = TileAttr.PALM_TREE;
-				tile.attrHealth = 10;
-			}
-
-			@Override
-			public boolean canPerform(GameSession gs, Agent agent,
-					TileSystem ts, Tile tile) {
-				return true;
-			}
-
-		}));
-
-		this.actions.add(new Action("Make Spear", new IActionable() {
-			@Override
-			public void performAction(GameSession gs, Agent agent,
-					TileSystem ts, Tile tile) {
-				gs.addItemByType(ItemType.SPEAR);
 				gs.removeItemByType(ItemType.STICK);
 				gs.removeItemByType(ItemType.ROCK);
 				gs.removeItemByType(ItemType.VINE);
+			}
+			@Override
+			public void afterAction(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				gs.addItemByType(ItemType.SPEAR);
 			}
 
 			@Override
@@ -254,9 +281,15 @@ public class ActionManager {
 
 		}));
 
-		this.actions.add(new Action("Take Stick", new IActionable() {
+		this.actions.add(new Action("Take Stick", 3, new IActionable() {
+			
 			@Override
-			public void performAction(GameSession gs, Agent agent,
+			public void beforeAction(GameSession gs, Agent agent, TileSystem ts, Tile tile) {
+				
+			}
+			
+			@Override
+			public void afterAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
 				if (Math.random() < 0.9) {
 					gs.addItemByType(ItemType.STICK);
@@ -277,9 +310,13 @@ public class ActionManager {
 
 		}));
 
-		this.actions.add(new Action("Take Vine", new IActionable() {
+		this.actions.add(new Action("Take Vine", 10, new IActionable() {
 			@Override
-			public void performAction(GameSession gs, Agent agent,
+			public void beforeAction(GameSession gs, Agent agent, TileSystem ts, Tile tile) {
+				
+			}
+			@Override
+			public void afterAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
 				gs.addItemByType(ItemType.VINE);
 				tile.attrHealth -= 5;
@@ -296,11 +333,15 @@ public class ActionManager {
 
 		}));
 
-		this.actions.add(new Action("Sleep", new IActionable() {
+		this.actions.add(new Action("Sleep", 0, new IActionable() {
 			@Override
-			public void performAction(GameSession gs, Agent agent,
-					TileSystem ts, Tile tile) {
+			public void beforeAction(GameSession gs, Agent agent, TileSystem ts, Tile tile) {
 				agent.setState(AgentState.SLEEPING);
+				
+			}
+			@Override
+			public void afterAction(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
 			}
 
 			@Override
