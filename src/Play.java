@@ -62,9 +62,12 @@ public class Play extends BasicGameState implements GameState,
 		ItemFactory.init();
 		new Music("sounds/heart.ogg").loop();
 		gs = GameSession.getInstance();
+		
+		Vector2f wreckageCenter = WreckageLocationDecider();
+		
 		players = new ArrayList<PlayerUI>();
 		for (int i = 0; i < gs.getAgents().size(); i++) {
-			PlayerUI pui = new PlayerUI(gs.getAgents().get(i), ts);
+			PlayerUI pui = new PlayerUI(gs.getAgents().get(i), ts, wreckageCenter);
 			pui.addReachedDestinationEvent(this);
 			players.add(pui);
 		}
@@ -102,7 +105,8 @@ public class Play extends BasicGameState implements GameState,
 		RandomTileObject(TileId.GRASS, TileAttr.SHRUB, 30, false);
 		
 		RandomTileObject(TileId.DIRT, TileAttr.WRECKAGE, 20, false);
-		WreckageSpreader(40, false);
+		
+		WreckageSpreader(wreckageCenter,40, false);
 		
 		container.setShowFPS(false);
 	}
@@ -141,7 +145,7 @@ public class Play extends BasicGameState implements GameState,
 		
 	}
 	
-	private void WreckageSpreader( int treeCount, boolean preferGroupings)
+	private Vector2f WreckageLocationDecider()
 	{
 		int centerX = 0;
 		int centerY = 0;
@@ -153,14 +157,22 @@ public class Play extends BasicGameState implements GameState,
 		 	Tile tile = ts.getTileFromWorld(centerX, centerY);
 		 	if (tile.id == TileId.GRASS) 
 		 	{
+		 		return new Vector2f(centerX, centerY);
+		 	}
+		}
+	}
+	
+	private void WreckageSpreader(Vector2f wreckageCenter, int treeCount, boolean preferGroupings)
+	{
+		Random randomGenerator = new Random();
 		while(true)
 		{
 			float rad = (randomGenerator.nextInt(20));//*randomGenerator.nextInt(20))/10;
 			float angle = (float)(randomGenerator.nextDouble()*(Math.PI *2));
-			float x = centerX + (float)Math.asin(angle-Math.PI)*rad;
-			float y = centerY + (float)Math.acos(angle-Math.PI)*rad;
+			float x = wreckageCenter.x + (float)Math.asin(angle-Math.PI)*rad;
+			float y = wreckageCenter.y + (float)Math.acos(angle-Math.PI)*rad;
 			
-			tile = ts.getTileFromWorld(x, y);
+			Tile tile = ts.getTileFromWorld(x, y);
 			if (tile != null)
 			{
 			if (tile.attr == TileAttr.NONE)
@@ -170,8 +182,6 @@ public class Play extends BasicGameState implements GameState,
 			}
 			}
 			if (treeCount ==0) return;
-		}
-		 	}
 		}
 		
 	}

@@ -34,6 +34,7 @@ public class ItemFactory {
 		itemMap.put(ItemType.WATER, new Item("Water", "water"));
 		itemMap.put(ItemType.METAL, new Item("Metal", "metal"));
 		itemMap.put(ItemType.FISH, new Item("Fish", "fish"));
+		itemMap.put(ItemType.FLIGHT, new Item("Flight", "flight"));
 	}
 	
 	public static Item createItem(ItemType itemType) {

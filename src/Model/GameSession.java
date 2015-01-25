@@ -30,12 +30,16 @@ public class GameSession {
 	private double timeSurvived;
 	// When we 'crashed'
 	private LocalDateTime crashDate;
+	private boolean completed;
+	private int completionType;
 
 	private ArrayList<ItemType> items;
 	private Map<ItemType, Integer> itemCounts;
 	private ArrayList<Agent> agents;
 
 	private GameSession() {
+		this.setCompleted(false);
+		this.setCompletionType(0);
 		this.gameTimer = 0;
 		this.timeSurvived = 0;
 		this.items = new ArrayList<ItemType>();
@@ -183,5 +187,21 @@ public class GameSession {
 				}
 			}
 		}
+	}
+
+	public boolean isCompleted() {
+		return completed;
+	}
+
+	public void setCompleted(boolean completed) {
+		this.completed = completed;
+	}
+
+	public int getCompletionType() {
+		return completionType;
+	}
+
+	public void setCompletionType(int completionType) {
+		this.completionType = completionType;
 	}
 }

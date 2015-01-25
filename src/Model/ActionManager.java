@@ -36,7 +36,7 @@ public class ActionManager {
 			}
 
 		}));
-		
+
 		this.actions.add(new Action("Eat Fish", 10, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
@@ -57,7 +57,7 @@ public class ActionManager {
 			}
 
 		}));
-		
+
 		this.actions.add(new Action("Eat Cake", 10, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
@@ -78,7 +78,7 @@ public class ActionManager {
 			}
 
 		}));
-		
+
 		this.actions.add(new Action("Eat Berries", 10, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
@@ -99,7 +99,7 @@ public class ActionManager {
 			}
 
 		}));
-		
+
 		this.actions.add(new Action("Drink Water", 3, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
@@ -121,7 +121,7 @@ public class ActionManager {
 			}
 
 		}));
-		
+
 		this.actions.add(new Action("Drink Seawater", 3, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
@@ -141,7 +141,7 @@ public class ActionManager {
 			}
 
 		}));
-		
+
 		this.actions.add(new Action("Drink Pondwater", 3, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
@@ -161,7 +161,7 @@ public class ActionManager {
 			}
 
 		}));
-		
+
 		this.actions.add(new Action("Take Dirt", 3, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
@@ -270,6 +270,8 @@ public class ActionManager {
 					// Do nothing
 				}
 				tile.attr = TileAttr.FIRE;
+				gs.removeItemByType(ItemType.FIRESTICK);
+				gs.addItemByType(ItemType.STICK);
 			}
 
 			@Override
@@ -279,6 +281,25 @@ public class ActionManager {
 					return false;
 				}
 				return (tile.id != TileId.SNOW && tile.id != TileId.WATER && tile.id != TileId.WALL);
+			}
+		}));
+
+		this.actions.add(new Action("Salvage Parts", 30, new IActionable() {
+			@Override
+			public void beforeAction(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+			}
+
+			@Override
+			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
+					Tile tile) {
+				gs.addItemByType(ItemType.METAL);
+			}
+
+			@Override
+			public boolean canPerform(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				return (tile.attr == TileAttr.WRECKAGE);
 			}
 		}));
 
@@ -301,9 +322,9 @@ public class ActionManager {
 			@Override
 			public boolean canPerform(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
-				return (gs.getItemCount(ItemType.STICK) >= 1 && gs
-						.getItemCount(ItemType.ROCK) >= 1 && gs
-						.getItemCount(ItemType.CLOTH) >= 1 && gs
+				return (gs.getItemCount(ItemType.STICK) >= 1
+						&& gs.getItemCount(ItemType.ROCK) >= 1
+						&& gs.getItemCount(ItemType.CLOTH) >= 1 && gs
 						.getItemCount(ItemType.OIL) >= 1);
 			}
 		}));
@@ -328,7 +349,7 @@ public class ActionManager {
 			}
 
 		}));
-		
+
 		this.actions.add(new Action("Eat Corpse", 60, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
@@ -385,7 +406,7 @@ public class ActionManager {
 				if (tile.attrHealth == 0) {
 					tile.id = TileId.DIRT;
 				}
-				
+
 				gs.addItemByType(ItemType.ROCK);
 			}
 
@@ -427,7 +448,7 @@ public class ActionManager {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
-				gs.removeItemByType(ItemType.CLOTH, 5);
+				gs.removeItemByType(ItemType.CLOTH, 2);
 			}
 
 			@Override
@@ -493,8 +514,10 @@ public class ActionManager {
 			@Override
 			public boolean canPerform(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
-	
-				return ((tile.attr == TileAttr.PALM_TREE || tile.attr == TileAttr.PINE_TREE || tile.attr == TileAttr.TREE) && gs.getItemCount(ItemType.AXE) >= 1);
+
+				return ((tile.attr == TileAttr.PALM_TREE
+						|| tile.attr == TileAttr.PINE_TREE || tile.attr == TileAttr.TREE) && gs
+						.getItemCount(ItemType.AXE) >= 1);
 			}
 
 		}));
@@ -556,7 +579,8 @@ public class ActionManager {
 			@Override
 			public boolean canPerform(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
-				return(tile.id == TileId.TARPIT && gs.getItemCount(ItemType.LEAF) >= 1);
+				return (tile.id == TileId.TARPIT && gs
+						.getItemCount(ItemType.LEAF) >= 1);
 			}
 
 		}));
@@ -647,7 +671,8 @@ public class ActionManager {
 			@Override
 			public boolean canPerform(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
-				return ((tile.attr == TileAttr.PALM_TREE || tile.attr == TileAttr.PINE_TREE || tile.attr == TileAttr.TREE));
+				return ((tile.attr == TileAttr.PALM_TREE
+						|| tile.attr == TileAttr.PINE_TREE || tile.attr == TileAttr.TREE));
 			}
 
 		}));
@@ -673,7 +698,7 @@ public class ActionManager {
 			}
 
 		}));
-		
+
 		this.actions.add(new Action("Take Vine", 10, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
@@ -699,7 +724,7 @@ public class ActionManager {
 			}
 
 		}));
-		
+
 		this.actions.add(new Action("Catch Fish", 10, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
@@ -716,11 +741,54 @@ public class ActionManager {
 			@Override
 			public boolean canPerform(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
-				return tile.id == TileId.WATER && gs.getItemCount(ItemType.SPEAR) >= 1;
+				return tile.id == TileId.WATER
+						&& gs.getItemCount(ItemType.SPEAR) >= 1;
 			}
 
 		}));
 
+		this.actions.add(new Action("Sacrifice Another", 0, new IActionable() {
+			@Override
+			public void beforeAction(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				gs.removeItemByType(ItemType.CORPSE);
+			}
+
+			@Override
+			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
+					Tile tile) {
+				gs.addItemByType(ItemType.FLIGHT);
+			}
+
+			@Override
+			public boolean canPerform(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				return (gs.getItemCount(ItemType.CORPSE) >= 1 && tile.attr == TileAttr.ALTAR);
+			}
+
+		}));
+		
+		this.actions.add(new Action("Sacrifice Yourself", 0, new IActionable() {
+			@Override
+			public void beforeAction(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+			}
+
+			@Override
+			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
+					Tile tile) {
+				gs.addItemByType(ItemType.FLIGHT);
+				agent.setState(AgentState.DEAD);
+			}
+
+			@Override
+			public boolean canPerform(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				return (tile.attr == TileAttr.ALTAR);
+			}
+
+		}));
+		
 		this.actions.add(new Action("Sleep", 0, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
@@ -738,6 +806,142 @@ public class ActionManager {
 			public boolean canPerform(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
 				return tile.attr == TileAttr.HUT;
+			}
+
+		}));
+
+		this.actions.add(new Action("Build Raft", 3, new IActionable() {
+			@Override
+			public void beforeAction(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				gs.removeItemByType(ItemType.VINE, 3);
+				gs.removeItemByType(ItemType.SAIL, 1);
+				gs.removeItemByType(ItemType.STICK, 10);
+			}
+
+			@Override
+			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
+					Tile tile) {
+				gs.setCompletionType(1);
+				gs.setCompleted(true);
+			}
+
+			@Override
+			public boolean canPerform(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				return (gs.getItemCount(ItemType.VINE) >= 3
+						&& gs.getItemCount(ItemType.SAIL) >= 1
+						&& gs.getItemCount(ItemType.STICK) >= 10 && tile.id == TileId.WATER);
+			}
+
+		}));
+
+		this.actions.add(new Action("Build Boat", 3, new IActionable() {
+			@Override
+			public void beforeAction(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				gs.removeItemByType(ItemType.VINE, 3);
+				gs.removeItemByType(ItemType.SAIL, 1);
+				gs.removeItemByType(ItemType.STICK, 10);
+				gs.removeItemByType(ItemType.METAL, 10);
+				gs.removeItemByType(ItemType.MUD, 5);
+				gs.removeItemByType(ItemType.PLANK, 25);
+			}
+
+			@Override
+			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
+					Tile tile) {
+				gs.setCompletionType(2);
+				gs.setCompleted(true);
+			}
+
+			@Override
+			public boolean canPerform(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				return (gs.getItemCount(ItemType.VINE) >= 3
+						&& gs.getItemCount(ItemType.SAIL) >= 1
+						&& gs.getItemCount(ItemType.STICK) >= 10
+						&& gs.getItemCount(ItemType.METAL) >= 10
+						&& gs.getItemCount(ItemType.MUD) >= 5
+						&& gs.getItemCount(ItemType.PLANK) >= 25
+
+				&& tile.id == TileId.WATER);
+			}
+
+		}));
+
+		this.actions.add(new Action("Build Plane", 3, new IActionable() {
+			@Override
+			public void beforeAction(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				gs.removeItemByType(ItemType.VINE, 3);
+				gs.removeItemByType(ItemType.SAIL, 1);
+				gs.removeItemByType(ItemType.STICK, 10);
+				gs.removeItemByType(ItemType.METAL, 10);
+				gs.removeItemByType(ItemType.MUD, 5);
+				gs.removeItemByType(ItemType.PLANK, 25);
+				gs.removeItemByType(ItemType.OIL, 5);
+			}
+
+			@Override
+			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
+					Tile tile) {
+				gs.setCompletionType(3);
+				gs.setCompleted(true);
+			}
+
+			@Override
+			public boolean canPerform(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				return (gs.getItemCount(ItemType.VINE) >= 3
+						&& gs.getItemCount(ItemType.SAIL) >= 1
+						&& gs.getItemCount(ItemType.STICK) >= 10
+						&& gs.getItemCount(ItemType.METAL) >= 10
+						&& gs.getItemCount(ItemType.MUD) >= 5
+						&& gs.getItemCount(ItemType.PLANK) >= 25
+						&& gs.getItemCount(ItemType.OIL) >= 5
+						&& gs.getItemCount(ItemType.FLIGHT) >= 1
+
+				&& tile.id == TileId.SNOW);
+			}
+
+		}));
+
+		this.actions.add(new Action("Build Spacecraft", 3, new IActionable() {
+			@Override
+			public void beforeAction(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				gs.removeItemByType(ItemType.VINE, 3);
+				gs.removeItemByType(ItemType.SAIL, 1);
+				gs.removeItemByType(ItemType.STICK, 10);
+				gs.removeItemByType(ItemType.METAL, 10);
+				gs.removeItemByType(ItemType.MUD, 5);
+				gs.removeItemByType(ItemType.PLANK, 25);
+				gs.removeItemByType(ItemType.OIL, 5);
+				gs.removeItemByType(ItemType.ARTIFACT, 1);
+			}
+
+			@Override
+			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
+					Tile tile) {
+				gs.setCompletionType(3);
+				gs.setCompleted(true);
+			}
+
+			@Override
+			public boolean canPerform(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				return (gs.getItemCount(ItemType.VINE) >= 3
+						&& gs.getItemCount(ItemType.SAIL) >= 1
+						&& gs.getItemCount(ItemType.STICK) >= 10
+						&& gs.getItemCount(ItemType.METAL) >= 10
+						&& gs.getItemCount(ItemType.MUD) >= 5
+						&& gs.getItemCount(ItemType.PLANK) >= 25
+						&& gs.getItemCount(ItemType.OIL) >= 5
+						&& gs.getItemCount(ItemType.ARTIFACT) >= 1
+						&& gs.getItemCount(ItemType.FLIGHT) >= 1
+
+				&& tile.id == TileId.SNOW);
 			}
 
 		}));

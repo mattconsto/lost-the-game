@@ -38,7 +38,7 @@ public class PlayerUI {
 	double lastDecrementTime=0.0;
 	boolean showHealth = false;
 	
-	public PlayerUI(Agent agentIn, TileSystem tsIn) throws SlickException
+	public PlayerUI(Agent agentIn, TileSystem tsIn, Vector2f nearbyLocation) throws SlickException
 	{
 		agent = agentIn;
 		ts = tsIn;
@@ -55,18 +55,21 @@ public class PlayerUI {
 		playerImages.add(playerImage.getSubImage(5*imageWidth,0,(5*imageWidth)+imageWidth,imageHeight));
 		
 		//Random Start location
-		location = randomLocation();
+		location = randomLocation(nearbyLocation);
 	}
 	
-	private Vector2f randomLocation()
+	private Vector2f randomLocation(Vector2f nearbyLocation)
 	{
 		Random randomGenerator = new Random();
 		while(true)
 		{
-			int x = randomGenerator.nextInt(ts.size);
-			int y = randomGenerator.nextInt(ts.size);
-			Tile tile = ts.getTile(x, y);
-			if (tile.id == TileId.GRASS) return new Vector2f(x,y);
+			int x = (int)nearbyLocation.x+randomGenerator.nextInt(40)-20;
+			int y = (int)nearbyLocation.y+randomGenerator.nextInt(40)-20;
+			if (x>=0 && y>=0 && x< ts.getSize() && y < ts.getSize())
+			{
+				Tile tile = ts.getTile(x, y);
+				if (tile.id == TileId.GRASS) return new Vector2f(x,y);
+			}
 		}
 	}
 	
