@@ -83,7 +83,6 @@ public class Play extends BasicGameState implements GameState,
 			System.out.println(item);
 			Image image = new Image("icons/" + item.getImageName() + ".png");
 			itemImages.put(type, image);
-
 		}
 
 		monsterManager = new MonsterManager(ts, players);
@@ -120,14 +119,14 @@ public class Play extends BasicGameState implements GameState,
 			int x = randomGenerator.nextInt(ts.getSize()-2)+1;
 			int y = randomGenerator.nextInt(ts.getSize()-2)+1;
 			Tile tile = ts.getTile(x, y);
-			if (tile.id== tileType && tile.attr == TileAttr.NONE)
+			if (tile.id == tileType && tile.attr == TileAttr.NONE && tile.variant == 0)
 			{
 				float surroundTree = 1;
-				if (ts.getTile(x+1, y).attr==tileAtt) surroundTree++;
-				if (ts.getTile(x-1, y).attr==tileAtt) surroundTree++;
-				if (ts.getTile(x, y+1).attr==tileAtt) surroundTree++;
-				if (ts.getTile(x, y-1).attr==tileAtt) surroundTree++;
-				float num = (float)randomGenerator.nextInt(100) ;
+				if (ts.getTile(x+1, y).attr == tileAtt) surroundTree++;
+				if (ts.getTile(x-1, y).attr == tileAtt) surroundTree++;
+				if (ts.getTile(x, y+1).attr == tileAtt) surroundTree++;
+				if (ts.getTile(x, y-1).attr == tileAtt) surroundTree++;
+				float num = (float)randomGenerator.nextInt(100);
 				if (preferGroupings)
 					num /= surroundTree; 
 				else
@@ -137,7 +136,7 @@ public class Play extends BasicGameState implements GameState,
 				if (num > 50)
 				{
 					treeCount-=1;
-					tile.attr= tileAtt;
+					tile.attr = tileAtt;
 				}
 			}
 			
@@ -182,7 +181,7 @@ public class Play extends BasicGameState implements GameState,
 					tile.attr = TileAttr.WRECKAGE;
 			}
 			}
-			if (treeCount ==0) return;
+			if (treeCount == 0) return;
 		}
 		
 	}
@@ -195,19 +194,19 @@ public class Play extends BasicGameState implements GameState,
 			int x = randomGenerator.nextInt(ts.getSize()-2)+1;
 			int y = randomGenerator.nextInt(ts.getSize()-2)+1;
 			Tile tile = ts.getTile(x, y);
-			if (tile.id== tileType && tile.attr == TileAttr.NONE)
+			if (tile.id == tileType && tile.attr == TileAttr.NONE && tile.variant == 0)
 			{
 				float surroundTree = 1;
-				if (ts.getTile(x+1, y).id==tileDestType) surroundTree++;
-				if (ts.getTile(x-1, y).id==tileDestType) surroundTree++;
-				if (ts.getTile(x, y+1).id==tileDestType) surroundTree++;
-				if (ts.getTile(x, y-1).id==tileDestType) surroundTree++;
+				if (ts.getTile(x+1, y).id == tileDestType) surroundTree++;
+				if (ts.getTile(x-1, y).id == tileDestType) surroundTree++;
+				if (ts.getTile(x, y+1).id == tileDestType) surroundTree++;
+				if (ts.getTile(x, y-1).id == tileDestType) surroundTree++;
 				float num = (float)randomGenerator.nextInt(100) ;
 				if (preferGroupings)
 					num /= surroundTree; 
 				else
 					num /=1.25;
-					num *= surroundTree; 
+					num *= surroundTree;
 				
 				if (num > 50)
 				{

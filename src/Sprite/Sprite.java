@@ -27,6 +27,7 @@ public class Sprite {
         put(TileAttr.WEBBED_TREE, new Point(32*12,0));
         put(TileAttr.ALTAR, new Point(32*13,0));
         put(TileAttr.WRECKAGE, new Point(32*14,0));
+        put(TileAttr.CAVE, new Point(32*15,0));
     }};
 
     // Returns the location of the tile in the sprite file
