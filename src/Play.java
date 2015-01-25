@@ -316,20 +316,21 @@ public class Play extends BasicGameState implements GameState,
 		int agent_zone_x = 500;
 		List<Agent> agents = gs.getAgents();
 		List<Rectangle> agentZones = new ArrayList<Rectangle>();
+		int agent_height = 70;
 		for (int i = 0; i < agents.size(); i++) {
 
-			int y = ag_y + (i * 50);
+			int y = ag_y + (i * agent_height);
 			int pad = 7;
 			Agent agent = agents.get(i);
 
 			g.setColor(Color.gray);
-			g.drawRect(ag_x, y, agent_bar_width, 48);
+			g.drawRect(ag_x, y, agent_bar_width, agent_height-2);
 			g.setColor(Color.lightGray);
-			g.fillRect(ag_x, y, agent_bar_width, 48);
+			g.fillRect(ag_x, y, agent_bar_width, agent_height-2);
 
 			if (selectedAgent == agent) {
 				g.setColor(Color.red);
-				g.drawRect(ag_x, y, agent_bar_width, 48);
+				g.drawRect(ag_x, y, agent_bar_width, agent_height-2);
 			} else {
 
 			}
@@ -358,6 +359,13 @@ public class Play extends BasicGameState implements GameState,
 				g.drawRect(ag_x + pad, y + 18 + pad, 80, 16);
 				g.drawRect(ag_x + pad + 100, y + pad, 80, 16);
 				g.drawRect(ag_x + pad + 100, y + 18 + pad, 80, 16);
+				
+				// Doing
+				if(agent.hasAction()) {
+					String doing = agent.getAction().getDescription();
+					g.setColor(Color.black);
+					g.drawString(doing.substring(0, 1).toUpperCase()+doing.substring(1)+".", ag_x + pad, y+36+pad);
+				}
 			} else {
 				g.setColor(Color.red);
 				g.drawString("DEAD", ag_x + pad + 100, y + pad);
@@ -391,7 +399,7 @@ public class Play extends BasicGameState implements GameState,
 				stickFigure.draw(ag_x + agent_bar_width - 32, y + 9, 32, 32);
 			}
 			Rectangle rect = new Rectangle(ag_x + pad, y + pad,
-					agent_bar_width, 48);
+					agent_bar_width, agent_height);
 			agentZones.add(rect);
 
 		}
