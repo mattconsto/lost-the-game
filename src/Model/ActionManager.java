@@ -102,7 +102,7 @@ public class ActionManager {
 			@Override
 			public boolean canPerform(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
-				if (gs.getItemCount(ItemType.BRICK) >= 5) {
+				if (gs.getItemCount(ItemType.BRICK) >= 5 && tile.id != TileId.WATER) {
 					return true;
 				}
 				return false;
