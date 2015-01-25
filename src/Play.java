@@ -837,6 +837,7 @@ public class Play extends BasicGameState implements GameState,
 		if (input.isKeyDown(Input.KEY_ESCAPE)) {
 			container.exit();
 		}
+		game.enterState(GameOver.STATE_OVER);
 	}
 
 	private void updateCamera(GameContainer container, float delta) {
