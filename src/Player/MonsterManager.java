@@ -29,7 +29,7 @@ public class MonsterManager {
 	{
 		for (MonsterUI monster : monsters)
 		{
-			if((int)monster.location.y == row)
+			if(monster.location.y >= row-0.2f && monster.location.y < row+0.8f)
 				monster.render(g, scale);
 		}
 		
