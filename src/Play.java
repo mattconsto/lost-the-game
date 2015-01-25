@@ -28,6 +28,7 @@ import Model.Item;
 import Model.ItemFactory;
 import Model.ItemType;
 import Player.MonsterManager;
+import Player.MonsterUI;
 import Player.PlayerReachedDestinationEvent;
 import Player.PlayerUI;
 import TileSystem.Tile;
@@ -413,7 +414,6 @@ public class Play extends BasicGameState implements GameState,
 				boolean playerSelectionHappens = false;
 				Vector2f pos = ts.screenToWorldPos(mouseX, mouseY);
 				for (int i = 0; i < players.size(); i++) {
-					
 					PlayerUI player = players.get(i);
 					if (player.agent.getState() != AgentState.DEAD)
 					{
@@ -429,15 +429,39 @@ public class Play extends BasicGameState implements GameState,
 				}
 				if (!playerSelectionHappens)
 				{
-					if (selectedAgent != null && selectedAgent.getState() != AgentState.DEAD) {
-						if(selectedAgent.hasAction()) { selectedAgent.stopAction(); }
-						players.get(agents.indexOf(selectedAgent)).moveto(pos.x, 
-								pos.y);
-						ts.getCamera().x = players.get(agents
-								.indexOf(selectedAgent)).location.x;
-						ts.getCamera().y = players.get(agents
-								.indexOf(selectedAgent)).location.y;
-						ts.getCamera().isFollowing = true;
+					//See if we are attacking a monster
+					boolean monsterSelectionHappens = false;
+					for (int i = 0; i < monsterManager.monsters.size(); i++) {
+						MonsterUI monster = monsterManager.monsters.get(i);
+						float difX = monster.location.x - pos.x;
+						float difY = monster.location.y - pos.y;
+						float len = (float)Math.sqrt((difX*difX)+(difY*difY));
+						if (len < 0.5)
+						{
+							if (selectedAgent != null && selectedAgent.getState() != AgentState.DEAD) {
+								monster.agent.decHealth(20);
+								if (monster.agent.getHealth() <=0)
+								{
+									monster.agent.setState(AgentState.DEAD);
+									gs.addItemByType(ItemType.MEAT);
+								}								
+								
+								monsterSelectionHappens = true;
+							}
+						}
+					}
+					
+					if (!monsterSelectionHappens) {
+						if (selectedAgent != null && selectedAgent.getState() != AgentState.DEAD) {
+							if(selectedAgent.hasAction()) { selectedAgent.stopAction(); }
+							players.get(agents.indexOf(selectedAgent)).moveto(pos.x, 
+									pos.y);
+							ts.getCamera().x = players.get(agents
+									.indexOf(selectedAgent)).location.x;
+							ts.getCamera().y = players.get(agents
+									.indexOf(selectedAgent)).location.y;
+							ts.getCamera().isFollowing = true;
+						}
 					}
 				}
 			}
