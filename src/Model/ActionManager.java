@@ -646,7 +646,7 @@ public class ActionManager {
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
 					Tile tile) {
-				if (Math.random() < 0.9) {
+				if (Math.random() < 0.6) {
 					gs.addItemByType(ItemType.STICK);
 				} else {
 					gs.addItemByType(ItemType.LEAF);
