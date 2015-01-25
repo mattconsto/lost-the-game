@@ -92,7 +92,7 @@ public class PlayerUI {
 		
 		g.setColor(new Color(255,0,0));
 		Image realPlayer = getPlayerImage();
-		realPlayer.setCenterOfRotation(30*scale, 30*scale);
+		realPlayer.setCenterOfRotation(15*scale, 15*scale);
 
 	if (destinations.size()>1) 
 		{
@@ -115,8 +115,8 @@ public class PlayerUI {
 		
 		realPlayer.rotate(angle);
 		
-		realPlayer.draw(screenLocation.x-30*scale,screenLocation.y-30*scale,
-				screenLocation.x+30*scale,screenLocation.y+30*scale,0,0,imageWidth, imageHeight);
+		realPlayer.draw(screenLocation.x-15*scale,screenLocation.y-15*scale,
+				screenLocation.x+15*scale,screenLocation.y+15*scale,0,0,imageWidth, imageHeight);
 		realPlayer.rotate(-angle);
 		
 		g.drawOval(screenLocation.x-20,screenLocation.y-20,

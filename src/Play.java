@@ -137,12 +137,11 @@ public class Play extends BasicGameState implements GameState,
 		
 		ts.renderTiles(g);
 		for(int y = 0; y < ts.size; y++){
-			ts.renderSprites(g, y);
-			
 			for (PlayerUI player : players) {
-				if((int)player.location.y == y)
+				if(player.location.y >= y-0.2f && player.location.y < y+0.8f)
 					player.render(g, ts.camera.zoom);
 			}
+			ts.renderSprites(g, y);
 
 			monsterManager.render(g, ts.camera.zoom, y);
 		}
@@ -509,22 +508,22 @@ public class Play extends BasicGameState implements GameState,
 		}
 
 		if (input.isKeyDown(Input.KEY_LEFT) || input.isKeyDown(Input.KEY_A)) {
-			ts.getCamera().move(-6 * delta, 0);
+			ts.getCamera().move(-20/ts.camera.zoom * delta, 0);
 			ts.getCamera().isFollowing = false;
 		}
 
 		if (input.isKeyDown(Input.KEY_UP) || input.isKeyDown(Input.KEY_W)) {
-			ts.getCamera().move(0, -6 * delta);
+			ts.getCamera().move(0, -20/ts.camera.zoom * delta);
 			ts.getCamera().isFollowing = false;
 		}
 
 		if (input.isKeyDown(Input.KEY_RIGHT) || input.isKeyDown(Input.KEY_D)) {
-			ts.getCamera().move(6 * delta, 0);
+			ts.getCamera().move(20/ts.camera.zoom * delta, 0);
 			ts.getCamera().isFollowing = false;
 		}
 
 		if (input.isKeyDown(Input.KEY_DOWN) || input.isKeyDown(Input.KEY_S)) {
-			ts.getCamera().move(0, 6 * delta);
+			ts.getCamera().move(0, 20/ts.camera.zoom * delta);
 			ts.getCamera().isFollowing = false;
 		}
 
