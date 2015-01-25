@@ -193,6 +193,14 @@ public class MonsterUI {
 	
 	private void randomMove()
 	{
+		if (evil)
+			randomMoveEvil();
+		else
+			randomMoveGood();
+	}
+	
+	private void randomMoveEvil()
+	{
 		Random randomGenerator = new Random();
 		PathFinder p = new PathFinder(ts, location);
 		
@@ -205,7 +213,7 @@ public class MonsterUI {
 			float difX = location.x - playerLocation.x;
 			float difY = location.y - playerLocation.y;
 			float distToPlayer = (float)Math.sqrt((difX*difX)+(difY*difY));
-			if (distToPlayer > 10)
+			if (distToPlayer < 10)
 			{
 				Tile destTile = ts.getTileFromWorld(playerLocation.x, playerLocation.y);
 				if (destTile.id != TileId.WATER)
@@ -221,8 +229,7 @@ public class MonsterUI {
 			}	
 			}
 		}
-		
-		
+	
 		
 		while(true)
 		{
@@ -241,6 +248,64 @@ public class MonsterUI {
 						destinations = destinationsTemp;	
 						playerWalkSpeedMS = 0.2f;
 						return;
+					}
+				}
+			}
+		}
+	}
+	
+	private void randomMoveGood()
+	{
+		Random randomGenerator = new Random();
+		PathFinder p = new PathFinder(ts, location);
+		
+		boolean run = false;
+		while(true)
+		{
+			atDestination = false;
+			float randX = location.x+randomGenerator.nextInt(30)-15;
+			float randY = location.y+randomGenerator.nextInt(30)-15;
+			Vector2f destinationTemp = new Vector2f(randX,randY);
+			if (destinationTemp.x >=0 && destinationTemp.y >=0 && destinationTemp.x < ts.getSize() && destinationTemp.y < ts.getSize())
+			{
+				boolean noGood = false;
+				
+				//Step 1 - See if we have a local player
+				for (PlayerUI player : players)
+				{
+					if (player.agent.getState()  != AgentState.DEAD)
+					{
+						Vector2f playerLocation = player.location;
+						float difX = destinationTemp.x - playerLocation.x;
+						float difY = destinationTemp.y - playerLocation.y;
+						float distToPlayer = (float)Math.sqrt((difX*difX)+(difY*difY));
+						if (distToPlayer < 10)
+						{
+							noGood = true;
+							run = true;
+						}	
+					}
+				}
+				if (!noGood)
+				{
+					Tile destTile = ts.getTileFromWorld(destinationTemp.x, destinationTemp.y);
+					if (destTile.id != TileId.WATER)
+					{
+						Vector<Tile> destinationsTemp = p.findPath(destinationTemp);
+						if (hasNoWater(destinationsTemp))
+						{
+							destinations = destinationsTemp;
+							if (run)
+							{
+								playerWalkSpeedMS = 2.0f;
+							}
+							else
+							{
+								playerWalkSpeedMS = 0.2f;
+							}
+							
+							return;
+						}
 					}
 				}
 			}
