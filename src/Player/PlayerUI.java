@@ -1,4 +1,5 @@
 package Player;
+
 import java.util.Enumeration;
 import java.util.Random;
 import java.util.Vector;
@@ -12,6 +13,7 @@ import org.lwjgl.util.vector.Vector2f;
 import Model.Agent;
 import Model.AgentState;
 import Model.GameSession;
+import Sound.SoundManager;
 import TileSystem.TileSystem;
 import TileSystem.Tile;
 import TileSystem.TileSystem.TileId;

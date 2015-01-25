@@ -31,6 +31,7 @@ import Player.MonsterManager;
 import Player.MonsterUI;
 import Player.PlayerReachedDestinationEvent;
 import Player.PlayerUI;
+import Sound.SoundManager;
 import TileSystem.MiniMap;
 import TileSystem.Tile;
 import TileSystem.TileAttr;
@@ -639,6 +640,15 @@ public class Play extends BasicGameState implements GameState,
 			}
 		}else{
 			SoundManager.stopSound(SoundManager.walk);
+		}
+		
+		for (PlayerUI p : players) {
+			if (p.agent == selectedAgent) {
+				if(p.atDestination){
+					SoundManager.stopSound(SoundManager.walk);
+					break;
+				}
+			}
 		}
 	}
 
