@@ -33,7 +33,7 @@ public class MonsterUI {
 	
 	float tileSizeM = 50.0f;			//Tile is 100m across
 	float gameSpeed = 3600/30;			//Game is 30s is one hour 3600s is 30s => 120s per 1s
-	Vector<Image> playerImages = null;
+	Vector<Image> playerImages =	 null;
 	//average walk speed 1.4m per second
 	float playerWalkSpeedMS = 1.4f;
 	float playerWalkSpeedMSSlow = 1.4f;

@@ -55,10 +55,12 @@ public class Play extends BasicGameState implements GameState,
 	MonsterManager monsterManager;
 	MiniMap miniMap;
 	Messenger messenger;
+	String name;
 
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
+		name = game.getTitle();
 		ts = new TileSystem(new Point(container.getWidth(),
 				container.getHeight()));
 		ItemFactory.init();
@@ -303,7 +305,7 @@ public class Play extends BasicGameState implements GameState,
 		g.setColor(Color.gray);
 		g.drawRect(0, 0, container.getWidth(), header_height);
 		g.setColor(Color.black);
-		g.drawString("" + gs.getDate().toString("dd/MM/yyyy HH:mm"), 5, h_y
+		g.drawString(name + " - " + gs.getDate().toString("dd/MM/yyyy HH:mm"), 5, h_y
 				+ header_pad);
 		g.drawString("" + Math.round(gs.getTimeSurvived() / 60)
 				+ " hour(s) since incident", 5, h_y + header_pad + 18);
