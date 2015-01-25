@@ -184,6 +184,22 @@ public class GroundSprite {
                 }});
         }});
 
+        // Pond
+        put(TileSystem.TileId.POND, new HashMap<TileSystem.TileId,ArrayList<Point>>() {{
+            put(null, new ArrayList<Point>()
+            {{
+                    add(new Point(0,15));// ┼
+                }});
+        }});
+
+        // Oil Pit
+        put(TileSystem.TileId.TARPIT, new HashMap<TileSystem.TileId,ArrayList<Point>>() {{
+            put(null, new ArrayList<Point>()
+            {{
+                    add(new Point(8,15));// ┼
+                }});
+        }});
+
     }};
 
 }
