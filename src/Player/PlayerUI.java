@@ -172,13 +172,8 @@ public class PlayerUI {
 		}
 	}
 	
-	public void update(float deltaTime) {
-		if (agent.getState() ==  AgentState.DEAD) return;
-		
-		
-		
-		
-
+	private void updateHealthDisplay()
+	{
 		float health = agent.getHealth();
 		if (health < lastValue)
 		{
@@ -193,8 +188,13 @@ public class PlayerUI {
 			if ((gs.getTimeSurvived()- lastDecrementTime) > 5) 
 				showHealth = false;
 		}
+	}
+	
+	public void update(float deltaTime) {
+		updateHealthDisplay();
 		
-		
+		if (agent.getState() ==  AgentState.DEAD) return;
+			
 		if (atDestination) return;
 		
 		
