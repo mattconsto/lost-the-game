@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Vector;
 
+import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Graphics;
 
@@ -57,6 +58,15 @@ public class MonsterManager {
 			if (monster.agent.getState() == AgentState.DEAD)
 				monsters.remove(monster);
 		}
+	}
+	
+	public void spawnMassiveMonster(int x, int y) throws SlickException
+	{
+		//Random randomGenerator = new Random();
+		MonsterUI monster = new MonsterUI(new Agent(), ts, players, 2);
+		monster.location = new Vector2f((float)x,(float)y);
+		monsters.addElement(monster);
+		
 	}
 	
 }
