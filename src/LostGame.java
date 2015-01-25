@@ -66,6 +66,7 @@ public class LostGame extends StateBasedGame {
 			GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 			
 			appgc = new AppGameContainer(new LostGame(name));
+			appgc.setVSync(true);
 			appgc.setDisplayMode((int)gd.getDisplayMode().getWidth(), (int)gd.getDisplayMode().getHeight(), true);
 			appgc.setTargetFrameRate(gd.getDisplayMode().getRefreshRate());
 			appgc.start();
