@@ -410,6 +410,7 @@ public class ActionManager {
 
 				tile.attrHealth -= 5;
 				if (tile.attrHealth == 0) {
+					RandomTileObject(TileId.GRASS, TileAttr.SHRUB, 1, false, ts);
 					tile.attr = TileAttr.NONE;
 				}
 			}
@@ -686,6 +687,7 @@ public class ActionManager {
 				gs.addItemByType(ItemType.VINE);
 				tile.attrHealth -= 5;
 				if (tile.attrHealth == 0) {
+					RandomTileObject(TileId.DIRT, TileAttr.PALM_TREE, 1, true, ts);
 					tile.attr = TileAttr.NONE;
 				}
 			}
