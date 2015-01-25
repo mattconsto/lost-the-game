@@ -157,7 +157,7 @@ public class MonsterUI {
 				float distToPlayer = (float)Math.sqrt((difX*difX)+(difY*difY));
 				if (distToPlayer < 1)
 				{
-					player.agent.decHealth(2* deltaTime);
+					player.agent.decHealth(10* deltaTime);
 					mauledPlayer = true;
 				}
 			}
