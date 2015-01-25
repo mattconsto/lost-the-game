@@ -1,6 +1,7 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import TileSystem.Tile;
 import TileSystem.TileAttr;
@@ -475,6 +476,19 @@ public class ActionManager {
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
 					Tile tile) {
 				gs.addItemByType(ItemType.PLANK, 5);
+				
+				switch(tile.attr){
+					case TREE:
+						RandomTileObject(TileId.GRASS, TileAttr.TREE, 1, true, ts);
+						break;
+					case PINE_TREE:
+						RandomTileObject(TileId.ROCK, TileAttr.PINE_TREE, 1, true, ts);
+						break;
+					case PALM_TREE:
+						RandomTileObject(TileId.DIRT, TileAttr.PALM_TREE, 1, true, ts);
+						break;
+				}
+				tile.attr = TileAttr.NONE;
 			}
 
 			@Override
@@ -616,6 +630,17 @@ public class ActionManager {
 				}
 				tile.attrHealth--;
 				if (tile.attrHealth == 0) {
+					switch(tile.attr){
+						case TREE:
+							RandomTileObject(TileId.GRASS, TileAttr.TREE, 1, true, ts);
+							break;
+						case PINE_TREE:
+							RandomTileObject(TileId.ROCK, TileAttr.PINE_TREE, 1, true, ts);
+							break;
+						case PALM_TREE:
+							RandomTileObject(TileId.DIRT, TileAttr.PALM_TREE, 1, true, ts);
+							break;
+					}
 					tile.attr = TileAttr.NONE;
 				}
 			}
@@ -727,5 +752,39 @@ public class ActionManager {
 			}
 		}
 		return validActions;
+	}
+	
+	private void RandomTileObject(TileId tileType, TileAttr tileAtt, int treeCount, boolean preferGroupings, TileSystem ts)
+	{
+		Random randomGenerator = new Random();
+		while(true)
+		{
+			int x = randomGenerator.nextInt(ts.getSize()-2)+1;
+			int y = randomGenerator.nextInt(ts.getSize()-2)+1;
+			Tile tile = ts.getTile(x, y);
+			if (tile.id== tileType && tile.attr == TileAttr.NONE)
+			{
+				float surroundTree = 1;
+				if (ts.getTile(x+1, y).attr==tileAtt) surroundTree++;
+				if (ts.getTile(x-1, y).attr==tileAtt) surroundTree++;
+				if (ts.getTile(x, y+1).attr==tileAtt) surroundTree++;
+				if (ts.getTile(x, y-1).attr==tileAtt) surroundTree++;
+				float num = (float)randomGenerator.nextInt(100) ;
+				if (preferGroupings)
+					num /= surroundTree; 
+				else
+					num /=1.25;
+					num *= surroundTree; 
+				
+				if (num > 50)
+				{
+					treeCount-=1;
+					tile.attr= tileAtt;
+				}
+			}
+			
+			if (treeCount ==0) return;
+		}
+		
 	}
 }

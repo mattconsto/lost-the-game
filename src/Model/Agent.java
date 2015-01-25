@@ -16,12 +16,10 @@ public class Agent {
 	private static int namePos = 0;
 	private static boolean shuffled = false;
 	
-	private String[] names = {"Bill", "Joe", "Jane", "Andy", "Ollie", "Mike", "Jonah", "Sam", "Joanne", "Suzy", "Lucy", "Mary", "Betsy"};
+	private String[] names = {"Bill", "Joe", "Jane", "Jet", "Andy", "Ollie", "Mike", "Jonah", "Sam", "Joanne", "Suzy", "Lucy", "Mary", "Betsy"};
 	private boolean placedCorpse;
 	private Action action;
 	private double actionStartTime;
-	
-	
 	
 	public Agent(float food, float water, float health) {
 		this();
