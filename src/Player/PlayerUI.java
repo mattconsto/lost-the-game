@@ -74,6 +74,10 @@ public class PlayerUI {
 	}
 	
 	public void moveto(float destinationX, float destinationY){
+		if(destinationX < 0) destinationX = 0;
+		if(destinationX >= ts.size) destinationX = ts.size-1;
+		if(destinationY < 0) destinationY = 0;
+		if(destinationY >= ts.size) destinationY = ts.size-1;
 		atDestination = false;
 		PathFinder p = new PathFinder(ts, location);
 		destination = new Vector2f(destinationX, destinationY);
