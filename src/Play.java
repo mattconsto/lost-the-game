@@ -31,6 +31,7 @@ import Player.MonsterManager;
 import Player.MonsterUI;
 import Player.PlayerReachedDestinationEvent;
 import Player.PlayerUI;
+import TileSystem.MiniMap;
 import TileSystem.Tile;
 import TileSystem.TileAttr;
 import TileSystem.TileSystem;
@@ -50,6 +51,7 @@ public class Play extends BasicGameState implements GameState,
 	Map<ItemType, Image> itemImages;
 	ActionManager actionManager;
 	MonsterManager monsterManager;
+	MiniMap miniMap;
 
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
@@ -84,6 +86,8 @@ public class Play extends BasicGameState implements GameState,
 
 		ts.getCamera().x = players.get(0).location.x;
 		ts.getCamera().y = players.get(0).location.y;
+		
+		miniMap = new MiniMap(ts, players);
 
 		RandomTileObject(TileId.GRASS, TileAttr.TREE, 700, true);
 		RandomTileObject(TileId.DIRT, TileAttr.PALM_TREE, 200, true);
@@ -154,6 +158,8 @@ public class Play extends BasicGameState implements GameState,
 		monsterManager.renderOverlay(g, ts.camera.zoom);
 
 		ts.renderFog(g);
+		
+		miniMap.render(g);
 
 		// Header vars
 		int header_height = 50;
@@ -410,7 +416,9 @@ public class Play extends BasicGameState implements GameState,
 					}
 				}
 
-			} else {
+			}else if(miniMap.isWithin(mouseX, mouseY)){
+				miniMap.goTo(mouseX, mouseY);
+			}else {
 				//This code handles mouse selection of other players
 				boolean playerSelectionHappens = false;
 				Vector2f pos = ts.screenToWorldPos(mouseX, mouseY);
