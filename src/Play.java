@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
@@ -32,6 +33,7 @@ import Player.PlayerUI;
 import TileSystem.Tile;
 import TileSystem.TileAttr;
 import TileSystem.TileSystem;
+import TileSystem.TileSystem.TileId;
 
 public class Play extends BasicGameState implements GameState,
 		PlayerReachedDestinationEvent {
@@ -82,9 +84,40 @@ public class Play extends BasicGameState implements GameState,
 		ts.getCamera().x = players.get(0).location.x;
 		ts.getCamera().y = players.get(0).location.y;
 
+		RandomTrees(TileId.GRASS, TileAttr.TREE, 10);
+		RandomTrees(TileId.DIRT, TileAttr.PALM_TREE, 4);
+		RandomTrees(TileId.ROCK, TileAttr.SHRUB, 2);
+		
 		container.setShowFPS(false);
 	}
 
+	private void RandomTrees(TileId tileType, TileAttr tileAtt, int treeCount)
+	{
+		Random randomGenerator = new Random();
+		while(true)
+		{
+			int x = randomGenerator.nextInt(ts.getSize()-2)+1;
+			int y = randomGenerator.nextInt(ts.getSize()-2)+1;
+			Tile tile = ts.getTile(x, y);
+			if (tile.id== tileType && tile.attr == TileAttr.NONE)
+			{
+				int surroundTree = 1;
+				if (ts.getTile(x+1, y).attr==tileAtt) surroundTree++;
+				if (ts.getTile(x-1, y).attr==tileAtt) surroundTree++;
+				if (ts.getTile(x, y+1).attr==tileAtt) surroundTree++;
+				if (ts.getTile(x, y-1).attr==tileAtt) surroundTree++;
+				if (randomGenerator.nextInt(100) * surroundTree > 75)
+				{
+					treeCount-=1;
+					tile.attr= tileAtt;
+				}
+			}
+			
+			if (treeCount ==0) return;
+		}
+		
+	}
+	
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
@@ -99,13 +132,6 @@ public class Play extends BasicGameState implements GameState,
 		monsterManager.render(g, ts.camera.zoom);
 
 		ts.renderFog(g);
-
-		for (int x = 0; x < ts.size; x++) {
-			for (int y = 0; y < ts.size; y++) {
-				Vector2f loc = ts.worldToScreenPos(x + 0.5f, y + 0.5f);
-				g.drawString(ts.getTile(x, y).attr.toLetter(), loc.x, loc.y);
-			}
-		}
 
 		// Header vars
 		int header_height = 50;

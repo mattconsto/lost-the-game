@@ -38,7 +38,11 @@ public class PerlinMapGenerator {
         for(int x = 0; x < 200; x++) {
         	for(int y = 0; y < 200; y++) {
         		if(land[x][y]) {
-        			if(height[x][y] > -0.7) {
+        			if(height[x][y] > -3) {
+        				tiles[x][y] = new Tile(TileSystem.TileId.SNOW,x,y,0);
+        			} else if(height[x][y] > -2) {
+        				tiles[x][y] = new Tile(TileSystem.TileId.ROCK,x,y,0);
+        			} else if(height[x][y] > -0.7) {
         				tiles[x][y] = new Tile(TileSystem.TileId.GRASS,x,y,0);
         			} else {
         				tiles[x][y] = new Tile(TileSystem.TileId.DIRT,x,y,0);

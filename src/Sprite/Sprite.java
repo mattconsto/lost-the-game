@@ -27,7 +27,8 @@ public class Sprite {
         if (hashMap.containsKey(tileAttr)) {
             return hashMap.get(tileAttr);
         } else {
-            throw new InvalidParameterException("Missing Sprite for TileID");
+        	return null;
+            //throw new InvalidParameterException("Missing Sprite for TileID");
         }
     }
 
