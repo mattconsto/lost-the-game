@@ -252,7 +252,7 @@ public class ActionManager {
 			@Override
 			public boolean canPerform(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
-				return true;
+				return(tile.id == TileId.ROCK);
 			}
 
 		}));
