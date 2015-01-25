@@ -31,6 +31,8 @@ public class MonsterUI {
 	float tileSizeM = 50.0f;			//Tile is 100m across
 	float gameSpeed = 3600/30;			//Game is 30s is one hour 3600s is 30s => 120s per 1s
 	Vector<Image> playerImages = null;
+	//average walk speed 1.4m per second
+	float playerWalkSpeedMS = 1.4f;
 	
 	int imageWidth = 32;
 	int imageHeight = 32;
@@ -131,7 +133,7 @@ public class MonsterUI {
 				float distToPlayer = (float)Math.sqrt((difX*difX)+(difY*difY));
 				if (distToPlayer < 1)
 				{
-					player.agent.decHealth(10);
+					player.agent.decHealth(2);
 					mauledPlayer = true;
 				}
 			}
@@ -148,12 +150,9 @@ public class MonsterUI {
 		 Tile destTile = destinations.get(destinations.size()-1);
 		 Vector2f currentDestination = new Vector2f(destTile.x+0.5f, destTile.y+0.5f);
 		
-		//average walk speed 1.4m per second
-		float playerWalkSpeedMS = 1.4f;
-		if (ts.getTileFromWorld(location.x, location.y).id == TileId.WATER)
-		{
-			playerWalkSpeedMS = 0.3f;
-		}
+
+	
+			
 		
 		float deltaTimeS = (float)deltaTime;
 		float distanceTravelled = (deltaTimeS * gameSpeed * playerWalkSpeedMS)/ tileSizeM ;
@@ -211,7 +210,8 @@ public class MonsterUI {
 					Vector<Tile> destinationsTemp = p.findPath(playerLocation);
 					if (hasNoWater(destinationsTemp))
 					{
-						destinations = destinationsTemp;	
+						destinations = destinationsTemp;
+						playerWalkSpeedMS = 2.0f;
 						return;
 					}
 				}
@@ -236,6 +236,7 @@ public class MonsterUI {
 					if (hasNoWater(destinationsTemp))
 					{
 						destinations = destinationsTemp;	
+						playerWalkSpeedMS = 0.2f;
 						return;
 					}
 				}
