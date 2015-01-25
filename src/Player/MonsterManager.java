@@ -37,7 +37,7 @@ public class MonsterManager {
 	
 	public void update(float delta) throws SlickException
 	{
-		if (monsters.size() < 20)
+		if (monsters.size() < 5)
 		{
 			Random randomGenerator = new Random();
 			Agent monsterAgent = monsterAgents.get(randomGenerator.nextInt(monsterAgents.size()));
