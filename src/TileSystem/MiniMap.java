@@ -25,16 +25,19 @@ public class MiniMap {
 				if(ts.getTile(x, y).vis > 0){
 					switch(ts.getTile(x, y).id){
 						case WATER:
-							g.setColor(Color.blue);
+							g.setColor(Color.decode("#58aeff"));
 							break;
 						case DIRT:
-							g.setColor(Color.orange);
+							g.setColor(Color.decode("#d3af87"));
 							break;
 						case GRASS:
-							g.setColor(Color.green);
+							g.setColor(Color.decode("#208800"));
+							break;
+						case ROCK:
+							g.setColor(Color.decode("#846c5e"));
 							break;
 						case SNOW:
-							g.setColor(Color.lightGray);
+							g.setColor(Color.decode("#d8d8d8"));
 							break;
 						default:
 							g.setColor(Color.orange);
