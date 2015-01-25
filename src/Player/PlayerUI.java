@@ -4,18 +4,17 @@ import java.util.Enumeration;
 import java.util.Random;
 import java.util.Vector;
 
-import org.newdawn.slick.Graphics;
+import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import org.lwjgl.util.vector.Vector2f;
 
 import Model.Agent;
 import Model.AgentState;
 import Model.GameSession;
-import Sound.SoundManager;
-import TileSystem.TileSystem;
 import TileSystem.Tile;
+import TileSystem.TileSystem;
 import TileSystem.TileSystem.TileId;
 
 

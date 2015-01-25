@@ -880,7 +880,7 @@ public class Play extends BasicGameState implements GameState,
 					ts.getCamera().x = p.location.x;
 					ts.getCamera().y = p.location.y;
 					if(!SoundManager.isPlaying(SoundManager.walk))
-						SoundManager.playSound(SoundManager.walk);
+						SoundManager.playSound(SoundManager.walk, 0.1f, true);
 					break;
 				}
 			}

@@ -6,6 +6,7 @@ import java.util.Random;
 import org.newdawn.slick.SlickException;
 
 import Player.MonsterManager;
+import Sound.SoundManager;
 import TileSystem.Tile;
 import TileSystem.TileAttr;
 import TileSystem.TileSystem;
@@ -27,6 +28,7 @@ public class ActionManager {
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
 					Tile tile, MonsterManager monsterManager) {
+				SoundManager.playSound(SoundManager.pick_flower, 1, false);
 				gs.addItemByType(ItemType.GRASS);
 				ts.setTileID(tile.x, tile.y, TileId.DIRT);
 				agent.decFood(5);
@@ -174,6 +176,7 @@ public class ActionManager {
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
 					Tile tile, MonsterManager monsterManager) {
+				SoundManager.playSound(SoundManager.digging, 1, false);
 				gs.addItemByType(ItemType.MUD);
 			}
 
@@ -195,6 +198,7 @@ public class ActionManager {
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
 					Tile tile, MonsterManager monsterManager) {
+				SoundManager.playSound(SoundManager.squelch, 1, false);
 				gs.addItemByType(ItemType.BRICK);
 			}
 
@@ -405,6 +409,7 @@ public class ActionManager {
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
 					Tile tile, MonsterManager monsterManager) {
 
+				SoundManager.playSound(SoundManager.digging, 1, false);
 				tile.attrHealth -= 5;
 				if (tile.attrHealth == 0) {
 					tile.id = TileId.DIRT;
@@ -430,6 +435,7 @@ public class ActionManager {
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
 					Tile tile, MonsterManager monsterManager) {
+				SoundManager.playSound(SoundManager.pick_flower, 1, false);
 				gs.addItemByType(ItemType.BERRIES);
 
 				tile.attrHealth -= 5;
@@ -649,6 +655,7 @@ public class ActionManager {
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
 					Tile tile, MonsterManager monsterManager) {
+				SoundManager.playSound(SoundManager.stick_crack, 1, false);
 				if (Math.random() < 0.9) {
 					gs.addItemByType(ItemType.STICK);
 				} else {
@@ -760,6 +767,8 @@ public class ActionManager {
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
 					Tile tile, MonsterManager monsterManager) {
+
+				SoundManager.playSound(SoundManager.chant, 1, false);
 				gs.addItemByType(ItemType.FLIGHT);
 			}
 
