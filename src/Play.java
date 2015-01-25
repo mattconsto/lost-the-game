@@ -632,9 +632,13 @@ public class Play extends BasicGameState implements GameState,
 				if (p.agent == selectedAgent) {
 					ts.getCamera().x = p.location.x;
 					ts.getCamera().y = p.location.y;
+					if(!SoundManager.isPlaying(SoundManager.walk))
+						SoundManager.playSound(SoundManager.walk);
 					break;
 				}
 			}
+		}else{
+			SoundManager.stopSound(SoundManager.walk);
 		}
 	}
 
