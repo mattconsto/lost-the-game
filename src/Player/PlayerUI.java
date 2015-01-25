@@ -135,6 +135,7 @@ public class PlayerUI {
 	}
 	
 	public void update(float deltaTime) {
+		if (agent.getState() ==  AgentState.DEAD) return;
 		if (atDestination) return;
 		
 		
