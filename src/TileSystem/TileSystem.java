@@ -50,7 +50,7 @@ public class TileSystem {
 		resTimesScale = tileRes * camera.zoom;
 		
 		setTileMap("dg_edging132.gif");
-		//setSpriteMap("spritemap.gif");
+		setSpriteMap("itemsprites.gif");
 
 		try {
 			tiles = loader.loadMap();
@@ -128,7 +128,8 @@ public class TileSystem {
             			finalX -= 8*camera.zoom;
                 		finalY -= 8*camera.zoom;
 	            		src = Sprite.getSprite(tiles[x][y].attr);
-	            		//g.drawImage(spriteMap, finalX, finalY, finalX+resTimesScale+8*camera.zoom, finalY+resTimesScale+8*camera.zoom, src.getX(), src.getY(), src.getX()+tileRes, src.getY()+tileRes);
+	            		if(src != null)
+	            			g.drawImage(spriteMap, finalX, finalY, finalX+resTimesScale+8*camera.zoom, finalY+resTimesScale+8*camera.zoom, src.getX(), src.getY(), src.getX()+tileRes, src.getY()+tileRes);
             		}
             	}
             }
