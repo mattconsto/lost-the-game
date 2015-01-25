@@ -78,6 +78,27 @@ public class ActionManager {
 
 		}));
 		
+		this.actions.add(new Action("Eat Berries", 10, new IActionable() {
+			@Override
+			public void beforeAction(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				gs.removeItemByType(ItemType.BERRIES);
+			}
+
+			@Override
+			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
+					Tile tile) {
+				agent.incFood(15);
+			}
+
+			@Override
+			public boolean canPerform(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				return (gs.getItemCount(ItemType.BERRIES) >= 1);
+			}
+
+		}));
+		
 		this.actions.add(new Action("Drink Water", 3, new IActionable() {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
