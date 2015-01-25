@@ -20,7 +20,7 @@ public class GameSession {
 	private static final float WATER_PER_SEC_STAND = 0.25f;
 	private static final float WATER_PER_SEC_SLEEP = 0.2f;
 
-	private static final float HEALTH_PER_SEC = 0.5f;
+	private static final float HEALTH_PER_SEC = 0.25f;
 	private static GameSession instance;
 
 	private boolean walking = false;
@@ -54,9 +54,9 @@ public class GameSession {
 		this.generateInventory();
 
 	}
-	
+
 	public static GameSession getInstance() {
-		if(instance == null) {
+		if (instance == null) {
 			instance = new GameSession();
 		}
 		return instance;
@@ -65,7 +65,7 @@ public class GameSession {
 	public void update(float delta) {
 		this.gameTimer += delta;
 		this.timeSurvived = gameTimer * MINS_PER_SEC;
-		//(int) Math.floor(
+		// (int) Math.floor(
 		// Update agent stats
 		for (Agent agent : agents) {
 			if (agent.getState() == AgentState.WALKING) {
@@ -83,14 +83,15 @@ public class GameSession {
 			}
 
 			if (agent.getFood() == 0 || agent.getWater() == 0) {
-				agent.decHealth(HEALTH_PER_SEC);
+				agent.decHealth(HEALTH_PER_SEC * delta);
 			}
-			
-			if (agent.getHealth() <= 0)			{
-				
-				if (agent.getState() != AgentState.DEAD) agent.setExpiredTime(this.timeSurvived);
+
+			if (agent.getHealth() <= 0) {
+
+				if (agent.getState() != AgentState.DEAD)
+					agent.setExpiredTime(this.timeSurvived);
 				agent.setState(AgentState.DEAD);
-				
+
 			}
 		}
 
@@ -101,7 +102,7 @@ public class GameSession {
 	}
 
 	public LocalDateTime getDate() {
-		return this.crashDate.plusMinutes((int)Math.floor(this.timeSurvived));
+		return this.crashDate.plusMinutes((int) Math.floor(this.timeSurvived));
 	}
 
 	public ArrayList<Agent> getAgents() {
@@ -174,13 +175,12 @@ public class GameSession {
 	}
 
 	private void generateInventory() {
-		ItemType[] itemTypes = { ItemType.CLOTH, ItemType.LIFEJACKET,
-				ItemType.SNACK };
+		ItemType[] itemTypes = { ItemType.LIFEJACKET, ItemType.SNACK };
 		for (int i = 0; i < NUMBER_AGENTS; i++) {
 			for (ItemType itemType : itemTypes) {
-				// if (Math.random() > 0.8) {
-				addItem(itemType);
-				// }
+				if (Math.random() > 0.8) {
+					addItem(itemType);
+				}
 			}
 		}
 	}

@@ -11,6 +11,7 @@ import org.lwjgl.util.vector.Vector2f;
 
 import Model.Agent;
 import Model.AgentState;
+import Model.GameSession;
 import TileSystem.TileSystem;
 import TileSystem.Tile;
 import TileSystem.TileSystem.TileId;
@@ -31,6 +32,9 @@ public class PlayerUI {
 	float gameSpeed = 3600/30;			//Game is 30s is one hour 3600s is 30s => 120s per 1s
 	Vector<Image> playerImages = null;
 	
+	float lastValue = 100.0f;
+	double lastDecrementTime=0.0;
+	boolean showHealth = false;
 	
 	public PlayerUI(Agent agentIn, TileSystem tsIn) throws SlickException
 	{
@@ -136,12 +140,26 @@ public class PlayerUI {
 	
 	public void renderOverlay(Graphics g, float scale)
 	{
+		Vector2f screenLocation = ts.worldToScreenPos(location.x, location.y);
+		
 		if (agent.hasAction())
 		{
 			g.setColor(new Color(0,0,255,100));
-			Vector2f screenLocation = ts.worldToScreenPos(location.x, location.y);
 			float value =agent.getRatioOfActionRemaining() * 360;
 			g.fillArc(screenLocation.x-30*scale,screenLocation.y-30*scale,60.0f,60.0f,270.0f, value+270.0f);
+		}
+		
+		if (showHealth)
+		{
+			float health = agent.getHealth();
+			if (health < 20)
+				g.setColor(new Color(255,0,0.0f,0.5f));
+			else
+				g.setColor(new Color(0,255,0.0f,0.5f));
+			
+			float progress = health/100.0f;
+			g.fillRect(screenLocation.x-20*scale,  screenLocation.y-30*scale, 40*scale * progress, 10*scale);
+			g.drawRect(screenLocation.x-20*scale,  screenLocation.y-30*scale, 40*scale, 10*scale);
 		}
 	}
 	
@@ -202,6 +220,21 @@ public class PlayerUI {
 		
 		}
 		
+		
+		float health = agent.getHealth();
+		if (health < lastValue)
+		{
+			lastValue = health;
+			showHealth = true;
+			GameSession gs = GameSession.getInstance();
+			lastDecrementTime = gs.getTimeSurvived();
+		}
+		if (showHealth)
+		{
+			GameSession gs = GameSession.getInstance();
+			if ((gs.getTimeSurvived()- lastDecrementTime) > 5) 
+				showHealth = false;
+		}
 		
 	}
 	
