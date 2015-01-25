@@ -135,7 +135,7 @@ public class ActionManager {
 			@Override
 			public boolean canPerform(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
-				return (tile.attr == TileAttr.POND);
+				return (tile.id == TileId.POND);
 			}
 
 		}));
@@ -185,7 +185,7 @@ public class ActionManager {
 			@Override
 			public void beforeAction(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
-				gs.removeItemByType(ItemType.BRICK, 10);
+				gs.removeItemByType(ItemType.BRICK, 5);
 			}
 
 			@Override
@@ -198,7 +198,7 @@ public class ActionManager {
 			@Override
 			public boolean canPerform(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
-				if (gs.getItemCount(ItemType.BRICK) >= 10
+				if (gs.getItemCount(ItemType.BRICK) >= 5
 						&& tile.id != TileId.WATER) {
 					return true;
 				}
@@ -499,7 +499,7 @@ public class ActionManager {
 			@Override
 			public boolean canPerform(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
-				return (gs.getItemCount(ItemType.LEAF) >= 1 && (tile.attr == TileAttr.POND || tile.id == TileId.WATER));
+				return (gs.getItemCount(ItemType.LEAF) >= 1 && (tile.id == TileId.POND || tile.id == TileId.WATER));
 			}
 
 		}));
@@ -520,8 +520,7 @@ public class ActionManager {
 			@Override
 			public boolean canPerform(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
-				// TODO: Use Oil attr.
-				return (gs.getItemCount(ItemType.LEAF) >= 1);
+				return(tile.id == TileId.TARPIT && gs.getItemCount(ItemType.LEAF) >= 1);
 			}
 
 		}));
