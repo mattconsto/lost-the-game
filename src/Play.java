@@ -89,6 +89,8 @@ public class Play extends BasicGameState implements GameState,
 		RandomTileObject(TileId.ROCK, TileAttr.PINE_TREE, 100, true);
 		RandomTileObject(TileId.SNOW, TileAttr.ALIEN_ARTIFACT, 5, false);
 		RandomTileObject(TileId.WATER, TileAttr.BOAT, 2, false);
+		RandomTileObject(TileId.ROCK, TileAttr.CAVE, 2, false);
+		RandomTileObject(TileId.GRASS, TileAttr.POND, 2, false);
 		
 		container.setShowFPS(false);
 	}
@@ -396,15 +398,30 @@ public class Play extends BasicGameState implements GameState,
 				}
 
 			} else {
-				if (selectedAgent != null && selectedAgent.getState() != AgentState.DEAD) {
-					Vector2f pos = ts.screenToWorldPos(mouseX, mouseY);
-					players.get(agents.indexOf(selectedAgent)).moveto(pos.x,
-							pos.y);
-					ts.getCamera().x = players.get(agents
-							.indexOf(selectedAgent)).location.x;
-					ts.getCamera().y = players.get(agents
-							.indexOf(selectedAgent)).location.y;
-					ts.getCamera().isFollowing = true;
+				boolean playerSelectionHappens = false;
+				Vector2f pos = ts.screenToWorldPos(mouseX, mouseY);
+				for (int i = 0; i < players.size(); i++) {
+					PlayerUI player = players.get(i);
+					float difX = player.location.x - pos.x;
+					float difY = player.location.y - pos.y;
+					float len = (float)Math.sqrt((difX*difX)+(difY*difY));
+					if (len < 0.5)
+					{
+						selectedAgent = player.agent;
+						playerSelectionHappens = true;
+					}
+				}
+				if (!playerSelectionHappens)
+				{
+					if (selectedAgent != null && selectedAgent.getState() != AgentState.DEAD) {
+						players.get(agents.indexOf(selectedAgent)).moveto(pos.x,
+								pos.y);
+						ts.getCamera().x = players.get(agents
+								.indexOf(selectedAgent)).location.x;
+						ts.getCamera().y = players.get(agents
+								.indexOf(selectedAgent)).location.y;
+						ts.getCamera().isFollowing = true;
+					}
 				}
 			}
 		}
