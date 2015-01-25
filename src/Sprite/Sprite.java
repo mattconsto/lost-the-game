@@ -8,7 +8,8 @@ import java.security.InvalidParameterException;
 import java.util.HashMap;
 
 /**
- * Assuming 32x32 tiles
+ * Assuming 32x32 tiles,
+ * Sprites are
  * Created by andy on 23/01/15.
  */
 public class Sprite {
@@ -20,17 +21,17 @@ public class Sprite {
         put(TileAttr.PINE_TREE,new Point(32*3,0));
         put(TileAttr.TREE,new Point(32*4,0));
         put(TileAttr.PALM_TREE,new Point(32*5,0));
-        put(TileAttr.ALIEN_ARTIFACT,new Point(32*6,0));
-        put(TileAttr.FIRE,new Point(32*7,0));
+        put(TileAttr.HUT,new Point(32*6,0));
+        put(TileAttr.ALIEN_ARTIFACT,new Point(32*7,0));
+        put(TileAttr.FIRE,new Point(32*8,0));
     }};
 
-    //returns the location of the tile in grid
+    // Returns the location of the tile in the sprite file
     public static Point getSprite(TileAttr tileAttr) {
         if (hashMap.containsKey(tileAttr)) {
             return hashMap.get(tileAttr);
         } else {
         	return null;
-            //throw new InvalidParameterException("Missing Sprite for TileID");
         }
     }
 
