@@ -95,11 +95,13 @@ public class Play extends BasicGameState implements GameState,
 		RandomTileObject(TileId.SNOW, TileAttr.ALIEN_ARTIFACT, 1, false);
 		RandomTileObject(TileId.WATER, TileAttr.BOAT, 2, false);
 		RandomTileObject(TileId.ROCK, TileAttr.CAVE, 2, false);
-		RandomTileObject(TileId.DIRT, TileId.POND, 20, false);
-		RandomTileObject(TileId.DIRT, TileId.TARPIT, 20, false);
+		RandomTileObject(TileId.DIRT, TileId.POND, 100, false);
+		RandomTileObject(TileId.DIRT, TileId.TARPIT, 30, false);
 		//RandomTileObject(TileId.DIRT, TileAttr.TARPIT, 20, false);
 		RandomTileObject(TileId.GRASS, TileAttr.SHRUB, 30, false);
 		
+		RandomTileObject(TileId.DIRT, TileId.WRECKAGE, 30, false);
+		//WreckageSpreader(40, false);
 		
 		container.setShowFPS(false);
 	}
@@ -132,6 +134,32 @@ public class Play extends BasicGameState implements GameState,
 					tile.attr= tileAtt;
 				}
 			}
+			
+			if (treeCount ==0) return;
+		}
+		
+	}
+	
+	private void WreckageSpreader( int treeCount, boolean preferGroupings)
+	{
+		
+		Random randomGenerator = new Random();
+		int centerX = randomGenerator.nextInt(ts.getSize()-20)+1;
+		int centerY = randomGenerator.nextInt(ts.getSize()-20)+1;
+		
+		while(true)
+		{
+			float rad = randomGenerator.nextInt(20)*randomGenerator.nextInt(20);
+			float angle = randomGenerator.nextInt(360)+1;
+			float x = (float)Math.asin(angle/180*Math.PI)*rad;
+			float y = (float)Math.asin(angle/180*Math.PI)*rad;
+			
+			Tile tile = ts.getTileFromWorld(x, y);
+			//if (tile.id== tileType && tile.attr == TileAttr.NONE)
+			//{
+					treeCount-=1;
+					ts.setTileID((int)x, (int)y,  TileId.WRECKAGE);
+			//}
 			
 			if (treeCount ==0) return;
 		}
