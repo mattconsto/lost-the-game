@@ -301,6 +301,10 @@ public class ActionManager {
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
 					Tile tile, MonsterManager monsterManager) {
 				gs.addItemByType(ItemType.METAL);
+				tile.attrHealth -= 5;
+				if (tile.attrHealth == 0) {
+					tile.attr = TileAttr.NONE;
+				}
 			}
 
 			@Override
@@ -412,7 +416,7 @@ public class ActionManager {
 				SoundManager.playSound(SoundManager.digging, 1, false);
 				tile.attrHealth -= 5;
 				if (tile.attrHealth == 0) {
-					tile.id = TileId.DIRT;
+					ts.setTileID(tile.x, tile.y, TileId.DIRT);
 				}
 
 				gs.addItemByType(ItemType.ROCK);
@@ -866,33 +870,33 @@ public class ActionManager {
 
 		}));
 
-		this.actions.add(new Action("Demo", "running a demo", 3, new IActionable() {
-			@Override
-			public void beforeAction(GameSession gs, Agent agent,
-					TileSystem ts, Tile tile) {
-				gs.addItemByType(ItemType.VINE, 3);
-				gs.addItemByType(ItemType.SAIL, 1);
-				gs.addItemByType(ItemType.STICK, 10);
-				gs.addItemByType(ItemType.METAL, 10);
-				gs.addItemByType(ItemType.MUD, 5);
-				gs.addItemByType(ItemType.PLANK, 25);
-				gs.addItemByType(ItemType.OIL, 5);
-				gs.addItemByType(ItemType.ARTIFACT, 1);
-				gs.addItemByType(ItemType.FLIGHT, 1);
-			}
-
-			@Override
-			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
-					Tile tile, MonsterManager monsterManager) {
-			}
-
-			@Override
-			public boolean canPerform(GameSession gs, Agent agent,
-					TileSystem ts, Tile tile) {
-				return true;
-			}
-
-		}));
+//		this.actions.add(new Action("Demo", "running a demo", 3, new IActionable() {
+//			@Override
+//			public void beforeAction(GameSession gs, Agent agent,
+//					TileSystem ts, Tile tile) {
+//				gs.addItemByType(ItemType.VINE, 3);
+//				gs.addItemByType(ItemType.SAIL, 1);
+//				gs.addItemByType(ItemType.STICK, 10);
+//				gs.addItemByType(ItemType.METAL, 10);
+//				gs.addItemByType(ItemType.MUD, 5);
+//				gs.addItemByType(ItemType.PLANK, 25);
+//				gs.addItemByType(ItemType.OIL, 5);
+//				gs.addItemByType(ItemType.ARTIFACT, 1);
+//				gs.addItemByType(ItemType.FLIGHT, 1);
+//			}
+//
+//			@Override
+//			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
+//					Tile tile, MonsterManager monsterManager) {
+//			}
+//
+//			@Override
+//			public boolean canPerform(GameSession gs, Agent agent,
+//					TileSystem ts, Tile tile) {
+//				return true;
+//			}
+//
+//		}));
 		
 		this.actions.add(new Action("Build Raft", "building a raft", 180, new IActionable() {
 			@Override
