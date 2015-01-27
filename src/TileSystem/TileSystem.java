@@ -178,15 +178,15 @@ public class TileSystem {
             for(int y = 0; y < size; y++){
             	finalX = (x*resTimesScale)-offsets.x;
         		finalY = (y*resTimesScale)-offsets.y;
-            	switch(tiles[x][y].vis){
-	            	case 0:
-	            		g.setColor(Color.black);
-	            		g.fillRect(finalX, finalY, resTimesScale, resTimesScale);
-	            		break;
-	            	case 1:
-	            		g.setColor(semi);
-	            		g.fillRect(finalX, finalY, resTimesScale, resTimesScale);
-	            		break;
+            	if (tiles[x][y].vis ==0)
+            	{
+            		g.setColor(Color.black);
+            		g.fillRect(finalX, finalY, resTimesScale, resTimesScale);
+            	}
+            	else if (tiles[x][y].vis <100)
+            	{
+            		g.setColor(new Color(0, 0, 0,1.0f-((float)tiles[x][y].vis)/100));
+            		g.fillRect(finalX, finalY, resTimesScale, resTimesScale);       
             	}
             }
 		}
@@ -195,34 +195,20 @@ public class TileSystem {
 	public void updateFog(List<PlayerUI> players, GameSession gs){
 		for(int x = 0; x < size; x++){
             for(int y = 0; y < size; y++){
-            	if(tiles[x][y].vis == 2)
-            		tiles[x][y].vis = 1;
+            	if(tiles[x][y].vis > 30)
+            		tiles[x][y].vis = 30;
             }
 		}
 		
 		for(PlayerUI p : players){
 			if (p.agent.getState() != AgentState.DEAD)
 			{
-				int xp = (int)p.location.x;
-				int yp = (int)p.location.y;
+				float xp = p.location.x-0.5f;
+				float yp = p.location.y-0.5f;
 				if(gs.getItemCount(ItemType.FIRESTICK) > 0){
-					for(int x = xp - 10; x < xp + 10; x++){
-						for(int y = yp - 10; y < yp + 10; y++){
-							if(x > 0 && y > 0 && x < size && y < size)
-								if(dist(xp, yp, x, y) <= 9){
-									tiles[x][y].vis = 2;
-								}
-						}
-					}
+					clearFowArea(xp,yp,8);
 				}else{
-					for(int x = xp - 5; x < xp + 5; x++){
-						for(int y = yp - 5; y < yp + 5; y++){
-							if(x > 0 && y > 0 && x < size && y < size)
-								if(dist(xp, yp, x, y) <= 4){
-									tiles[x][y].vis = 2;
-								}
-						}
-					}
+					clearFowArea(xp,yp,3);
 				}
 			}
 		}
@@ -230,20 +216,42 @@ public class TileSystem {
 		for(int x = 0; x < size; x++){
             for(int y = 0; y < size; y++){
             	if(tiles[x][y].attr == TileAttr.FIRE){
-            		for(int xp = x - 10; xp < x + 10; xp++){
-						for(int yp = y - 10; yp < y + 10; yp++){
-							if(xp > 0 && yp > 0 && xp < size && yp < size)
-								if(dist(xp, yp, x, y) <= 9){
-									tiles[x][y].vis = 2;
-								}
-						}
-					}
+            		clearFowArea((float)x, (float)y,9);
             	}
             }
 		}
 	}
 	
-	private float dist(int x, int y, int x2, int y2){
+	private void clearFowArea(float xp, float yp, int fowClearArea)
+	{
+		//Hi, hope everyone likes this, if not just disable new Fog of war here
+		boolean progressiveFow= true;
+		int area = 30;
+		int fowScaler = 25;
+		for(int x = (int)xp - area; x < xp + area; x++){
+			for(int y = (int)yp - area; y < yp + area; y++){
+				if(x > 0 && y > 0 && x < size && y < size)
+				{
+					if (progressiveFow)	{
+						float playerDist = dist(xp, yp, x, y);
+						int vis = 100-((int)(((playerDist)-fowClearArea)*fowScaler));
+						if (vis <0) vis =0;
+						if (vis>100) vis = 100;
+						if (vis>tiles[x][y].vis) tiles[x][y].vis =vis;
+					}
+					else{
+						float playerDist = dist((int)(xp+0.5f), (int)(yp+0.5f), x, y);
+						if (playerDist <= fowClearArea+1) {
+							
+							if (tiles[x][y].vis < 100) tiles[x][y].vis =100;
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	private float dist(float x, float y, float x2, float y2){
 		return (float) Math.sqrt((x2-x)*(x2-x)+(y2-y)*(y2-y));
 	}
 	
