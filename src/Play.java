@@ -474,7 +474,7 @@ public class Play extends BasicGameState implements GameState,
 
 			// Detect F-Key presses
 			Action actionHotKeyPressed = null;
-			for (int i = 0; i < validActions.size() - 1; i++) {
+			for (int i = 0; i < validActions.size(); i++) {
 				Action action = validActions.get(i);
 				String name = action.getName();
 
