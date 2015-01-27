@@ -87,7 +87,7 @@ public class GameSession {
 				agent.decWater(WATER_PER_SEC_SLEEP * delta);
 			}
 
-			if (agent.getFood() == 0 || agent.getWater() == 0) {
+			if (agent.getFood() == 0 && agent.getWater() == 0) {
 				agent.decHealth(HEALTH_PER_SEC * delta);
 			}
 
