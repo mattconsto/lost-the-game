@@ -160,6 +160,9 @@ public class PlayerUI {
 	
 	public void renderOverlay(Graphics g, float scale)
 	{
+		//Dont bother rendering overlays when the player is dead
+		if (agent.getState()==AgentState.DEAD) return;
+		
 		Vector2f screenLocation = ts.worldToScreenPos(location.x, location.y);
 		
 		if (agent.hasAction())
