@@ -40,7 +40,7 @@ public class LostGame extends StateBasedGame {
 		this.addState(play);
 		this.addState(go);
 		this.addState(gw);
-        this.enterState(gi.STATE_INTRO);
+        this.enterState(GameIntro.STATE_INTRO);
         
         SoundManager.init();
 	}

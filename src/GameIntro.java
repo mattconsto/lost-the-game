@@ -1,6 +1,3 @@
-import Model.AgentState;
-import Model.GameSession;
-import Player.PlayerUI;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.GameState;
@@ -14,7 +11,7 @@ public class GameIntro extends BasicGameState implements GameState {
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
 
-		 logo = new Image("title.png");
+		 logo = new Image("backgrounds/title.png");
 		 logo.setFilter(Image.FILTER_NEAREST);
 	}
 	

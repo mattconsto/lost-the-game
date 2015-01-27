@@ -11,7 +11,6 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
-import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
@@ -45,26 +44,64 @@ public class Play extends BasicGameState implements GameState,
 
 	TileSystem ts;
 	GameSession gs;
-	List<PlayerUI> players;
-	Agent selectedAgent;
-	List<Item> selectedItems;
-	Image stickFigure;
-	Map<ItemType, Image> itemImages;
 	ActionManager actionManager;
-	int actionKeyPressed = -1;
 	MonsterManager monsterManager;
 	MiniMap miniMap;
 	Messenger messenger;
+	
+	List<PlayerUI> players;
+	List<Item> selectedItems;
+	Map<ItemType, Image> itemImages;
+	int actionKeyPressed = -1;
 	String name;
+	
+	Agent selectedAgent;
+	Image stickFigure;
+	
+	//UI Variables
+	int header_height;
+	int header_pad;
+	int h_y;
+	int h_h;
+
+	// Footer vars
+	int footer_height;
+	int footer_y;
+	int footer_pad;
+	int f_y;
+	int f_h;
+
+	// Action Bar vars
+	int action_bar_height;
+	int action_bar_y;
+	int action_bar_pad;
+	int a_y;
+	int a_h;
+
+	// Agent vars
+	int agent_bar_y;
+	int agent_bar_height;
+	int agent_bar_pad;
+	int ag_y;
+	int ag_h;
+	int agent_bar_width;
+	int ag_x;
+
+	Rectangle headerRect;
+	Rectangle footerRect;
+	Rectangle actionRect;
+	Rectangle agentRect;
 
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
+		
 		name = game.getTitle();
-		ts = new TileSystem(new Point(container.getWidth(),
-				container.getHeight()));
+		//TODO: Tile system needs modifying when the screen resolution / window size changes.
+		ts = new TileSystem(new Point(container.getWidth(), container.getHeight()));
+		
 		ItemFactory.init();
-		new Music("sounds/heart.ogg").loop();
+		SoundManager.loopMusic(SoundManager.ambientMusic, 1, 1);
 		gs = GameSession.getInstance();
 		
 		Vector2f wreckageCenter = WreckageLocationDecider();
@@ -85,7 +122,6 @@ public class Play extends BasicGameState implements GameState,
 		itemImages = new HashMap<ItemType, Image>();
 		for (ItemType type : ItemType.values()) {
 			Item item = ItemFactory.createItem(type);
-			System.out.println(item);
 			Image image = new Image("icons/" + item.getImageName() + ".png");
 			itemImages.put(type, image);
 		}
@@ -106,10 +142,8 @@ public class Play extends BasicGameState implements GameState,
 		RandomTileObject(TileId.ROCK, TileAttr.CAVE, 2, false);
 		RandomTileObject(TileId.DIRT, TileId.POND, 100, false);
 		RandomTileObject(TileId.DIRT, TileId.TARPIT, 30, false);
-		//RandomTileObject(TileId.DIRT, TileAttr.TARPIT, 20, false);
 		RandomTileObject(TileId.GRASS, TileAttr.SHRUB, 30, false);
 		RandomTileObject(TileId.ROCK, TileAttr.CAVE, 10, false);
-		
 		RandomTileObject(TileId.DIRT, TileAttr.WRECKAGE, 20, false);
 		
 		WreckageSpreader(wreckageCenter,40, false);
@@ -120,6 +154,47 @@ public class Play extends BasicGameState implements GameState,
 		messenger.addMessage("Use WASD or ARROW keys to move the camera.", Color.green, 20);
 		messenger.addMessage("Click to move the selected player.", Color.green, 20);
 		messenger.addMessage("WELCOME TO THE ISLAND OF THE LOST", Color.green, 20);
+		
+		//Initialise UI Variables---------------------------------------
+		
+		// Header vars
+		header_height = 50;
+		header_pad = 3;
+		h_y = header_pad;
+		h_h = header_height - (2 * header_pad);
+
+		// Footer vars
+		footer_height = 60;
+		footer_y = container.getHeight() - footer_height;
+		footer_pad = 9;
+		// Use f_h, f_y for the actual footer height / y pos
+		f_y = footer_y + footer_pad;
+		f_h = footer_height - (2 * footer_pad);
+
+		// Action Bar vars
+		action_bar_height = 35;
+		action_bar_y = footer_y - action_bar_height;
+		action_bar_pad = 3;
+		a_y = action_bar_y + action_bar_pad;
+		a_h = action_bar_height - (2 * action_bar_pad);
+
+		// Agent vars
+		agent_bar_y = header_height;
+		agent_bar_height = action_bar_y - header_height;
+		agent_bar_pad = 3;
+		ag_y = agent_bar_y + agent_bar_pad;
+		ag_h = agent_bar_height + (2 * agent_bar_pad);
+		agent_bar_width = 250;
+		ag_x = container.getWidth() - agent_bar_width - 2;
+
+		headerRect = new Rectangle(0, 0, container.getWidth(),
+				header_height);
+		footerRect = new Rectangle(0, footer_y, container.getWidth(),
+				footer_height);
+		actionRect = new Rectangle(0, action_bar_y,
+				container.getWidth(), action_bar_height);
+		agentRect = new Rectangle(ag_x, ag_y, agent_bar_width,
+				agent_bar_height);
 	}
 
 	private void RandomTileObject(TileId tileType, TileAttr tileAtt, int treeCount, boolean preferGroupings)
@@ -264,45 +339,6 @@ public class Play extends BasicGameState implements GameState,
 		miniMap.render(g);
 		
 		messenger.render(g, container.getHeight());
-
-		// Header vars
-		int header_height = 50;
-		int header_pad = 3;
-		int h_y = header_pad;
-		int h_h = header_height - (2 * header_pad);
-
-		// Footer vars
-		int footer_height = 60;
-		int footer_y = container.getHeight() - footer_height;
-		int footer_pad = 9;
-		// Use f_h, f_y for the actual footer height / y pos
-		int f_y = footer_y + footer_pad;
-		int f_h = footer_height - (2 * footer_pad);
-
-		// Action Bar vars
-		int action_bar_height = 35;
-		int action_bar_y = footer_y - action_bar_height;
-		int action_bar_pad = 3;
-		int a_y = action_bar_y + action_bar_pad;
-		int a_h = action_bar_height - (2 * action_bar_pad);
-
-		// Agent vars
-		int agent_bar_y = header_height;
-		int agent_bar_height = action_bar_y - header_height;
-		int agent_bar_pad = 3;
-		int ag_y = agent_bar_y + agent_bar_pad;
-		int ag_h = agent_bar_height + (2 * agent_bar_pad);
-		int agent_bar_width = 250;
-		int ag_x = container.getWidth() - agent_bar_width - 2;
-
-		Rectangle headerRect = new Rectangle(0, 0, container.getWidth(),
-				header_height);
-		Rectangle footerRect = new Rectangle(0, footer_y, container.getWidth(),
-				footer_height);
-		Rectangle actionRect = new Rectangle(0, action_bar_y,
-				container.getWidth(), action_bar_height);
-		Rectangle agentRect = new Rectangle(ag_x, ag_y, agent_bar_width,
-				agent_bar_height);
 
 		// Header
 		g.setColor(Color.lightGray);
@@ -523,8 +559,7 @@ public class Play extends BasicGameState implements GameState,
 				performAction(actionHotKeyPressed);
 			}
 		}
-
-
+		
 		if (input.isMousePressed(0)) {
 			mouseX = input.getMouseX();
 			mouseY = input.getMouseY();
@@ -632,47 +667,6 @@ public class Play extends BasicGameState implements GameState,
 				}
 			}
 		}
-
-		for (int i = 0; i < players.size(); i++) {
-			PlayerUI player = players.get(i);
-			Agent agent = agents.get(i);
-			
-			if(agent.hasAction() && agent.haveFinishedAction()) {
-				if(agent.getState() != AgentState.DEAD) {
-					Tile tile = ts.getTileFromWorld(player.location.x, player.location.y);
-					agent.getAction().getActionable().afterAction(gs, agent, ts, tile, monsterManager);
-					
-					if (agent.getAction().getActionable().canPerform(gs, agent, ts, tile))
-					{
-						agent.startAction(agent.getAction());
-						agent.getAction().getActionable().beforeAction(gs, agent, ts, tile);
-					}
-					else
-					{
-						agent.stopAction();
-					}
-				}
-			}
-			
-			AgentState state = agent.getState();
-			boolean atDestination = players.get(i).atDestination;
-
-			if (state == AgentState.WALKING && atDestination) {
-				agents.get(i).setState(AgentState.STANDING);
-			}
-			if (state != AgentState.WALKING && !atDestination) {
-				agents.get(i).setState(AgentState.WALKING);
-			}
-			if(state == AgentState.DEAD) {
-				Tile tile = ts.getTileFromWorld(player.location.x, player.location.y);
-				if(!agent.hasPlacedCorpse() && tile.attr != TileAttr.CORPSE) {
-					tile.attr = TileAttr.CORPSE;
-					messenger.addMessage(agent.getName() + getDeathMessage(), Color.red, 8);
-					agent.setPlacedCorpse(true);
-				}
-			}
-		}
-
 	}
 
 	private void performAction(Action action) {
@@ -767,8 +761,8 @@ public class Play extends BasicGameState implements GameState,
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
 		boolean alive = false;
+		
 		List<Agent> agents = gs.getAgents();
-		List<Rectangle> agentZones = new ArrayList<Rectangle>();
 		for (int i = 0; i < agents.size(); i++) {
 			if (agents.get(i).getState() != AgentState.DEAD) {
 				alive = true;
@@ -833,6 +827,46 @@ public class Play extends BasicGameState implements GameState,
 			selectedAgent = newAgent;
 			ts.getCamera().isFollowing = true;
 		}
+
+		for (int i = 0; i < players.size(); i++) {
+			PlayerUI player = players.get(i);
+			Agent agent = agents.get(i);
+			
+			if(agent.hasAction() && agent.haveFinishedAction()) {
+				if(agent.getState() != AgentState.DEAD) {
+					Tile tile = ts.getTileFromWorld(player.location.x, player.location.y);
+					agent.getAction().getActionable().afterAction(gs, agent, ts, tile, monsterManager);
+					
+					if (agent.getAction().getActionable().canPerform(gs, agent, ts, tile))
+					{
+						agent.startAction(agent.getAction());
+						agent.getAction().getActionable().beforeAction(gs, agent, ts, tile);
+					}
+					else
+					{
+						agent.stopAction();
+					}
+				}
+			}
+			
+			AgentState state = agent.getState();
+			boolean atDestination = players.get(i).atDestination;
+
+			if (state == AgentState.WALKING && atDestination) {
+				agents.get(i).setState(AgentState.STANDING);
+			}
+			if (state != AgentState.WALKING && !atDestination) {
+				agents.get(i).setState(AgentState.WALKING);
+			}
+			if(state == AgentState.DEAD) {
+				Tile tile = ts.getTileFromWorld(player.location.x, player.location.y);
+				if(!agent.hasPlacedCorpse() && tile.attr != TileAttr.CORPSE) {
+					tile.attr = TileAttr.CORPSE;
+					messenger.addMessage(agent.getName() + getDeathMessage(), Color.red, 8);
+					agent.setPlacedCorpse(true);
+				}
+			}
+		}
 		
 		if (input.isKeyDown(Input.KEY_ESCAPE)) {
 			container.exit();
@@ -841,8 +875,6 @@ public class Play extends BasicGameState implements GameState,
 
 	private void updateCamera(GameContainer container, float delta) {
 		Input input = container.getInput();
-		int mouseX = input.getMouseX();
-		int mouseY = input.getMouseY();
 
 		int dWheel = Mouse.getDWheel();
 		if (dWheel < 0)

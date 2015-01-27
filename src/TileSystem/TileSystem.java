@@ -1,6 +1,5 @@
 package TileSystem;
 
-import Map.PerlinMapGenerator;
 import Map.SimpleMapLoader;
 import Model.AgentState;
 import Model.GameSession;
