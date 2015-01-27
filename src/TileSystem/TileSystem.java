@@ -15,7 +15,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Point;
 
 import Player.PlayerUI;
-import Sprite.Sprite;
+import Sprite.SpriteManager;
 
 import java.io.FileNotFoundException;
 
@@ -124,7 +124,7 @@ public class TileSystem {
         		finalX = (x*resTimesScale)-offsets.x;
         		finalY = (y*resTimesScale)-offsets.y;
         		if(isOnScreen(x, y)){
-            		Point src = TileImage.getSprite(tiles[x][y].id, tiles[x][y].touching, tiles[x][y].variant);
+            		Point src = TileImage.getTexCoord(tiles[x][y].id, tiles[x][y].touching, tiles[x][y].variant);
             		g.drawImage(tileMap, finalX, finalY, finalX+resTimesScale, finalY+resTimesScale, src.getX(), src.getY(), src.getX()+tileRes, src.getY()+tileRes);
             	}
             }
@@ -132,26 +132,20 @@ public class TileSystem {
 	}
 	
 	public void renderSprites(Graphics g, int row){
-		float finalX, finalY;
+		float finalX, finalY, scale, scaleOffset;
 		
 		Vector2f offsets = camera.getOffsets();
         for(int x = 0; x < size; x++){
-    		finalX = (x*resTimesScale)-offsets.x;
-    		finalY = (row*resTimesScale)-offsets.y;
-    		if(isOnScreen(x, row)){
-        		if(tiles[x][row].attr != TileAttr.NONE){
-        			if(tiles[x][row].attr == TileAttr.CORPSE || tiles[x][row].attr == TileAttr.SKELETON){
-                		Point src = Sprite.getSprite(tiles[x][row].attr);
-                		if(src != null)
-                			g.drawImage(spriteMap, finalX, finalY, finalX+resTimesScale, finalY+resTimesScale, src.getX(), src.getY(), src.getX()+tileRes, src.getY()+tileRes);
-        			}else{
-	        			finalX -= 16*camera.zoom;
-	            		finalY -= 16*camera.zoom;
-	            		Point src = Sprite.getSprite(tiles[x][row].attr);
-	            		if(src != null)
-	            			g.drawImage(spriteMap, finalX, finalY, finalX+resTimesScale+16*camera.zoom, finalY+resTimesScale+16*camera.zoom, src.getX(), src.getY(), src.getX()+tileRes, src.getY()+tileRes);
-        			}
-        		}
+        	if(SpriteManager.getSprite(tiles[x][row].attr) != null){
+	        	scale = SpriteManager.getSprite(tiles[x][row].attr).getScale();
+	        	scaleOffset = (scale - 1)*resTimesScale*0.5f;
+	    		finalX = (x*resTimesScale)-offsets.x-scaleOffset;
+	    		finalY = (row*resTimesScale)-offsets.y-scaleOffset;
+	    		if(isOnScreen(x, row)){
+            		Point src = SpriteManager.getTexCoord(tiles[x][row].attr);
+            		if(src != null)
+            			g.drawImage(spriteMap, finalX, finalY, finalX+resTimesScale+scaleOffset*2, finalY+resTimesScale+scaleOffset, src.getX(), src.getY(), src.getX()+tileRes, src.getY()+tileRes);
+	        	}
         	}
         }
 	}
@@ -228,13 +222,14 @@ public class TileSystem {
 		
 		for(int x = 0; x < size; x++){
             for(int y = 0; y < size; y++){
-            	if(tiles[x][y].attr == TileAttr.FIRE){
+            	if(tiles[x][y].attr == SpriteType.FIRE){
             		for(int xp = x - 10; xp < x + 10; xp++){
 						for(int yp = y - 10; yp < y + 10; yp++){
-							if(xp > 0 && yp > 0 && xp < size && yp < size)
+							if(xp > 0 && yp > 0 && xp < size && yp < size){
 								if(dist(xp, yp, x, y) <= 9){
 									tiles[x][y].vis = 2;
 								}
+							}
 						}
 					}
             	}

@@ -1,6 +1,6 @@
 package TileSystem;
 
-public enum TileAttr {
+public enum SpriteType {
 	NONE, HUT, BOAT, CORPSE, SKELETON, PLANE, FIRE, RELIGIOUS_ARTIFACT, ALIEN_ARTIFACT, TREE, PINE_TREE, PALM_TREE, SHRUB, CAVE, HUTONFIRE, POND, WEBBED_TREE, WEB, ALTAR, WRECKAGE;
 	
 	public String toLetter() {

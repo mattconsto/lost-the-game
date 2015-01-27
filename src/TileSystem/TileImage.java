@@ -21,7 +21,7 @@ public class TileImage {
     * */
 
     //returns the location of the tile in grid
-    public static Point getSprite(TileSystem.TileId tileId, TileSystem.TileId touching, int variant) {
+    public static Point getTexCoord(TileSystem.TileId tileId, TileSystem.TileId touching, int variant) {
         if (variant == -1) {
             variant = 0;
         }

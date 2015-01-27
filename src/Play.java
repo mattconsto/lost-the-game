@@ -33,7 +33,7 @@ import Player.PlayerUI;
 import Sound.SoundManager;
 import TileSystem.MiniMap;
 import TileSystem.Tile;
-import TileSystem.TileAttr;
+import TileSystem.SpriteType;
 import TileSystem.TileSystem;
 import TileSystem.TileSystem.TileId;
 
@@ -133,18 +133,18 @@ public class Play extends BasicGameState implements GameState,
 		
 		miniMap = new MiniMap(ts, players);
 
-		RandomTileObject(TileId.GRASS, TileAttr.TREE, 700, true);
-		RandomTileObject(TileId.DIRT, TileAttr.PALM_TREE, 200, true);
-		RandomTileObject(TileId.ROCK, TileAttr.PINE_TREE, 100, true);
-		RandomTileObject(TileId.SNOW, TileAttr.ALIEN_ARTIFACT, 1, false);
-		RandomTileObject(TileId.DIRT, TileAttr.ALTAR, 3, false);
-		RandomTileObject(TileId.WATER, TileAttr.BOAT, 2, false);
-		RandomTileObject(TileId.ROCK, TileAttr.CAVE, 2, false);
+		RandomTileObject(TileId.GRASS, SpriteType.TREE, 700, true);
+		RandomTileObject(TileId.DIRT, SpriteType.PALM_TREE, 200, true);
+		RandomTileObject(TileId.ROCK, SpriteType.PINE_TREE, 100, true);
+		RandomTileObject(TileId.SNOW, SpriteType.ALIEN_ARTIFACT, 1, false);
+		RandomTileObject(TileId.DIRT, SpriteType.ALTAR, 3, false);
+		RandomTileObject(TileId.WATER, SpriteType.BOAT, 2, false);
+		RandomTileObject(TileId.ROCK, SpriteType.CAVE, 2, false);
 		RandomTileObject(TileId.DIRT, TileId.POND, 100, false);
 		RandomTileObject(TileId.DIRT, TileId.TARPIT, 30, false);
-		RandomTileObject(TileId.GRASS, TileAttr.SHRUB, 30, false);
-		RandomTileObject(TileId.ROCK, TileAttr.CAVE, 10, false);
-		RandomTileObject(TileId.DIRT, TileAttr.WRECKAGE, 20, false);
+		RandomTileObject(TileId.GRASS, SpriteType.SHRUB, 30, false);
+		RandomTileObject(TileId.ROCK, SpriteType.CAVE, 10, false);
+		RandomTileObject(TileId.DIRT, SpriteType.WRECKAGE, 20, false);
 		
 		WreckageSpreader(wreckageCenter,40, false);
 		
@@ -197,7 +197,7 @@ public class Play extends BasicGameState implements GameState,
 				agent_bar_height);
 	}
 
-	private void RandomTileObject(TileId tileType, TileAttr tileAtt, int treeCount, boolean preferGroupings)
+	private void RandomTileObject(TileId tileType, SpriteType tileAtt, int treeCount, boolean preferGroupings)
 	{
 		Random randomGenerator = new Random();
 		while(true)
@@ -205,7 +205,7 @@ public class Play extends BasicGameState implements GameState,
 			int x = randomGenerator.nextInt(ts.getSize()-2)+1;
 			int y = randomGenerator.nextInt(ts.getSize()-2)+1;
 			Tile tile = ts.getTile(x, y);
-			if (tile.id == tileType && tile.attr == TileAttr.NONE && tile.variant == 0)
+			if (tile.id == tileType && tile.attr == SpriteType.NONE && tile.variant == 0)
 			{
 				float surroundTree = 1;
 				if (ts.getTile(x+1, y).attr == tileAtt) surroundTree++;
@@ -261,10 +261,10 @@ public class Play extends BasicGameState implements GameState,
 			Tile tile = ts.getTileFromWorld(x, y);
 			if (tile != null)
 			{
-			if (tile.attr == TileAttr.NONE)
+			if (tile.attr == SpriteType.NONE)
 			{
 					treeCount-=1;
-					tile.attr = TileAttr.WRECKAGE;
+					tile.attr = SpriteType.WRECKAGE;
 			}
 			}
 			if (treeCount == 0) return;
@@ -280,7 +280,7 @@ public class Play extends BasicGameState implements GameState,
 			int x = randomGenerator.nextInt(ts.getSize()-2)+1;
 			int y = randomGenerator.nextInt(ts.getSize()-2)+1;
 			Tile tile = ts.getTile(x, y);
-			if (tile.id == tileType && tile.attr == TileAttr.NONE && tile.variant == 0)
+			if (tile.id == tileType && tile.attr == SpriteType.NONE && tile.variant == 0)
 			{
 				float surroundTree = 1;
 				if (ts.getTile(x+1, y).id == tileDestType) surroundTree++;
@@ -860,8 +860,8 @@ public class Play extends BasicGameState implements GameState,
 			}
 			if(state == AgentState.DEAD) {
 				Tile tile = ts.getTileFromWorld(player.location.x, player.location.y);
-				if(!agent.hasPlacedCorpse() && tile.attr != TileAttr.CORPSE) {
-					tile.attr = TileAttr.CORPSE;
+				if(!agent.hasPlacedCorpse() && tile.attr != SpriteType.CORPSE) {
+					tile.attr = SpriteType.CORPSE;
 					messenger.addMessage(agent.getName() + getDeathMessage(), Color.red, 8);
 					agent.setPlacedCorpse(true);
 				}

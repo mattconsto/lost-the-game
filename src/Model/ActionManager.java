@@ -8,7 +8,7 @@ import org.newdawn.slick.SlickException;
 import Player.MonsterManager;
 import Sound.SoundManager;
 import TileSystem.Tile;
-import TileSystem.TileAttr;
+import TileSystem.SpriteType;
 import TileSystem.TileSystem;
 import TileSystem.TileSystem.TileId;
 
@@ -220,7 +220,7 @@ public class ActionManager {
 			@Override
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
 					Tile tile, MonsterManager monsterManager) {
-				tile.attr = TileAttr.HUT;
+				tile.attr = SpriteType.HUT;
 				tile.attrHealth = 10;
 			}
 
@@ -252,7 +252,7 @@ public class ActionManager {
 			@Override
 			public boolean canPerform(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
-				return (gs.getItemCount(ItemType.CORPSE) > 0 && tile.attr == TileAttr.FIRE);
+				return (gs.getItemCount(ItemType.CORPSE) > 0 && tile.attr == SpriteType.FIRE);
 			}
 		}));
 
@@ -276,7 +276,7 @@ public class ActionManager {
 				default:
 					// Do nothing
 				}
-				tile.attr = TileAttr.FIRE;
+				tile.attr = SpriteType.FIRE;
 				gs.removeItemByType(ItemType.FIRESTICK);
 				gs.addItemByType(ItemType.STICK);
 			}
@@ -303,14 +303,14 @@ public class ActionManager {
 				gs.addItemByType(ItemType.METAL);
 				tile.attrHealth -= 5;
 				if (tile.attrHealth == 0) {
-					tile.attr = TileAttr.NONE;
+					tile.attr = SpriteType.NONE;
 				}
 			}
 
 			@Override
 			public boolean canPerform(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
-				return (tile.attr == TileAttr.WRECKAGE);
+				return (tile.attr == SpriteType.WRECKAGE);
 			}
 		}));
 
@@ -392,13 +392,13 @@ public class ActionManager {
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
 					Tile tile, MonsterManager monsterManager) {
 				gs.addItemByType(ItemType.CORPSE);
-				tile.attr = TileAttr.SKELETON;
+				tile.attr = SpriteType.SKELETON;
 			}
 
 			@Override
 			public boolean canPerform(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
-				return (tile.attr == TileAttr.CORPSE);
+				return (tile.attr == SpriteType.CORPSE);
 			}
 
 		}));
@@ -444,15 +444,15 @@ public class ActionManager {
 
 				tile.attrHealth -= 5;
 				if (tile.attrHealth == 0) {
-					RandomTileObject(TileId.GRASS, TileAttr.SHRUB, 1, false, ts);
-					tile.attr = TileAttr.NONE;
+					RandomTileObject(TileId.GRASS, SpriteType.SHRUB, 1, false, ts);
+					tile.attr = SpriteType.NONE;
 				}
 			}
 
 			@Override
 			public boolean canPerform(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
-				return (tile.attr == TileAttr.SHRUB);
+				return (tile.attr == SpriteType.SHRUB);
 			}
 
 		}));
@@ -512,24 +512,24 @@ public class ActionManager {
 				
 				switch(tile.attr){
 					case TREE:
-						RandomTileObject(TileId.GRASS, TileAttr.TREE, 1, true, ts);
+						RandomTileObject(TileId.GRASS, SpriteType.TREE, 1, true, ts);
 						break;
 					case PINE_TREE:
-						RandomTileObject(TileId.ROCK, TileAttr.PINE_TREE, 1, true, ts);
+						RandomTileObject(TileId.ROCK, SpriteType.PINE_TREE, 1, true, ts);
 						break;
 					case PALM_TREE:
-						RandomTileObject(TileId.DIRT, TileAttr.PALM_TREE, 1, true, ts);
+						RandomTileObject(TileId.DIRT, SpriteType.PALM_TREE, 1, true, ts);
 						break;
 				}
-				tile.attr = TileAttr.NONE;
+				tile.attr = SpriteType.NONE;
 			}
 
 			@Override
 			public boolean canPerform(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
 
-				return ((tile.attr == TileAttr.PALM_TREE
-						|| tile.attr == TileAttr.PINE_TREE || tile.attr == TileAttr.TREE) && gs
+				return ((tile.attr == SpriteType.PALM_TREE
+						|| tile.attr == SpriteType.PINE_TREE || tile.attr == SpriteType.TREE) && gs
 						.getItemCount(ItemType.AXE) >= 1);
 			}
 
@@ -545,13 +545,13 @@ public class ActionManager {
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
 					Tile tile, MonsterManager monsterManager) {
 				gs.addItemByType(ItemType.ARTIFACT);
-				tile.attr = TileAttr.NONE;
+				tile.attr = SpriteType.NONE;
 			}
 
 			@Override
 			public boolean canPerform(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
-				return (tile.attr == TileAttr.ALIEN_ARTIFACT);
+				return (tile.attr == SpriteType.ALIEN_ARTIFACT);
 			}
 
 		}));
@@ -669,24 +669,24 @@ public class ActionManager {
 				if (tile.attrHealth == 0) {
 					switch(tile.attr){
 						case TREE:
-							RandomTileObject(TileId.GRASS, TileAttr.TREE, 1, true, ts);
+							RandomTileObject(TileId.GRASS, SpriteType.TREE, 1, true, ts);
 							break;
 						case PINE_TREE:
-							RandomTileObject(TileId.ROCK, TileAttr.PINE_TREE, 1, true, ts);
+							RandomTileObject(TileId.ROCK, SpriteType.PINE_TREE, 1, true, ts);
 							break;
 						case PALM_TREE:
-							RandomTileObject(TileId.DIRT, TileAttr.PALM_TREE, 1, true, ts);
+							RandomTileObject(TileId.DIRT, SpriteType.PALM_TREE, 1, true, ts);
 							break;
 					}
-					tile.attr = TileAttr.NONE;
+					tile.attr = SpriteType.NONE;
 				}
 			}
 
 			@Override
 			public boolean canPerform(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
-				return ((tile.attr == TileAttr.PALM_TREE
-						|| tile.attr == TileAttr.PINE_TREE || tile.attr == TileAttr.TREE));
+				return ((tile.attr == SpriteType.PALM_TREE
+						|| tile.attr == SpriteType.PINE_TREE || tile.attr == SpriteType.TREE));
 			}
 
 		}));
@@ -702,13 +702,13 @@ public class ActionManager {
 			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
 					Tile tile, MonsterManager monsterManager) {
 				gs.addItemByType(ItemType.WEB);
-				tile.attr = TileAttr.TREE;
+				tile.attr = SpriteType.TREE;
 			}
 
 			@Override
 			public boolean canPerform(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
-				return tile.attr == TileAttr.WEBBED_TREE;
+				return tile.attr == SpriteType.WEBBED_TREE;
 			}
 
 		}));
@@ -726,15 +726,15 @@ public class ActionManager {
 				gs.addItemByType(ItemType.VINE);
 				tile.attrHealth -= 5;
 				if (tile.attrHealth == 0) {
-					RandomTileObject(TileId.DIRT, TileAttr.PALM_TREE, 1, true, ts);
-					tile.attr = TileAttr.NONE;
+					RandomTileObject(TileId.DIRT, SpriteType.PALM_TREE, 1, true, ts);
+					tile.attr = SpriteType.NONE;
 				}
 			}
 
 			@Override
 			public boolean canPerform(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
-				return tile.attr == TileAttr.PALM_TREE;
+				return tile.attr == SpriteType.PALM_TREE;
 			}
 
 		}));
@@ -779,7 +779,7 @@ public class ActionManager {
 			@Override
 			public boolean canPerform(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
-				return (gs.getItemCount(ItemType.CORPSE) >= 1 && tile.attr == TileAttr.ALTAR);
+				return (gs.getItemCount(ItemType.CORPSE) >= 1 && tile.attr == SpriteType.ALTAR);
 			}
 
 		}));
@@ -800,7 +800,7 @@ public class ActionManager {
 			@Override
 			public boolean canPerform(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
-				return (tile.attr == TileAttr.ALTAR);
+				return (tile.attr == SpriteType.ALTAR);
 			}
 
 		}));
@@ -821,7 +821,7 @@ public class ActionManager {
 			@Override
 			public boolean canPerform(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
-				return tile.attr == TileAttr.HUT;
+				return tile.attr == SpriteType.HUT;
 			}
 
 		}));
@@ -853,11 +853,11 @@ public class ActionManager {
 					{}
 					
 				}
-				tile.attr = TileAttr.NONE;
+				tile.attr = SpriteType.NONE;
 				gs.addItemByType(ItemType.VINE);
 				tile.attrHealth -= 5;
 				if (tile.attrHealth == 0) {
-					RandomTileObject(TileId.DIRT, TileAttr.PALM_TREE, 1, true, ts);
+					RandomTileObject(TileId.DIRT, SpriteType.PALM_TREE, 1, true, ts);
 					
 				}
 			}
@@ -865,7 +865,7 @@ public class ActionManager {
 			@Override
 			public boolean canPerform(GameSession gs, Agent agent,
 					TileSystem ts, Tile tile) {
-				return tile.attr == TileAttr.CAVE;
+				return tile.attr == SpriteType.CAVE;
 			}
 
 		}));
@@ -1046,7 +1046,7 @@ public class ActionManager {
 		return validActions;
 	}
 	
-	private void RandomTileObject(TileId tileType, TileAttr tileAtt, int treeCount, boolean preferGroupings, TileSystem ts)
+	private void RandomTileObject(TileId tileType, SpriteType tileAtt, int treeCount, boolean preferGroupings, TileSystem ts)
 	{
 		Random randomGenerator = new Random();
 		while(true)
@@ -1054,7 +1054,7 @@ public class ActionManager {
 			int x = randomGenerator.nextInt(ts.getSize()-2)+1;
 			int y = randomGenerator.nextInt(ts.getSize()-2)+1;
 			Tile tile = ts.getTile(x, y);
-			if (tile.id== tileType && tile.attr == TileAttr.NONE)
+			if (tile.id== tileType && tile.attr == SpriteType.NONE)
 			{
 				float surroundTree = 1;
 				if (ts.getTile(x+1, y).attr==tileAtt) surroundTree++;
