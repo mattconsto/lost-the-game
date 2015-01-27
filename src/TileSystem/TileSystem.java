@@ -15,7 +15,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Point;
 
 import Player.PlayerUI;
-import Sprite.GroundSprite;
 import Sprite.Sprite;
 
 import java.io.FileNotFoundException;
@@ -125,7 +124,7 @@ public class TileSystem {
         		finalX = (x*resTimesScale)-offsets.x;
         		finalY = (y*resTimesScale)-offsets.y;
         		if(isOnScreen(x, y)){
-            		Point src = GroundSprite.getSprite(tiles[x][y].id, tiles[x][y].touching, tiles[x][y].variant);
+            		Point src = TileImage.getSprite(tiles[x][y].id, tiles[x][y].touching, tiles[x][y].variant);
             		g.drawImage(tileMap, finalX, finalY, finalX+resTimesScale, finalY+resTimesScale, src.getX(), src.getY(), src.getX()+tileRes, src.getY()+tileRes);
             	}
             }

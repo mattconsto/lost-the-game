@@ -1,4 +1,4 @@
-package Sprite;
+package TileSystem;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
@@ -6,13 +6,10 @@ import java.util.HashMap;
 
 import org.newdawn.slick.geom.Point;
 
-import TileSystem.TileAttr;
-import TileSystem.TileSystem;
-
 /**
  * Created by andy on 24/01/15.
  */
-public class GroundSprite {
+public class TileImage {
     /* TILES WE CAN'T HAVE
     * -------------------
     * 1-wide Grass against Dirt -> Substitute Dirt.

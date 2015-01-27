@@ -9,8 +9,11 @@ public class Tile {
     // The Variant and Touching are purely aesthetic
     public TileSystem.TileId touching = null;
     public int variant = -1;
+    
     public TileAttr attr;
     public int attrHealth;
+    
+    
 
     public int vis = 0; //0 = unseen, 1 = seen, 2 = visible
     public int x, y;
