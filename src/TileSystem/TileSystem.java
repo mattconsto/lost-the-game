@@ -166,11 +166,11 @@ public class TileSystem {
 	        	scale = sprite.getScale();
 	        	scaleOffset = (scale - 1)*resTimesScale*0.5f;
 	    		finalX = (x*resTimesScale)-offsets.x-scaleOffset;
-	    		finalY = (row*resTimesScale)-offsets.y-scaleOffset;
+	    		finalY = (row*resTimesScale)-offsets.y-scaleOffset*2;
 	    		if(isOnScreen(x, row)){
             		Point src = sprite.getTexCoord();
             		if(src != null)
-            			g.drawImage(spriteMap, finalX, finalY, finalX+resTimesScale+scaleOffset*2, finalY+resTimesScale+scaleOffset, src.getX(), src.getY(), src.getX()+tileRes, src.getY()+tileRes);
+            			g.drawImage(spriteMap, finalX, finalY, finalX+resTimesScale+scaleOffset*2, finalY+resTimesScale+scaleOffset*2, src.getX(), src.getY(), src.getX()+tileRes, src.getY()+tileRes);
 	        	}
         	}
         }
