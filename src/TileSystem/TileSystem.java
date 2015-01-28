@@ -220,10 +220,15 @@ public class TileSystem {
             for(int y = 0; y < size; y++){
             	if(tiles[x][y].vis > 30)
             		tiles[x][y].vis = 30;
-            	if(tiles[x][y].hasSprite(SpriteType.FIRE)){
-            		clearFowArea((float)x, (float)y,9);
-            	}
             	tiles[x][y].update();
+            }
+		}
+		
+		for(int x = 0; x < size; x++){
+            for(int y = 0; y < size; y++){
+            	if(tiles[x][y].hasSprite(SpriteType.FIRE)){
+            		clearFowArea((float)x, (float)y,8);
+            	}
             }
 		}
 		

@@ -20,7 +20,7 @@ public class SpriteManager {
         put(SpriteType.PALM_TREE, new Sprite(new Point(256,32), true, false, 1.5f, 4, 0.6f));
         put(SpriteType.HUT, new Sprite(new Point(32*6,0), true, false, 1.2f));
         put(SpriteType.ALIEN_ARTIFACT, new Sprite(new Point(32*7,0), true, false, 1));
-        put(SpriteType.FIRE, new Sprite(new Point(32*8,0), true, true, 1.2f));
+        put(SpriteType.FIRE, new Sprite(new Point(448,32), true, true, 1.2f, 2, 0.6f));
         put(SpriteType.SHRUB, new Sprite(new Point(32*9,0), true, false, 1));
         put(SpriteType.HUTONFIRE, new Sprite(new Point(32*10,0), true, false, 1.2f));
         put(SpriteType.WEB, new Sprite(new Point(32*11,0), true, false, 1.3f));

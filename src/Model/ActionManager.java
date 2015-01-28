@@ -875,33 +875,34 @@ public class ActionManager {
 
 		}));
 
-//		this.actions.add(new Action("Demo", "running a demo", 3, new IActionable() {
-//			@Override
-//			public void beforeAction(GameSession gs, Agent agent,
-//					TileSystem ts, Tile tile) {
-//				gs.addItemByType(ItemType.VINE, 3);
-//				gs.addItemByType(ItemType.SAIL, 1);
-//				gs.addItemByType(ItemType.STICK, 10);
-//				gs.addItemByType(ItemType.METAL, 10);
-//				gs.addItemByType(ItemType.MUD, 5);
-//				gs.addItemByType(ItemType.PLANK, 25);
-//				gs.addItemByType(ItemType.OIL, 5);
-//				gs.addItemByType(ItemType.ARTIFACT, 1);
-//				gs.addItemByType(ItemType.FLIGHT, 1);
-//			}
-//
-//			@Override
-//			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
-//					Tile tile, MonsterManager monsterManager) {
-//			}
-//
-//			@Override
-//			public boolean canPerform(GameSession gs, Agent agent,
-//					TileSystem ts, Tile tile) {
-//				return true;
-//			}
-//
-//		}));
+		this.actions.add(new Action("Demo", "running a demo", 3, new IActionable() {
+			@Override
+			public void beforeAction(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				gs.addItemByType(ItemType.VINE, 3);
+				gs.addItemByType(ItemType.SAIL, 1);
+				gs.addItemByType(ItemType.STICK, 10);
+				gs.addItemByType(ItemType.METAL, 10);
+				gs.addItemByType(ItemType.MUD, 5);
+				gs.addItemByType(ItemType.PLANK, 25);
+				gs.addItemByType(ItemType.OIL, 5);
+				gs.addItemByType(ItemType.ARTIFACT, 1);
+				gs.addItemByType(ItemType.FLIGHT, 1);
+				gs.addItemByType(ItemType.CLOTH, 10);
+			}
+
+			@Override
+			public void afterAction(GameSession gs, Agent agent, TileSystem ts,
+					Tile tile, MonsterManager monsterManager) {
+			}
+
+			@Override
+			public boolean canPerform(GameSession gs, Agent agent,
+					TileSystem ts, Tile tile) {
+				return true;
+			}
+
+		}));
 		
 		this.actions.add(new Action("Build Raft", "building a raft", 180, new IActionable() {
 			@Override
