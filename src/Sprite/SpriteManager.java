@@ -15,9 +15,9 @@ public class SpriteManager {
         put(SpriteType.RELIGIOUS_ARTIFACT, new Sprite(new Point(0,0), true, false, 1f));
         put(SpriteType.SKELETON, new Sprite(new Point(32,0), true, true, 0.6f));
         put(SpriteType.CORPSE, new Sprite(new Point(64,0), true, true, 0.6f));
-        put(SpriteType.PINE_TREE, new Sprite(new Point(96,0), true, false, 2f));
-        put(SpriteType.TREE, new Sprite(new Point(128,0), true, false, 1.5f));
-        put(SpriteType.PALM_TREE, new Sprite(new Point(32*5,0), true, false, 1.5f));
+        put(SpriteType.PINE_TREE, new Sprite(new Point(128,32), true, false, 2f, 4, 0.6f));
+        put(SpriteType.TREE, new Sprite(new Point(0,32), true, false, 1.5f, 4, 0.6f));
+        put(SpriteType.PALM_TREE, new Sprite(new Point(256,32), true, false, 1.5f, 4, 0.6f));
         put(SpriteType.HUT, new Sprite(new Point(32*6,0), true, false, 1.2f));
         put(SpriteType.ALIEN_ARTIFACT, new Sprite(new Point(32*7,0), true, false, 1));
         put(SpriteType.FIRE, new Sprite(new Point(32*8,0), true, true, 1.2f));

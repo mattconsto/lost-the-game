@@ -137,17 +137,19 @@ public class TileSystem {
 	public void renderGroundSprites(Graphics g, int row){
 		float finalX, finalY, scale, scaleOffset;
 		Sprite sprite;
+		SpriteType type;
 		
 		Vector2f offsets = camera.getOffsets();
         for(int x = 0; x < size; x++){
-        	sprite = SpriteManager.getSprite(tiles[x][row].getSpriteToDraw());
+        	type = tiles[x][row].getSpriteToDraw();
+        	sprite = SpriteManager.getSprite(type);
         	if(sprite != null && sprite.isOnGround()){
 	        	scale = sprite.getScale();
 	        	scaleOffset = (scale - 1)*resTimesScale*0.5f;
 	    		finalX = (x*resTimesScale)-offsets.x-scaleOffset;
 	    		finalY = (row*resTimesScale)-offsets.y-scaleOffset;
 	    		if(isOnScreen(x, row)){
-            		Point src = sprite.getTexCoord();
+            		Point src = sprite.getTexCoord(tiles[x][row].getSpriteData(type).timeOffset);
             		if(src != null)
             			g.drawImage(spriteMap, finalX, finalY, finalX+resTimesScale+scaleOffset*2, finalY+resTimesScale+scaleOffset, src.getX(), src.getY(), src.getX()+tileRes, src.getY()+tileRes);
 	        	}
@@ -158,17 +160,19 @@ public class TileSystem {
 	public void render3DSprites(Graphics g, int row){
 		float finalX, finalY, scale, scaleOffset;
 		Sprite sprite;
+		SpriteType type;
 		
 		Vector2f offsets = camera.getOffsets();
         for(int x = 0; x < size; x++){
-        	sprite = SpriteManager.getSprite(tiles[x][row].getSpriteToDraw());
+        	type = tiles[x][row].getSpriteToDraw();
+        	sprite = SpriteManager.getSprite(type);
         	if(sprite != null && !sprite.isOnGround()){
 	        	scale = sprite.getScale();
 	        	scaleOffset = (scale - 1)*resTimesScale*0.5f;
 	    		finalX = (x*resTimesScale)-offsets.x-scaleOffset;
 	    		finalY = (row*resTimesScale)-offsets.y-scaleOffset*2;
 	    		if(isOnScreen(x, row)){
-            		Point src = sprite.getTexCoord();
+	    			Point src = sprite.getTexCoord(tiles[x][row].getSpriteData(type).timeOffset);
             		if(src != null)
             			g.drawImage(spriteMap, finalX, finalY, finalX+resTimesScale+scaleOffset*2, finalY+resTimesScale+scaleOffset*2, src.getX(), src.getY(), src.getX()+tileRes, src.getY()+tileRes);
 	        	}
@@ -235,7 +239,7 @@ public class TileSystem {
 				}
 			}
 		}
-		
+		Sprite.elapsedTime += delta;
 		Tile.deltaPassed += delta;
 	}
 	

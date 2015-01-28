@@ -22,9 +22,11 @@ public class Tile {
     public class SpriteData{
     	public SpriteType type;
     	public int health = 10;
+    	public float timeOffset = 0;
     	
-    	public SpriteData(SpriteType type){
+    	public SpriteData(SpriteType type, float timeOffset){
     		this.type = type;
+    		this.timeOffset = timeOffset;
     	}
     }
     
@@ -55,7 +57,7 @@ public class Tile {
     }
     
     public void addSprite(SpriteType type){
-    	sprites.add(new SpriteData(type));
+    	sprites.add(new SpriteData(type, (float)Math.random()*100));
     }
 
     public void update(){

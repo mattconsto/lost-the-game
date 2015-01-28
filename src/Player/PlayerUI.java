@@ -214,7 +214,7 @@ public class PlayerUI {
 		
 		
 		
-		animationFrame += deltaTime*5;
+		animationFrame += deltaTime*10;
 		//Some basic movement code - a bit elaborate tbh
 		
 		
