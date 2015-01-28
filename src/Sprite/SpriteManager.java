@@ -14,7 +14,7 @@ public class SpriteManager {
 	private static HashMap<SpriteType, Sprite> hashMap = new HashMap<SpriteType, Sprite>() {{
         put(SpriteType.RELIGIOUS_ARTIFACT, new Sprite(new Point(0,0), true, false, 1f));
         put(SpriteType.SKELETON, new Sprite(new Point(32,0), true, true, 0.6f));
-        put(SpriteType.CORPSE, new Sprite(new Point(64,0), true, true, 0.6f));
+        put(SpriteType.CORPSE, new Sprite(new Point(384,32), true, true, 0.6f, 2, 3f));
         put(SpriteType.PINE_TREE, new Sprite(new Point(128,32), true, false, 2f, 4, 0.6f));
         put(SpriteType.TREE, new Sprite(new Point(0,32), true, false, 1.5f, 4, 0.6f));
         put(SpriteType.PALM_TREE, new Sprite(new Point(256,32), true, false, 1.5f, 4, 0.6f));
