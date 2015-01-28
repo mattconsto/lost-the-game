@@ -1,7 +1,5 @@
 package Sprite;
 
-import TileSystem.SpriteType;
-
 import org.newdawn.slick.geom.Point;
 
 import java.util.HashMap;
@@ -28,7 +26,7 @@ public class SpriteManager {
         put(SpriteType.WEB, new Sprite(new Point(32*11,0), true, false, 1.3f));
         put(SpriteType.WEBBED_TREE, new Sprite(new Point(32*12,0), true, false, 1.3f));
         put(SpriteType.ALTAR, new Sprite(new Point(32*13,0), true, false, 1.2f));
-        put(SpriteType.WRECKAGE, new Sprite(new Point(32*14,0), true, false, 1.2f));
+        put(SpriteType.WRECKAGE, new Sprite(new Point(32*14,0), true, true, 1.2f));
         put(SpriteType.CAVE, new Sprite(new Point(32*15,0), true, false, 1.2f));
     }};
 

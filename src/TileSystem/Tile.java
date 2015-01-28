@@ -1,9 +1,9 @@
 package TileSystem;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
-import Sprite.Sprite;
-import Sprite.SpriteManager;
+import Sprite.SpriteType;
 
 /**
 * Created by andy on 24/01/15.
@@ -14,11 +14,21 @@ public class Tile {
     // The Variant and Touching are purely aesthetic
     public TileSystem.TileId touching = null;
     public int variant = -1;
-    
-    public SpriteType attr;
     public int attrHealth;
     
-    private ArrayList<Sprite> sprites;
+    public static float deltaPassed = 0;
+    public static int spriteSwitchInterval = 1;
+    
+    public class SpriteData{
+    	public SpriteType type;
+    	public int health = 10;
+    	
+    	public SpriteData(SpriteType type){
+    		this.type = type;
+    	}
+    }
+    
+    private ArrayList<SpriteData> sprites;
 
     public int vis = 0; //0 = unseen, 1 = seen, 2 = visible
     public int x, y;
@@ -28,7 +38,6 @@ public class Tile {
         this.vis = vis;
         this.x = x;
         this.y = y;
-        this.attr = SpriteType.NONE;
         this.attrHealth = 10;
         
         sprites = new ArrayList<>();
@@ -40,17 +49,67 @@ public class Tile {
         this.x = x;
         this.y = y;
         this.variant = variant;
-        this.attr = SpriteType.NONE;
         this.attrHealth = 10;
         
         sprites = new ArrayList<>();
     }
     
     public void addSprite(SpriteType type){
-    	sprites.add(SpriteManager.getSprite(type));
+    	sprites.add(new SpriteData(type));
+    }
+
+    public void update(){
+    	ArrayList<SpriteData> r = new ArrayList<>();
+    	for(SpriteData d : sprites){
+    		if(d.health <= 0)
+    			r.add(d);
+    	}
+    	for(SpriteData d : r){
+    		if(d.health <= 0)
+    			sprites.remove(d);
+    	}
+    }
+    
+    public SpriteType getSpriteToDraw(){
+    	if(sprites.size() > 0){
+    		return sprites.get((int)(deltaPassed/spriteSwitchInterval)%sprites.size()).type;
+    	}
+    	return null;
+    }
+    
+    public SpriteData getSpriteData(SpriteType type){
+    	for(SpriteData d : sprites){
+    		if(d.type == type)
+    			return d;
+    	}
+    	return null;
+    }
+    
+    public int numSprites(){
+    	return sprites.size();
+    }
+    
+    public boolean hasSprite(SpriteType type){
+    	for(SpriteData d : sprites){
+    		if(d.type == type && d.health != 0)
+    			return true;
+    	}
+    	return false;
     }
     
     public void removeSprite(SpriteType type){
-    	sprites.remove(SpriteManager.getSprite(type));
+    	Iterator<SpriteData> i = sprites.iterator();
+    	SpriteData d;
+    	while(i.hasNext()){
+    		d = i.next();
+    		if(d.type == type){
+    			sprites.remove(d);
+    			return;
+    		}
+    	}
+    }
+    
+    public void clearAllSprites(){
+    	sprites.clear();
     }
 }

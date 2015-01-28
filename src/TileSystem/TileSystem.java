@@ -15,7 +15,10 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Point;
 
 import Player.PlayerUI;
+import Sprite.Sprite;
 import Sprite.SpriteManager;
+import Sprite.SpriteType;
+import TileSystem.Tile.SpriteData;
 
 import java.io.FileNotFoundException;
 
@@ -131,18 +134,41 @@ public class TileSystem {
         }
 	}
 	
-	public void renderSprites(Graphics g, int row){
+	public void renderGroundSprites(Graphics g, int row){
 		float finalX, finalY, scale, scaleOffset;
+		Sprite sprite;
 		
 		Vector2f offsets = camera.getOffsets();
         for(int x = 0; x < size; x++){
-        	if(SpriteManager.getSprite(tiles[x][row].attr) != null){
-	        	scale = SpriteManager.getSprite(tiles[x][row].attr).getScale();
+        	sprite = SpriteManager.getSprite(tiles[x][row].getSpriteToDraw());
+        	if(sprite != null && sprite.isOnGround()){
+	        	scale = sprite.getScale();
 	        	scaleOffset = (scale - 1)*resTimesScale*0.5f;
 	    		finalX = (x*resTimesScale)-offsets.x-scaleOffset;
 	    		finalY = (row*resTimesScale)-offsets.y-scaleOffset;
 	    		if(isOnScreen(x, row)){
-            		Point src = SpriteManager.getTexCoord(tiles[x][row].attr);
+            		Point src = sprite.getTexCoord();
+            		if(src != null)
+            			g.drawImage(spriteMap, finalX, finalY, finalX+resTimesScale+scaleOffset*2, finalY+resTimesScale+scaleOffset, src.getX(), src.getY(), src.getX()+tileRes, src.getY()+tileRes);
+	        	}
+        	}
+        }
+	}
+	
+	public void render3DSprites(Graphics g, int row){
+		float finalX, finalY, scale, scaleOffset;
+		Sprite sprite;
+		
+		Vector2f offsets = camera.getOffsets();
+        for(int x = 0; x < size; x++){
+        	sprite = SpriteManager.getSprite(tiles[x][row].getSpriteToDraw());
+        	if(sprite != null && !sprite.isOnGround()){
+	        	scale = sprite.getScale();
+	        	scaleOffset = (scale - 1)*resTimesScale*0.5f;
+	    		finalX = (x*resTimesScale)-offsets.x-scaleOffset;
+	    		finalY = (row*resTimesScale)-offsets.y-scaleOffset;
+	    		if(isOnScreen(x, row)){
+            		Point src = sprite.getTexCoord();
             		if(src != null)
             			g.drawImage(spriteMap, finalX, finalY, finalX+resTimesScale+scaleOffset*2, finalY+resTimesScale+scaleOffset, src.getX(), src.getY(), src.getX()+tileRes, src.getY()+tileRes);
 	        	}
@@ -185,11 +211,15 @@ public class TileSystem {
 		}
 	}
 	
-	public void updateFog(List<PlayerUI> players, GameSession gs){
+	public void update(List<PlayerUI> players, GameSession gs, float delta){
 		for(int x = 0; x < size; x++){
             for(int y = 0; y < size; y++){
             	if(tiles[x][y].vis > 30)
             		tiles[x][y].vis = 30;
+            	if(tiles[x][y].hasSprite(SpriteType.FIRE)){
+            		clearFowArea((float)x, (float)y,9);
+            	}
+            	tiles[x][y].update();
             }
 		}
 		
@@ -206,13 +236,7 @@ public class TileSystem {
 			}
 		}
 		
-		for(int x = 0; x < size; x++){
-            for(int y = 0; y < size; y++){
-            	if(tiles[x][y].attr == SpriteType.FIRE){
-            		clearFowArea((float)x, (float)y,9);
-            	}
-            }
-		}
+		Tile.deltaPassed += delta;
 	}
 	
 	private void clearFowArea(float xp, float yp, int fowClearArea)

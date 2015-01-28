@@ -31,9 +31,9 @@ import Player.MonsterUI;
 import Player.PlayerReachedDestinationEvent;
 import Player.PlayerUI;
 import Sound.SoundManager;
+import Sprite.SpriteType;
 import TileSystem.MiniMap;
 import TileSystem.Tile;
-import TileSystem.SpriteType;
 import TileSystem.TileSystem;
 import TileSystem.TileSystem.TileId;
 
@@ -197,7 +197,7 @@ public class Play extends BasicGameState implements GameState,
 				agent_bar_height);
 	}
 
-	private void RandomTileObject(TileId tileType, SpriteType tileAtt, int treeCount, boolean preferGroupings)
+	private void RandomTileObject(TileId tileType, SpriteType spriteType, int treeCount, boolean preferGroupings)
 	{
 		Random randomGenerator = new Random();
 		while(true)
@@ -205,13 +205,13 @@ public class Play extends BasicGameState implements GameState,
 			int x = randomGenerator.nextInt(ts.getSize()-2)+1;
 			int y = randomGenerator.nextInt(ts.getSize()-2)+1;
 			Tile tile = ts.getTile(x, y);
-			if (tile.id == tileType && tile.attr == SpriteType.NONE && tile.variant == 0)
+			if (tile.id == tileType && tile.numSprites() == 0 && tile.variant == 0)
 			{
 				float surroundTree = 1;
-				if (ts.getTile(x+1, y).attr == tileAtt) surroundTree++;
-				if (ts.getTile(x-1, y).attr == tileAtt) surroundTree++;
-				if (ts.getTile(x, y+1).attr == tileAtt) surroundTree++;
-				if (ts.getTile(x, y-1).attr == tileAtt) surroundTree++;
+				if (ts.getTile(x+1, y).hasSprite(spriteType)) surroundTree++;
+				if (ts.getTile(x-1, y).hasSprite(spriteType)) surroundTree++;
+				if (ts.getTile(x, y+1).hasSprite(spriteType)) surroundTree++;
+				if (ts.getTile(x, y-1).hasSprite(spriteType)) surroundTree++;
 				float num = (float)randomGenerator.nextInt(100);
 				if (preferGroupings)
 					num /= surroundTree; 
@@ -222,7 +222,7 @@ public class Play extends BasicGameState implements GameState,
 				if (num > 50)
 				{
 					treeCount-=1;
-					tile.attr = tileAtt;
+					tile.addSprite(spriteType);
 				}
 			}
 			
@@ -261,10 +261,10 @@ public class Play extends BasicGameState implements GameState,
 			Tile tile = ts.getTileFromWorld(x, y);
 			if (tile != null)
 			{
-			if (tile.attr == SpriteType.NONE)
+			if (tile.numSprites() == 0)
 			{
 					treeCount-=1;
-					tile.attr = SpriteType.WRECKAGE;
+					tile.addSprite(SpriteType.WRECKAGE);
 			}
 			}
 			if (treeCount == 0) return;
@@ -280,7 +280,7 @@ public class Play extends BasicGameState implements GameState,
 			int x = randomGenerator.nextInt(ts.getSize()-2)+1;
 			int y = randomGenerator.nextInt(ts.getSize()-2)+1;
 			Tile tile = ts.getTile(x, y);
-			if (tile.id == tileType && tile.attr == SpriteType.NONE && tile.variant == 0)
+			if (tile.id == tileType && tile.numSprites() == 0 && tile.variant == 0)
 			{
 				float surroundTree = 1;
 				if (ts.getTile(x+1, y).id == tileDestType) surroundTree++;
@@ -310,11 +310,12 @@ public class Play extends BasicGameState implements GameState,
 	{
 		ts.renderTiles(g);
 		for(int y = 0; y < ts.size; y++){
+			ts.renderGroundSprites(g, y);
 			for (PlayerUI player : players) {
 				if(player.location.y >= y-0.2f && player.location.y < y+0.8f)
 					player.render(g, ts.camera.zoom);
 			}
-			ts.renderSprites(g, y);
+			ts.render3DSprites(g, y);
 
 			monsterManager.render(g, ts.camera.zoom, y);
 		}
@@ -595,14 +596,6 @@ public class Play extends BasicGameState implements GameState,
 						Rectangle actionZone = actionZones.get(i);
 						if (actionZone.contains(mouseX, mouseY)) {
 							Action action = validActions.get(i);
-							int player_index = gs.getAgents().indexOf(
-									selectedAgent);
-							PlayerUI player = players.get(player_index);
-							selectedAgent.startAction(action);
-							messenger.addMessage(selectedAgent.getName() + " is " + action.getDescription(), Color.green, 6);
-
-							Tile tile = ts.getTileFromWorld(player.location.x, player.location.y);
-							action.getActionable().beforeAction(gs, selectedAgent, ts, tile);
 							performAction(action);
 						}
 					}
@@ -680,13 +673,13 @@ public class Play extends BasicGameState implements GameState,
 
 	private void performAction(Action action) {
 		int player_index = gs.getAgents().indexOf(
-                selectedAgent);
+				selectedAgent);
 		PlayerUI player = players.get(player_index);
 		selectedAgent.startAction(action);
-//		messenger.addMessage(selectedAgent.getName() + " is doing action..." , Color.red, 7);
+		messenger.addMessage(selectedAgent.getName() + " is " + action.getDescription(), Color.green, 6);
 
 		Tile tile = ts.getTileFromWorld(player.location.x, player.location.y);
-		action.getActionable().beforeAction(gs, selectedAgent, ts, tile);
+		action.getActionable().beforeAction(gs, selectedAgent, ts, tile);	//Do we need this line?
 	}
 
 	private String getDeathMessage(){
@@ -794,7 +787,7 @@ public class Play extends BasicGameState implements GameState,
 			player.update(seconds);
 		}
 		monsterManager.update(seconds);
-		ts.updateFog(players, gs);
+		ts.update(players, gs, seconds);
 		gs.update(seconds);
 		messenger.update(seconds);
 		
@@ -869,8 +862,8 @@ public class Play extends BasicGameState implements GameState,
 			}
 			if(state == AgentState.DEAD) {
 				Tile tile = ts.getTileFromWorld(player.location.x, player.location.y);
-				if(!agent.hasPlacedCorpse() && tile.attr != SpriteType.CORPSE) {
-					tile.attr = SpriteType.CORPSE;
+				if(!agent.hasPlacedCorpse()) {
+					tile.addSprite(SpriteType.CORPSE);
 					messenger.addMessage(agent.getName() + getDeathMessage(), Color.red, 8);
 					agent.setPlacedCorpse(true);
 				}

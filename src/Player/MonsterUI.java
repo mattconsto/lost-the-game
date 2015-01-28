@@ -13,7 +13,7 @@ import org.lwjgl.util.vector.Vector2f;
 import Model.Agent;
 import Model.AgentState;
 import Model.GameSession;
-import TileSystem.SpriteType;
+import Sprite.SpriteType;
 import TileSystem.TileSystem;
 import TileSystem.Tile;
 import TileSystem.TileSystem.TileId;
@@ -224,8 +224,9 @@ public class MonsterUI {
 	private void updateWebsOnTrees()
 	{
 		Tile current = ts.getTileFromWorld(location.x,  location.y);
-		if (current.attr == SpriteType.TREE) 
-			current.attr = SpriteType.WEBBED_TREE;
+		if (current.hasSprite(SpriteType.TREE)){
+			current.getSpriteData(SpriteType.TREE).type = SpriteType.WEBBED_TREE;
+		}
 	}
 	
 	public void update(float deltaTime) {
