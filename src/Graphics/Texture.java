@@ -6,6 +6,8 @@ import java.io.InputStream;
 import java.nio.ByteBuffer;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL13;
+import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.newdawn.slick.opengl.PNGDecoder;
 
@@ -40,7 +42,8 @@ public class Texture {
 	}
 	
 	public void bind(){
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, handle);;
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, handle);
+		GL13.glActiveTexture(handle);
 	}
 	
 	public void destroy(){

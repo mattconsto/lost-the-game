@@ -1,5 +1,6 @@
 package TileSystem;
 
+import Graphics.Renderer;
 import Map.SimpleMapLoader;
 import Model.AgentState;
 import Model.GameSession;
@@ -31,6 +32,8 @@ public class TileSystem {
 	
 	private Image tileMap;
 	private Image spriteMap;
+	
+	private Renderer r;
 	
 	private final Color semi = new Color(0, 0, 0, 0.3f);
 
