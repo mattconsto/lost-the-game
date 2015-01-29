@@ -66,10 +66,7 @@ public class Tile {
     		if(d.health <= 0)
     			r.add(d);
     	}
-    	for(SpriteData d : r){
-    		if(d.health <= 0)
-    			sprites.remove(d);
-    	}
+    	sprites.removeAll(r);
     }
     
     public SpriteType getSpriteToDraw(){
