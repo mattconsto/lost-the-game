@@ -72,7 +72,7 @@ public class GameSession {
 		// (int) Math.floor(
 		// Update agent stats
 		for (Agent agent : agents) {
-			
+
 			if (agent.getState() == AgentState.WALKING) {
 				agent.decFood(FOOD_PER_SEC_WALK * delta);
 				agent.decWater(WATER_PER_SEC_WALK * delta);
@@ -80,8 +80,11 @@ public class GameSession {
 				agent.decFood(FOOD_PER_SEC_STAND * delta);
 				agent.decWater(WATER_PER_SEC_STAND * delta);
 			} else if (agent.getState() == AgentState.SLEEPING) {
-				if (agent.getHealth() < 90) {
-					agent.incHealth(0.1f);
+				// Only gain health if not thirsty or hungry
+				if (agent.getFood() > 0 && agent.getWater() > 0) {
+					if (agent.getHealth() < 90) {
+						agent.incHealth(0.1f);
+					}
 				}
 				agent.decFood(FOOD_PER_SEC_SLEEP * delta);
 				agent.decWater(WATER_PER_SEC_SLEEP * delta);
