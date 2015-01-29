@@ -11,8 +11,14 @@ import org.newdawn.slick.MusicListener;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
-public class SoundManager implements MusicListener {
+/**
+ * Singleton that controls the music and sounds of our game.
+ * 
+ * @author Matthew
+ */
+public class SoundManager {
 	private static SoundManager instance = null;
+	private static MusicAdapter adapter  = new SoundManager.MusicAdapter();
 	
 	protected HashMap<String, Sound> sounds;
 	protected ArrayList<Music>       music;
@@ -65,7 +71,7 @@ public class SoundManager implements MusicListener {
 	    	if(playing) {
 	    		track = new Random().nextInt(music.size());
 	    		music.get(track).play();
-	    		music.get(track).addListener(instance);
+	    		music.get(track).addListener(adapter);
 	    	}
 	    }
 	}
@@ -124,26 +130,24 @@ public class SoundManager implements MusicListener {
 	}
 
 	/**
-	 * Triggered when the Music ends
+	 * Triggered when the Music ends, plays the next song
 	 * @param What just ended.
 	 */
-    public void musicEnded(Music ended) {
-    	if(music.size() > 0) {
-        	int next = -1;
-        	do {
-        		next = new Random().nextInt(music.size());
-        	} while(track != next);
-        	
-        	track = next;
-    		music.get(track).play();
-    		music.get(track).addListener(instance);
+    public static void musicEnded(Music ended) {
+    	// Don't really want other functions calling this!
+    	if(instance.music.size() > 0 && ended == instance.music.get(instance.track)) {
+    		instance.track = new Random().nextInt(instance.music.size());
+        	instance.music.get(instance.track).play();
+        	instance.music.get(instance.track).addListener(adapter);
     	}
     }
-
+    
     /**
-     * Not Implemented
-     * @param last Last Music
-     * @param next Next Music
+     * MusicAdapter takes the event and passes it to our singleton.
+     * @author Matthew
      */
-    public void musicSwapped(Music last, Music next) {}
+    private static class MusicAdapter implements MusicListener {
+        public void musicEnded  (Music ended)            {SoundManager.musicEnded(ended);}
+        public void musicSwapped(Music arg0, Music arg1) {}
+    }
 }
