@@ -48,9 +48,9 @@ public class PlayerUI {
 		Image playerImage = null;
 		Random r = new Random();
 		double d = r.nextDouble();
-		if (d < 0.3) playerImage = new Image("player/before.png");
-		else if (d < 0.6) playerImage = new Image("player/FBI_walk_cycle.png");
-		else playerImage = new Image("player/professor_walk_cycle_no_hat.png");
+		if (d < 0.3) playerImage = new Image("images/player/before.png");
+		else if (d < 0.6) playerImage = new Image("images/player/FBI_walk_cycle.png");
+		else playerImage = new Image("images/player/professor_walk_cycle_no_hat.png");
 		
 		playerImages = new Vector<Vector<Image>>();
 		for(int y=0;y<4; y++)

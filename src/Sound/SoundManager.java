@@ -23,16 +23,15 @@ public class SoundManager {
 	
 	public static void init(){
 		try {
-			walk = AudioLoader.getAudio("WAV", ResourceLoader.getResourceAsStream("assets/Walk.wav"));
-			pick_flower = AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("assets/pick_flower.ogg"));
-			digging = AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("assets/digging.ogg"));
-			punch = AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("assets/punch.ogg"));
-			squelch = AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("assets/squelch.ogg"));
-			spider = AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("assets/spider.ogg"));
-			stick_crack = AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("assets/stick_crack.ogg"));
-			chant = AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("assets/chant.ogg"));
-			
-			ambientMusic = new Music("sounds/heart.ogg");
+			walk = AudioLoader.getAudio("WAV", ResourceLoader.getResourceAsStream("sounds/walk.wav"));
+			pick_flower = AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("sounds/pick_flower.ogg"));
+			digging = AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("sounds/digging.ogg"));
+			punch = AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("sounds/punch.ogg"));
+			squelch = AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("sounds/squelch.ogg"));
+			spider = AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("sounds/spider.ogg"));
+			stick_crack = AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("sounds/stick_crack.ogg"));
+			chant = AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("sounds/chant.ogg"));
+			ambientMusic = new Music("sounds/music/heart.ogg");
 			
 		} catch (IOException | SlickException e) {
 			e.printStackTrace();

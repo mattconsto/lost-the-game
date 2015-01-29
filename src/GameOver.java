@@ -19,7 +19,7 @@ public class GameOver extends BasicGameState implements GameState {
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
-		image = new Image("backgrounds/lose-nograd.png");
+		image = new Image("images/backgrounds/lose-nograd.png");
 		scroller = 0;
 	}
 

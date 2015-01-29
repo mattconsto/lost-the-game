@@ -1,8 +1,5 @@
 package Model;
 
-import Player.PlayerUI;
-import TileSystem.TileSystem;
-
 public class Action {
 	private IActionable actionable;
 	private String name;

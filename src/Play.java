@@ -117,12 +117,12 @@ public class Play extends BasicGameState implements GameState,
 		actionManager = new ActionManager();
 		messenger = new Messenger();
 
-		stickFigure = new Image("icons/stickperson.png");
+		stickFigure = new Image("images/icons/stickperson.png");
 
 		itemImages = new HashMap<ItemType, Image>();
 		for (ItemType type : ItemType.values()) {
 			Item item = ItemFactory.createItem(type);
-			Image image = new Image("icons/" + item.getImageName() + ".png");
+			Image image = new Image("images/icons/" + item.getImageName() + ".png");
 			itemImages.put(type, image);
 		}
 

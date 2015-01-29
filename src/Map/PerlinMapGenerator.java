@@ -3,11 +3,7 @@ package Map;
 import TileSystem.Tile;
 import TileSystem.TileSystem;
 
-import java.io.*;
 import java.util.Random;
-import java.util.concurrent.CountDownLatch;
-
-import org.lwjgl.Sys;
 
 /**
  * Created by andy on 24/01/15.

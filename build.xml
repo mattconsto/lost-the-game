@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project game-jam">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+    <target name="create_run_jar">
+        <jar destfile="dist/NeedsASplicing.jar" filesetmanifest="mergewithoutmain">
+            <manifest>
+                <attribute name="Main-Class" value="LostGame"/>
+                <attribute name="Class-Path" value="."/>
+            </manifest>
+            <fileset dir="bin"/>
+            <zipfileset excludes="META-INF/*.SF" src="lib/lwjgl-2.9.3/lwjgl.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="lib/slick/jinput.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="lib/slick/slick.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="lib/lwjgl-2.9.3/lwjgl_util.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="lib/slick/joda-time-2.7.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="lib/slick/jogg-0.0.7.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="lib/slick/jorbis-0.0.15.jar"/>
+            <fileset dir="assets"/>
+        </jar>
+    </target>
+</project>

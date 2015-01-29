@@ -6,6 +6,7 @@ import Model.AgentState;
 import Model.GameSession;
 import Model.ItemType;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 import org.lwjgl.util.vector.Vector2f;
@@ -19,9 +20,6 @@ import Player.PlayerUI;
 import Sprite.Sprite;
 import Sprite.SpriteManager;
 import Sprite.SpriteType;
-import TileSystem.Tile.SpriteData;
-
-import java.io.FileNotFoundException;
 
 public class TileSystem {
 	
@@ -294,7 +292,7 @@ public class TileSystem {
 	
 	public void setTileMap(String fileName){
 		try {
-			tileMap = new Image("tiles/"+fileName);
+			tileMap = new Image("images/tiles/"+fileName);
 			tileMap.setFilter(Image.FILTER_NEAREST);
 		} catch (SlickException e) {
 			System.out.println("Error: Cannot load image " + fileName);
@@ -304,7 +302,7 @@ public class TileSystem {
 	
 	public void setSpriteMap(String fileName){
 		try {
-			spriteMap = new Image("tiles/"+fileName);
+			spriteMap = new Image("images/tiles/"+fileName);
 			spriteMap.setFilter(Image.FILTER_NEAREST);
 		} catch (SlickException e) {
 			System.out.println("Error: Cannot load image " + fileName);

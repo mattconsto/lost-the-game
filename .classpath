@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
-	<classpathentry kind="lib" path="lib/lwjgl-2.9.3/jar/lwjgl.jar">
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/lwjgl-2.9.3/lwjgl.jar">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="game-jam/lib/lwjgl-2.9.3/native/macosx"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="game-jam/lib/lwjgl-2.9.3/native"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/slick/lib/jinput.jar"/>
-	<classpathentry kind="lib" path="lib/slick/lib/slick.jar" sourcepath="lib/slick/src">
+	<classpathentry kind="lib" path="lib/slick/jinput.jar"/>
+	<classpathentry kind="lib" path="lib/slick/slick.jar" sourcepath="lib/slick/src">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="game-jam/lib/lwjgl-2.9.3/native/windows"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="game-jam/lib/lwjgl-2.9.3/native"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/lwjgl-2.9.3/jar/lwjgl_util.jar"/>
-	<classpathentry kind="lib" path="lib/joda-time-2.7.jar"/>
-	<classpathentry kind="lib" path="lib/slick/lib/jogg-0.0.7.jar"/>
-	<classpathentry kind="lib" path="lib/slick/lib/jorbis-0.0.15.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-2.9.3/lwjgl_util.jar"/>
+	<classpathentry kind="lib" path="lib/slick/joda-time-2.7.jar"/>
+	<classpathentry kind="lib" path="lib/slick/jogg-0.0.7.jar"/>
+	<classpathentry kind="lib" path="lib/slick/jorbis-0.0.15.jar"/>
+	<classpathentry kind="lib" path="assets"/>
+	<classpathentry kind="lib" path="lib/lwjgl-2.9.3/native"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

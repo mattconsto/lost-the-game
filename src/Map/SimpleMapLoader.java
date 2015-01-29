@@ -9,14 +9,14 @@ import java.io.*;
  * Created by andy on 24/01/15.
  */
 public class SimpleMapLoader {
-    private static final String filePath = "map2.txt";
+    private static final String filePath = "/maps/2.txt";
 
     public Tile[][] loadMap() throws FileNotFoundException {
         Tile[][] tiles = null;
         BufferedReader reader = null;
         try {
-            File file = new File(filePath);
-            reader = new BufferedReader(new FileReader(file));
+            InputStream in = getClass().getResourceAsStream(filePath); 
+            reader = new BufferedReader(new InputStreamReader(in));
 
             // First line is the size (Assuming it's a square)
             int size = Integer.parseInt(reader.readLine());

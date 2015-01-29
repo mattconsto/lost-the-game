@@ -78,13 +78,13 @@ GL11.glViewport(0,0,width,height);
 public void init(){
 	try{
 		//play WAVS by loading into sound
-		wavWalkSoundEffect= AudioLoader.getAudio("WAV", ResourceLoader.getResourceAsStream("assets/Walk.wav"));
+		wavWalkSoundEffect= AudioLoader.getAudio("WAV", ResourceLoader.getResourceAsStream("Walk.wav"));
 		
 		//setting up OGG stream
-		oggStream= AudioLoader.getStreamingAudio("OGG", ResourceLoader.getResource("assets/Revenge.ogg"));
+		oggStream= AudioLoader.getStreamingAudio("OGG", ResourceLoader.getResource("Revenge.ogg"));
 		
 		//play WAV sound effect
-		wavPickUpSoundEffect = AudioLoader.getAudio("WAV", ResourceLoader.getResourceAsStream("assets/PickUp.wav"));
+		wavPickUpSoundEffect = AudioLoader.getAudio("WAV", ResourceLoader.getResourceAsStream("PickUp.wav"));
 		
 	}catch(IOException e){
 		e.printStackTrace();

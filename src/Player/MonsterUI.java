@@ -1,5 +1,4 @@
 package Player;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.Random;
 import java.util.Vector;
@@ -60,7 +59,7 @@ public class MonsterUI {
 		{
 			imageWidth = 32;
 			imageHeight = 32;
-			Image playerImage = new Image("monster/spider.gif");
+			Image playerImage = new Image("images/monster/spider.gif");
 			playerImages = new Vector<Image>();
 			playerImages.add(playerImage.getSubImage(0*imageWidth,0,(0*imageWidth)+imageWidth,imageHeight));
 			playerImages.add(playerImage.getSubImage(1*imageWidth,0,(1*imageWidth)+imageWidth,imageHeight));
@@ -73,7 +72,7 @@ public class MonsterUI {
 		{
 			imageWidth = 56;
 			imageHeight = 71;
-			Image playerImage = new Image("monster/Grue.png");
+			Image playerImage = new Image("images/monster/Grue.png");
 			playerImages = new Vector<Image>();
 			playerImages.add(playerImage.getSubImage(0*imageWidth,0*imageHeight,1*imageWidth, 1*imageHeight));
 			playerImages.add(playerImage.getSubImage(1*imageWidth,0*imageHeight,2*imageWidth, 1*imageHeight));
