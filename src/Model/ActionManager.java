@@ -31,8 +31,7 @@ public class ActionManager {
 							TileSystem ts, Tile tile,
 							MonsterManager monsterManager) {
 						if (tile.id == TileId.GRASS) {
-							SoundManager.playSound(SoundManager.pick_flower, 1,
-									false);
+							SoundManager.playSound("pick_flower");
 							gs.addItemByType(ItemType.GRASS);
 							ts.setTileID(tile.x, tile.y, TileId.DIRT);
 							agent.decFood(5);
@@ -202,7 +201,7 @@ public class ActionManager {
 					public void afterAction(GameSession gs, Agent agent,
 							TileSystem ts, Tile tile,
 							MonsterManager monsterManager) {
-						SoundManager.playSound(SoundManager.digging, 1, false);
+						SoundManager.playSound("digging");
 						gs.addItemByType(ItemType.MUD);
 					}
 
@@ -226,7 +225,7 @@ public class ActionManager {
 					public void afterAction(GameSession gs, Agent agent,
 							TileSystem ts, Tile tile,
 							MonsterManager monsterManager) {
-						SoundManager.playSound(SoundManager.squelch, 1, false);
+						SoundManager.playSound("squelch");
 						gs.addItemByType(ItemType.BRICK);
 					}
 
@@ -458,8 +457,7 @@ public class ActionManager {
 							TileSystem ts, Tile tile,
 							MonsterManager monsterManager) {
 						if (tile.attrHealth > 0) {
-							SoundManager.playSound(SoundManager.digging, 1,
-									false);
+							SoundManager.playSound("digging");
 							tile.attrHealth -= 5;
 							if (tile.attrHealth <= 0) {
 								ts.setTileID(tile.x, tile.y, TileId.DIRT);
@@ -488,8 +486,7 @@ public class ActionManager {
 							TileSystem ts, Tile tile,
 							MonsterManager monsterManager) {
 						if (tile.hasSprite(SpriteType.SHRUB)) {
-							SoundManager.playSound(SoundManager.pick_flower, 1,
-									false);
+							SoundManager.playSound("pick_flower");
 							gs.addItemByType(ItemType.BERRIES);
 
 							tile.getSpriteData(SpriteType.SHRUB).health -= 5;
@@ -739,8 +736,7 @@ public class ActionManager {
 						if (tile.hasSprite(SpriteType.TREE)
 								|| tile.hasSprite(SpriteType.PINE_TREE)
 								|| tile.hasSprite(SpriteType.PALM_TREE)) {
-							SoundManager.playSound(SoundManager.stick_crack, 1,
-									false);
+							SoundManager.playSound("stick_crack");
 							if (Math.random() < 0.9) {
 								gs.addItemByType(ItemType.STICK);
 							} else {
@@ -870,7 +866,7 @@ public class ActionManager {
 							TileSystem ts, Tile tile,
 							MonsterManager monsterManager) {
 
-						SoundManager.playSound(SoundManager.chant, 1, false);
+						SoundManager.playSound("chant");
 						gs.addItemByType(ItemType.FLIGHT);
 					}
 

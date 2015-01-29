@@ -102,7 +102,6 @@ public class Play extends BasicGameState implements GameState,
 		ts = new TileSystem(new Point(container.getWidth(), container.getHeight()));
 		
 		ItemFactory.init();
-		SoundManager.loopMusic(SoundManager.ambientMusic, 1, 1);
 		gs = GameSession.getInstance();
 		
 		Vector2f wreckageCenter = WreckageLocationDecider();
@@ -923,19 +922,19 @@ public class Play extends BasicGameState implements GameState,
 				if (p.agent == selectedAgent) {
 					ts.getCamera().x = p.location.x;
 					ts.getCamera().y = p.location.y;
-					if(!SoundManager.isPlaying(SoundManager.walk))
-						SoundManager.playSound(SoundManager.walk, 0.1f, true);
+//					if(!SoundManager.isPlaying(SoundManager.walk))
+//						SoundManager.playSound(SoundManager.walk, 0.1f, true);
 					break;
 				}
 			}
 		}else{
-			SoundManager.stopSound(SoundManager.walk);
+			//SoundManager.stopSound(SoundManager.walk);
 		}
 		
 		for (PlayerUI p : players) {
 			if (p.agent == selectedAgent) {
 				if(p.atDestination){
-					SoundManager.stopSound(SoundManager.walk);
+					//SoundManager.stopSound(SoundManager.walk);
 					break;
 				}
 			}

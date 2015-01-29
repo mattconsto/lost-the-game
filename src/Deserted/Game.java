@@ -2,6 +2,8 @@ package Deserted;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 
+import javax.swing.JFrame;
+
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -39,18 +41,20 @@ public class Game extends StateBasedGame {
 		this.addState(gw);
         this.enterState(GameIntro.STATE_INTRO);
         
-        SoundManager.init();
+        SoundManager.getInstance(true);
 	}
 	
 	public static void main(String[] args) {
 		AppGameContainer appgc;
+		
+		new JFrame();
 		
 		try {
 			GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 			
 			appgc = new AppGameContainer(new Game("Deserted"));
 			appgc.setVSync(true);
-			appgc.setDisplayMode((int)gd.getDisplayMode().getWidth(), (int)gd.getDisplayMode().getHeight(), true);
+			appgc.setDisplayMode((int)gd.getDisplayMode().getWidth(), (int)gd.getDisplayMode().getHeight(), false);
 			appgc.setTargetFrameRate(gd.getDisplayMode().getRefreshRate());
 			appgc.start();
 		} catch (SlickException e) {
