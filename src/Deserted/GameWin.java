@@ -1,4 +1,4 @@
-package LostTheName;
+package Deserted;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -22,7 +22,7 @@ public class GameWin extends BasicGameState implements GameState {
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
 		// TODO Auto-generated method stub
-		image = new Image("backgrounds/win-transparent.png");
+		image = new Image("images/backgrounds/win-transparent.png");
 		scroller = 0;
 		
 	}

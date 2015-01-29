@@ -1,10 +1,6 @@
+package Deserted;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.Random;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
@@ -14,11 +10,11 @@ import org.newdawn.slick.state.StateBasedGame;
 import Sound.SoundManager;
 
 
-public class LostGame extends StateBasedGame {
+public class Game extends StateBasedGame {
 	
 	protected String name;
 	
-	public LostGame(String name) {
+	public Game(String name) {
 		super(name);
 		this.name = name;
 	}
@@ -48,12 +44,11 @@ public class LostGame extends StateBasedGame {
 	
 	public static void main(String[] args) {
 		AppGameContainer appgc;
-		String name = "definitely not lost";
 		
 		try {
 			GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 			
-			appgc = new AppGameContainer(new LostGame(name));
+			appgc = new AppGameContainer(new Game("Deserted"));
 			appgc.setVSync(true);
 			appgc.setDisplayMode((int)gd.getDisplayMode().getWidth(), (int)gd.getDisplayMode().getHeight(), true);
 			appgc.setTargetFrameRate(gd.getDisplayMode().getRefreshRate());
