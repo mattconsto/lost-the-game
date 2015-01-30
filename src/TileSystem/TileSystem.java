@@ -1,13 +1,15 @@
 package TileSystem;
 
 import Graphics.Renderer;
-import Map.SimpleMapLoader;
 import Model.AgentState;
 import Model.GameSession;
 import Model.ItemType;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
+
+import map.LocalMapLoader;
 
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Color;
@@ -49,8 +51,8 @@ public class TileSystem {
 
 	private Tile tiles[][];
 	
-	public TileSystem(Point windowSize){
-		SimpleMapLoader loader = new SimpleMapLoader();
+	public TileSystem(Point windowSize) {
+		LocalMapLoader loader = new LocalMapLoader();
 		//PerlinMapGenerator loader = new PerlinMapGenerator();
 
 		camera = new Camera(20, 20, tileRes, windowSize);
@@ -60,8 +62,8 @@ public class TileSystem {
 		setSpriteMap("itemsprites.gif");
 
 		try {
-			tiles = loader.loadMap();
-		} catch (FileNotFoundException e) {
+			tiles = loader.load("2");
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
