@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import deserted.model.action.Action;
+
 public class Agent {
 	private float food;
 	private float water;
@@ -90,6 +92,7 @@ public class Agent {
 	public void incWater(float w) {
 		this.water += w;
 		if(this.water > 100) { this.water = 100; }
+		if(this.water < 0) { this.water = 0; }
 	}
 	
 	public void decFood(float f) {
@@ -100,6 +103,7 @@ public class Agent {
 	public void incFood(float f) {
 		this.food += f;
 		if(this.food > 100) { this.food = 100; }
+		if(this.food < 0) { this.food = 0; }
 	}
 	public void decHealth(float h) {
 		this.health -= h;
@@ -109,6 +113,7 @@ public class Agent {
 	public void incHealth(float h) {
 		this.health += h;
 		if(this.health > 100) { this.health = 100; }
+		if(this.health < 0) { this.health = 0; }
 	}
 
 	public AgentState getState() {
@@ -150,8 +155,6 @@ public class Agent {
 	
 	public boolean haveFinishedAction() {
 		GameSession gs = GameSession.getInstance();
-		double currTime = gs.getTimeSurvived();
-		System.out.println("curr: "+currTime+","+this.actionStartTime+","+this.getAction().getDuration());
 		if((gs.getTimeSurvived() - this.actionStartTime) >= this.getAction().getDuration()) {
 			return true;
 		}

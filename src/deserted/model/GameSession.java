@@ -32,18 +32,16 @@ public class GameSession {
 	private LocalDateTime crashDate;
 	private boolean completed;
 	private int completionType;
+	private Inventory inventory;
 
-	private ArrayList<ItemType> items;
-	private Map<ItemType, Integer> itemCounts;
 	private ArrayList<Agent> agents;
 
 	private GameSession() {
 		this.setCompleted(false);
 		this.setCompletionType(0);
+		this.setInventory(new Inventory());
 		this.gameTimer = 0;
 		this.timeSurvived = 0;
-		this.items = new ArrayList<ItemType>();
-		this.itemCounts = new HashMap<ItemType, Integer>();
 		this.agents = new ArrayList<Agent>();
 		int year = (int) (2010 + (Math.round(Math.random() * 5) - 10));
 		int month = (int) Math.ceil(Math.random() * 12);
@@ -117,77 +115,14 @@ public class GameSession {
 		return agents;
 	}
 
-	public ArrayList<ItemType> getItems() {
-		return items;
-	}
-
-	public void addItemByType(ItemType itemType) {
-		if (!itemCounts.containsKey(itemType)) {
-			items.add(itemType);
-			itemCounts.put(itemType, 1);
-		} else {
-			itemCounts.put(itemType, itemCounts.get(itemType) + 1);
-		}
-	}
-
-	public void addItemByType(ItemType itemType, int count) {
-		for (int i = 0; i < count; i++) {
-			addItemByType(itemType);
-		}
-	}
-
-	public void addItem(ItemType itemType) {
-		if (!itemCounts.containsKey(itemType)) {
-			items.add(itemType);
-			itemCounts.put(itemType, 1);
-		} else {
-			itemCounts.put(itemType, itemCounts.get(itemType) + 1);
-		}
-	}
-
-	public void removeItemByType(ItemType itemType) {
-		if (getItemCount(itemType) == 0) {
-			return;
-		}
-		int updatedCount = itemCounts.get(itemType) - 1;
-		itemCounts.put(itemType, updatedCount);
-		if (updatedCount == 0) {
-			for (ItemType currentType : items) {
-				if (currentType == itemType) {
-					items.remove(currentType);
-					break;
-				}
-			}
-			itemCounts.remove(itemType);
-		}
-	}
-
-	public void removeItemByType(ItemType itemType, int count) {
-		if (getItemCount(itemType) >= count) {
-			for (int i = 0; i < count; i++) {
-				removeItemByType(itemType);
-			}
-		}
-	}
-
-	public void removeItem(ItemType itemType) {
-		removeItemByType(itemType);
-	}
-
-	public int getItemCount(ItemType itemType) {
-		if (!itemCounts.containsKey(itemType)) {
-			return 0;
-		} else {
-			return itemCounts.get(itemType);
-		}
-	}
+	
 
 	private void generateInventory() {
 		ItemType[] itemTypes = { ItemType.LIFEJACKET, ItemType.SNACK };
 		for (int i = 0; i < NUMBER_AGENTS; i++) {
 			for (ItemType itemType : itemTypes) {
 				if (Math.random() > 0.8) {
-					addItem(itemType);
+					getInventory().addItem(itemType);
 				}
 			}
 		}
@@ -207,5 +142,13 @@ public class GameSession {
 
 	public void setCompletionType(int completionType) {
 		this.completionType = completionType;
+	}
+
+	public Inventory getInventory() {
+		return inventory;
+	}
+
+	public void setInventory(Inventory inventory) {
+		this.inventory = inventory;
 	}
 }

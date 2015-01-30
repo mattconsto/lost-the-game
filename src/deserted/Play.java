@@ -19,14 +19,14 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import deserted.model.Action;
-import deserted.model.ActionManager;
 import deserted.model.Agent;
 import deserted.model.AgentState;
 import deserted.model.GameSession;
 import deserted.model.Item;
 import deserted.model.ItemFactory;
 import deserted.model.ItemType;
+import deserted.model.action.Action;
+import deserted.model.action.ActionManager;
 import deserted.player.MonsterManager;
 import deserted.player.MonsterUI;
 import deserted.player.PlayerReachedDestinationEvent;
@@ -459,7 +459,7 @@ public class Play extends BasicGameState implements GameState,
 
 		// Draw inventory
 		int inventory_zone_x = 10;
-		List<ItemType> items = gs.getItems();
+		List<ItemType> items = gs.getInventory().getItems();
 		List<Rectangle> inventoryZones = new ArrayList<Rectangle>();
 		g.setColor(Color.black);
 		for (int i = 0; i < ItemType.values().length; i++) {
@@ -470,7 +470,7 @@ public class Play extends BasicGameState implements GameState,
 
 				Rectangle rect = new Rectangle(x, f_y, f_h, f_h);
 				inventoryZones.add(rect);
-				int count = gs.getItemCount(items.get(i));
+				int count = gs.getInventory().getItemCount(items.get(i));
 				if (count > 1) {
 					int w = g.getFont().getWidth("" + count);
 					int h = g.getFont().getHeight("" + count);
@@ -624,7 +624,7 @@ public class Play extends BasicGameState implements GameState,
 								if (monster.agent.getHealth() <=0)
 								{
 									monster.agent.setState(AgentState.DEAD);
-									gs.addItemByType(ItemType.MEAT);
+									gs.getInventory().addItem(ItemType.MEAT);
 								}								
 								
 								monsterSelectionHappens = true;

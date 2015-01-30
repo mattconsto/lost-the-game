@@ -1,4 +1,5 @@
-package deserted.model;
+package deserted.model.action;
+
 
 public class Action {
 	private IActionable actionable;
@@ -12,10 +13,6 @@ public class Action {
 		this.duration = duration;
 		this.description = description;
 	}
-		
-//	public void perform(GameSession gs, Agent ag, TileSystem ts, PlayerUI pui) {
-//		this.getActionable().beforeAction(gs, ag, ts, ts.getTileFromWorld(pui.location.x, pui.location.y));
-//	}
 
 	public String getName() {
 		return this.name;

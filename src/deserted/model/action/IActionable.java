@@ -1,5 +1,7 @@
-package deserted.model;
+package deserted.model.action;
 
+import deserted.model.Agent;
+import deserted.model.GameSession;
 import deserted.player.MonsterManager;
 import deserted.tilesystem.Tile;
 import deserted.tilesystem.TileSystem;

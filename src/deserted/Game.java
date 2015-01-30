@@ -1,4 +1,5 @@
 package deserted;
+
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 
@@ -11,16 +12,15 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import deserted.sound.SoundManager;
 
-
 public class Game extends StateBasedGame {
-	
+
 	protected String name;
-	
+
 	public Game(String name) {
 		super(name);
 		this.name = name;
 	}
-	
+
 	public void draw() {
 		System.out.println(name);
 	}
@@ -34,27 +34,29 @@ public class Game extends StateBasedGame {
 		GameWin gw = new GameWin();
 		go.setPlayState(play);
 		gw.setPlayState(play);
-		
+
 		this.addState(gi);
 		this.addState(play);
 		this.addState(go);
 		this.addState(gw);
-        this.enterState(GameIntro.STATE_INTRO);
-        
-        SoundManager.getInstance(true);
+		this.enterState(GameIntro.STATE_INTRO);
+
+		SoundManager.getInstance(true);
 	}
-	
+
 	public static void main(String[] args) {
 		AppGameContainer appgc;
-		
+
 		new JFrame();
-		
+
 		try {
-			GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-			
+			GraphicsDevice gd = GraphicsEnvironment
+					.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+
 			appgc = new AppGameContainer(new Game("Deserted"));
 			appgc.setVSync(true);
-			appgc.setDisplayMode((int)gd.getDisplayMode().getWidth(), (int)gd.getDisplayMode().getHeight(), false);
+			appgc.setDisplayMode((int) gd.getDisplayMode().getWidth(), (int) gd
+					.getDisplayMode().getHeight(), false);
 			appgc.setTargetFrameRate(gd.getDisplayMode().getRefreshRate());
 			appgc.start();
 		} catch (SlickException e) {

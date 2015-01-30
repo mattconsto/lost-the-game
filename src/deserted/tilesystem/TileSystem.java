@@ -236,7 +236,7 @@ public class TileSystem {
 			{
 				float xp = p.location.x-0.5f;
 				float yp = p.location.y-0.5f;
-				if(gs.getItemCount(ItemType.FIRESTICK) > 0){
+				if(gs.getInventory().getItemCount(ItemType.FIRESTICK) > 0){
 					clearFowArea(xp,yp,8);
 				}else{
 					clearFowArea(xp,yp,3);
