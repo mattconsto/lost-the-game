@@ -1,4 +1,4 @@
-package Map;
+package libs;
 
 /*****************************************************************************
  *                        J3D.org Copyright (c) 2000
@@ -36,8 +36,6 @@ public class PerlinNoiseGenerator
     private static final int BM = 0xff;
 
     private static final int N = 0x1000;
-    private static final int NP = 12;   /* 2^N */
-    private static final int NM = 0xfff;
 
     /** Default seed to use for the random number generation */
     private static final int DEFAULT_SEED = 100;
@@ -533,6 +531,7 @@ public class PerlinNoiseGenerator
     /**
      * Simple bias generator using exponents.
      */
+    @SuppressWarnings("unused")
     private float bias(float a, float b)
     {
         return (float)Math.pow(a, Math.log(b) / LOG_HALF);
@@ -542,6 +541,7 @@ public class PerlinNoiseGenerator
     /*
      * Gain generator that caps to the range of [0, 1].
      */
+    @SuppressWarnings("unused")
     private float gain(float a, float b)
     {
         if(a < 0.001f)
