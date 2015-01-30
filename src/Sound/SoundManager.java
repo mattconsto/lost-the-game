@@ -30,7 +30,9 @@ public class SoundManager {
 	 * Create a new sound manager
 	 * @param playing Do we want background music to start?
 	 */
-	public SoundManager(boolean playing) {
+	private SoundManager(boolean playing) {
+	    System.out.format("SoundManager\tInstance Created\n");
+		
 	    try {
 	    	sounds = new HashMap<String, Sound>();
 	    	
@@ -39,13 +41,14 @@ public class SoundManager {
 	            	try {
 	                    sounds.put(file.getName().substring(0, file.getName().lastIndexOf(".")).toLowerCase(), new Sound(file.getPath()));
 	                } catch (SlickException e) {
-	                	System.err.println(e.getMessage());
+	            	    System.err.format("SoundManager\tError loading: %s\n", file.getName());
 	                }
 	            }
 	        }
         } catch (URISyntaxException e) {
         	System.err.println(e.getMessage());
         }
+	    System.out.format("SoundManager\t%d sound(s) loaded.\n", sounds.size());
 
 	    try {
 	    	music = new ArrayList<Music>();
@@ -55,13 +58,14 @@ public class SoundManager {
 	            	try {
 	                    music.add(new Music(file.getPath()));
 	                } catch (SlickException e) {
-	                	System.err.println(e.getMessage());
+	            	    System.err.format("SoundManager\tError loading: %s\n", file.getName());
 	                }
 	            }
 	        }
         } catch (URISyntaxException e) {
         	System.err.println(e.getMessage());
         }
+	    System.out.format("SoundManager\t%d music track(s) loaded.\n", music.size());
 	    
 	    
 	    // If we have music, lets start playing it.
@@ -70,6 +74,7 @@ public class SoundManager {
 	    	
 	    	if(playing) {
 	    		track = new Random().nextInt(music.size());
+        	    System.out.format("SoundManager\tNow playing track %d.\n", track);
 	    		music.get(track).play();
 	    		music.get(track).addListener(adapter);
 	    	}
