@@ -1,4 +1,4 @@
-package deserted;
+package desertedtemp;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.GameState;
