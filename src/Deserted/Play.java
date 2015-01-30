@@ -1,4 +1,4 @@
-package Deserted;
+package deserted;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,24 +19,23 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import Model.Action;
-import Model.ActionManager;
-import Model.Agent;
-import Model.AgentState;
-import Model.GameSession;
-import Model.Item;
-import Model.ItemFactory;
-import Model.ItemType;
-import Player.MonsterManager;
-import Player.MonsterUI;
-import Player.PlayerReachedDestinationEvent;
-import Player.PlayerUI;
-import Sound.SoundManager;
-import Sprite.SpriteType;
-import TileSystem.MiniMap;
-import TileSystem.Tile;
-import TileSystem.TileSystem;
-import TileSystem.TileSystem.TileId;
+import deserted.model.Action;
+import deserted.model.ActionManager;
+import deserted.model.Agent;
+import deserted.model.AgentState;
+import deserted.model.GameSession;
+import deserted.model.Item;
+import deserted.model.ItemFactory;
+import deserted.model.ItemType;
+import deserted.player.MonsterManager;
+import deserted.player.MonsterUI;
+import deserted.player.PlayerReachedDestinationEvent;
+import deserted.player.PlayerUI;
+import deserted.sprite.SpriteType;
+import deserted.tilesystem.MiniMap;
+import deserted.tilesystem.Tile;
+import deserted.tilesystem.TileSystem;
+import deserted.tilesystem.TileSystem.TileId;
 
 public class Play extends BasicGameState implements GameState,
 		PlayerReachedDestinationEvent {
@@ -367,7 +366,7 @@ public class Play extends BasicGameState implements GameState,
 		// Draw agents
 		g.setColor(Color.lightGray);
 		g.fillRect(ag_x, ag_y, agent_bar_width, agent_bar_height);
-		int agent_zone_x = 500;
+		//int agent_zone_x = 500;
 		List<Agent> agents = gs.getAgents();
 		List<Rectangle> agentZones = new ArrayList<Rectangle>();
 		int agent_height = 70;

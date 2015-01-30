@@ -1,4 +1,4 @@
-package Deserted;
+package deserted;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 
@@ -9,7 +9,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-import Sound.SoundManager;
+import deserted.sound.SoundManager;
 
 
 public class Game extends StateBasedGame {

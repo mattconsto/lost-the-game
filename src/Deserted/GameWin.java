@@ -1,4 +1,4 @@
-package Deserted;
+package deserted;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -9,9 +9,9 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import Model.AgentState;
-import Model.GameSession;
-import Player.PlayerUI;
+import deserted.model.AgentState;
+import deserted.model.GameSession;
+import deserted.player.PlayerUI;
 
 
 public class GameWin extends BasicGameState implements GameState {
