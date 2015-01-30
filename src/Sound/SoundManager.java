@@ -4,6 +4,8 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.newdawn.slick.Music;
@@ -17,13 +19,14 @@ import org.newdawn.slick.Sound;
  * @author Matthew
  */
 public class SoundManager {
-	private static SoundManager instance = null;
-	private static MusicAdapter adapter  = new SoundManager.MusicAdapter();
+	private static SoundManager  instance = null;
+	private static MusicAdapter  adapter  = new SoundManager.MusicAdapter();
 	
-	protected HashMap<String, Sound> sounds;
-	protected ArrayList<Music>       music;
+	protected Map<String, Sound> sounds   = new HashMap<String, Sound>();
+	protected List<Music>        music    = new ArrayList<Music>();
 	
 	protected boolean playing = false;
+	protected boolean shuffle = false;
 	protected int     track   = -1;
 	
 	/**
@@ -34,7 +37,7 @@ public class SoundManager {
 	    System.out.format("SoundManager\tInstance Created\n");
 		
 	    try {
-	    	sounds = new HashMap<String, Sound>();
+	    	sounds.clear();
 	    	
 	        for (File file : new File(getClass().getResource("/sounds").toURI()).listFiles()) {
 	            if (file.isFile() && file.canRead()) {
@@ -51,7 +54,7 @@ public class SoundManager {
 	    System.out.format("SoundManager\t%d sound(s) loaded.\n", sounds.size());
 
 	    try {
-	    	music = new ArrayList<Music>();
+	    	music.clear();
 	    	
 	        for (File file : new File(getClass().getResource("/music").toURI()).listFiles()) {
 	            if (file.isFile() && file.canRead()) {
@@ -130,18 +133,38 @@ public class SoundManager {
 	 * Get if the background music is playing
 	 * @return True if it is playing
 	 */
-	public static boolean getPlaying() {
+	public static boolean isPlaying() {
 		return instance != null && instance.playing;
+	}
+	
+	/**
+	 * Sets the background music shuffling.
+	 * @param shuffling DO we want to shuffle?
+	 */
+	public static void setShuffling(boolean shuffling) {
+		if(instance == null) getInstance(false);
+		
+		instance.shuffle = shuffling;
 	}
 
 	/**
-	 * Triggered when the Music ends, plays the next song
-	 * @param What just ended.
+	 * Get if the background music is shuffling
+	 * @return True if it is shuffling
 	 */
-    public static void musicEnded(Music ended) {
-    	// Don't really want other functions calling this!
-    	if(instance.music.size() > 0 && ended == instance.music.get(instance.track)) {
-    		instance.track = new Random().nextInt(instance.music.size());
+	public static boolean isShuffling() {
+		return instance != null && instance.shuffle;
+	}
+	
+
+	/**
+	 * Triggered when the Music ends, plays the next song
+	 */
+    public static void nextMusic() {
+    	instance.track = (instance.shuffle) ? new Random().nextInt(instance.music.size()) : instance.track + 1;
+    	
+    	if(instance.track >= instance.music.size()) instance.track = 0;
+    	
+    	if(instance.playing) {
         	instance.music.get(instance.track).play();
         	instance.music.get(instance.track).addListener(adapter);
     	}
@@ -152,7 +175,7 @@ public class SoundManager {
      * @author Matthew
      */
     private static class MusicAdapter implements MusicListener {
-        public void musicEnded  (Music ended)            {SoundManager.musicEnded(ended);}
+        public void musicEnded  (Music ended)            {SoundManager.nextMusic();}
         public void musicSwapped(Music arg0, Music arg1) {}
     }
 }
