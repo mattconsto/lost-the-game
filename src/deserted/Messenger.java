@@ -1,4 +1,4 @@
-package desertedtemp;
+package deserted;
 import java.util.ArrayList;
 
 import org.newdawn.slick.Color;

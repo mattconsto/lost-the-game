@@ -1,4 +1,4 @@
-package desertedtemp;
+package deserted;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 
