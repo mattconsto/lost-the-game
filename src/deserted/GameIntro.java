@@ -1,45 +1,48 @@
 package deserted;
+
+import org.lwjgl.glfw.GLFW;
 import org.newdawn.slick.*;
-import org.newdawn.slick.state.BasicGameState;
-import org.newdawn.slick.state.GameState;
-import org.newdawn.slick.state.StateBasedGame;
 
+import deserted.engine.GameContainer;
+import deserted.engine.GameState;
+import deserted.engine.StateBasedGame;
+import deserted.engine.graphics.Graphics;
+import deserted.engine.graphics.Texture;
 
-public class GameIntro extends BasicGameState implements GameState {
+public class GameIntro extends GameState {
 	public static final int STATE_INTRO = 0;
-	Image logo;
+	
+	Texture logo;
+	
 	@Override
-	public void init(GameContainer arg0, StateBasedGame arg1)
-			throws SlickException {
+	public void init(GameContainer gc, StateBasedGame sbg) {
 
-		 logo = new Image("images/backgrounds/title.png");
-		 logo.setFilter(Image.FILTER_NEAREST);
+		 //logo = new Texture("images/backgrounds/title.png");
+		 //logo.setFilter(Image.FILTER_NEAREST);
 	}
 	
 	@Override
-	public void render(GameContainer container, StateBasedGame state, Graphics g)
-			throws SlickException {
-		g.fillRect(0, 0, container.getWidth(), container.getHeight());
-		g.setColor(Color.white);
+	public void render(GameContainer container, StateBasedGame state, Graphics g) {
+		//g.fillRect(0, 0, container.getWidth(), container.getHeight());
+		//g.setColor(Color.white);
 
 
-		logo.draw(0, 0, container.getWidth(), container.getHeight(),0,0,logo.getWidth(), logo.getHeight());
+		//logo.draw(0, 0, container.getWidth(), container.getHeight(),0,0,logo.getWidth(), logo.getHeight());
 
-		g.drawString("Press Enter to continue", container.getWidth() / 2 - 130, container.getHeight() - 150);
+		//g.drawString("Press Enter to continue", container.getWidth() / 2 - 130, container.getHeight() - 150);
 	}
 
 	@Override
-	public void update(GameContainer arg0, StateBasedGame arg1, int arg2)
-			throws SlickException {
-		if (arg0.getInput().isKeyDown(Input.KEY_ENTER)) {
-			arg1.enterState(Play.STATE_PLAY);
-			arg1.getState(1).init(arg0, arg1);
+	public void update(GameContainer gc, StateBasedGame sbg, float delta) {
+		if (gc.getInput().isKeyDown(GLFW.GLFW_KEY_ENTER)) {
+			sbg.enterState(Play.STATE_PLAY);
+			sbg.getState(1).init(gc, sbg);
 		}
 
 	}
 
 	@Override
-	public int getID() {
+	public int getId() {
 		return STATE_INTRO;
 	}
 }

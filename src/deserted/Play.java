@@ -1,24 +1,20 @@
 package deserted;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import org.lwjgl.input.Mouse;
-import org.lwjgl.util.vector.Vector2f;
+import org.lwjgl.glfw.GLFW;
 import org.newdawn.slick.Color;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.Input;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Point;
-import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.state.BasicGameState;
-import org.newdawn.slick.state.GameState;
-import org.newdawn.slick.state.StateBasedGame;
 
+import deserted.engine.GameContainer;
+import deserted.engine.GameState;
+import deserted.engine.Input;
+import deserted.engine.StateBasedGame;
+import deserted.engine.graphics.Graphics;
+import deserted.engine.math.Vector2f;
 import deserted.model.Agent;
 import deserted.model.AgentState;
 import deserted.model.GameSession;
@@ -37,8 +33,7 @@ import deserted.tilesystem.Tile;
 import deserted.tilesystem.TileSystem;
 import deserted.tilesystem.TileSystem.TileId;
 
-public class Play extends BasicGameState implements GameState,
-		PlayerReachedDestinationEvent {
+public class Play extends GameState implements PlayerReachedDestinationEvent {
 
 	public static final int STATE_PLAY = 1;
 
@@ -53,7 +48,6 @@ public class Play extends BasicGameState implements GameState,
 	List<Item> selectedItems;
 	Map<ItemType, Image> itemImages;
 	int actionKeyPressed = -1;
-	String name;
 	
 	Agent selectedAgent;
 	Image stickFigure;
@@ -93,12 +87,9 @@ public class Play extends BasicGameState implements GameState,
 	Rectangle agentRect;
 
 	@Override
-	public void init(GameContainer container, StateBasedGame game)
-			throws SlickException {
-		
-		name = game.getTitle();
+	public void init(GameContainer gc, StateBasedGame sbg) {
 		//TODO: Tile system needs modifying when the screen resolution / window size changes.
-		ts = new TileSystem(new Point(container.getWidth(), container.getHeight()));
+		ts = new TileSystem(new Vector2f(gc.getWidth(), gc.getHeight()));
 		
 		ItemFactory.init();
 		gs = GameSession.getInstance();
@@ -147,7 +138,7 @@ public class Play extends BasicGameState implements GameState,
 		
 		WreckageSpreader(wreckageCenter,40, false);
 		
-		container.setShowFPS(false);
+		gc.setShowFPS(false);
 		
 		messenger.addMessage("Collect items using action buttons below.", Color.green, 20);
 		messenger.addMessage("Use WASD or ARROW keys to move the camera.", Color.green, 20);
@@ -164,7 +155,7 @@ public class Play extends BasicGameState implements GameState,
 
 		// Footer vars
 		footer_height = 60;
-		footer_y = container.getHeight() - footer_height;
+		footer_y = gc.getHeight() - footer_height;
 		footer_pad = 9;
 		// Use f_h, f_y for the actual footer height / y pos
 		f_y = footer_y + footer_pad;
@@ -184,14 +175,14 @@ public class Play extends BasicGameState implements GameState,
 		ag_y = agent_bar_y + agent_bar_pad;
 		ag_h = agent_bar_height + (2 * agent_bar_pad);
 		agent_bar_width = 250;
-		ag_x = container.getWidth() - agent_bar_width - 2;
+		ag_x = gc.getWidth() - agent_bar_width - 2;
 
-		headerRect = new Rectangle(0, 0, container.getWidth(),
+		headerRect = new Rectangle(0, 0, gc.getWidth(),
 				header_height);
-		footerRect = new Rectangle(0, footer_y, container.getWidth(),
+		footerRect = new Rectangle(0, footer_y, gc.getWidth(),
 				footer_height);
 		actionRect = new Rectangle(0, action_bar_y,
-				container.getWidth(), action_bar_height);
+				gc.getWidth(), action_bar_height);
 		agentRect = new Rectangle(ag_x, ag_y, agent_bar_width,
 				agent_bar_height);
 	}
@@ -329,39 +320,38 @@ public class Play extends BasicGameState implements GameState,
 	}
 	
 	@Override
-	public void render(GameContainer container, StateBasedGame game, Graphics g)
-			throws SlickException {
+	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
 
-		Input input = container.getInput();
+		Input input = gc.getInput();
 		
 		renderWorld(g);
 		
 		miniMap.render(g);
 		
-		messenger.render(g, container.getHeight());
+		messenger.render(g, gc.getHeight());
 
 		// Header
 		g.setColor(Color.lightGray);
-		g.fillRect(0, 0, container.getWidth(), header_height);
+		g.fillRect(0, 0, gc.getWidth(), header_height);
 		g.setColor(Color.gray);
-		g.drawRect(0, 0, container.getWidth(), header_height);
+		g.drawRect(0, 0, gc.getWidth(), header_height);
 		g.setColor(Color.black);
-		g.drawString(name + " - " + gs.getDate().toString("dd/MM/yyyy HH:mm"), 5, h_y
+		g.drawString(gs.getDate().toString("dd/MM/yyyy HH:mm"), 5, h_y
 				+ header_pad);
 		g.drawString("" + Math.round(gs.getTimeSurvived() / 60)
 				+ " hour(s) since incident", 5, h_y + header_pad + 18);
 
 		// Footer
 		g.setColor(Color.gray);
-		g.drawRect(0, footer_y, container.getWidth(), footer_height);
+		g.drawRect(0, footer_y, gc.getWidth(), footer_height);
 		g.setColor(Color.lightGray);
-		g.fillRect(0, footer_y, container.getWidth(), footer_height);
+		g.fillRect(0, footer_y, gc.getWidth(), footer_height);
 
 		// Action bar
 		g.setColor(Color.gray);
-		g.drawRect(0, action_bar_y, container.getWidth(), action_bar_height);
+		g.drawRect(0, action_bar_y, gc.getWidth(), action_bar_height);
 		g.setColor(Color.lightGray);
-		g.fillRect(0, action_bar_y, container.getWidth(), action_bar_height);
+		g.fillRect(0, action_bar_y, gc.getWidth(), action_bar_height);
 
 		// Draw agents
 		g.setColor(Color.lightGray);
@@ -514,18 +504,18 @@ public class Play extends BasicGameState implements GameState,
 				Action action = validActions.get(i);
 				String name = action.getName();
 
-				if((i == 0 && (input.isKeyDown(Input.KEY_F1) || input.isKeyDown(Input.KEY_Z))) ||
-						(i == 1 && (input.isKeyDown(Input.KEY_F2) || input.isKeyDown(Input.KEY_X))) ||
-						(i == 2 && (input.isKeyDown(Input.KEY_F3) || input.isKeyDown(Input.KEY_C))) ||
-						(i == 3 && (input.isKeyDown(Input.KEY_F4) || input.isKeyDown(Input.KEY_V))) ||
-						(i == 4 && (input.isKeyDown(Input.KEY_F5) || input.isKeyDown(Input.KEY_B))) ||
-						(i == 5 && (input.isKeyDown(Input.KEY_F6) || input.isKeyDown(Input.KEY_N))) ||
-						(i == 6 && (input.isKeyDown(Input.KEY_F7) || input.isKeyDown(Input.KEY_M))) ||
-						(i == 7 && (input.isKeyDown(Input.KEY_F8) || input.isKeyDown(Input.KEY_COMMA))) ||
-						(i == 8 && (input.isKeyDown(Input.KEY_F9) || input.isKeyDown(Input.KEY_STOP))) ||
-						(i == 9 && (input.isKeyDown(Input.KEY_F10) || input.isKeyDown(Input.KEY_SLASH))) ||
-						(i == 10 && input.isKeyDown(Input.KEY_F11)) ||
-						(i == 11 && input.isKeyDown(Input.KEY_F12))) {
+				if((i == 0 && (input.isKeyDown(GLFW.GLFW_KEY_F1) || input.isKeyDown(GLFW.GLFW_KEY_Z))) ||
+						(i == 1 && (input.isKeyDown(GLFW.GLFW_KEY_F2) || input.isKeyDown(GLFW.GLFW_KEY_X))) ||
+						(i == 2 && (input.isKeyDown(GLFW.GLFW_KEY_F3) || input.isKeyDown(GLFW.GLFW_KEY_C))) ||
+						(i == 3 && (input.isKeyDown(GLFW.GLFW_KEY_F4) || input.isKeyDown(GLFW.GLFW_KEY_V))) ||
+						(i == 4 && (input.isKeyDown(GLFW.GLFW_KEY_F5) || input.isKeyDown(GLFW.GLFW_KEY_B))) ||
+						(i == 5 && (input.isKeyDown(GLFW.GLFW_KEY_F6) || input.isKeyDown(GLFW.GLFW_KEY_N))) ||
+						(i == 6 && (input.isKeyDown(GLFW.GLFW_KEY_F7) || input.isKeyDown(GLFW.GLFW_KEY_M))) ||
+						(i == 7 && (input.isKeyDown(GLFW.GLFW_KEY_F8) || input.isKeyDown(GLFW.GLFW_KEY_COMMA))) ||
+						(i == 8 && (input.isKeyDown(GLFW.GLFW_KEY_F9) || input.isKeyDown(GLFW.GLFW_KEY_PERIOD))) ||
+						(i == 9 && (input.isKeyDown(GLFW.GLFW_KEY_F10) || input.isKeyDown(GLFW.GLFW_KEY_SLASH))) ||
+						(i == 10 && input.isKeyDown(GLFW.GLFW_KEY_F11)) ||
+						(i == 11 && input.isKeyDown(GLFW.GLFW_KEY_F12))) {
 						if (actionKeyPressed != i) {
 							actionKeyPressed = i;
 							actionHotKeyPressed = action;
@@ -759,8 +749,7 @@ public class Play extends BasicGameState implements GameState,
 	}
 
 	@Override
-	public void update(GameContainer container, StateBasedGame game, int delta)
-			throws SlickException {
+	public void update(GameContainer gc, StateBasedGame sbg, float delta){
 		boolean alive = false;
 		
 		List<Agent> agents = gs.getAgents();
@@ -771,56 +760,55 @@ public class Play extends BasicGameState implements GameState,
 		}
 		
 		if (!alive){
-			game.enterState(GameOver.STATE_OVER);
-			game.getState(GameOver.STATE_OVER).init(container, game);
+			sbg.enterState(GameOver.STATE_OVER);
+			sbg.getState(GameOver.STATE_OVER).init(gc, sbg);
 		}
 
 		if (gs.isCompleted()){
-			game.enterState(GameWin.STATE_WIN);
-			game.getState(GameWin.STATE_WIN).init(container, game);
+			sbg.enterState(GameWin.STATE_WIN);
+			sbg.getState(GameWin.STATE_WIN).init(gc, sbg);
 		}
 		
-		float seconds = (float) (delta / 1000.0);
-		updateCamera(container, seconds);
+		updateCamera(gc, delta);
 		for (PlayerUI player : players) {
-			player.update(seconds);
+			player.update(delta);
 		}
-		monsterManager.update(seconds);
-		ts.update(players, gs, seconds);
-		gs.update(seconds);
-		messenger.update(seconds);
+		monsterManager.update(delta);
+		ts.update(players, gs, delta);
+		gs.update(delta);
+		messenger.update(delta);
 		
 
-		Input input = container.getInput();
+		Input input = gc.getInput();
 		Agent newAgent = null;
-		if(input.isKeyDown(Input.KEY_0)) {
+		if(input.isKeyDown(GLFW.GLFW_KEY_0)) {
 			newAgent = agents.get(9);
 		}
-		if(input.isKeyDown(Input.KEY_1)) {
+		if(input.isKeyDown(GLFW.GLFW_KEY_1)) {
 			newAgent = agents.get(0);
 		}
-		if(input.isKeyDown(Input.KEY_2)) {
+		if(input.isKeyDown(GLFW.GLFW_KEY_2)) {
 			newAgent = agents.get(1);
 		}
-		if(input.isKeyDown(Input.KEY_3)) {
+		if(input.isKeyDown(GLFW.GLFW_KEY_3)) {
 			newAgent = agents.get(2);
 		}
-		if(input.isKeyDown(Input.KEY_4)) {
+		if(input.isKeyDown(GLFW.GLFW_KEY_4)) {
 			newAgent = agents.get(3);
 		}
-		if(input.isKeyDown(Input.KEY_5)) {
+		if(input.isKeyDown(GLFW.GLFW_KEY_5)) {
 			newAgent = agents.get(4);
 		}
-		if(input.isKeyDown(Input.KEY_6)) {
+		if(input.isKeyDown(GLFW.GLFW_KEY_6)) {
 			newAgent = agents.get(5);
 		}
-		if(input.isKeyDown(Input.KEY_7)) {
+		if(input.isKeyDown(GLFW.GLFW_KEY_7)) {
 			newAgent = agents.get(6);
 		}
-		if(input.isKeyDown(Input.KEY_8)) {
+		if(input.isKeyDown(GLFW.GLFW_KEY_8)) {
 			newAgent = agents.get(7);
 		}
-		if(input.isKeyDown(Input.KEY_9)) {
+		if(input.isKeyDown(GLFW.GLFW_KEY_9)) {
 			newAgent = agents.get(8);
 		}
 
@@ -941,7 +929,7 @@ public class Play extends BasicGameState implements GameState,
 	}
 
 	@Override
-	public int getID() {
+	public int getId() {
 		return STATE_PLAY;
 	}
 

@@ -2,7 +2,8 @@ package deserted;
 import java.util.ArrayList;
 
 import org.newdawn.slick.Color;
-import org.newdawn.slick.Graphics;
+
+import deserted.engine.graphics.Graphics;
 
 
 public class Messenger {
@@ -44,9 +45,9 @@ public class Messenger {
 	}
 	
 	public void render(Graphics g, int windowHeight){
-		for(Message m : messages){
-			g.setColor(m.c);
-			g.drawString(m.m, 8, windowHeight - 120 - messages.indexOf(m) * 25);
-		}
+//		for(Message m : messages){
+//			g.setColor(m.c);
+//			g.drawString(m.m, 8, windowHeight - 120 - messages.indexOf(m) * 25);
+//		}
 	}
 }
