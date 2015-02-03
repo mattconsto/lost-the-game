@@ -1,7 +1,6 @@
 package deserted;
 
 import org.lwjgl.glfw.GLFW;
-import org.newdawn.slick.*;
 
 import deserted.engine.GameContainer;
 import deserted.engine.GameState;
@@ -17,8 +16,8 @@ public class GameIntro extends GameState {
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) {
 
-		 //logo = new Texture("images/backgrounds/title.png");
-		 //logo.setFilter(Image.FILTER_NEAREST);
+		 logo = new Texture("images/backgrounds/title.png");
+		 logo.setFilter(Texture.FILTER_NEAREST);
 	}
 	
 	@Override
@@ -38,7 +37,6 @@ public class GameIntro extends GameState {
 			sbg.enterState(Play.STATE_PLAY);
 			sbg.getState(1).init(gc, sbg);
 		}
-
 	}
 
 	@Override

@@ -3,13 +3,7 @@ package deserted.tilesystem;
 import java.io.IOException;
 import java.util.List;
 
-import org.lwjgl.util.vector.Vector2f;
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Point;
-
+import deserted.engine.math.Vector2f;
 import deserted.map.LocalMapLoader;
 import deserted.model.AgentState;
 import deserted.model.GameSession;
@@ -47,7 +41,7 @@ public class TileSystem {
 
 	private Tile tiles[][];
 	
-	public TileSystem(Point windowSize) {
+	public TileSystem(Vector2f windowSize) {
 		LocalMapLoader loader = new LocalMapLoader();
 		//PerlinMapGenerator loader = new PerlinMapGenerator();
 

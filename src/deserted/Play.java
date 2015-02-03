@@ -14,6 +14,9 @@ import deserted.engine.GameState;
 import deserted.engine.Input;
 import deserted.engine.StateBasedGame;
 import deserted.engine.graphics.Graphics;
+import deserted.engine.graphics.Texture;
+import deserted.engine.graphics.TextureRegion;
+import deserted.engine.math.Rectangle;
 import deserted.engine.math.Vector2f;
 import deserted.model.Agent;
 import deserted.model.AgentState;
@@ -46,11 +49,11 @@ public class Play extends GameState implements PlayerReachedDestinationEvent {
 	
 	List<PlayerUI> players;
 	List<Item> selectedItems;
-	Map<ItemType, Image> itemImages;
+	Map<ItemType, Texture> itemImages;
 	int actionKeyPressed = -1;
 	
 	Agent selectedAgent;
-	Image stickFigure;
+	Texture stickFigure;
 	
 	//UI Variables
 	int header_height;
@@ -107,12 +110,12 @@ public class Play extends GameState implements PlayerReachedDestinationEvent {
 		actionManager = new ActionManager();
 		messenger = new Messenger();
 
-		stickFigure = new Image("images/icons/stickperson.png");
+		stickFigure = new Texture("images/icons/stickperson.png");
 
-		itemImages = new HashMap<ItemType, Image>();
+		itemImages = new HashMap<ItemType, Texture>();
 		for (ItemType type : ItemType.values()) {
 			Item item = ItemFactory.createItem(type);
-			Image image = new Image("images/icons/" + item.getImageName() + ".png");
+			Texture image = new Texture("images/icons/" + item.getImageName() + ".png");
 			itemImages.put(type, image);
 		}
 
@@ -138,7 +141,7 @@ public class Play extends GameState implements PlayerReachedDestinationEvent {
 		
 		WreckageSpreader(wreckageCenter,40, false);
 		
-		gc.setShowFPS(false);
+		//gc.setShowFPS(false);
 		
 		messenger.addMessage("Collect items using action buttons below.", Color.green, 20);
 		messenger.addMessage("Use WASD or ARROW keys to move the camera.", Color.green, 20);

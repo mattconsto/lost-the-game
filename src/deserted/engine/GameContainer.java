@@ -28,7 +28,7 @@ public class GameContainer {
 
     private int width, height;
     private boolean fullscreen;
-    private double frameTime = 1/60;
+    private double frameInterval = 1/60;
 
     private boolean running = true;
 
@@ -41,8 +41,6 @@ public class GameContainer {
     }
 
     private void init() {
-        input = new Input();
-        g = new Graphics();
         game.setGameContainer(this);
 
         glfwSetErrorCallback(errorCallback = errorCallbackPrint(System.err));
@@ -58,7 +56,7 @@ public class GameContainer {
         if (window == NULL)
             throw new RuntimeException("Failed to create the GLFW window");
 
-        glfwSetKeyCallback(window, input);
+        //glfwSetKeyCallback(window, input);
 
         ByteBuffer vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
@@ -74,6 +72,9 @@ public class GameContainer {
         glfwShowWindow(window);
 
         GLContext.createFromCurrent();
+        
+        input = new Input(window);
+        g = new Graphics();
     }
 
     public void updateAndClear(){
@@ -103,7 +104,7 @@ public class GameContainer {
     }
 
     public void setTargetFrameRate(int target){
-        this.frameTime = 1000D/(double)target;
+        this.frameInterval = 1000D/(double)target;
     }
 
     public void start(){
@@ -121,12 +122,11 @@ public class GameContainer {
             delta = (float)(temp - lastTime)/1000;
             lastTime = temp;
             frameTime += delta;
-
             game.update(delta);
 
-            while(elapsedTime >= frameTime){
+            while(elapsedTime >= frameInterval){
                 render();
-                elapsedTime -= frameTime;
+                elapsedTime -= frameInterval;
                 frameCount++;
             }
 

@@ -1,7 +1,6 @@
 package deserted.tilesystem;
 
-import org.lwjgl.util.vector.Vector2f;
-import org.newdawn.slick.geom.Point;
+import deserted.engine.math.Vector2f;
 
 public class Camera {
 
@@ -9,9 +8,9 @@ public class Camera {
 	public float zoom = 1;
 	public int tileRes;
 	public boolean isFollowing = false;
-	public Point windowSize;
+	public Vector2f windowSize;
 	
-	public Camera(float x, float y, int tileRes, Point windowSize){
+	public Camera(float x, float y, int tileRes, Vector2f windowSize){
 		this.x = x;
 		this.y = y;
 		this.tileRes = tileRes;
