@@ -13,7 +13,7 @@ import org.newdawn.slick.geom.Point;
 import deserted.map.LocalMapLoader;
 import deserted.model.AgentState;
 import deserted.model.GameSession;
-import deserted.model.ItemType;
+import deserted.model.item.ItemType;
 import deserted.player.PlayerUI;
 import deserted.sprite.Sprite;
 import deserted.sprite.SpriteManager;
@@ -47,7 +47,20 @@ public class TileSystem {
 
 	private Tile tiles[][];
 	
-	public TileSystem(Point windowSize) {
+	private static TileSystem instance = null;
+	
+	public static TileSystem getInstance() {
+		if(instance == null) {
+			instance = new TileSystem();
+		}
+		return instance;
+	}
+	
+	public TileSystem() {
+		
+	}
+	
+	public void init(Point windowSize) {
 		LocalMapLoader loader = new LocalMapLoader();
 		//PerlinMapGenerator loader = new PerlinMapGenerator();
 

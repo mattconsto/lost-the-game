@@ -4,9 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import deserted.model.item.ItemType;
+
 public class Inventory {
 
+	// Maintains the order of items in the inventory
 	private ArrayList<ItemType> itemOrder;
+	// Maintains the number of each item
 	private Map<ItemType, Integer> itemCounts;
 	
 	public Inventory() {
@@ -64,5 +68,9 @@ public class Inventory {
 		} else {
 			return itemCounts.get(itemType);
 		}
+	}
+	
+	public boolean hasItem(ItemType itemType) {
+		return getItemCount(itemType) > 0;
 	}
 }

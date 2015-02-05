@@ -1,14 +1,12 @@
 package deserted.model.action;
 
 
-public class Action {
-	private IActionable actionable;
+public abstract class BaseAction implements IAction {
 	private String name;
 	private int duration;
 	private String description;
 	
-	public Action(String name, String description, int duration, IActionable actionable) {
-		this.setActionable(actionable);
+	public BaseAction(String name, String description, int duration) {
 		this.name = name;
 		this.duration = duration;
 		this.description = description;
@@ -20,14 +18,6 @@ public class Action {
 
 	public String getDescription() {
 		return this.description;
-	}
-	
-	public IActionable getActionable() {
-		return actionable;
-	}
-
-	public void setActionable(IActionable actionable) {
-		this.actionable = actionable;
 	}
 
 	public int getDuration() {

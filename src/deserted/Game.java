@@ -55,8 +55,7 @@ public class Game extends StateBasedGame {
 
 			appgc = new AppGameContainer(new Game("Deserted"));
 			appgc.setVSync(true);
-			appgc.setDisplayMode((int) gd.getDisplayMode().getWidth(), (int) gd
-					.getDisplayMode().getHeight(), false);
+			appgc.setDisplayMode(1024, 768, false);
 			appgc.setTargetFrameRate(gd.getDisplayMode().getRefreshRate());
 			appgc.start();
 		} catch (SlickException e) {

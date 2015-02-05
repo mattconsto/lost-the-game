@@ -1,4 +1,4 @@
-package deserted.model;
+package deserted.model.item;
 
 public  class Item {
 	private String name;
@@ -8,7 +8,12 @@ public  class Item {
 		this.setName(name);
 		this.setImageName(imageName);
 	}
-
+	
+	public Item(String name) {
+		this.setName(name);
+		this.setImageName(null);
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -23,5 +28,9 @@ public  class Item {
 
 	public void setImageName(String imageName) {
 		this.imageName = imageName;
+	}
+	
+	public boolean hasImage() {
+		return (this.imageName != null);
 	}
 }

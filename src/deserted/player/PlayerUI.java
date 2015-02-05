@@ -66,6 +66,7 @@ public class PlayerUI {
 		
 		//Random Start location
 		location = randomLocation(nearbyLocation);
+		agentIn.setTile(ts.getTileFromWorld(location.x, location.y));
 	}
 	
 	private Vector2f randomLocation(Vector2f nearbyLocation)
@@ -272,6 +273,10 @@ public class PlayerUI {
 			}
 		
 		}
+		
+
+		Tile tile = ts.getTileFromWorld(location.x, location.y);
+		agent.setTile(tile);
 		
 		
 	}
