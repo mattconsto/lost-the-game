@@ -72,6 +72,8 @@ public class GameContainer {
         glfwShowWindow(window);
 
         GLContext.createFromCurrent();
+       
+        GL11.glViewport(0, 0, width, height);
         
         input = new Input(window);
         g = new Graphics();
