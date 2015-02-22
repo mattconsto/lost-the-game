@@ -25,7 +25,6 @@ import deserted.model.AgentState;
 import deserted.model.GameSession;
 import deserted.model.RecipeBook;
 import deserted.model.action.BaseAction;
-import deserted.model.action.IAction;
 import deserted.model.item.Item;
 import deserted.model.item.ItemFactory;
 import deserted.model.item.ItemType;
@@ -707,7 +706,7 @@ public class Play extends BasicGameState implements GameState,
 				selectedAgent.getName() + " is " + action.getDescription(),
 				Color.green, 6);
 
-		Tile tile = ts.getTileFromWorld(player.location.x, player.location.y);
+		ts.getTileFromWorld(player.location.x, player.location.y);
 		action.onStart(selectedAgent);
 	}
 

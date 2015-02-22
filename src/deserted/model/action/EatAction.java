@@ -1,7 +1,6 @@
 package deserted.model.action;
 
 import deserted.model.Agent;
-import deserted.model.GameSession;
 import deserted.model.item.EdibleItem;
 import deserted.model.item.ItemFactory;
 import deserted.model.item.ItemType;
